@@ -1,8 +1,8 @@
-# Catholic Theology Schools Quiz
+# Definitive Catholic Theology Quiz
 
 **Discover your theological affinities across 88 schools of Catholic thought.**
 
-🔗 **[Take the Quiz](https://yourusername.github.io/catholic-theology-quiz/)** *(update with your URL)*
+🔗 **[Take the Quiz](https://jcalepos146.github.io/Definitive-Catholic-Theology-Quiz/)**
 
 ![Quiz Preview](preview.png)
 
@@ -20,9 +20,11 @@ This comprehensive quiz explores your positions on:
 
 ## Features
 
-- **87 multiple-choice questions** covering all major areas of Catholic theology
-- **88 theological schools** ranked by your responses  
+- **127 multiple-choice questions** covering all major areas of Catholic theology
+- **98 theological schools** ranked by your responses  
 - **8 theological axes** showing where you fall on key spectrums
+- **Emphatic weighting system** (±6 range with negative weights for clear differentiation)
+- **Signature questions** ensuring every school can be your top result
 - **Detailed results** with school descriptions and patron saints
 - **Mobile-friendly** design
 - **No installation required** - runs entirely in browser
@@ -41,6 +43,12 @@ Ultramontane, Moderate Papalist, Papal Minimalist, Gallican, Conciliarist, Easte
 ### Political/Social (12)
 Integralist, Hard Integralist, Soft Integralist, Liberal Catholic, Distributist, Corporatist, Social Democrat, Libertarian, Traditionalist Nationalist, Catholic Universalist, Worker-Catholic, Agrarian
 
+### Ecumenical & Liturgical (NEW)
+Ordinariate, Eastern Liturgical, Orthophile, Lutheran-Catholic Convergence, Ecumenical Monergist
+
+### Theological Movements (NEW)
+Anti-Modernist, Developmental Progressive, Communio School, Radical Orthodoxy, Traditionis Custodes Compliant
+
 ### And many more...
 Metaphysics, Christology, Sacramental theology, Moral theology, Liturgical positions
 
@@ -57,11 +65,12 @@ Metaphysics, Christology, Sacramental theology, Moral theology, Liturgical posit
 
 ## Setup for GitHub Pages
 
-1. **Fork or clone** this repository
-2. Go to **Settings → Pages**
-3. Under "Source", select **main branch** and **/ (root)**
-4. Click **Save**
-5. Your quiz will be live at `https://yourusername.github.io/repository-name/`
+1. **Create repository** named `Definitive-Catholic-Theology-Quiz`
+2. **Upload** `index.html` and `README.md`
+3. Go to **Settings → Pages**
+4. Under "Source", select **main branch** and **/ (root)**
+5. Click **Save**
+6. Your quiz will be live at `https://jcalepos146.github.io/Definitive-Catholic-Theology-Quiz/`
 
 ## Files
 
