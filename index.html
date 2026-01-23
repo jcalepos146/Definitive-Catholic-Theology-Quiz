@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catholic Theology Schools Quiz</title>
+    <title>Definitive Catholic Theology Quiz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -19,13 +19,7 @@
             --ink-light: #3d3d3d;
             --shadow: rgba(0,0,0,0.15);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Crimson Pro', Georgia, serif;
             background: linear-gradient(145deg, var(--ivory) 0%, var(--parchment) 100%);
@@ -33,848 +27,149 @@
             color: var(--ink);
             line-height: 1.6;
         }
-
-        /* Decorative background pattern */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(201, 162, 39, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 21, 56, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            padding: 3rem 1rem;
-            border-bottom: 1px solid var(--gold-light);
-            margin-bottom: 2rem;
-        }
-
-        header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--crimson);
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            text-shadow: 1px 1px 2px var(--shadow);
-        }
-
-        header .subtitle {
-            font-size: 1.1rem;
-            color: var(--ink-light);
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        /* Cross decoration */
-        .cross-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1.5rem 0;
-            color: var(--gold);
-        }
-
-        .cross-divider::before,
-        .cross-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
-            max-width: 150px;
-        }
-
-        .cross-divider span {
-            padding: 0 1rem;
-            font-size: 1.5rem;
-        }
-
-        /* Progress Section */
-        .progress-section {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px var(--shadow);
-            border: 1px solid var(--gold-light);
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .progress-text {
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            color: var(--crimson);
-        }
-
-        .progress-count {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--ink-light);
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: var(--parchment);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--crimson), var(--gold));
-            border-radius: 4px;
-            transition: width 0.4s ease;
-        }
-
-        /* Question Card */
-        .question-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px var(--shadow);
-            border: 1px solid var(--gold-light);
-            position: relative;
-        }
-
-        .question-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson));
-            border-radius: 12px 12px 0 0;
-        }
-
-        .question-number {
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            color: var(--gold);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        /* Options */
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .option {
-            display: flex;
-            align-items: flex-start;
-            padding: 1rem 1.25rem;
-            background: var(--ivory);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .option:hover {
-            background: var(--parchment);
-            border-color: var(--gold-light);
-            transform: translateX(4px);
-        }
-
-        .option.selected {
-            background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08));
-            border-color: var(--gold);
-            box-shadow: 0 2px 8px rgba(201, 162, 39, 0.2);
-        }
-
-        .option input {
-            display: none;
-        }
-
-        .option-radio {
-            width: 22px;
-            height: 22px;
-            min-width: 22px;
-            border: 2px solid var(--ink-light);
-            border-radius: 50%;
-            margin-right: 1rem;
-            margin-top: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s ease;
-        }
-
-        .option.selected .option-radio {
-            border-color: var(--crimson);
-            background: var(--crimson);
-        }
-
-        .option.selected .option-radio::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .option-text {
-            font-size: 1.05rem;
-            line-height: 1.5;
-            color: var(--ink);
-        }
-
-        /* Navigation */
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            padding: 0.75rem 2rem;
-            border: 2px solid var(--crimson);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .nav-btn.primary {
-            background: var(--crimson);
-            color: white;
-        }
-
-        .nav-btn.primary:hover {
-            background: var(--crimson-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 21, 56, 0.3);
-        }
-
-        .nav-btn.secondary {
-            background: transparent;
-            color: var(--crimson);
-        }
-
-        .nav-btn.secondary:hover {
-            background: var(--crimson);
-            color: white;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* Question Navigator */
-        .question-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--gold-light);
-        }
-
-        .q-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid var(--gold-light);
-            background: white;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--ink-light);
-        }
-
-        .q-dot:hover {
-            border-color: var(--gold);
-            transform: scale(1.1);
-        }
-
-        .q-dot.answered {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: white;
-        }
-
-        .q-dot.current {
-            border-color: var(--crimson);
-            box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.2);
-        }
-
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        header { text-align: center; padding: 3rem 1rem; border-bottom: 1px solid var(--gold-light); margin-bottom: 2rem; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 600; color: var(--crimson); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+        header .subtitle { font-size: 1.1rem; color: var(--ink-light); font-style: italic; }
+        .cross-divider { display: flex; align-items: center; justify-content: center; margin: 1.5rem 0; color: var(--gold); }
+        .cross-divider::before, .cross-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); max-width: 150px; }
+        .cross-divider span { padding: 0 1rem; font-size: 1.5rem; }
+        
         /* Start Screen */
-        .start-screen {
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-
+        .start-screen { text-align: center; padding: 3rem 2rem; }
+        .start-screen h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--crimson); margin-bottom: 1.5rem; }
+        .start-screen p { font-size: 1.1rem; color: var(--ink-light); margin-bottom: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .stats { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-value { font-family: 'Cinzel', serif; font-size: 2.5rem; color: var(--gold); font-weight: 700; }
+        .stat-label { font-size: 0.9rem; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.1em; }
+        
         /* Quiz Length Selector */
-        .quiz-length-section {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px var(--shadow);
-            border: 1px solid var(--gold-light);
-        }
-
-        .quiz-length-section h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: var(--crimson);
-            margin-bottom: 1rem;
-        }
-
-        .length-options {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .length-option {
-            cursor: pointer;
-        }
-
-        .length-option input {
-            display: none;
-        }
-
-        .length-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--gold-light);
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            min-width: 80px;
-        }
-
-        .length-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-        .length-option input:checked + .length-card,
-        .length-card.selected {
-            border-color: var(--crimson);
-            background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08));
-            box-shadow: 0 2px 8px rgba(139, 21, 56, 0.2);
-        }
-
-        .length-number {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--crimson);
-        }
-
-        .length-label {
-            font-size: 0.85rem;
-            color: var(--ink-light);
-            text-align: center;
-        }
-
-        .length-label small {
-            color: var(--gold);
-        }
-
-        .length-note {
-            font-size: 0.9rem;
-            color: var(--ink-light);
-            font-style: italic;
-            margin-top: 1rem;
-            margin-bottom: 0;
-        }
-
-        @media (max-width: 600px) {
-            .length-options {
-                gap: 0.5rem;
-            }
-            .length-card {
-                padding: 0.75rem 1rem;
-                min-width: 65px;
-            }
-            .length-number {
-                font-size: 1.2rem;
-            }
-            .length-label {
-                font-size: 0.75rem;
-            }
-        }
-
-        .start-screen h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            color: var(--crimson);
-            margin-bottom: 1.5rem;
-        }
-
-        .start-screen p {
-            font-size: 1.1rem;
-            color: var(--ink-light);
-            margin-bottom: 1rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .start-screen .stats {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: var(--gold);
-            font-weight: 700;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--ink-light);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .start-btn {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            padding: 1rem 3rem;
-            background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 1rem;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(139, 21, 56, 0.4);
-        }
-
-        /* Results Screen */
-        .results-screen {
-            display: none;
-        }
-
-        .results-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .results-header h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--crimson);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Top Match Card */
-        .top-match {
-            background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
-            color: white;
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .top-match::before {
-            content: '✝';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-size: 150px;
-            opacity: 0.1;
-            color: var(--gold);
-        }
-
-        .top-match-label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-
-        .top-match-name {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--gold-light);
-        }
-
-        .top-match-score {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
-        }
-
-        .top-match-summary {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            font-style: italic;
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
-        }
-
-        .top-match-affirmations {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .affirmation-tag {
-            background: rgba(255,255,255,0.15);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-        /* Rankings Table */
-        .rankings-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px var(--shadow);
-            border: 1px solid var(--gold-light);
-        }
-
-        .rankings-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--crimson);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .rankings-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .rankings-table th {
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--ink-light);
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 2px solid var(--gold-light);
-        }
-
-        .rankings-table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid var(--parchment);
-        }
-
-        .rankings-table tr:hover {
-            background: var(--ivory);
-        }
-
-        .rank-num {
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-            color: var(--gold);
-            width: 50px;
-        }
-
-        .rank-num.top-3 {
-            color: var(--crimson);
-        }
-
-        .school-name {
-            font-weight: 500;
-        }
-
-        .score-bar-container {
-            width: 100%;
-            max-width: 200px;
-        }
-
-        .score-bar {
-            height: 8px;
-            background: var(--parchment);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .score-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--crimson), var(--gold));
-            border-radius: 4px;
-        }
-
-        .score-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--ink-light);
-            margin-top: 2px;
-        }
-
-        /* Axes Section */
-        .axes-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px var(--shadow);
-            border: 1px solid var(--gold-light);
-        }
-
-        .axes-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--crimson);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .axis-row {
-            margin-bottom: 1.5rem;
-        }
-
-        .axis-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .axis-name {
-            font-weight: 500;
-            color: var(--ink);
-        }
-
-        .axis-score {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--ink-light);
-        }
-
-        .axis-bar {
-            position: relative;
-            height: 24px;
-            background: var(--parchment);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .axis-labels {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 0.75rem;
-            font-size: 0.75rem;
-            color: var(--ink-light);
-            z-index: 1;
-        }
-
-        .axis-marker {
-            position: absolute;
-            top: 2px;
-            bottom: 2px;
-            width: 20px;
-            background: var(--crimson);
-            border-radius: 10px;
-            transition: left 0.5s ease;
-            box-shadow: 0 2px 6px rgba(139, 21, 56, 0.4);
-        }
-
+        .quiz-length-section { margin: 2rem 0; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--gold-light); }
+        .quiz-length-section h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--crimson); margin-bottom: 1rem; }
+        .length-options { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+        .length-option { cursor: pointer; }
+        .length-option input { display: none; }
+        .length-card { display: flex; flex-direction: column; align-items: center; padding: 1rem 1.25rem; border: 2px solid var(--gold-light); border-radius: 8px; transition: all 0.2s ease; min-width: 80px; }
+        .length-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .length-option input:checked + .length-card { border-color: var(--crimson); background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08)); box-shadow: 0 2px 8px rgba(139, 21, 56, 0.2); }
+        .length-number { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 600; color: var(--crimson); }
+        .length-label { font-size: 0.85rem; color: var(--ink-light); text-align: center; }
+        .length-label small { color: var(--gold); }
+        .length-note { font-size: 0.9rem; color: var(--ink-light); font-style: italic; margin-top: 1rem; margin-bottom: 0; }
+        
+        .start-btn { font-family: 'Cinzel', serif; font-size: 1.2rem; padding: 1rem 3rem; background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 1rem; }
+        .start-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(139, 21, 56, 0.4); }
+        
+        /* Progress */
+        .progress-section { background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--gold-light); }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .progress-text { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--crimson); }
+        .progress-count { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--ink-light); }
+        .progress-bar { height: 8px; background: var(--parchment); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--crimson), var(--gold)); border-radius: 4px; transition: width 0.4s ease; }
+        
+        /* Question Card */
+        .question-card { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 20px var(--shadow); border: 1px solid var(--gold-light); position: relative; animation: fadeIn 0.4s ease; }
+        .question-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson)); border-radius: 12px 12px 0 0; }
+        .question-number { font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+        .question-text { font-size: 1.3rem; font-weight: 500; color: var(--ink); margin-bottom: 1.5rem; line-height: 1.5; }
+        
+        /* Options */
+        .options { display: flex; flex-direction: column; gap: 0.75rem; }
+        .option { display: flex; align-items: flex-start; padding: 1rem 1.25rem; background: var(--ivory); border: 2px solid transparent; border-radius: 8px; cursor: pointer; transition: all 0.25s ease; }
+        .option:hover { background: var(--parchment); border-color: var(--gold-light); transform: translateX(4px); }
+        .option.selected { background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08)); border-color: var(--gold); box-shadow: 0 2px 8px rgba(201, 162, 39, 0.2); }
+        .option input { display: none; }
+        .option-radio { width: 22px; height: 22px; min-width: 22px; border: 2px solid var(--ink-light); border-radius: 50%; margin-right: 1rem; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; }
+        .option.selected .option-radio { border-color: var(--crimson); background: var(--crimson); }
+        .option.selected .option-radio::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
+        .option-text { font-size: 1.05rem; line-height: 1.5; color: var(--ink); }
+        
+        /* Navigation */
+        .navigation { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .nav-btn { font-family: 'Cinzel', serif; font-size: 1rem; padding: 0.75rem 2rem; border: 2px solid var(--crimson); border-radius: 6px; cursor: pointer; transition: all 0.25s ease; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-btn.primary { background: var(--crimson); color: white; }
+        .nav-btn.primary:hover { background: var(--crimson-dark); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(139, 21, 56, 0.3); }
+        .nav-btn.secondary { background: transparent; color: var(--crimson); }
+        .nav-btn.secondary:hover { background: var(--crimson); color: white; }
+        .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        
+        /* Question Nav Dots */
+        .question-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--gold-light); }
+        .q-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--gold-light); background: white; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; color: var(--ink-light); }
+        .q-dot:hover { border-color: var(--gold); transform: scale(1.1); }
+        .q-dot.answered { background: var(--gold); border-color: var(--gold); color: white; }
+        .q-dot.current { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.2); }
+        
+        /* Results */
+        .results-screen { display: none; }
+        .results-header { text-align: center; margin-bottom: 2rem; }
+        .results-header h2 { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--crimson); margin-bottom: 0.5rem; }
+        
+        .top-match { background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); color: white; border-radius: 12px; padding: 2.5rem; margin-bottom: 2rem; text-align: center; position: relative; overflow: hidden; }
+        .top-match::before { content: '✝'; position: absolute; top: -20px; right: -20px; font-size: 150px; opacity: 0.1; color: var(--gold); }
+        .top-match-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.8; margin-bottom: 0.5rem; }
+        .top-match-name { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--gold-light); }
+        .top-match-score { font-family: 'JetBrains Mono', monospace; font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+        .top-match-summary { font-size: 1.1rem; line-height: 1.6; font-style: italic; max-width: 600px; margin: 0 auto 1.5rem; }
+        .top-match-affirmations { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+        .affirmation-tag { background: rgba(255,255,255,0.15); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; }
+        
+        .patron-section { text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 8px; margin-top: 1.5rem; }
+        .patron-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 0.5rem; }
+        .patron-name { font-family: 'Cinzel', serif; font-size: 1.2rem; }
+        .patron-era { font-style: italic; opacity: 0.8; font-size: 0.95rem; }
+        
         /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            padding: 0.6rem 1.5rem;
-            background: transparent;
-            border: 2px solid var(--gold-light);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--ink);
-        }
-
-        .tab-btn:hover {
-            border-color: var(--gold);
-        }
-
-        .tab-btn.active {
-            background: var(--crimson);
-            border-color: var(--crimson);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Patron Saint */
-        .patron-section {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--ivory);
-            border-radius: 8px;
-            margin-top: 1.5rem;
-        }
-
-        .patron-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--ink-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .patron-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: var(--crimson);
-        }
-
-        .patron-era {
-            font-style: italic;
-            color: var(--ink-light);
-            font-size: 0.95rem;
-        }
-
-        /* Retake Button */
-        .retake-section {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--gold-light);
-        }
-
-        /* Responsive */
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: center; flex-wrap: wrap; }
+        .tab-btn { font-family: 'Cinzel', serif; font-size: 0.9rem; padding: 0.6rem 1.5rem; background: transparent; border: 2px solid var(--gold-light); border-radius: 6px; cursor: pointer; transition: all 0.2s ease; color: var(--ink); }
+        .tab-btn:hover { border-color: var(--gold); }
+        .tab-btn.active { background: var(--crimson); border-color: var(--crimson); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Rankings */
+        .rankings-card, .axes-card { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 20px var(--shadow); border: 1px solid var(--gold-light); }
+        .rankings-card h3, .axes-card h3 { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--crimson); margin-bottom: 1.5rem; text-align: center; }
+        .rankings-table { width: 100%; border-collapse: collapse; }
+        .rankings-table th { font-family: 'Cinzel', serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-light); padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--gold-light); }
+        .rankings-table td { padding: 0.75rem; border-bottom: 1px solid var(--parchment); }
+        .rankings-table tr:hover { background: var(--ivory); }
+        .rank-num { font-family: 'Cinzel', serif; font-weight: 600; color: var(--gold); width: 50px; }
+        .rank-num.top-3 { color: var(--crimson); }
+        .school-name { font-weight: 500; }
+        .score-bar-container { width: 100%; max-width: 200px; }
+        .score-bar { height: 8px; background: var(--parchment); border-radius: 4px; overflow: hidden; }
+        .score-bar-fill { height: 100%; background: linear-gradient(90deg, var(--crimson), var(--gold)); border-radius: 4px; }
+        .score-value { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--ink-light); margin-top: 2px; }
+        
+        /* Axes */
+        .axis-row { margin-bottom: 1.5rem; }
+        .axis-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .axis-name { font-weight: 500; color: var(--ink); }
+        .axis-score { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--ink-light); }
+        .axis-bar { position: relative; height: 24px; background: var(--parchment); border-radius: 12px; overflow: hidden; }
+        .axis-labels { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 0.75rem; font-size: 0.75rem; color: var(--ink-light); z-index: 1; }
+        .axis-marker { position: absolute; top: 2px; bottom: 2px; width: 20px; background: var(--crimson); border-radius: 10px; transition: left 0.5s ease; box-shadow: 0 2px 6px rgba(139, 21, 56, 0.4); }
+        
+        .retake-section { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--gold-light); }
+        .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
-            }
-
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            .question-text {
-                font-size: 1.1rem;
-            }
-
-            .option {
-                padding: 0.85rem 1rem;
-            }
-
-            .nav-btn {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .q-dot {
-                width: 28px;
-                height: 28px;
-                font-size: 0.65rem;
-            }
-
-            .top-match-name {
-                font-size: 1.5rem;
-            }
-
-            .stat-value {
-                font-size: 2rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .question-card {
-            animation: fadeIn 0.4s ease;
-        }
-
-        /* Hidden utility */
-        .hidden {
-            display: none !important;
+            .container { padding: 1rem; }
+            header h1 { font-size: 1.8rem; }
+            .question-text { font-size: 1.1rem; }
+            .option { padding: 0.85rem 1rem; }
+            .nav-btn { padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+            .q-dot { width: 28px; height: 28px; font-size: 0.65rem; }
+            .top-match-name { font-size: 1.5rem; }
+            .stat-value { font-size: 2rem; }
+            .length-options { gap: 0.5rem; }
+            .length-card { padding: 0.75rem 1rem; min-width: 65px; }
+            .length-number { font-size: 1.2rem; }
+            .length-label { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -886,147 +181,77 @@
             <div class="cross-divider"><span>✝</span></div>
         </header>
 
-        <!-- Start Screen -->
         <div id="start-screen" class="start-screen">
             <h2>Find Your Theological Home</h2>
-            <p>This comprehensive quiz explores your positions on grace, predestination, ecclesiology, moral theology, liturgy, and more to match you with Catholic theological traditions.</p>
-            
+            <p>This comprehensive quiz explores your positions on grace, predestination, ecclesiology, moral theology, liturgy, and more.</p>
             <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">127</div>
-                    <div class="stat-label">Questions</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">98</div>
-                    <div class="stat-label">Schools</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Axes</div>
-                </div>
+                <div class="stat"><div class="stat-value">127</div><div class="stat-label">Questions</div></div>
+                <div class="stat"><div class="stat-value">98</div><div class="stat-label">Schools</div></div>
+                <div class="stat"><div class="stat-value">8</div><div class="stat-label">Axes</div></div>
             </div>
-
-            <p style="font-size: 0.95rem; font-style: italic;">Topics include: Thomism, Molinism, Augustinianism, religious orders, sacramental theology, papal authority, moral rigorism, liturgical preferences, and political philosophy.</p>
-
+            
             <div class="quiz-length-section">
                 <h3>Choose Quiz Length</h3>
                 <div class="length-options">
-                    <label class="length-option">
-                        <input type="radio" name="quiz-length" value="20" onclick="setQuizLength(20)">
-                        <div class="length-card">
-                            <span class="length-number">20</span>
-                            <span class="length-label">Quick<br><small>~5 min</small></span>
-                        </div>
-                    </label>
-                    <label class="length-option">
-                        <input type="radio" name="quiz-length" value="40" onclick="setQuizLength(40)">
-                        <div class="length-card">
-                            <span class="length-number">40</span>
-                            <span class="length-label">Short<br><small>~10 min</small></span>
-                        </div>
-                    </label>
-                    <label class="length-option">
-                        <input type="radio" name="quiz-length" value="60" onclick="setQuizLength(60)">
-                        <div class="length-card">
-                            <span class="length-number">60</span>
-                            <span class="length-label">Medium<br><small>~15 min</small></span>
-                        </div>
-                    </label>
-                    <label class="length-option">
-                        <input type="radio" name="quiz-length" value="80" onclick="setQuizLength(80)">
-                        <div class="length-card">
-                            <span class="length-number">80</span>
-                            <span class="length-label">Long<br><small>~20 min</small></span>
-                        </div>
-                    </label>
-                    <label class="length-option">
-                        <input type="radio" name="quiz-length" value="100" onclick="setQuizLength(100)">
-                        <div class="length-card">
-                            <span class="length-number">100</span>
-                            <span class="length-label">Extended<br><small>~25 min</small></span>
-                        </div>
-                    </label>
-                    <label class="length-option">
-                        <input type="radio" name="quiz-length" value="127" checked onclick="setQuizLength(127)">
-                        <div class="length-card selected">
-                            <span class="length-number">127</span>
-                            <span class="length-label">Full<br><small>~30 min</small></span>
-                        </div>
-                    </label>
+                    <label class="length-option"><input type="radio" name="quiz-length" value="20" onclick="setQuizLength(20)"><div class="length-card"><span class="length-number">20</span><span class="length-label">Quick<br><small>~5 min</small></span></div></label>
+                    <label class="length-option"><input type="radio" name="quiz-length" value="40" onclick="setQuizLength(40)"><div class="length-card"><span class="length-number">40</span><span class="length-label">Short<br><small>~10 min</small></span></div></label>
+                    <label class="length-option"><input type="radio" name="quiz-length" value="60" onclick="setQuizLength(60)"><div class="length-card"><span class="length-number">60</span><span class="length-label">Medium<br><small>~15 min</small></span></div></label>
+                    <label class="length-option"><input type="radio" name="quiz-length" value="80" onclick="setQuizLength(80)"><div class="length-card"><span class="length-number">80</span><span class="length-label">Long<br><small>~20 min</small></span></div></label>
+                    <label class="length-option"><input type="radio" name="quiz-length" value="100" onclick="setQuizLength(100)"><div class="length-card"><span class="length-number">100</span><span class="length-label">Extended<br><small>~25 min</small></span></div></label>
+                    <label class="length-option"><input type="radio" name="quiz-length" value="127" checked onclick="setQuizLength(127)"><div class="length-card"><span class="length-number">127</span><span class="length-label">Full<br><small>~30 min</small></span></div></label>
                 </div>
                 <p class="length-note">Shorter quizzes sample questions for balanced coverage. Full quiz gives most accurate results.</p>
             </div>
-
+            
             <button class="start-btn" onclick="startQuiz()">Begin the Quiz</button>
         </div>
 
-        <!-- Quiz Screen -->
         <div id="quiz-screen" class="hidden">
             <div class="progress-section">
                 <div class="progress-header">
-                    <span class="progress-text" id="progress-text">Question 1 of 87</span>
-                    <span class="progress-count" id="answered-count">Answered: 0 / 87</span>
+                    <span class="progress-text" id="progress-text">Question 1</span>
+                    <span class="progress-count" id="answered-count">Answered: 0</span>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
             </div>
-
             <div class="question-card">
                 <div class="question-number" id="question-number">Question I</div>
                 <div class="question-text" id="question-text"></div>
                 <div class="options" id="options"></div>
             </div>
-
             <div class="navigation">
                 <button class="nav-btn secondary" id="prev-btn" onclick="prevQuestion()">← Previous</button>
                 <button class="nav-btn primary" id="next-btn" onclick="nextQuestion()">Next →</button>
                 <button class="nav-btn primary hidden" id="results-btn" onclick="showResults()">See Results</button>
             </div>
-
             <div class="question-nav" id="question-nav"></div>
         </div>
 
-        <!-- Results Screen -->
         <div id="results-screen" class="results-screen">
             <div class="results-header">
                 <h2>Your Theological Profile</h2>
                 <p class="subtitle">Based on your responses</p>
             </div>
-
-            <div class="top-match" id="top-match">
-                <!-- Filled by JS -->
-            </div>
-
+            <div class="top-match" id="top-match"></div>
             <div class="tabs">
                 <button class="tab-btn active" onclick="showTab('rankings')">Rankings</button>
                 <button class="tab-btn" onclick="showTab('axes')">Theological Axes</button>
             </div>
-
             <div id="rankings-tab" class="tab-content active">
                 <div class="rankings-card">
                     <h3>Top 20 School Matches</h3>
                     <table class="rankings-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>School</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rankings-body">
-                        </tbody>
+                        <thead><tr><th>Rank</th><th>School</th><th>Score</th></tr></thead>
+                        <tbody id="rankings-body"></tbody>
                     </table>
                 </div>
             </div>
-
             <div id="axes-tab" class="tab-content">
                 <div class="axes-card">
                     <h3>Your Position on Each Axis</h3>
                     <div id="axes-content"></div>
                 </div>
             </div>
-
             <div class="retake-section">
                 <button class="nav-btn primary" onclick="retakeQuiz()">Retake Quiz</button>
             </div>
@@ -1034,9 +259,6 @@
     </div>
 
     <script>
-// ============================================================
-// QUIZ DATA
-// ============================================================
 const SCHOOLS = [
     ["AUG", "Augustinian"],
     ["AUGP", "Strict Augustinian"],
@@ -1136,64 +358,226 @@ const SCHOOLS = [
     ["COMMUN", "Communio School"],
     ["RADORTH", "Radical Orthodoxy"],
     ["TRADUM", "Traditionis Custodes Compliant"],
-]
+];
 
-const SCHOOL_NAME = Object.fromEntries(SCHOOLS)
+const SCHOOL_NAME = Object.fromEntries(SCHOOLS);
 
-// Fill in missing descriptions
-SCHOOLS.forEach(([code, name]) => {
-    if (!SCHOOL_DESC[code]) {
-        SCHOOL_DESC[code] = {
-            "summary": `The ${name} theological position.`,
-            "affirmations": ["See detailed theological literature"]
-        };
-    }
-});
+const SCHOOL_DESC = {
+    "AUG": {"summary": "Emphasizes the depth of human fallenness and the absolute necessity of divine grace for any salvific good.", "affirmations": ["Grace precedes all merit", "Original sin profoundly wounds nature", "God's will grounds predestination"]},
+    "AUGP": {"summary": "Stricter Augustine: irresistible grace, massa damnata, double predestination in softer form.", "affirmations": ["Efficacious grace infallibly achieves its effect", "The reprobate are justly passed over"]},
+    "NEOAUG": {"summary": "Ressourcement retrieval of Augustine: participatory ontology, Christocentric grace, liturgical renewal.", "affirmations": ["Christ is the concrete universal", "Grace as participation in divine life"]},
+    "SEMIAUG": {"summary": "Moderate Augustinianism: depth of Fall and priority of grace with room for human cooperation.", "affirmations": ["Grace is necessary but human response matters", "Balance of sovereignty and agency"]},
+    "JANS": {"summary": "Rigorous Augustinianism: irresistible grace, strict moral demands, rare worthy communion.", "affirmations": ["Grace is irresistible when given", "Many called, few chosen"]},
+    "THOM": {"summary": "Mainstream Thomism balancing Aristotelian metaphysics with Augustinian grace theology.", "affirmations": ["Being is analogical", "Grace perfects nature", "Will follows intellect's presentation of good"]},
+    "THOMP": {"summary": "Strict Thomism: rigorous adherence to Thomas and traditional commentators.", "affirmations": ["24 Thomistic Theses are normative", "Real distinction of essence and existence"]},
+    "BANEZ": {"summary": "Dominican school emphasizing physical premotion and intrinsically efficacious grace.", "affirmations": ["God physically premoves the will", "Predestination ante praevisa merita"]},
+    "MOL": {"summary": "Jesuit school emphasizing middle knowledge and libertarian freedom.", "affirmations": ["God knows counterfactuals of freedom", "Grace extrinsically efficacious", "Human freedom is libertarian"]},
+    "CONG": {"summary": "Congruism: efficacious grace suited to circumstances God foresees.", "affirmations": ["Grace efficacy depends on divine wisdom", "Middle knowledge grounds providence"]},
+    "SCOT": {"summary": "Franciscan school of Duns Scotus: primacy of will, univocity of being, absolute primacy of Christ.", "affirmations": ["Being is univocal", "Will is primary faculty", "Incarnation independent of Fall"]},
+    "FRANC": {"summary": "Franciscan theology of Bonaventure: exemplarism, Christ as center, affective-mystical approach.", "affirmations": ["Christ is medium of all knowledge", "Love leads to wisdom"]},
+    "INFRA": {"summary": "God's decree of predestination logically follows his decree to permit the Fall.", "affirmations": ["Election from the fallen mass", "More 'merciful' framing"]},
+    "SUPRA": {"summary": "God's decree of predestination logically precedes his decree to permit the Fall.", "affirmations": ["Election logically prior to Fall", "Stronger sovereignty emphasis"]},
+    "DOM": {"summary": "Dominican spirituality: contemplata aliis tradere; truth, preaching, intellectual apostolate.", "affirmations": ["Contemplation ordered to preaching", "Truth is primary", "Thomism as framework"]},
+    "JES": {"summary": "Jesuit spirituality: finding God in all things; discernment, adaptability, active apostolate.", "affirmations": ["Ad maiorem Dei gloriam", "Discernment of spirits central"]},
+    "CARM": {"summary": "Carmelite spirituality: contemplative prayer, mystical theology, interior castle.", "affirmations": ["Prayer is essential", "Mystical union possible for all"]},
+    "BENED": {"summary": "Benedictine spirituality: ora et labora, stability, liturgy of the hours.", "affirmations": ["Liturgy is source and summit", "Stability and community"]},
+    "OPUS": {"summary": "Opus Dei: sanctification of ordinary work, universal call to holiness.", "affirmations": ["Work is path to holiness", "Lay faithful called to sanctity"]},
+    "FRAN": {"summary": "Franciscan spirituality: poverty, simplicity, love of creation, service to poor.", "affirmations": ["Lady Poverty embraced", "Creation reveals Creator"]},
+    "ORAT": {"summary": "Oratorian spirituality: pastoral gentleness, intellectual culture, liturgical beauty.", "affirmations": ["Gentleness in pastoral care", "Liturgy as school of holiness"]},
+    "CHART": {"summary": "Carthusian spirituality: eremitical solitude, perpetual silence, contemplative focus.", "affirmations": ["Solitude is path to God", "Stat crux dum volvitur orbis"]},
+    "OSA": {"summary": "Augustinian Order: interiority, community life, intellectual apostolate, Augustinian tradition.", "affirmations": ["Restless hearts find rest in God", "Truth dwelling within", "Common life and fraternity"]},
+    "OCSO": {"summary": "Cistercian/Trappist: strict Benedictine observance, silence, manual labor, contemplative depth.", "affirmations": ["Silence speaks to God", "Labor is prayer", "Simplicity leads to God"]},
+    "CSSR": {"summary": "Redemptorist: abundant redemption, popular missions, Alphonsian moral theology.", "affirmations": ["Copiosa apud eum redemptio", "Preach to most abandoned", "Equiprobabilism"]},
+    "SDB": {"summary": "Salesian: Don Bosco's preventive system, joy, youth education, Mary Help of Christians.", "affirmations": ["Education is matter of heart", "Reason, religion, loving-kindness"]},
+    "CM": {"summary": "Vincentian: service to poor, clergy formation, simplicity, humility, practical charity.", "affirmations": ["Poor are our masters", "Simplicity, humility, charity", "Love in action"]},
+    "CP": {"summary": "Passionist: memoria passionis, contemplation of Christ's suffering, preaching missions.", "affirmations": ["Keep memory of Passion alive", "Suffering united to Christ redeems"]},
+    "OSM": {"summary": "Servite: servants of Mary, compassion at Cross, Marian devotion, Seven Holy Founders.", "affirmations": ["Stand with Mary at Cross", "Compassion as way of life"]},
+    "OPRAEM": {"summary": "Norbertine: canons regular, liturgical solemnity, communal life, active-contemplative balance.", "affirmations": ["Contemplata aliis tradere", "Solemn liturgy sanctifies"]},
+    "MERC": {"summary": "Mercedarian: ransom of captives, fourth vow to give life for captives, Marian devotion.", "affirmations": ["Free captive at any cost", "Mary of Mercy liberates"]},
+    "CSC": {"summary": "Holy Cross: education as apostolate, hope in Cross, zeal for souls.", "affirmations": ["Cross is our only hope", "Education of mind and heart"]},
+    "OSBCAM": {"summary": "Camaldolese: eremitical Benedictine reform, threefold good, flexibility.", "affirmations": ["Solitude deepens communion", "Hermitage and cenobium united"]},
+    "NEOPLAT": {"summary": "Christian Neo-Platonism: participatory metaphysics, divine ideas, ascent of soul.", "affirmations": ["Reality participates in divine forms", "Beauty leads to Beautiful itself"]},
+    "THOMMETA": {"summary": "Thomistic realism: act-potency, matter-form, being as analogical.", "affirmations": ["Being is analogical", "Aristotelian categories serve theology"]},
+    "SCOTMETA": {"summary": "Scotist metaphysics: univocity of being, formal distinction, haecceity.", "affirmations": ["Being is univocal", "Individuation by haecceity"]},
+    "NOMIN": {"summary": "Universals are names/concepts only; reality consists of particulars. Associated with Ockham.", "affirmations": ["Universals don't exist in re", "Parsimony in metaphysical commitments"]},
+    "VOLUNT": {"summary": "Divine will is the ultimate ground of morality and truth; God's commands make things good.", "affirmations": ["God's will is the source of moral obligation", "Natural law depends on divine command"]},
+    "INTELL": {"summary": "Divine intellect is primary; God wills things because they are good, not vice versa.", "affirmations": ["Goodness is prior to divine willing", "Natural law reflects eternal reason"]},
+    "PALAM": {"summary": "Palamite theology: essence-energies distinction, theosis through uncreated energies.", "affirmations": ["God's energies are participated", "Theosis is real deification"]},
+    "RESSCH": {"summary": "Ressourcement Christology: Christ's concrete humanity, patristic retrieval.", "affirmations": ["Christ's humanity is central", "Chalcedon read through Cyril"]},
+    "CHALMAX": {"summary": "Chalcedonian Maximalist: strict two natures, two wills, two operations.", "affirmations": ["Two natures without confusion", "Dyothelitism essential"]},
+    "KENOT": {"summary": "Kenotic Christology: Philippians 2 self-emptying, Christ genuinely limited.", "affirmations": ["Christ truly emptied himself", "Solidarity with human weakness"]},
+    "TRIDSAC": {"summary": "Tridentine sacramentology: ex opere operato, proper matter and form.", "affirmations": ["Sacraments confer grace ex opere operato", "Trent irreformable"]},
+    "THOMSAC": {"summary": "Thomistic sacramentology: sacraments as instrumental causes.", "affirmations": ["Sacraments are instrumental causes", "Character configures to Christ"]},
+    "AUGSAC": {"summary": "Augustinian sacramentology: faith and interiority, visible words.", "affirmations": ["Word joined to element makes sacrament"]},
+    "MINSAC": {"summary": "Minimalist sacramental: focus on essentials for validity.", "affirmations": ["Essential form and matter suffice"]},
+    "EASTSAC": {"summary": "Eastern sacramental: mystery emphasis, epiclesis, theosis orientation.", "affirmations": ["Sacraments are holy mysteries", "Liturgy is heaven on earth"]},
+    "TRANSUB": {"summary": "Strict Tridentine transubstantiation: substance of bread/wine entirely converted to Body/Blood.", "affirmations": ["Whole substance changes", "Accidents remain without subject", "Real, true, substantial presence"]},
+    "TRANSIG": {"summary": "Open to transignification/transfinalisation language as complementary to transubstantiation.", "affirmations": ["Meaning and purpose truly change", "Phenomenological categories can illuminate"]},
+    "EUCHMYST": {"summary": "Eucharistic mysticism: personal encounter with Christ, adoration.", "affirmations": ["Eucharist is heart of Christian life", "Adoration deepens communion"]},
+    "ULTRA": {"summary": "Ultramontanism: strong papal authority, infallibility maximally interpreted.", "affirmations": ["Pope has supreme jurisdiction everywhere"]},
+    "PAPMOD": {"summary": "Moderate papalism: primacy and infallibility with episcopal collegiality.", "affirmations": ["Pope has primacy, bishops are true pastors"]},
+    "PAPMIN": {"summary": "Papal minimalism: infallibility strictly and rarely applied.", "affirmations": ["Infallibility rare and narrow"]},
+    "GALL": {"summary": "Gallicanism: national church autonomy, conciliar limits on pope.", "affirmations": ["National churches have autonomy"]},
+    "CONCIL": {"summary": "Conciliarism: councils supreme, can limit pope in emergencies.", "affirmations": ["Council can depose erring pope"]},
+    "EASTECC": {"summary": "Eastern Catholic ecclesiology: communion of churches, patriarchal structures.", "affirmations": ["Church is communion of churches"]},
+    "SYNOD": {"summary": "Synodalist: synodal processes, listening, pilgrim people.", "affirmations": ["Synodality constitutive of Church"]},
+    "THOMMOR": {"summary": "Thomistic natural law: acts ordered to end, virtue perfects nature.", "affirmations": ["Natural law participates in eternal law"]},
+    "MANUAL": {"summary": "Manualist moral theology: systematic treatment, confession-focused.", "affirmations": ["Clear categories aid confessors"]},
+    "VIRTUE": {"summary": "Virtue ethics: character, habituation, practical wisdom.", "affirmations": ["Character over isolated acts"]},
+    "AUGMOR": {"summary": "Augustinian moral: rightly ordered love, grace for virtue.", "affirmations": ["Love is form of virtues"]},
+    "PERSMOR": {"summary": "Personalist moral: dignity of person, conscience emphasized.", "affirmations": ["Person never merely a means"]},
+    "PROP": {"summary": "Proportionalism: weighing proportionate reasons in moral evaluation.", "affirmations": ["Proportionate reason can justify"]},
+    "NEOSCH": {"summary": "Neo-scholastic rigorism: strict manual tradition, moral absolutes.", "affirmations": ["Moral absolutes admit no exceptions"]},
+    "CASUIST": {"summary": "Casuistry: case-based moral reasoning, practical wisdom.", "affirmations": ["Cases illuminate principles"]},
+    "PROBAB": {"summary": "In doubtful moral cases, one may follow a solidly probable opinion favoring liberty.", "affirmations": ["Probable opinions can be followed", "Liberty in doubt"]},
+    "TUTIOR": {"summary": "In doubtful cases, one must follow the safer (tutior) opinion favoring the law.", "affirmations": ["Safer opinion must be followed", "Strictness in doubt"]},
+    "INTEG": {"summary": "The state should acknowledge and support the true religion; no strict separation of church and state.", "affirmations": ["Christ's kingship extends to political order", "Religious neutrality is impossible"]},
+    "INTEGHARD": {"summary": "Robust integralism: confessional state, suppression of public heresy, bishops direct temporal rulers.", "affirmations": ["Temporal power subordinate to spiritual", "Error has no rights publicly"]},
+    "INTEGSOFT": {"summary": "Moderate integralism: state should favor true religion but with prudential tolerance.", "affirmations": ["Prudential tolerance in pluralist contexts", "Gradual cultural transformation"]},
+    "LIBCATH": {"summary": "Liberal Catholicism: dialogue with modernity, religious freedom.", "affirmations": ["Dignitatis Humanae is development"]},
+    "DISTRIBUT": {"summary": "Wide distribution of productive property; neither capitalism nor socialism; subsidiarity central.", "affirmations": ["Property ownership should be widespread", "Against concentrated economic power"]},
+    "CORPCATH": {"summary": "Corporatist/solidarist model: organized vocational groups mediate between state and individual.", "affirmations": ["Guilds/corporations structure economy", "Class cooperation over conflict"]},
+    "SOCDEM": {"summary": "Catholic social democracy: welfare state, workers protections.", "affirmations": ["State has role in justice"]},
+    "LIBERTAR": {"summary": "Catholic libertarianism: free markets, minimal state.", "affirmations": ["Economic freedom is right"]},
+    "TRADNAT": {"summary": "Synthesis of Catholic tradition with national/ethnic identity; skeptical of globalism.", "affirmations": ["Nations are natural communities", "Borders and culture worth preserving"]},
+    "CATHUNIV": {"summary": "Emphasis on Church's universal mission transcending national boundaries.", "affirmations": ["Gospel transcends ethnicity", "International solidarity"]},
+    "WORKERCATH": {"summary": "Strong emphasis on workers' rights, unions, just wages, and dignity of labor.", "affirmations": ["Living wage is moral requirement", "Unions are natural right"]},
+    "AGRAR": {"summary": "Catholic agrarianism: rural life ideal, distributed land.", "affirmations": ["Land is proper basis of economy"]},
+    "TRAD": {"summary": "Traditionalist: traditional liturgy, doctrine, discipline.", "affirmations": ["Traditional Latin Mass normative"]},
+    "ROTR": {"summary": "Reform of the Reform: improve Novus Ordo with traditional elements.", "affirmations": ["Novus Ordo can be reverent"]},
+    "PROG": {"summary": "Progressive Catholic: ongoing reform, pastoral accompaniment.", "affirmations": ["Church must continually reform"]},
+    "RESS": {"summary": "Ressourcement: return to patristic and biblical sources.", "affirmations": ["Fathers are primary sources"]},
+    "STD": {"summary": "Mainstream Catholic without strong identification with any particular school.", "affirmations": ["Loyalty to Magisterium", "Balance of traditions"]},
+    "SSPX": {"summary": "Traditionalist resistance to post-conciliar changes while typically maintaining papal legitimacy.", "affirmations": ["Vatican II contains errors/ambiguities", "Traditional Mass normative"]},
+    "SEDE": {"summary": "Sedevacantist: the See is vacant; post-1958 claimants are not true popes.", "affirmations": ["No valid pope since Pius XII", "Vatican II invalid"]},
+    "SEDEPRIV": {"summary": "Material-formal distinction: current claimants are materially but not formally pope.", "affirmations": ["Material succession exists", "Formal authority lacking"]},
+    "ORDINAR": {"summary": "Anglican patrimony within Catholicism; Divine Worship liturgy, English choral tradition, married priesthood exception.", "affirmations": ["Anglican patrimony enriches Catholicism", "Divine Worship is legitimate liturgical expression", "Vernacular solemnity is possible"]},
+    "EASTLIT": {"summary": "Strong preference for Byzantine/Eastern liturgical forms; may attend Eastern Catholic parishes.", "affirmations": ["Eastern liturgies preserved ancient forms", "The West has much to learn from the East", "Liturgical diversity is treasure"]},
+    "ORTHOPH": {"summary": "Strong Eastern Orthodox sympathies; values Orthodox liturgy, theology, and spirituality while remaining Catholic.", "affirmations": ["Orthodoxy preserved much the West lost", "Palamite theology is valuable", "Filioque is negotiable"]},
+    "LUTHCAT": {"summary": "Affirms Lutheran-Catholic convergence on justification; JDDJ as genuine ecumenical achievement.", "affirmations": ["JDDJ represents real progress", "Faith alone rightly understood is Catholic", "Ecumenical progress is real"]},
+    "ECUMON": {"summary": "Catholics open to dialogue on Protestant soteriology; sees possible convergence on grace.", "affirmations": ["Augustinian heritage is shared", "Sola fide can be understood orthodoxly", "Dialogue advances truth"]},
+    "ANTIMOD": {"summary": "Emphasis on Pascendi, Lamentabili, anti-Modernist oath; suspicious of post-conciliar updating.", "affirmations": ["Modernism is synthesis of all heresies", "Anti-Modernist oath should be restored", "Aggiornamento was disaster"]},
+    "DEVPROG": {"summary": "Newman-style development of doctrine; organic growth from seminal principles; neither rigid nor rupturist.", "affirmations": ["Doctrine develops organically", "Later definitions make explicit what was implicit", "Development is not corruption"]},
+    "COMMUN": {"summary": "Communio school: Balthasar, Ratzinger, de Lubac; ecclesiology of communion, Christocentric focus.", "affirmations": ["Church is communion of persons", "Christocentrism integrates all theology", "Ressourcement and aggiornamento balance"]},
+    "RADORTH": {"summary": "Radical Orthodoxy (Milbank, Pickstock); critique of secular modernity, participatory ontology.", "affirmations": ["Secular reason is heretical", "All truth participates in divine truth", "Modernity must be narrated theologically"]},
+    "TRADUM": {"summary": "Traditional preferences within Traditionis Custodes restrictions; obedient but grieving; hopes for restoration.", "affirmations": ["Obedience to Pope even when painful", "TLM will eventually be freed", "Work within system for reform"]},
+};
 
 const PATRON_SAINTS = {
-    "AUG": {"primary": ["St. Augustine of Hippo", "Late Antique"]},
-    "THOM": {"primary": ["St. Thomas Aquinas", "Medieval"]},
-    "SCOT": {"primary": ["Bl. John Duns Scotus", "Medieval"]},
-    "DOM": {"primary": ["St. Dominic", "Medieval"]},
-    "JES": {"primary": ["St. Ignatius of Loyola", "Early Modern"]},
-    "CARM": {"primary": ["St. Teresa of Ávila", "Early Modern"]},
-    "BENED": {"primary": ["St. Benedict of Nursia", "Late Antique"]},
-    "FRAN": {"primary": ["St. Francis of Assisi", "Medieval"]},
-    "CM": {"primary": ["St. Vincent de Paul", "Early Modern"]},
-    "SDB": {"primary": ["St. John Bosco", "Modern"]},
-    "CSSR": {"primary": ["St. Alphonsus Liguori", "Early Modern"]},
-    "CP": {"primary": ["St. Paul of the Cross", "Early Modern"]},
-    "OSA": {"primary": ["St. Augustine of Hippo", "Late Antique"]},
-    "OCSO": {"primary": ["St. Bernard of Clairvaux", "Medieval"]},
-    "STD": {"primary": ["St. John Henry Newman", "Modern"]}
+    "AUG": {"primary": ["St. Augustine of Hippo", "Late Antique"], "why": "Doctor of Grace."},
+    "THOM": {"primary": ["St. Thomas Aquinas", "Medieval"], "why": "The Angelic Doctor."},
+    "SCOT": {"primary": ["Bl. John Duns Scotus", "Medieval"], "why": "The Subtle Doctor."},
+    "DOM": {"primary": ["St. Dominic", "Medieval"], "why": "Founder of the Order of Preachers."},
+    "JES": {"primary": ["St. Ignatius of Loyola", "Early Modern"], "why": "Founder of the Society of Jesus."},
+    "CARM": {"primary": ["St. Teresa of \u00c1vila", "Early Modern"], "why": "Doctor of Prayer."},
+    "BENED": {"primary": ["St. Benedict of Nursia", "Late Antique"], "why": "Father of Western Monasticism."},
+    "INTEG": {"primary": ["Pope St. Pius X", "Modern"], "why": "Defender against Modernism."},
+    "DISTRIBUT": {"primary": ["G.K. Chesterton", "Modern"], "why": "Champion of Distributism."},
+    "STD": {"primary": ["St. John Henry Newman", "Modern"], "why": "Model of balanced Catholic thought."},
+    "BANEZ": {"primary": ["Domingo B\u00e1\u00f1ez, O.P.", "Early Modern"], "why": "Architect of physical premotion."},
+    "MOL": {"primary": ["Luis de Molina, S.J.", "Early Modern"], "why": "Architect of middle knowledge."},
+    "AUGP": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "NEOAUG": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SEMIAUG": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "JANS": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "THOMP": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CONG": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "FRANC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "INFRA": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SUPRA": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "OPUS": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "FRAN": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ORAT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CHART": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "OSA": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "OCSO": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CSSR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SDB": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CP": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "OSM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "OPRAEM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "MERC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CSC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "OSBCAM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "NEOPLAT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "THOMMETA": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SCOTMETA": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "NOMIN": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "VOLUNT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "INTELL": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PALAM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "RESSCH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CHALMAX": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "KENOT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TRIDSAC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "THOMSAC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "AUGSAC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "MINSAC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "EASTSAC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TRANSUB": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TRANSIG": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "EUCHMYST": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ULTRA": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PAPMOD": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PAPMIN": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "GALL": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CONCIL": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "EASTECC": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SYNOD": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "THOMMOR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "MANUAL": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "VIRTUE": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "AUGMOR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PERSMOR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PROP": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "NEOSCH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CASUIST": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PROBAB": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TUTIOR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "INTEGHARD": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "INTEGSOFT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "LIBCATH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CORPCATH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SOCDEM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "LIBERTAR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TRADNAT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "CATHUNIV": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "WORKERCATH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "AGRAR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TRAD": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ROTR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "PROG": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "RESS": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SSPX": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SEDE": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "SEDEPRIV": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ORDINAR": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "EASTLIT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ORTHOPH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "LUTHCAT": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ECUMON": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "ANTIMOD": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "DEVPROG": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "COMMUN": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "RADORTH": {"primary": ["Various Saints", ""], "why": "See theological literature."},
+    "TRADUM": {"primary": ["Various Saints", ""], "why": "See theological literature."},
 };
 
 const AXES = [
-    ['GRACE', 'Grace Theology'],
-    ['PAPAL', 'Papal Authority'],
-    ['LIT', 'Liturgical Traditionalism'],
-    ['RIGOR', 'Moral Rigorism'],
-    ['PIETY', 'Personal Piety'],
-    ['SCRIPT', 'Scripture Authority'],
-    ['JUST', 'Justification & Union'],
-    ['ESCH', 'Eschatology']
+    ["GRACE", "Grace Theology"],
+    ["PAPAL", "Papal Authority"],
+    ["LIT", "Liturgical Traditionalism"],
+    ["RIGOR", "Moral Rigorism"],
+    ["PIETY", "Personal Piety"],
+    ["SCRIPT", "Scripture Authority & Hermeneutics"],
+    ["JUST", "Justification & Union"],
+    ["ESCH", "Eschatology & Final Judgment"],
 ];
 
-const AXIS_ENDPOINTS = {
-    "GRACE": ["Synergistic", "Monergistic"],
-    "PAPAL": ["Conciliar/Local", "Ultramontane"],
-    "LIT": ["Reformist", "Traditional"],
-    "RIGOR": ["Pastoral/Lenient", "Rigorist"],
-    "PIETY": ["Lower Intensity", "High Contemplative"],
-    "SCRIPT": ["Magisterium-first", "Scripture-first"],
-    "JUST": ["Forensic emphasis", "Participatory/Union"],
-    "ESCH": ["This-world focus", "Judgment & beatific end"]
-};
+const AXIS_ENDPOINTS = {"GRACE": ["Synergistic", "Monergistic"], "PAPAL": ["Conciliar/Local", "Ultramontane"], "LIT": ["Reformist", "Traditional"], "RIGOR": ["Pastoral/Lenient", "Rigorist"], "PIETY": ["Lower Intensity", "High Contemplative"], "SCRIPT": ["Magisterium-first", "Scripture-first (within Tradition)"], "JUST": ["Forensic emphasis", "Participatory / union emphasis"], "ESCH": ["This-world / pastoral", "Judgment & beatific end"]};
 
-const AXIS_MULTIPLIER = {
-    "GRACE": 3, "PAPAL": 3, "LIT": 3, "RIGOR": 3,
-    "PIETY": 3, "SCRIPT": 4, "JUST": 4, "ESCH": 4
-};
+const AXIS_MULTIPLIER = {"GRACE": 3, "PAPAL": 3, "LIT": 3, "RIGOR": 3, "PIETY": 3, "SCRIPT": 4, "JUST": 4, "ESCH": 4};
 
 const QUESTIONS = [
     {
@@ -2507,76 +1891,57 @@ const QUESTIONS = [
         ],
         "axis_weights": {}
     },
-]
+];
 
-// ============================================================
-// QUIZ STATE
-// ============================================================
+
+// Quiz State
 let currentQuestion = 0;
 let answers = [];
 let scores = {};
 let axisScores = {};
 let selectedQuestions = [];
-let quizLength = 127; // Default to full quiz
+let quizLength = 127;
 
-// Set quiz length from selector
 function setQuizLength(length) {
     quizLength = length;
-    // Update UI
-    document.querySelectorAll('.length-card').forEach(card => card.classList.remove('selected'));
-    const selectedInput = document.querySelector(`input[name="quiz-length"][value="${length}"]`);
-    if (selectedInput) {
-        selectedInput.checked = true;
-        selectedInput.nextElementSibling.classList.add('selected');
-    }
+    document.querySelectorAll('.length-option input').forEach(input => {
+        const card = input.nextElementSibling;
+        if (parseInt(input.value) === length) {
+            input.checked = true;
+            card.style.borderColor = 'var(--crimson)';
+            card.style.background = 'linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08))';
+        } else {
+            input.checked = false;
+            card.style.borderColor = 'var(--gold-light)';
+            card.style.background = 'transparent';
+        }
+    });
 }
 
-// Select balanced sample of questions
 function selectQuestions(count) {
     if (count >= QUESTIONS.length) {
         return [...Array(QUESTIONS.length).keys()];
     }
-    
-    // Categorize questions by topic (based on position in array)
-    // Questions are roughly grouped: Grace, Orders, Christology, Liturgy, Ecclesiology, Moral, Political, Culture
     const categories = [
-        { start: 0, end: 20, name: 'Grace & Predestination' },
-        { start: 20, end: 40, name: 'Religious Orders' },
-        { start: 40, end: 55, name: 'Christology & Sacraments' },
-        { start: 55, end: 75, name: 'Ecclesiology & Authority' },
-        { start: 75, end: 95, name: 'Moral & Political' },
-        { start: 95, end: 115, name: 'Culture & Ecumenism' },
-        { start: 115, end: 127, name: 'Signature Questions' }
+        { start: 0, end: 20 }, { start: 20, end: 40 }, { start: 40, end: 55 },
+        { start: 55, end: 75 }, { start: 75, end: 95 }, { start: 95, end: 115 },
+        { start: 115, end: QUESTIONS.length }
     ];
-    
     const selected = [];
     const perCategory = Math.floor(count / categories.length);
     const remainder = count % categories.length;
-    
     categories.forEach((cat, idx) => {
         const catQuestions = [];
-        for (let i = cat.start; i < Math.min(cat.end, QUESTIONS.length); i++) {
-            catQuestions.push(i);
-        }
-        
-        // Shuffle category questions
+        for (let i = cat.start; i < Math.min(cat.end, QUESTIONS.length); i++) catQuestions.push(i);
         for (let i = catQuestions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [catQuestions[i], catQuestions[j]] = [catQuestions[j], catQuestions[i]];
         }
-        
-        // Take perCategory (plus one extra for first 'remainder' categories)
-        const take = perCategory + (idx < remainder ? 1 : 0);
-        selected.push(...catQuestions.slice(0, take));
+        selected.push(...catQuestions.slice(0, perCategory + (idx < remainder ? 1 : 0)));
     });
-    
-    // Sort by original index to maintain some topic flow
-    selected.sort((a, b) => a - b);
-    
-    return selected;
+    return selected.sort((a, b) => a - b);
 }
 
-// Initialize scores
 function initScores() {
     scores = {};
     SCHOOLS.forEach(([code]) => scores[code] = 0);
@@ -2584,19 +1949,13 @@ function initScores() {
     AXES.forEach(([code]) => axisScores[code] = 0);
 }
 
-// ============================================================
-// QUIZ FUNCTIONS
-// ============================================================
 function startQuiz() {
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     initScores();
-    
-    // Select questions based on chosen length
     selectedQuestions = selectQuestions(quizLength);
     answers = new Array(selectedQuestions.length).fill(null);
     currentQuestion = 0;
-    
     buildQuestionNav();
     renderQuestion();
 }
@@ -2626,39 +1985,26 @@ function updateQuestionNav() {
 function renderQuestion() {
     const qIndex = selectedQuestions[currentQuestion];
     const q = QUESTIONS[qIndex];
-    
-    // Update progress
     document.getElementById('progress-text').textContent = `Question ${currentQuestion + 1} of ${selectedQuestions.length}`;
     const answeredCount = answers.filter(a => a !== null).length;
     document.getElementById('answered-count').textContent = `Answered: ${answeredCount} / ${selectedQuestions.length}`;
     document.getElementById('progress-fill').style.width = `${(answeredCount / selectedQuestions.length) * 100}%`;
     
-    // Update question
-    const romanNumerals = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI','XXII','XXIII','XXIV','XXV','XXVI','XXVII','XXVIII','XXIX','XXX','XXXI','XXXII','XXXIII','XXXIV','XXXV','XXXVI','XXXVII','XXXVIII','XXXIX','XL','XLI','XLII','XLIII','XLIV','XLV','XLVI','XLVII','XLVIII','XLIX','L','LI','LII','LIII','LIV','LV','LVI','LVII','LVIII','LIX','LX','LXI','LXII','LXIII','LXIV','LXV','LXVI','LXVII','LXVIII','LXIX','LXX','LXXI','LXXII','LXXIII','LXXIV','LXXV','LXXVI','LXXVII','LXXVIII','LXXIX','LXXX','LXXXI','LXXXII','LXXXIII','LXXXIV','LXXXV','LXXXVI','LXXXVII','LXXXVIII','LXXXIX','XC'];
+    const romanNumerals = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI','XXII','XXIII','XXIV','XXV','XXVI','XXVII','XXVIII','XXIX','XXX','XXXI','XXXII','XXXIII','XXXIV','XXXV','XXXVI','XXXVII','XXXVIII','XXXIX','XL','XLI','XLII','XLIII','XLIV','XLV','XLVI','XLVII','XLVIII','XLIX','L','LI','LII','LIII','LIV','LV','LVI','LVII','LVIII','LIX','LX','LXI','LXII','LXIII','LXIV','LXV','LXVI','LXVII','LXVIII','LXIX','LXX','LXXI','LXXII','LXXIII','LXXIV','LXXV','LXXVI','LXXVII','LXXVIII','LXXIX','LXXX','LXXXI','LXXXII','LXXXIII','LXXXIV','LXXXV','LXXXVI','LXXXVII','LXXXVIII','LXXXIX','XC','XCI','XCII','XCIII','XCIV','XCV','XCVI','XCVII','XCVIII','XCIX','C','CI','CII','CIII','CIV','CV','CVI','CVII','CVIII','CIX','CX','CXI','CXII','CXIII','CXIV','CXV','CXVI','CXVII','CXVIII','CXIX','CXX','CXXI','CXXII','CXXIII','CXXIV','CXXV','CXXVI','CXXVII'];
     document.getElementById('question-number').textContent = `Question ${romanNumerals[currentQuestion] || currentQuestion + 1}`;
     document.getElementById('question-text').textContent = q.text;
     
-    // Render options
     const optionsDiv = document.getElementById('options');
     optionsDiv.innerHTML = '';
-    
     q.options.forEach((opt, i) => {
-        const label = opt[0];
         const option = document.createElement('label');
         option.className = 'option' + (answers[currentQuestion] === i ? ' selected' : '');
-        option.innerHTML = `
-            <input type="radio" name="answer" value="${i}">
-            <div class="option-radio"></div>
-            <span class="option-text">${label}</span>
-        `;
+        option.innerHTML = `<input type="radio" name="answer" value="${i}"><div class="option-radio"></div><span class="option-text">${opt[0]}</span>`;
         option.onclick = () => selectOption(i);
         optionsDiv.appendChild(option);
     });
     
-    // Update navigation buttons
     document.getElementById('prev-btn').disabled = currentQuestion === 0;
-    
-    // Show results button on last question if enough answered
     const nextBtn = document.getElementById('next-btn');
     const resultsBtn = document.getElementById('results-btn');
     if (currentQuestion === selectedQuestions.length - 1) {
@@ -2668,44 +2014,25 @@ function renderQuestion() {
         nextBtn.classList.remove('hidden');
         resultsBtn.classList.add('hidden');
     }
-    
     updateQuestionNav();
 }
 
 function selectOption(index) {
     answers[currentQuestion] = index;
-    
-    // Update UI
-    document.querySelectorAll('.option').forEach((opt, i) => {
-        opt.classList.toggle('selected', i === index);
-    });
-    
+    document.querySelectorAll('.option').forEach((opt, i) => opt.classList.toggle('selected', i === index));
     updateQuestionNav();
-    
-    // Update answered count
     const answeredCount = answers.filter(a => a !== null).length;
-    document.getElementById('answered-count').textContent = `Answered: ${answeredCount} / ${QUESTIONS.length}`;
-    document.getElementById('progress-fill').style.width = `${(answeredCount / QUESTIONS.length) * 100}%`;
+    document.getElementById('answered-count').textContent = `Answered: ${answeredCount} / ${selectedQuestions.length}`;
+    document.getElementById('progress-fill').style.width = `${(answeredCount / selectedQuestions.length) * 100}%`;
 }
 
 function nextQuestion() {
-    if (answers[currentQuestion] === null) {
-        alert('Please select an answer before continuing.');
-        return;
-    }
-    if (currentQuestion < selectedQuestions.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-        window.scrollTo(0, 0);
-    }
+    if (answers[currentQuestion] === null) { alert('Please select an answer.'); return; }
+    if (currentQuestion < selectedQuestions.length - 1) { currentQuestion++; renderQuestion(); window.scrollTo(0, 0); }
 }
 
 function prevQuestion() {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-        window.scrollTo(0, 0);
-    }
+    if (currentQuestion > 0) { currentQuestion--; renderQuestion(); window.scrollTo(0, 0); }
 }
 
 function jumpToQuestion(index) {
@@ -2714,52 +2041,29 @@ function jumpToQuestion(index) {
     window.scrollTo(0, 0);
 }
 
-// ============================================================
-// RESULTS CALCULATION
-// ============================================================
 function calculateScores() {
     initScores();
-    
     answers.forEach((ans, i) => {
         if (ans === null) return;
         const qIndex = selectedQuestions[i];
         const q = QUESTIONS[qIndex];
-        const [, weights] = q.options[ans];
-        
-        // School scores
-        Object.entries(weights).forEach(([code, w]) => {
-            if (scores.hasOwnProperty(code)) {
-                scores[code] += w;
-            }
-        });
-        
-        // Axis scores
-        const axisW = q.axis_weights || {};
-        Object.entries(axisW).forEach(([ax, w]) => {
-            if (axisScores.hasOwnProperty(ax)) {
-                axisScores[ax] += w;
-            }
-        });
+        const weights = q.options[ans][1];
+        Object.entries(weights).forEach(([code, w]) => { if (scores.hasOwnProperty(code)) scores[code] += w; });
+        Object.entries(q.axis_weights || {}).forEach(([ax, w]) => { if (axisScores.hasOwnProperty(ax)) axisScores[ax] += w; });
     });
 }
 
 function showResults() {
     const answeredCount = answers.filter(a => a !== null).length;
     if (answeredCount < selectedQuestions.length / 2) {
-        if (!confirm(`You've only answered ${answeredCount} of ${selectedQuestions.length} questions. Show results anyway?`)) {
-            return;
-        }
+        if (!confirm(`You've only answered ${answeredCount} of ${selectedQuestions.length} questions. Show results anyway?`)) return;
     }
-    
     calculateScores();
-    
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('results-screen').style.display = 'block';
-    
     renderTopMatch();
     renderRankings();
     renderAxes();
-    
     window.scrollTo(0, 0);
 }
 
@@ -2769,22 +2073,11 @@ function renderTopMatch() {
     const name = SCHOOL_NAME[topCode] || topCode;
     const desc = SCHOOL_DESC[topCode] || {};
     const patron = PATRON_SAINTS[topCode];
-    
     let patronHTML = '';
     if (patron && patron.primary) {
-        patronHTML = `
-            <div class="patron-section">
-                <div class="patron-label">Patron Figure</div>
-                <div class="patron-name">${patron.primary[0]}</div>
-                <div class="patron-era">${patron.primary[1]}</div>
-            </div>
-        `;
+        patronHTML = `<div class="patron-section"><div class="patron-label">Patron Figure</div><div class="patron-name">${patron.primary[0]}</div><div class="patron-era">${patron.primary[1]}</div></div>`;
     }
-    
-    const affirmationsHTML = (desc.affirmations || []).map(a => 
-        `<span class="affirmation-tag">${a}</span>`
-    ).join('');
-    
+    const affirmationsHTML = (desc.affirmations || []).map(a => `<span class="affirmation-tag">${a}</span>`).join('');
     document.getElementById('top-match').innerHTML = `
         <div class="top-match-label">Your Top Match</div>
         <div class="top-match-name">${name}</div>
@@ -2798,25 +2091,11 @@ function renderTopMatch() {
 function renderRankings() {
     const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);
     const maxScore = ranked[0][1] || 1;
-    
     const tbody = document.getElementById('rankings-body');
     tbody.innerHTML = '';
-    
     ranked.slice(0, 20).forEach(([code, score], i) => {
-        const name = SCHOOL_NAME[code] || code;
-        const pct = (score / maxScore) * 100;
-        
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td class="rank-num ${i < 3 ? 'top-3' : ''}">${i + 1}</td>
-            <td class="school-name">${name}</td>
-            <td class="score-bar-container">
-                <div class="score-bar">
-                    <div class="score-bar-fill" style="width: ${pct}%"></div>
-                </div>
-                <div class="score-value">${score} pts</div>
-            </td>
-        `;
+        tr.innerHTML = `<td class="rank-num ${i < 3 ? 'top-3' : ''}">${i + 1}</td><td class="school-name">${SCHOOL_NAME[code] || code}</td><td class="score-bar-container"><div class="score-bar"><div class="score-bar-fill" style="width: ${(score / maxScore) * 100}%"></div></div><div class="score-value">${score} pts</div></td>`;
         tbody.appendChild(tr);
     });
 }
@@ -2824,39 +2103,21 @@ function renderRankings() {
 function renderAxes() {
     const container = document.getElementById('axes-content');
     container.innerHTML = '';
-    
     AXES.forEach(([code, name]) => {
         const score = axisScores[code] || 0;
         const mult = AXIS_MULTIPLIER[code] || 3;
         const [lo, hi] = AXIS_ENDPOINTS[code] || ['Low', 'High'];
-        
-        // Normalize to 0-100 range, centered at 50
         const normalized = Math.max(0, Math.min(100, 50 + score * mult));
-        const markerLeft = Math.max(2, Math.min(95, normalized)) + '%';
-        
         const row = document.createElement('div');
         row.className = 'axis-row';
-        row.innerHTML = `
-            <div class="axis-header">
-                <span class="axis-name">${name}</span>
-                <span class="axis-score">(${score >= 0 ? '+' : ''}${score})</span>
-            </div>
-            <div class="axis-bar">
-                <div class="axis-labels">
-                    <span>${lo}</span>
-                    <span>${hi}</span>
-                </div>
-                <div class="axis-marker" style="left: calc(${markerLeft} - 10px)"></div>
-            </div>
-        `;
+        row.innerHTML = `<div class="axis-header"><span class="axis-name">${name}</span><span class="axis-score">(${score >= 0 ? '+' : ''}${score})</span></div><div class="axis-bar"><div class="axis-labels"><span>${lo}</span><span>${hi}</span></div><div class="axis-marker" style="left: calc(${normalized}% - 10px)"></div></div>`;
         container.appendChild(row);
     });
 }
 
 function showTab(tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     event.target.classList.add('active');
     document.getElementById(tabName + '-tab').classList.add('active');
 }
@@ -2867,10 +2128,7 @@ function retakeQuiz() {
     window.scrollTo(0, 0);
 }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    initScores();
-});
+document.addEventListener('DOMContentLoaded', () => { initScores(); setQuizLength(127); });
     </script>
 </body>
 </html>
