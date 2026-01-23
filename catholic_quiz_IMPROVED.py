@@ -131,6 +131,20 @@ SCHOOLS = [
     ("SSPX", "SSPX-leaning"),
     ("SEDE", "Sedevacantist"),
     ("SEDEPRIV", "Sedeprivationist"),
+
+    # New Schools - Ecumenical & Liturgical
+    ("ORDINAR", "Ordinariate"),
+    ("EASTLIT", "Eastern Liturgical"),
+    ("ORTHOPH", "Orthophile"),
+    ("LUTHCAT", "Lutheran-Catholic Convergence"),
+    ("ECUMON", "Ecumenical Monergist"),
+    
+    # New Schools - Theological Movements
+    ("ANTIMOD", "Anti-Modernist"),
+    ("DEVPROG", "Developmental Progressive"),
+    ("COMMUN", "Communio School"),
+    ("RADORTH", "Radical Orthodoxy"),
+    ("TRADUM", "Traditionis Custodes Compliant"),
 ]
 
 SCHOOL_CODES = [c for c, _ in SCHOOLS]
@@ -496,6 +510,47 @@ EXTENDED_DESC = {
         "summary": "Ressourcement: return to patristic and biblical sources.",
         "affirmations": ["Fathers are primary sources"]
     },
+    "ORDINAR": {
+        "summary": "Anglican patrimony within Catholicism; Divine Worship liturgy, English choral tradition, married priesthood exception.",
+        "affirmations": ["Anglican patrimony enriches Catholicism", "Divine Worship is legitimate liturgical expression", "Vernacular solemnity is possible"]
+    },
+    "EASTLIT": {
+        "summary": "Strong preference for Byzantine/Eastern liturgical forms; may attend Eastern Catholic parishes.",
+        "affirmations": ["Eastern liturgies preserved ancient forms", "The West has much to learn from the East", "Liturgical diversity is treasure"]
+    },
+    "ORTHOPH": {
+        "summary": "Strong Eastern Orthodox sympathies; values Orthodox liturgy, theology, and spirituality while remaining Catholic.",
+        "affirmations": ["Orthodoxy preserved much the West lost", "Palamite theology is valuable", "Filioque is negotiable"]
+    },
+    "LUTHCAT": {
+        "summary": "Affirms Lutheran-Catholic convergence on justification; JDDJ as genuine ecumenical achievement.",
+        "affirmations": ["JDDJ represents real progress", "Faith alone rightly understood is Catholic", "Ecumenical progress is real"]
+    },
+    "ECUMON": {
+        "summary": "Catholics open to dialogue on Protestant soteriology; sees possible convergence on grace.",
+        "affirmations": ["Augustinian heritage is shared", "Sola fide can be understood orthodoxly", "Dialogue advances truth"]
+    },
+    "ANTIMOD": {
+        "summary": "Emphasis on Pascendi, Lamentabili, anti-Modernist oath; suspicious of post-conciliar updating.",
+        "affirmations": ["Modernism is synthesis of all heresies", "Anti-Modernist oath should be restored", "Aggiornamento was disaster"]
+    },
+    "DEVPROG": {
+        "summary": "Newman-style development of doctrine; organic growth from seminal principles; neither rigid nor rupturist.",
+        "affirmations": ["Doctrine develops organically", "Later definitions make explicit what was implicit", "Development is not corruption"]
+    },
+    "COMMUN": {
+        "summary": "Communio school: Balthasar, Ratzinger, de Lubac; ecclesiology of communion, Christocentric focus.",
+        "affirmations": ["Church is communion of persons", "Christocentrism integrates all theology", "Ressourcement and aggiornamento balance"]
+    },
+    "RADORTH": {
+        "summary": "Radical Orthodoxy (Milbank, Pickstock); critique of secular modernity, participatory ontology.",
+        "affirmations": ["Secular reason is heretical", "All truth participates in divine truth", "Modernity must be narrated theologically"]
+    },
+    "TRADUM": {
+        "summary": "Traditional preferences within Traditionis Custodes restrictions; obedient but grieving; hopes for restoration.",
+        "affirmations": ["Obedience to Pope even when painful", "TLM will eventually be freed", "Work within system for reform"]
+    },
+
 }
 
 for code, desc in EXTENDED_DESC.items():
@@ -1887,6 +1942,696 @@ QUESTIONS = [
              {"DISTRIBUT": 2, "INTEGSOFT": 2, "LIBERTAR": 1, "TRADNAT": 1}),
         ],
         "axis_weights": {}
+    },
+
+
+    # ==================== GALLICANISM & CHURCH-STATE ====================
+    {
+        "text": "What is your position on Gallican liberties and national church autonomy?",
+        "options": [
+            ("Nations may legitimately negotiate appointment rights and synodal authority with Rome, provided they don't strongarm the Holy See.",
+             {"PAPMOD": 4, "STD": 3, "INTEGSOFT": 3, "GALL": 2, "DEVPROG": 2}),
+            ("Would make sense with stable Catholic monarchies, but impractical in modern liberal democracies.",
+             {"TRADNAT": 4, "INTEG": 3, "TRAD": 3, "GALL": 2, "CORPCATH": 2}),
+            ("A dangerous affront to papal authority. The Pope's universal jurisdiction must not be compromised.",
+             {"ULTRA": 6, "INTEG": 3, "PAPMOD": -2, "GALL": -5, "CONCIL": -4}),
+            ("Risks enabling nationalists to co-opt the Church and undermine her transnational mission.",
+             {"CATHUNIV": 5, "LIBCATH": 4, "PROG": 3, "SOCDEM": 2, "TRADNAT": -4}),
+        ],
+        "axis_weights": {"PAPAL": 3}
+    },
+
+    # ==================== IMMIGRATION ====================
+    {
+        "text": "What is your view of the Church hierarchy's approach to immigration?",
+        "options": [
+            ("A generational matter. Once older bishops retire, I'm optimistic about better balance.",
+             {"PROG": 3, "STD": 2, "SYNOD": 3, "DEVPROG": 2}),
+            ("Some nationalist governments have acted excessively, but prudential judgment on borders isn't sinful. National consciousness is legitimate.",
+             {"TRADNAT": 5, "INTEGSOFT": 4, "DISTRIBUT": 3, "STD": 2, "CATHUNIV": -3}),
+            ("A welcome prophetic stance against the pagan idols of nationalism and kinism.",
+             {"CATHUNIV": 6, "LIBCATH": 5, "PROG": 4, "SOCDEM": 3, "TRADNAT": -5}),
+            ("Balanced - the clergy can be naive about practical realities, but their intentions are good.",
+             {"STD": 4, "PAPMOD": 3, "ROTR": 2, "TRADUM": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== LITURGICAL REFORM ====================
+    {
+        "text": "What are your thoughts on reforming the Novus Ordo toward a vernacular TLM (like the Orthodox Divine Liturgy of St. Gregory)?",
+        "options": [
+            ("A worthy compromise honoring tradition without the abuses of the current Pauline Mass.",
+             {"ROTR": 5, "TRAD": 3, "EASTECC": 3, "BENED": 3, "ORDINAR": 4, "EASTLIT": 3}),
+            ("Good idea if executed carefully. Sacrosanctum Concilium never intended liturgical chaos.",
+             {"ROTR": 4, "STD": 3, "PAPMOD": 2, "COMMUN": 2, "TRADUM": 3}),
+            ("The Mass must be in Latin. Vatican II's liturgical reforms must be entirely undone.",
+             {"SSPX": 6, "SEDE": 5, "TRAD": 4, "ANTIMOD": 4, "PROG": -5, "LIBCATH": -4}),
+            ("The Ordinariate's Divine Worship liturgy is an excellent model of vernacular solemnity.",
+             {"ORDINAR": 6, "EASTECC": 3, "ROTR": 4, "BENED": 3, "EASTLIT": 3}),
+            ("Reform of the Reform: end abuses, restore sacred music, ad orientem, keep NO structure.",
+             {"ROTR": 6, "STD": 3, "PAPMOD": 3, "TRADUM": 3, "COMMUN": 2}),
+            ("No - the old liturgy was an ossified relic. The reform liberated us.",
+             {"PROG": 6, "LIBCATH": 5, "TRAD": -5, "ROTR": -3, "SSPX": -6}),
+        ],
+        "axis_weights": {"LIT": 5}
+    },
+
+    # ==================== ORTHODOX REUNION ====================
+    {
+        "text": "How should the Catholic Church approach reunion with the Eastern Orthodox?",
+        "options": [
+            ("Return to Rome under papal authority as Vatican I defined. No compromises on primacy.",
+             {"ULTRA": 5, "INTEG": 3, "NEOSCH": 3, "ANTIMOD": 2, "ORTHOPH": -4}),
+            ("A 'Sister Churches' model with restored communion but preserved Eastern autonomy.",
+             {"EASTECC": 5, "EASTSAC": 4, "PALAM": 3, "SYNOD": 3, "ORTHOPH": 5, "EASTLIT": 3, "ULTRA": -3}),
+            ("Focus on resolving theological issues (Filioque, essence-energies) before structural questions.",
+             {"THOM": 3, "RESS": 3, "PALAM": 3, "DOM": 2, "COMMUN": 2, "ORTHOPH": 2}),
+            ("Ecumenism has gone too far. Maintain clear boundaries until they accept all Catholic dogma.",
+             {"TRAD": 4, "SSPX": 4, "NEOSCH": 3, "ANTIMOD": 3, "PROG": -3}),
+            ("Practical cooperation first; doctrinal unity will follow organically.",
+             {"PROG": 4, "LIBCATH": 3, "CM": 2, "SYNOD": 2, "TRAD": -2}),
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+
+    # ==================== DIGNITATIS HUMANAE ====================
+    {
+        "text": "How do you understand Vatican II's teaching on religious liberty (Dignitatis Humanae)?",
+        "options": [
+            ("Legitimate development - the state shouldn't coerce conscience, though truth remains objective.",
+             {"PAPMOD": 4, "STD": 4, "RESS": 3, "DEVPROG": 4, "COMMUN": 3}),
+            ("A prudential adaptation for pluralist societies, not reversal of prior teaching.",
+             {"INTEGSOFT": 5, "ROTR": 3, "STD": 3, "TRADUM": 3}),
+            ("A rupture with Tradition. Quanta Cura condemned exactly what DH teaches.",
+             {"SSPX": 6, "TRAD": 5, "INTEGHARD": 5, "SEDE": 4, "ANTIMOD": 5, "LIBCATH": -6}),
+            ("The Church finally embraced freedom of conscience as foundational to human dignity.",
+             {"LIBCATH": 6, "PROG": 5, "PERSMOR": 4, "SYNOD": 2, "INTEG": -5}),
+            ("Ambiguously worded; needs authoritative clarification to reconcile with prior magisterium.",
+             {"TRAD": 4, "ROTR": 3, "PAPMIN": 3, "TRADUM": 3, "ANTIMOD": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== CELIBACY ====================
+    {
+        "text": "What is your view on mandatory clerical celibacy in the Latin Rite?",
+        "options": [
+            ("Precious discipline that should never be relaxed. Frees priests for total dedication.",
+             {"TRAD": 4, "OPUS": 4, "INTEG": 3, "NEOSCH": 3, "CARM": 2, "CHART": 2}),
+            ("Valuable but could permit married priests in mission territories, as Eastern Catholics do.",
+             {"EASTECC": 4, "PAPMOD": 3, "STD": 3, "SYNOD": 3, "ORDINAR": 3, "ORTHOPH": 2}),
+            ("Should be entirely optional. Many good men are lost; the Apostles were married.",
+             {"PROG": 5, "LIBCATH": 5, "SYNOD": 3, "TRAD": -4, "OPUS": -3}),
+            ("Essential for eschatological witness. It images heavenly life.",
+             {"CARM": 4, "CHART": 4, "BENED": 3, "OCSO": 4, "TRAD": 3, "CP": 2}),
+            ("The Ordinariate exception shows flexibility is possible. Expand it carefully.",
+             {"ORDINAR": 5, "PAPMOD": 3, "DEVPROG": 2, "STD": 2}),
+        ],
+        "axis_weights": {"RIGOR": 2, "PIETY": 1}
+    },
+
+    # ==================== TRADITIONIS CUSTODES ====================
+    {
+        "text": "How do you view Pope Francis's restrictions on the Traditional Latin Mass?",
+        "options": [
+            ("Necessary to prevent the TLM from becoming a flag for rejecting Vatican II.",
+             {"PROG": 4, "LIBCATH": 3, "SYNOD": 2, "ULTRA": 2, "TRAD": -5, "SSPX": -5}),
+            ("Pastorally devastating. Summorum Pontificum was working. Benedict XVI was right.",
+             {"ROTR": 5, "TRAD": 5, "BENED": 3, "TRADUM": 4, "COMMUN": 2, "PROG": -3}),
+            ("An unjust suppression. I attend TLM regardless of canonical regularity.",
+             {"SSPX": 6, "TRAD": 5, "SEDE": 3, "ANTIMOD": 3, "ULTRA": -4, "PAPMOD": -3}),
+            ("The Pope has authority to regulate liturgy. I obey even if I preferred the old policy.",
+             {"ULTRA": 4, "STD": 4, "PAPMOD": 4, "TRADUM": 5, "SSPX": -4}),
+            ("Understandable concern but heavy-handed. Dialogue would have been better.",
+             {"STD": 3, "ROTR": 3, "PAPMOD": 2, "ORAT": 2, "TRADUM": 3, "DEVPROG": 2}),
+        ],
+        "axis_weights": {"LIT": 4, "PAPAL": 2}
+    },
+
+    # ==================== NON-CATHOLIC SOTERIOLOGY ====================
+    {
+        "text": "Which non-Catholic view of soteriology do you find most compatible with Catholic faith?",
+        "options": [
+            ("Lutheran - if 'faith alone' is properly understood and sacramental realism affirmed, we're close.",
+             {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "NEOAUG": 2, "DEVPROG": 2, "TRAD": -3}),
+            ("Eastern Orthodox - patristic synthesis preserved. Theosis, synergy, mystery are deeply Catholic.",
+             {"ORTHOPH": 6, "PALAM": 5, "EASTECC": 4, "EASTSAC": 3, "RESS": 2, "NEOAUG": 2}),
+            ("None. Extra Ecclesiam nulla salus. Protestant communities lack valid sacraments.",
+             {"TRAD": 5, "SSPX": 5, "NEOSCH": 4, "ANTIMOD": 3, "ECUMON": -5, "LUTHCAT": -5}),
+            ("Reformed/Calvinist - they take grace seriously. Augustinian roots are shared.",
+             {"AUGP": 4, "JANS": 3, "BANEZ": 2, "ECUMON": 2, "MOL": -3}),
+            ("Anglican - via media, sacramental emphasis, liturgical beauty. The Ordinariate shows convergence.",
+             {"ORDINAR": 6, "ROTR": 2, "BENED": 2, "DEVPROG": 2}),
+        ],
+        "axis_weights": {"GRACE": 2, "JUST": 2}
+    },
+
+    # ==================== LUTHERAN CONVERGENCE ====================
+    {
+        "text": "If Lutheran 'Sacramental Union' recognized ontological change, and 'faith alone' was understood as Benedict XVI saw it, would these impede reunion?",
+        "options": [
+            ("No - properly understood, these need not be impediments. JDDJ showed real convergence.",
+             {"LUTHCAT": 6, "ECUMON": 5, "DEVPROG": 4, "COMMUN": 3, "PAPMOD": 2, "TRAD": -4}),
+            ("Possibly not, but we'd still need agreement on papacy, Marian dogmas, purgatory.",
+             {"PAPMOD": 4, "STD": 4, "THOM": 3, "ECUMON": 2, "DEVPROG": 2}),
+            ("Yes - Lutheran theology is fundamentally incompatible. Trent's condemnations stand.",
+             {"TRAD": 5, "NEOSCH": 5, "ANTIMOD": 4, "SSPX": 4, "LUTHCAT": -6, "ECUMON": -5}),
+            ("This hypothetical concedes too much. Lutheranism doesn't actually affirm these things.",
+             {"THOM": 3, "DOM": 2, "STD": 2, "NEOSCH": 2}),
+        ],
+        "axis_weights": {"JUST": 3}
+    },
+
+    # ==================== HERMENEUTIC OF CONTINUITY ====================
+    {
+        "text": "What is your opinion on the 'hermeneutic of continuity' proposed by Benedict XVI?",
+        "options": [
+            ("Essential and correct. Vatican II must be read in continuity with all prior councils.",
+             {"COMMUN": 5, "ROTR": 5, "DEVPROG": 4, "TRADUM": 4, "STD": 3, "BENED": 3}),
+            ("Noble attempt, but the texts themselves contain ambiguities enabling rupturist readings.",
+             {"TRAD": 4, "ROTR": 3, "ANTIMOD": 3, "TRADUM": 3, "PAPMIN": 2}),
+            ("Continuity is a fiction. Vatican II was a new beginning, and that's good.",
+             {"PROG": 5, "LIBCATH": 5, "SYNOD": 2, "COMMUN": -3, "TRAD": -5}),
+            ("Partially valid but insufficient. Some texts genuinely conflict with prior magisterium.",
+             {"SSPX": 5, "SEDE": 4, "TRAD": 4, "ANTIMOD": 4, "COMMUN": -2}),
+            ("A pastoral strategy more than theological argument. Useful for maintaining unity.",
+             {"PAPMOD": 3, "STD": 3, "JES": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== DIGITAL EVANGELIZATION ====================
+    {
+        "text": "How should Catholics approach lay apostolates and evangelization in the digital space?",
+        "options": [
+            ("Embrace fully. Social media is the new Areopagus. Memes and podcasts reach millions.",
+             {"SDB": 4, "JES": 3, "PROG": 3, "OPUS": 3, "STD": 2, "CHART": -2}),
+            ("Cautiously useful, but nothing replaces parish life and sacramental encounter.",
+             {"STD": 4, "BENED": 3, "PAPMOD": 2, "ORAT": 3, "CM": 2}),
+            ("Dangerous - breeds pride and controversy-seeking. Focus on real community.",
+             {"CHART": 4, "OCSO": 3, "BENED": 2, "CARM": 2, "TRAD": 2}),
+            ("Essential for reaching the young, but must be done with theological competence.",
+             {"DOM": 4, "JES": 3, "COMMUN": 2, "ORAT": 2, "SDB": 3}),
+            ("Lay apostolates online have revived tradition more than the hierarchy. Keep going.",
+             {"TRAD": 4, "ROTR": 3, "TRADUM": 3, "ANTIMOD": 2, "SYNOD": -2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== PROTESTANT JUSTIFICATION ====================
+    {
+        "text": "'Reformed and Lutheran views of justification, despite differences, are mostly compatible with some Catholic schools.' Your response:",
+        "options": [
+            ("Agree - Augustinian and Bañezian positions share significant common ground. JDDJ was right.",
+             {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "BANEZ": 2, "AUGP": 2, "NEOSCH": -4}),
+            ("Partially - overlap on grace's priority exists, but merit and sacraments differ substantially.",
+             {"THOM": 3, "STD": 3, "PAPMOD": 3, "DEVPROG": 2, "AUG": 2}),
+            ("Disagree - Protestant soteriology is forensic and extrinsic. Catholic justification is real transformation.",
+             {"THOM": 4, "TRIDSAC": 4, "NEOSCH": 4, "DOM": 3, "LUTHCAT": -4}),
+            ("Strongly disagree - Trent definitively condemned sola fide as Protestants teach it.",
+             {"TRAD": 5, "SSPX": 5, "NEOSCH": 5, "ANTIMOD": 4, "LUTHCAT": -6, "ECUMON": -5}),
+        ],
+        "axis_weights": {"JUST": 4, "GRACE": 3}
+    },
+
+    # ==================== HISTORICAL MONERGISM ====================
+    {
+        "text": "'Historical Catholic soteriology (Augustine, Prosper, Isidore, Council of Orange) was essentially monergistic.' Your assessment:",
+        "options": [
+            ("Correct. The Fathers and Orange taught even the beginning of faith is God's gift.",
+             {"AUG": 5, "AUGP": 5, "NEOAUG": 4, "BANEZ": 4, "ECUMON": 3, "JANS": 3, "MOL": -4}),
+            ("Partially true, but 'monergism' is anachronistic. Fathers affirmed grace's priority AND cooperation.",
+             {"THOM": 4, "STD": 3, "RESS": 3, "DEVPROG": 3, "NEOAUG": 2}),
+            ("Overstated. Orange affirmed free will's role. Catholic teaching has always been synergistic.",
+             {"MOL": 5, "JES": 3, "CONG": 3, "SCOT": 2, "AUGP": -4, "BANEZ": -3}),
+            ("Augustinian tradition was later balanced by Aquinas and Jesuits. Don't overcorrect.",
+             {"THOM": 4, "MOL": 3, "JES": 2, "DOM": 2, "STD": 2}),
+        ],
+        "axis_weights": {"GRACE": 5}
+    },
+
+    # ==================== FILIOQUE ====================
+    {
+        "text": "'We can omit the Filioque from the Creed for reunion with the Orthodox.' Your view:",
+        "options": [
+            ("Yes - it was a Western addition. The original Creed didn't have it. Remove it.",
+             {"ORTHOPH": 6, "EASTECC": 5, "EASTSAC": 4, "PALAM": 4, "SYNOD": 2, "ULTRA": -4}),
+            ("Possibly in Eastern liturgies, but the theology is true. A pastoral accommodation.",
+             {"PAPMOD": 4, "EASTECC": 4, "STD": 3, "DEVPROG": 3, "COMMUN": 2, "ORTHOPH": 2}),
+            ("No - Filioque is dogmatically defined and expresses important Trinitarian truth.",
+             {"THOM": 4, "TRAD": 4, "NEOSCH": 4, "ULTRA": 3, "ANTIMOD": 3, "ORTHOPH": -4}),
+            ("Florence's 'through the Son' shows reconciliation is possible without abandoning Western theology.",
+             {"THOM": 3, "PAPMOD": 3, "RESS": 3, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2}),
+            ("The controversy shows Orthodox are schismatics rejecting legitimate development.",
+             {"ULTRA": 5, "ANTIMOD": 3, "NEOSCH": 3, "TRAD": 3, "ORTHOPH": -6}),
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+
+    # ==================== WOMEN'S ROLES ====================
+    {
+        "text": "What expanded roles, if any, should women have in the Church?",
+        "options": [
+            ("Female deacons should be restored; women should lead wherever ordination isn't required.",
+             {"PROG": 5, "SYNOD": 4, "LIBCATH": 5, "TRAD": -5, "INTEG": -4}),
+            ("Women already have vital roles. Recognize existing contributions, don't invent offices.",
+             {"STD": 4, "PAPMOD": 3, "OPUS": 3, "TRAD": 2}),
+            ("The push reflects secular feminism infiltrating the Church. Resist it.",
+             {"TRAD": 5, "INTEG": 5, "SSPX": 4, "ANTIMOD": 4, "PROG": -5}),
+            ("Study historical evidence for deaconesses carefully; proceed with tradition.",
+             {"RESS": 3, "EASTECC": 3, "PAPMOD": 3, "DEVPROG": 2, "COMMUN": 2}),
+            ("Religious sisters already exercise profound spiritual authority. This is the feminine genius.",
+             {"CARM": 4, "BENED": 3, "CM": 2, "FRAN": 2, "OSM": 2, "OPUS": 2}),
+        ],
+        "axis_weights": {"RIGOR": 2}
+    },
+
+    # ==================== ECONOMICS ====================
+    {
+        "text": "Which economic arrangement best reflects Catholic Social Teaching?",
+        "options": [
+            ("Distributism - widespread ownership, guilds, cooperatives. Chesterton and Belloc were right.",
+             {"DISTRIBUT": 6, "AGRAR": 4, "CORPCATH": 3, "TRADNAT": 2, "LIBERTAR": -3}),
+            ("Regulated markets with welfare state and worker protections. European social model.",
+             {"SOCDEM": 5, "WORKERCATH": 4, "CM": 2, "LIBCATH": 2, "LIBERTAR": -4}),
+            ("Free markets with private charity. Government creates dependency.",
+             {"LIBERTAR": 6, "OPUS": 2, "SOCDEM": -5, "WORKERCATH": -3}),
+            ("Corporatism - organized vocational groups. Quadragesimo Anno's vision.",
+             {"CORPCATH": 6, "INTEG": 3, "DISTRIBUT": 3, "TRADNAT": 2}),
+            ("CST provides principles, not a system. Context determines application.",
+             {"STD": 4, "PAPMOD": 3, "JES": 2, "DEVPROG": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== JEWISH RELATIONS ====================
+    {
+        "text": "How should the Church understand her relationship with Judaism after Nostra Aetate?",
+        "options": [
+            ("The Old Covenant remains valid. Jews have a unique path not requiring explicit Christian faith.",
+             {"PROG": 4, "LIBCATH": 4, "RESS": 2, "TRAD": -5, "NEOSCH": -4}),
+            ("Nostra Aetate condemned antisemitism but didn't change the necessity of Christ for salvation.",
+             {"STD": 4, "PAPMOD": 4, "THOM": 3, "DEVPROG": 2, "TRAD": 2}),
+            ("The Church has overcorrected. Supersessionism is traditional and shouldn't be abandoned.",
+             {"TRAD": 5, "SSPX": 4, "NEOSCH": 4, "ANTIMOD": 3, "PROG": -4}),
+            ("Complex - honor Jewish roots, condemn antisemitism, maintain missionary mandate to all.",
+             {"RESS": 4, "NEOAUG": 3, "BENED": 3, "COMMUN": 3, "STD": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== MARIAN APPARITIONS ====================
+    {
+        "text": "What is your view on Marian apparitions (Fatima, Lourdes, etc.)?",
+        "options": [
+            ("Essential to Catholic piety. The Fatima consecration should be taken seriously.",
+             {"TRAD": 4, "CSSR": 3, "OSM": 3, "MERC": 2, "ANTIMOD": 2}),
+            ("Approved apparitions are credible but private revelation is never obligatory.",
+             {"STD": 4, "PAPMOD": 3, "THOM": 2, "DEVPROG": 2}),
+            ("Often verge on superstition. Focus on Scripture and Sacraments.",
+             {"PROG": 3, "LIBCATH": 3, "DOM": 2, "TRAD": -2, "CSSR": -2}),
+            ("Some are solid (Fatima, Lourdes) but others (Medjugorje) are likely fraudulent.",
+             {"TRAD": 3, "STD": 3, "ROTR": 2, "PAPMOD": 2}),
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+
+    # ==================== EMPTY HELL ====================
+    {
+        "text": "What is your view on the possibility of an 'empty hell' (Balthasar's hope)?",
+        "options": [
+            ("Permissible - we may dare to hope all are saved. God's mercy is infinite.",
+             {"COMMUN": 5, "PROG": 4, "LIBCATH": 4, "TRAD": -4, "AUGP": -4, "JANS": -4}),
+            ("Heretical or temerarious. Scripture and Tradition attest many are damned.",
+             {"AUGP": 5, "JANS": 4, "TRAD": 4, "NEOSCH": 3, "ANTIMOD": 3, "COMMUN": -4}),
+            ("We can hope for individuals but the Church teaches hell is populated.",
+             {"STD": 4, "THOM": 3, "PAPMOD": 2, "AUG": 2}),
+            ("Speculative. Focus on your own salvation, not universal questions.",
+             {"CARM": 3, "CHART": 3, "STD": 2, "BENED": 2}),
+        ],
+        "axis_weights": {"ESCH": 4, "RIGOR": 3}
+    },
+
+    # ==================== AMORIS LAETITIA ====================
+    {
+        "text": "What is your view on Amoris Laetitia and communion for the divorced and remarried?",
+        "options": [
+            ("A development allowing pastoral discernment in complex situations.",
+             {"PROG": 5, "SYNOD": 4, "PERSMOR": 3, "LIBCATH": 3, "TRAD": -5, "NEOSCH": -4}),
+            ("Ambiguous document misused by progressives. The dubia remain unanswered.",
+             {"TRAD": 5, "ROTR": 3, "TRADUM": 3, "NEOSCH": 3, "ANTIMOD": 2}),
+            ("Heretical. Contradicts Familiaris Consortio and perennial teaching.",
+             {"SSPX": 5, "SEDE": 4, "TRAD": 4, "ANTIMOD": 4, "PROG": -5}),
+            ("Pastoral accompaniment is good but doesn't change the discipline.",
+             {"STD": 4, "PAPMOD": 3, "MANUAL": 2, "THOMMOR": 2}),
+        ],
+        "axis_weights": {"RIGOR": 4}
+    },
+
+    # ==================== VATICAN II ASSESSMENT ====================
+    {
+        "text": "How do you assess the Second Vatican Council overall?",
+        "options": [
+            ("The greatest council - opened the Church to the modern world.",
+             {"PROG": 6, "LIBCATH": 5, "SYNOD": 3, "TRAD": -5, "SSPX": -6, "ANTIMOD": -5}),
+            ("Legitimate council often misinterpreted. Hermeneutic of continuity needed.",
+             {"COMMUN": 5, "ROTR": 5, "TRADUM": 4, "DEVPROG": 4, "STD": 3}),
+            ("Pastoral, not dogmatic. Prudential judgments can be questioned.",
+             {"TRAD": 4, "ROTR": 3, "PAPMIN": 3, "TRADUM": 3}),
+            ("A catastrophe. The texts contain errors or dangerous ambiguities.",
+             {"SSPX": 6, "ANTIMOD": 5, "SEDE": 4, "TRAD": 4, "COMMUN": -3, "PROG": -5}),
+            ("Invalid or doubtfully valid. The Church has been in eclipse since.",
+             {"SEDE": 6, "SEDEPRIV": 5, "SSPX": 3, "STD": -5, "PAPMOD": -5}),
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+
+    # ==================== HUMANAE VITAE ====================
+    {
+        "text": "What is your position on Humanae Vitae's teaching on contraception?",
+        "options": [
+            ("Prophetic and absolutely binding. NFP is the only moral option.",
+             {"TRAD": 5, "NEOSCH": 5, "OPUS": 4, "THOMMOR": 4, "INTEG": 3}),
+            ("True but pastoral sensitivity needed. Distinguish grave matter from mortal sin.",
+             {"STD": 4, "PAPMOD": 3, "PERSMOR": 2}),
+            ("The principle is right but application involves prudential judgment.",
+             {"PERSMOR": 4, "CASUIST": 3, "PROG": 2, "NEOSCH": -3}),
+            ("Should be reconsidered. Sensus fidelium has rejected it.",
+             {"PROG": 4, "LIBCATH": 5, "SYNOD": 2, "TRAD": -6, "NEOSCH": -5}),
+        ],
+        "axis_weights": {"RIGOR": 5}
+    },
+
+    # ==================== CHURCH & DEMOCRACY ====================
+    {
+        "text": "How should the Church relate to secular liberal democracy?",
+        "options": [
+            ("Reject it - Christendom should be restored. Christ must reign socially.",
+             {"INTEGHARD": 6, "INTEG": 5, "TRADNAT": 4, "TRAD": 3, "LIBCATH": -5}),
+            ("Accept pragmatically but work for culture's conversion over time.",
+             {"INTEGSOFT": 5, "ROTR": 3, "STD": 3, "DEVPROG": 2}),
+            ("Liberal democracy, rightly understood, is compatible with Catholicism.",
+             {"LIBCATH": 5, "PAPMOD": 3, "STD": 3, "DEVPROG": 3, "INTEG": -4}),
+            ("Fine but must be limited by natural law and subsidiarity.",
+             {"DISTRIBUT": 4, "STD": 3, "THOMMOR": 3, "INTEGSOFT": 2}),
+            ("Church should focus on souls, not political arrangements.",
+             {"CARM": 3, "CHART": 3, "STD": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== SIGNATURE: FUNDAMENTAL ORIENTATION ====================
+    {
+        "text": "Which statement best captures your fundamental theological orientation?",
+        "options": [
+            ("'Grace does not destroy nature but perfects it.' The Thomistic synthesis is perennially valid.",
+             {"THOM": 6, "DOM": 4, "THOMMETA": 4, "THOMMOR": 3}),
+            ("'Our hearts are restless until they rest in Thee.' Augustine's interiority and grace theology are primary.",
+             {"AUG": 6, "OSA": 4, "NEOAUG": 4, "AUGMOR": 3}),
+            ("'Finding God in all things.' Ignatian discernment and active engagement with the world.",
+             {"JES": 6, "MOL": 3, "CONG": 2}),
+            ("'Pray and work.' The Benedictine balance of liturgy, labor, and stability.",
+             {"BENED": 6, "OCSO": 4, "OPRAEM": 3, "CHART": 2}),
+            ("'Lady Poverty.' Franciscan simplicity, creation spirituality, and joyful service.",
+             {"FRAN": 6, "FRANC": 4, "SDB": 2}),
+            ("Ressourcement - return to Fathers and Scripture to renew the Church.",
+             {"RESS": 6, "NEOAUG": 4, "COMMUN": 4, "BENED": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== SIGNATURE: LITURGY ====================
+    {
+        "text": "On liturgical matters, you identify most closely with:",
+        "options": [
+            ("The Traditional Latin Mass is the Mass of the Ages. The Novus Ordo is at best a compromise.",
+             {"TRAD": 6, "SSPX": 4, "ROTR": 2, "ANTIMOD": 3}),
+            ("Novus Ordo celebrated reverently, ad orientem, with chant. Reform of the Reform.",
+             {"ROTR": 6, "TRADUM": 4, "STD": 2, "COMMUN": 2}),
+            ("Eastern Divine Liturgy - Byzantine, Maronite, or other Eastern Catholic traditions.",
+             {"EASTLIT": 6, "EASTECC": 5, "EASTSAC": 4, "ORTHOPH": 3}),
+            ("The Ordinariate's Divine Worship - Anglican patrimony in full communion.",
+             {"ORDINAR": 6, "ROTR": 2, "BENED": 2}),
+            ("The reformed liturgy as commonly celebrated. The Mass is the Mass.",
+             {"STD": 5, "PROG": 3, "LIBCATH": 2, "TRAD": -3}),
+            ("Liturgy should be creative, inculturated, and community-centered.",
+             {"PROG": 6, "LIBCATH": 4, "TRAD": -5, "ROTR": -4}),
+        ],
+        "axis_weights": {"LIT": 6}
+    },
+
+    # ==================== SIGNATURE: PAPAL AUTHORITY ====================
+    {
+        "text": "Your view of papal authority is closest to:",
+        "options": [
+            ("Maximal - supreme, immediate, ordinary jurisdiction everywhere. Roma locuta.",
+             {"ULTRA": 6, "INTEG": 3, "PAPMOD": -2, "GALL": -5, "CONCIL": -5}),
+            ("Vatican I is true but narrowly applied. Collegiality balances primacy.",
+             {"PAPMOD": 6, "STD": 3, "COMMUN": 2, "DEVPROG": 2}),
+            ("Papal minimalism - infallibility is real but rare. Most teaching is reformable.",
+             {"PAPMIN": 6, "GALL": 3, "CONCIL": 2, "ULTRA": -4}),
+            ("The current occupant may not be a true pope. Discernment is required.",
+             {"SEDE": 6, "SEDEPRIV": 5, "SSPX": 3, "ULTRA": -6, "PAPMOD": -5}),
+            ("Synodality should be strengthened. Pope is first among equals.",
+             {"SYNOD": 5, "EASTECC": 4, "CONCIL": 3, "PROG": 2, "ULTRA": -5}),
+        ],
+        "axis_weights": {"PAPAL": 6}
+    },
+
+    # ==================== SIGNATURE: GRACE (BANEZ vs MOLINA) ====================
+    {
+        "text": "In the De Auxiliis controversy between Bañezians and Molinists, you side with:",
+        "options": [
+            ("Bañez - physical premotion, intrinsically efficacious grace, predestination ante praevisa merita.",
+             {"BANEZ": 6, "AUGP": 4, "DOM": 3, "AUG": 3, "THOMP": 3, "MOL": -5, "JES": -3}),
+            ("Molina - middle knowledge, extrinsically efficacious grace, libertarian freedom preserved.",
+             {"MOL": 6, "JES": 4, "CONG": 3, "SCOT": 2, "BANEZ": -5, "AUGP": -3}),
+            ("Congruism - a mediating position. Grace is suited to circumstances God foresees.",
+             {"CONG": 6, "MOL": 3, "JES": 2, "STD": 2}),
+            ("The Church left it open. Both are permissible opinions within Catholic bounds.",
+             {"STD": 4, "PAPMOD": 3, "THOM": 2, "DEVPROG": 2}),
+            ("I lean Augustinian/Bañezian but wouldn't call Molinism heresy.",
+             {"AUG": 4, "BANEZ": 3, "THOM": 3, "DOM": 2, "STD": 2}),
+        ],
+        "axis_weights": {"GRACE": 6}
+    },
+
+    # ==================== SIGNATURE: JANSENISM ====================
+    {
+        "text": "How do you assess the Jansenist movement?",
+        "options": [
+            ("Authentic Augustinianism unjustly condemned due to Jesuit political maneuvering.",
+             {"JANS": 6, "AUGP": 4, "TRAD": 2, "JES": -5, "MOL": -4}),
+            ("Contained genuine insights about grace but went too far into rigorism and near-Calvinism.",
+             {"AUG": 3, "AUGP": 2, "THOM": 3, "STD": 2}),
+            ("Rightly condemned. Its rigorism harmed souls and its ecclesiology was schismatic.",
+             {"JES": 4, "MOL": 3, "STD": 3, "PAPMOD": 2, "JANS": -5}),
+            ("A complex phenomenon. Some Jansenists were holy; the label was applied too broadly.",
+             {"RESS": 3, "DEVPROG": 2, "STD": 2, "NEOAUG": 2}),
+        ],
+        "axis_weights": {"GRACE": 4, "RIGOR": 3}
+    },
+
+    # ==================== SIGNATURE: INFRA/SUPRALAPSARIANISM ====================
+    {
+        "text": "On the order of divine decrees (predestination), you hold:",
+        "options": [
+            ("Infralapsarianism - God's decree of election logically follows the decree to permit the Fall.",
+             {"INFRA": 6, "THOM": 3, "AUG": 2, "STD": 2}),
+            ("Supralapsarianism - God's decree of election logically precedes the Fall. Stronger sovereignty.",
+             {"SUPRA": 6, "AUGP": 3, "BANEZ": 2, "SCOT": 2}),
+            ("These distinctions are overly speculative. Focus on pastoral realities.",
+             {"STD": 3, "PERSMOR": 2, "PROG": 2}),
+            ("I affirm predestination but don't commit to the order of decrees.",
+             {"AUG": 3, "THOM": 3, "STD": 3, "BANEZ": 2}),
+        ],
+        "axis_weights": {"GRACE": 4}
+    },
+
+    # ==================== SIGNATURE: VOLUNTARISM ====================
+    {
+        "text": "On divine voluntarism vs intellectualism:",
+        "options": [
+            ("Voluntarism - God's will is the ultimate ground of morality. Divine command makes things good.",
+             {"VOLUNT": 6, "SCOT": 4, "NOMIN": 3, "THOM": -4, "INTELL": -5}),
+            ("Intellectualism - God wills things because they are good. Natural law reflects eternal reason.",
+             {"INTELL": 6, "THOM": 4, "THOMMETA": 3, "DOM": 2, "VOLUNT": -5}),
+            ("A false dichotomy. In God, will and intellect are one. Both capture partial truths.",
+             {"THOM": 3, "STD": 3, "DEVPROG": 2, "RESS": 2}),
+            ("I lean Scotist/voluntarist but affirm natural law is knowable by reason.",
+             {"SCOT": 4, "VOLUNT": 3, "FRANC": 2, "SCOTMETA": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== SIGNATURE: SACRAMENTAL THEOLOGY ====================
+    {
+        "text": "Which sacramental theology resonates most with you?",
+        "options": [
+            ("Strict Tridentine - ex opere operato, transubstantiation precisely defined, seven sacraments.",
+             {"TRIDSAC": 6, "TRANSUB": 5, "NEOSCH": 3, "TRAD": 3}),
+            ("Thomistic - sacraments as instrumental efficient causes, Christ the principal cause.",
+             {"THOMSAC": 6, "THOM": 4, "DOM": 3, "TRIDSAC": 2}),
+            ("Augustinian - emphasis on faith, interiority, sacraments as 'visible words.'",
+             {"AUGSAC": 6, "AUG": 4, "OSA": 3, "NEOAUG": 2}),
+            ("Eastern - holy mysteries, epiclesis centrality, theosis orientation.",
+             {"EASTSAC": 6, "EASTLIT": 4, "EASTECC": 4, "PALAM": 3, "ORTHOPH": 3}),
+            ("Open to transignification language as complementary to transubstantiation.",
+             {"TRANSIG": 5, "PROG": 3, "RESS": 2, "TRANSUB": -3, "TRAD": -3}),
+            ("Eucharistic mysticism - personal encounter, adoration, transformative union.",
+             {"EUCHMYST": 6, "CARM": 3, "BENED": 2, "CP": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== SIGNATURE: MORAL SYSTEMS ====================
+    {
+        "text": "In moral theology, which system do you favor?",
+        "options": [
+            ("Probabilism - in doubt, a solidly probable opinion favoring liberty may be followed.",
+             {"PROBAB": 6, "JES": 3, "CSSR": 3, "CASUIST": 3, "TUTIOR": -5}),
+            ("Tutiorism - always follow the safer opinion favoring law. Strictness protects souls.",
+             {"TUTIOR": 6, "JANS": 4, "NEOSCH": 3, "AUGP": 2, "PROBAB": -5}),
+            ("Equiprobabilism - St. Alphonsus's balanced middle way between rigorism and laxism.",
+             {"CSSR": 5, "STD": 3, "MANUAL": 2, "CASUIST": 2}),
+            ("Virtue ethics over casuistry. Character formation matters more than case analysis.",
+             {"VIRTUE": 6, "THOMMOR": 3, "AUGMOR": 3, "MANUAL": -3}),
+            ("Proportionalism - weigh proportionate reasons; traditional 'intrinsic evil' needs nuance.",
+             {"PROP": 6, "PERSMOR": 3, "PROG": 2, "NEOSCH": -5, "TRAD": -4}),
+        ],
+        "axis_weights": {"RIGOR": 5}
+    },
+
+
+    # ==================== SIGNATURE: RADICAL ORTHODOXY ====================
+    {
+        "text": "The Radical Orthodoxy movement (Milbank, Pickstock) argues that:",
+        "options": [
+            ("Secular reason is 'heresy' - modernity's autonomy from theology must be rejected root and branch.",
+             {"RADORTH": 6, "INTEG": 3, "NEOPLAT": 3, "COMMUN": 2, "LIBCATH": -4}),
+            ("Interesting critique of secularism but sometimes overstates the case against modernity.",
+             {"COMMUN": 3, "RESS": 3, "DEVPROG": 2, "STD": 2}),
+            ("Too academic and obscure. Practical pastoral concerns matter more than philosophical critique.",
+             {"STD": 3, "CM": 2, "SDB": 2, "PROG": 2}),
+            ("Essentially correct - all truth participates in divine truth. There is no 'neutral' reason.",
+             {"RADORTH": 5, "NEOPLAT": 4, "INTEG": 3, "THOMMETA": 2}),
+            ("Dangerous flirtation with fideism. Reason has its own integrity under grace.",
+             {"THOM": 3, "DOM": 2, "JES": 2, "RADORTH": -3}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== METAPHYSICS: ANALOGY VS UNIVOCITY ====================
+    {
+        "text": "On the question of being - analogy (Aquinas) or univocity (Scotus)?",
+        "options": [
+            ("Analogy - being is said in many ways. God and creatures share being analogically, not identically.",
+             {"THOM": 5, "THOMMETA": 5, "DOM": 3, "INTELL": 2, "SCOTMETA": -4}),
+            ("Univocity - being must be predicated univocally or we can't speak of God at all.",
+             {"SCOTMETA": 6, "SCOT": 5, "FRANC": 3, "VOLUNT": 2, "THOMMETA": -4}),
+            ("Both capture important insights. The debate is often overblown.",
+             {"STD": 3, "DEVPROG": 2, "RESS": 2}),
+            ("Univocity opened the door to modern errors. Analogia entis is non-negotiable.",
+             {"RADORTH": 4, "THOMMETA": 4, "THOM": 3, "NEOPLAT": 2, "SCOTMETA": -3}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== NOMINALISM ====================
+    {
+        "text": "How do you assess the nominalist tradition (Ockham, etc.)?",
+        "options": [
+            ("A disaster that led to voluntarism, fideism, and ultimately secularism.",
+             {"THOM": 4, "THOMMETA": 4, "RADORTH": 3, "INTELL": 3, "NOMIN": -5}),
+            ("Contains genuine insights about parsimony and the limits of metaphysical speculation.",
+             {"NOMIN": 5, "SCOT": 2, "VOLUNT": 2, "THOM": -2}),
+            ("An interesting historical episode with little relevance to contemporary theology.",
+             {"STD": 3, "PROG": 2, "DEVPROG": 2}),
+            ("Ockham was a faithful Catholic; his positions are defensible within tradition.",
+             {"NOMIN": 4, "VOLUNT": 3, "SCOTMETA": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== PALAMISM ====================
+    {
+        "text": "What is your view of Palamite theology (essence-energies distinction)?",
+        "options": [
+            ("True - distinguishes God's unknowable essence from His participated energies. Essential for theosis.",
+             {"PALAM": 6, "ORTHOPH": 5, "EASTECC": 4, "EASTSAC": 3, "THOM": -2}),
+            ("Possibly compatible with Thomism if properly understood. Worth ecumenical dialogue.",
+             {"PAPMOD": 3, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2, "RESS": 2}),
+            ("Incompatible with divine simplicity. The West rightly rejected it.",
+             {"THOM": 4, "THOMMETA": 4, "NEOSCH": 3, "PALAM": -5, "ORTHOPH": -3}),
+            ("A distinctly Eastern approach that enriches Catholic theology without replacing Thomism.",
+             {"EASTECC": 4, "PALAM": 3, "RESS": 3, "EASTLIT": 2}),
+        ],
+        "axis_weights": {}
+    },
+
+    # ==================== THEOSIS ====================
+    {
+        "text": "How central is theosis (divinization) to your understanding of salvation?",
+        "options": [
+            ("Central - 'God became man that man might become God.' This is the heart of soteriology.",
+             {"PALAM": 5, "ORTHOPH": 5, "EASTECC": 4, "NEOAUG": 4, "RESS": 3}),
+            ("Important but must be balanced with juridical/forensic categories. Both-and, not either-or.",
+             {"THOM": 3, "STD": 3, "DEVPROG": 2, "AUG": 2}),
+            ("Western theology rightly emphasizes justification. Theosis language risks pantheism.",
+             {"NEOSCH": 3, "TRIDSAC": 3, "MANUAL": 2, "PALAM": -3}),
+            ("A beautiful Eastern emphasis the West should recover through ressourcement.",
+             {"RESS": 5, "NEOAUG": 4, "COMMUN": 3, "PALAM": 3, "BENED": 2}),
+        ],
+        "axis_weights": {"JUST": 4}
+    },
+
+    # ==================== CARMELITE SPIRITUALITY ====================
+    {
+        "text": "Carmelite spirituality (Teresa of Ávila, John of the Cross) emphasizes:",
+        "options": [
+            ("Interior prayer and mystical union - the soul's journey through mansions to divine marriage.",
+             {"CARM": 6, "EUCHMYST": 3, "CHART": 2, "PIETY": 3}),
+            ("Valuable for contemplatives but most Catholics need active, engaged spirituality.",
+             {"JES": 3, "DOM": 2, "SDB": 2, "OPUS": 2}),
+            ("The 'dark night' teaches detachment from consolations - demanding but transformative.",
+             {"CARM": 5, "OCSO": 3, "CHART": 3, "CP": 2}),
+            ("Mysticism is dangerous without strong doctrinal grounding and ecclesial oversight.",
+             {"NEOSCH": 3, "TRAD": 2, "DOM": 2, "CARM": -2}),
+        ],
+        "axis_weights": {"PIETY": 5}
+    },
+
+    # ==================== PASSIONIST SPIRITUALITY ====================
+    {
+        "text": "The Passionist emphasis on 'memoria passionis' (memory of Christ's suffering) is:",
+        "options": [
+            ("Central to Christian life. Meditating on the Passion transforms the soul.",
+             {"CP": 6, "CARM": 3, "TRAD": 2, "OSM": 2}),
+            ("Important but should be balanced with Resurrection joy and hope.",
+             {"STD": 3, "BENED": 2, "SDB": 2, "FRAN": 2}),
+            ("Can become morbid. Focus on Christ's victory, not His suffering.",
+             {"PROG": 2, "LIBCATH": 2, "CP": -2}),
+            ("Connects us to those who suffer today - solidarity with the crucified peoples.",
+             {"CP": 4, "CM": 3, "WORKERCATH": 3, "KENOT": 2}),
+        ],
+        "axis_weights": {"PIETY": 3}
+    },
+
+    # ==================== MERCEDARIAN CHARISM ====================
+    {
+        "text": "The Mercedarian fourth vow - to give one's life for captives if necessary - represents:",
+        "options": [
+            ("Heroic charity. The willingness to die for another's freedom is profoundly Christlike.",
+             {"MERC": 6, "CM": 3, "FRAN": 2, "CP": 2}),
+            ("A noble historical charism that should be adapted for modern forms of captivity (trafficking, addiction).",
+             {"MERC": 4, "CM": 3, "WORKERCATH": 2, "PROG": 2}),
+            ("Inspiring but exceptional. Most are not called to such radical sacrifice.",
+             {"STD": 3, "PAPMOD": 2}),
+            ("All religious should have this spirit of total self-gift, even if not vowed.",
+             {"CHART": 3, "OCSO": 2, "CARM": 2, "MERC": 2}),
+        ],
+        "axis_weights": {"PIETY": 2}
     },
 
     # ==================== CULTURE & MODERNITY ====================
