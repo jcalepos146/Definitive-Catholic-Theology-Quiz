@@ -1,5 +1,7 @@
 # Definitive Catholic Theology Quiz
 
+**[▶️ Take the Quiz](https://jcalepos146.github.io/Definitive-Catholic-Theology-Quiz/)**
+
 A comprehensive theological assessment tool that helps users discover their alignment with various schools of Catholic thought, as well as Protestant and Eastern Orthodox traditions.
 
 ## Overview
