@@ -1,149 +1,179 @@
-# Definitive Catholic Theology Quiz — Enhanced Edition
+# Definitive Catholic Theology Quiz
 
-**Discover your theological affinities across 98 schools of Catholic thought.**
+A comprehensive theological assessment tool that helps users discover their alignment with various schools of Catholic thought, as well as Protestant and Eastern Orthodox traditions.
 
-🔗 **[Take the Quiz](https://jcalepos146.github.io/Definitive-Catholic-Theology-Quiz/)**
+## Overview
 
-## What's New in This Version
+This quiz presents 146 questions across 10 theological categories, scoring responses against 117+ distinct theological schools, traditions, and spiritualities. It includes:
 
-### 🗂️ Category-Based Navigation
-Questions are organized into **10 theological categories**, each displayed as a navigable page:
+- **Catholic Schools**: Thomism, Augustinianism, Molinism, Bañezianism, Scotism, and more
+- **Religious Orders**: Dominican, Jesuit, Franciscan, Carmelite, Benedictine spiritualities
+- **Protestant Traditions**: Reformed/Calvinist, Lutheran, Anglican, Methodist
+- **Eastern Churches**: Eastern Orthodox, Coptic Orthodox, Oriental Orthodox
+- **Contemporary Movements**: Ressourcement, Traditionalist, Progressive, Integralist
 
-1. **📖 Scripture & Hermeneutics** — Authority and interpretation of Sacred Scripture
-2. **✨ Grace & Predestination** — Divine grace, human freedom, Molinism vs Bañezianism
-3. **🔮 Metaphysics & Philosophy** — Being, universals, voluntarism vs intellectualism
-4. **🕯️ Religious Orders** — Dominican, Jesuit, Carmelite, Benedictine spiritualities
-5. **🍷 Sacramental Theology** — Eucharist, sacramental causality, liturgy
-6. **⛪ Ecclesiology & Authority** — Papal authority, councils, church structure
-7. **⚖️ Moral Theology** — Probabilism, tutiorism, natural law, virtue ethics
-8. **🏛️ Political & Social Teaching** — Integralism, distributism, Church-state relations
-9. **✝️ Christology & Soteriology** — Person and work of Christ
-10. **📰 Contemporary Debates** — Vatican II, liturgical reform, current issues
+## Features
 
-### 📊 Flexible Quiz Lengths (Intervals of 22)
-Choose your commitment level — all lengths evenly divisible:
-
-| Questions | Time | Description |
-|-----------|------|-------------|
-| 22 | ~6 min | Quick overview |
-| 44 | ~12 min | Short assessment |
-| 66 | ~18 min | Medium depth |
-| 88 | ~24 min | Comprehensive |
-| 110 | ~30 min | Extended |
-| 132 | ~36 min | Complete |
-
-Each length samples **proportionally from all 10 categories** for balanced results.
-
-### 📚 Scholarly Citations
-Every question includes **Further Reading & Sources**:
-- Primary source documents (Council texts, papal encyclicals)
-- Key theological treatises
-- Academic references for deeper study
-
-Example citations include:
-- *Dei Verbum* (Vatican II, 1965)
-- *Concordia liberi arbitrii* (Molina, 1588)
-- *Summa Theologiae* (St. Thomas Aquinas)
-- *Augustinus* (Cornelius Jansen, 1640)
-- *Dare We Hope That All Men Be Saved?* (Balthasar, 1988)
-- *Pastor Aeternus* (Vatican I, 1870)
-
-### 🆕 New Questions in v2.0 (132 total)
-Five new questions have been added:
-1. **Fewness of the Saved** — Traditional teaching on the number of the elect
-2. **Extra Ecclesiam Nulla Salus** — Salvation outside the Church (Feeneyism, baptism of desire)
-3. **Historical Development of Papal Infallibility** — Ancient tradition vs. Vatican I innovation
-4. **Theological Certainty** — Theology as science, wisdom, or probable opinion
-5. **East-West Liturgical Relations** — "Two lungs" ecclesiology
-
-### 🤖 AI Theological Guide
-An integrated AI assistant that can:
-- Explain complex questions in simpler terms
-- Define scholastic terminology
-- Clarify differences between theological schools
-- Provide context without telling you what to answer
-
-Click the 🤖 button or use "Ask AI to Explain This" under any question.
-
-**Note:** The AI helper uses the Anthropic API. If unavailable, use the scholarly citations for research.
-
----
-
-## Theological Schools Included (98)
-
-### Grace & Predestination (14)
-Augustinian, Strict Augustinian, Neo-Augustinian, Soft Augustinian, Jansenist, Thomist, Strict Thomist, Bañezian, Molinist, Congruist, Scotist, Franciscan (Bonaventure), Infralapsarian, Supralapsarian
-
-### Religious Orders (19)
-Dominican, Jesuit, Carmelite, Benedictine, Franciscan, Carthusian, Oratorian, Opus Dei, Augustinian, Cistercian/Trappist, Redemptorist, Salesian, Vincentian, Passionist, Servite, Norbertine, Mercedarian, Holy Cross, Camaldolese
-
-### Ecclesiology (7)
-Ultramontane, Moderate Papalist, Papal Minimalist, Gallican, Conciliarist, Eastern Catholic, Synodalist
-
-### Political/Social (12)
-Integralist, Hard Integralist, Soft Integralist, Liberal Catholic, Distributist, Corporatist, Social Democrat, Libertarian, Traditionalist Nationalist, Catholic Universalist, Worker-Catholic, Agrarian
-
-### Ecumenical & Liturgical (5)
-Ordinariate, Eastern Liturgical, Orthophile, Lutheran-Catholic Convergence, Ecumenical Monergist
-
-### Theological Movements (5)
-Anti-Modernist, Developmental Progressive, Communio School, Radical Orthodoxy, Traditionis Custodes Compliant
-
-### And more...
-Metaphysics, Christology, Sacramental theology, Moral theology schools
-
----
-
-## Theological Axes (8)
-
-1. **Grace Theology**: Synergistic ↔ Monergistic
-2. **Papal Authority**: Conciliar/Local ↔ Ultramontane
-3. **Liturgical Traditionalism**: Reformist ↔ Traditional
-4. **Moral Rigorism**: Pastoral/Lenient ↔ Rigorist
-5. **Personal Piety**: Lower Intensity ↔ High Contemplative
-6. **Scripture Authority**: Magisterium-first ↔ Scripture-first
-7. **Justification**: Forensic ↔ Participatory/Union
-8. **Eschatology**: This-world focus ↔ Judgment & beatific end
-
----
-
-## Setup for GitHub Pages
-
-1. **Create repository** named `Definitive-Catholic-Theology-Quiz`
-2. **Upload** `index.html` and `README.md`
-3. Go to **Settings → Pages**
-4. Under "Source", select **main branch** and **/ (root)**
-5. Click **Save**
-6. Your quiz will be live at `https://[username].github.io/Definitive-Catholic-Theology-Quiz/`
+- **Adaptive Quiz Length**: Choose from 24, 49, 73, 97, 122, or 146 questions
+- **10 Theological Categories**:
+  - Scripture & Hermeneutics
+  - Grace & Predestination
+  - Metaphysics & Philosophy
+  - Religious Orders & Spirituality
+  - Sacramental Theology
+  - Ecclesiology & Authority
+  - Moral Theology
+  - Political & Social Teaching
+  - Christology & Soteriology
+  - Contemporary Debates
+- **Detailed Results**: Shows top theological alignments with explanations
+- **Patron Saints**: Each school has associated saints/figures
+- **AI Helper**: Optional integration for explaining theological concepts
+- **Citations**: Academic references for further study
 
 ## Files
 
+- `index.html` - The complete quiz application (standalone, no dependencies)
+- `catholic_quiz_build.py` - Python build script for generating/modifying the quiz
+- `README.md` - This documentation file
+
+## Theological Schools Included
+
+### Grace & Predestination
+| Code | School | Key Figures |
+|------|--------|-------------|
+| AUG | Augustinian | St. Augustine |
+| AUGP | Strict Augustinian | - |
+| JANS | Jansenist | Pascal, Arnauld |
+| THOM | Thomist | St. Thomas Aquinas |
+| BANEZ | Bañezian | Domingo Báñez, O.P. |
+| MOL | Molinist | Luis de Molina, S.J. |
+| CONG | Congruist | Suárez |
+
+### Protestant Traditions
+| Code | School | Key Figures |
+|------|--------|-------------|
+| REFORM | Reformed/Calvinist | John Calvin |
+| LUTHERAN | Lutheran | Martin Luther |
+| ANGLICAN | Anglican | Thomas Cranmer |
+| METHOD | Methodist | John Wesley |
+
+### Eastern Churches
+| Code | School | Key Figures |
+|------|--------|-------------|
+| EORTHO | Eastern Orthodox | St. Gregory Palamas |
+| COPTIC | Coptic Orthodox | St. Athanasius |
+| ORIENTAL | Oriental Orthodox | St. Cyril of Alexandria |
+| PALAM | Palamite | St. Gregory Palamas |
+
+### Ecclesiology
+| Code | School | Description |
+|------|--------|-------------|
+| ULTRA | Ultramontane | Strong papal authority |
+| PAPMOD | Moderate Papalist | Balanced primacy/collegiality |
+| PAPMIN | Papal Minimalist | Narrow infallibility |
+| GALL | Gallican | National church autonomy |
+| CONCIL | Conciliarist | Councils supreme |
+
+### Moral Theology
+| Code | School | Approach |
+|------|--------|----------|
+| THOMMOR | Thomist Natural Law | Acts ordered to ends |
+| PROBAB | Probabilist | Liberty in doubt |
+| TUTIOR | Tutiorist | Safer opinion |
+| PERSMOR | Personalist | Dignity-centered |
+
+### Liturgical/Contemporary
+| Code | School | Orientation |
+|------|--------|-------------|
+| TRAD | Traditionalist | Traditional Latin Mass |
+| ROTR | Reform of Reform | Improve Novus Ordo |
+| PROG | Progressive | Ongoing reform |
+| RESS | Ressourcement | Return to sources |
+
+## Usage
+
+### Running the Quiz
+Simply open `index.html` in any modern web browser. No server or installation required.
+
+### Building/Modifying
+```bash
+python3 catholic_quiz_build.py
 ```
-├── index.html          # The complete quiz (single file, no dependencies)
-├── README.md           # This file
-└── catholic_quiz_IMPROVED.py  # Original Python/tkinter version (optional)
+
+This generates a new `index.html` with any modifications made to the Python source.
+
+## Question Structure
+
+Each question has:
+- **Text**: The question prompt
+- **Options**: 2-8 answer choices, each with school scoring
+- **Axis Weights**: Which theological axes the question measures
+
+Example:
+```python
+{
+    "text": "Justification consists primarily in…",
+    "options": [
+        ["A real interior renewal by infused grace...", {"THOM": 3, "JANS": 3, "TRIDSAC": 2}],
+        ["Primarily a forensic declaration...", {"REFORM": 4, "LUTHERAN": 4}],
+        # ...
+    ],
+    "axis_weights": {"JUST": 4, "GRACE": 1}
+}
 ```
 
-## Local Development
+## Scoring System
 
-Simply open `index.html` in any web browser. No server required.
+- Each answer assigns positive or negative points to relevant schools
+- Final scores are normalized and ranked
+- Top 5 schools are displayed with descriptions
+- Theological axes show spectrum positions (e.g., Augustinian ↔ Molinist)
 
-## AI Integration Notes
+## Key Theological Distinctions
 
-The AI Theological Guide attempts to connect to the Anthropic API. For this to work:
-- The feature is designed to work in environments where the API is accessible
-- If you're self-hosting, you may need to configure API access
-- The quiz works fully without the AI feature — citations provide an alternative
+### On Justification
+- **Catholic (Trent)**: Infused righteousness, real interior renewal
+- **Protestant**: Forensic declaration, imputed righteousness
+- **Jansenist**: Follows Trent but with strict Augustinian emphasis on efficacious grace
 
-## Credits
+### On the Eucharist
+- **Transubstantiation**: Whole substance changes (Catholic)
+- **Sacramental Union**: "In, with, under" (Lutheran)
+- **Spiritual Presence**: Present to faith (Reformed)
+- **Eastern**: True change, metaphysics not binding
 
-Quiz design inspired by Catholic theological tradition spanning from the Church Fathers through contemporary debates. Schools and positions represent the breadth of orthodox Catholic thought.
+### On Papal Authority
+- **Ultramontane**: Supreme universal jurisdiction
+- **Eastern Orthodox**: Primacy of honor, not jurisdiction
+- **Conciliarist**: Councils can limit papal authority
+
+### On Christology
+- **Chalcedonian**: Two natures, without confusion
+- **Miaphysite**: One united nature (Oriental Orthodox)
+
+## Contributing
+
+To add questions or schools:
+1. Edit `catholic_quiz_build.py`
+2. Add school to `SCHOOLS` array
+3. Add description to `SCHOOL_DESC`
+4. Add patron to `PATRON_SAINTS`
+5. Create questions with appropriate scoring
+6. Run build script
 
 ## License
 
-MIT License - Feel free to use, modify, and share.
+This project is provided for educational purposes. Theological content draws from public domain Church documents, academic sources, and traditional teaching.
+
+## Acknowledgments
+
+- Church Fathers and Doctors
+- Magisterial documents (Trent, Vatican I & II, Papal encyclicals)
+- Academic theologians cited in the quiz
+- The Catholic intellectual tradition
 
 ---
 
-*"In necessariis unitas, in dubiis libertas, in omnibus caritas."*
-*(In necessary things unity, in doubtful things liberty, in all things charity.)*
+*"In essentials, unity; in doubtful matters, liberty; in all things, charity."*
+— Often attributed to St. Augustine
