@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Definitive Catholic Theology Quiz</title>
+    <title>Definitive Catholic Theology Quiz (Percentile Scoring)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -422,6 +422,7 @@
         .rank-num { font-family: 'Cinzel', serif; font-weight: 600; color: var(--gold); width: 50px; }
         .rank-num.top-3 { color: var(--crimson); }
         .school-name { font-weight: 500; }
+        .school-name .question-count { font-weight: 400; font-size: 0.75rem; color: var(--ink-light); margin-left: 0.5rem; }
         .score-bar-container { width: 100%; max-width: 180px; }
         .score-bar { height: 8px; background: var(--parchment); border-radius: 4px; overflow: hidden; }
         .score-bar-fill { height: 100%; background: linear-gradient(90deg, var(--crimson), var(--gold)); border-radius: 4px; }
@@ -468,7 +469,7 @@
         <div class="quiz-panel" id="quiz-panel">
             <header>
                 <h1>Catholic Theology Schools Quiz</h1>
-                <p class="subtitle">Discover your theological affinities across 98 schools of thought</p>
+                <p class="subtitle">Discover your theological affinities across 95 schools of thought — Percentile Scoring</p>
                 <div class="cross-divider"><span>✝</span></div>
             </header>
 
@@ -477,7 +478,7 @@
                 <p>This comprehensive quiz explores your positions on grace, predestination, ecclesiology, moral theology, liturgy, and more.</p>
                 <div class="stats">
                     <div class="stat"><div class="stat-value">146</div><div class="stat-label">Questions</div></div>
-                    <div class="stat"><div class="stat-value">98</div><div class="stat-label">Schools</div></div>
+                    <div class="stat"><div class="stat-value">95</div><div class="stat-label">Schools</div></div>
                     <div class="stat"><div class="stat-value">8</div><div class="stat-label">Axes</div></div>
                 </div>
                 
@@ -747,6 +748,53 @@ const SCHOOLS = [
 ];
 
 const SCHOOL_NAME = Object.fromEntries(SCHOOLS);
+
+// Maximum possible score for each school (sum of highest weights across all questions)
+const MAX_POSSIBLE_SCORES = {
+  "STD": 293, "THOM": 220, "PROG": 214, "TRAD": 202, "PAPMOD": 159, "RESS": 144,
+  "LIBCATH": 128, "SSPX": 112, "NEOSCH": 111, "BENED": 107, "DOM": 101, "EASTECC": 100,
+  "AUG": 94, "DEVPROG": 83, "NEOAUG": 81, "TRIDSAC": 81, "ULTRA": 81, "JES": 79,
+  "INTEG": 79, "COMMUN": 79, "PALAM": 78, "ORTHOPH": 73, "CARM": 72, "ANTIMOD": 72,
+  "JANS": 66, "ROTR": 63, "REFORM": 62, "EASTSAC": 55, "SYNOD": 55, "PERSMOR": 55,
+  "SEDE": 54, "AUGP": 53, "EORTHO": 51, "THOMMETA": 45, "NEOPLAT": 42, "SCOT": 41,
+  "LUTHERAN": 40, "CHART": 39, "PAPMIN": 36, "DISTRIBUT": 36, "MOL": 35, "OPUS": 35,
+  "THOMMOR": 35, "ECUMON": 35, "FRAN": 33, "FRANC": 32, "CM": 32, "WORKERCATH": 32,
+  "MANUAL": 31, "TRADUM": 31, "INTEGSOFT": 30, "SOCDEM": 30, "TRADNAT": 30, "CONCIL": 29,
+  "BANEZ": 28, "EUCHMYST": 27, "EASTLIT": 27, "OCSO": 26, "INTEGHARD": 26, "ORDINAR": 26,
+  "GALL": 25, "ANGLICAN": 25, "NOMIN": 23, "CATHUNIV": 23, "SDB": 22, "VOLUNT": 22,
+  "INTELL": 22, "LUTHCAT": 22, "CP": 21, "KENOT": 21, "TUTIOR": 21, "CORPCATH": 21,
+  "LIBERTAR": 20, "THOMP": 19, "SCOTMETA": 19, "METHOD": 19, "SUPRA": 18, "THOMSAC": 18,
+  "SEDEPRIV": 18, "CONG": 17, "ORAT": 17, "VIRTUE": 17, "CSSR": 16, "CHALMAX": 16,
+  "INFRA": 15, "OSA": 15, "RESSCH": 15, "TRANSUB": 15, "PROBAB": 15, "RADORTH": 15,
+  "AGRAR": 14, "OSM": 13, "AUGMOR": 13, "CASUIST": 13, "SEMIAUG": 12, "PROP": 12,
+  "MERC": 11, "TRANSIG": 11, "COPTIC": 10, "ORIENTAL": 10, "OPRAEM": 9, "AUGSAC": 9,
+  "CSC": 6, "OSBCAM": 5, "MINSAC": 2
+};
+
+// Number of questions each school appears in (for flagging low-coverage schools)
+const SCHOOL_QUESTION_COUNTS = {
+  "AUG": 35, "AUGP": 19, "NEOAUG": 33, "SEMIAUG": 6, "JANS": 23, "THOM": 79,
+  "THOMP": 8, "BANEZ": 10, "MOL": 14, "CONG": 6, "SCOT": 17, "FRANC": 15,
+  "INFRA": 6, "SUPRA": 7, "DOM": 47, "JES": 33, "CARM": 28, "BENED": 48,
+  "OPUS": 13, "FRAN": 14, "ORAT": 10, "CHART": 13, "OSA": 5, "OCSO": 8,
+  "CSSR": 5, "SDB": 10, "CM": 13, "CP": 8, "OSM": 5, "OPRAEM": 6,
+  "MERC": 4, "CSC": 2, "OSBCAM": 3, "NEOPLAT": 21, "THOMMETA": 16, "SCOTMETA": 7,
+  "NOMIN": 8, "VOLUNT": 8, "INTELL": 8, "PALAM": 30, "RESSCH": 6, "CHALMAX": 5,
+  "KENOT": 7, "TRIDSAC": 30, "THOMSAC": 6, "AUGSAC": 3, "MINSAC": 1, "EASTSAC": 19,
+  "TRANSUB": 4, "TRANSIG": 5, "EUCHMYST": 13, "ULTRA": 22, "PAPMOD": 63, "PAPMIN": 14,
+  "GALL": 10, "CONCIL": 11, "EASTECC": 31, "SYNOD": 21, "THOMMOR": 15, "MANUAL": 17,
+  "VIRTUE": 8, "AUGMOR": 5, "PERSMOR": 31, "PROP": 4, "NEOSCH": 44, "CASUIST": 6,
+  "PROBAB": 4, "TUTIOR": 8, "INTEG": 33, "INTEGHARD": 8, "INTEGSOFT": 9, "LIBCATH": 45,
+  "DISTRIBUT": 12, "CORPCATH": 8, "SOCDEM": 14, "LIBERTAR": 7, "TRADNAT": 9, "CATHUNIV": 6,
+  "WORKERCATH": 13, "AGRAR": 5, "TRAD": 75, "ROTR": 22, "PROG": 81, "RESS": 64,
+  "STD": 113, "SSPX": 30, "SEDE": 15, "SEDEPRIV": 6, "ORDINAR": 5, "EASTLIT": 7,
+  "ORTHOPH": 18, "LUTHCAT": 5, "ECUMON": 9, "ANTIMOD": 22, "DEVPROG": 32, "COMMUN": 27,
+  "RADORTH": 5, "TRADUM": 9, "REFORM": 17, "LUTHERAN": 13, "ANGLICAN": 11, "METHOD": 8,
+  "EORTHO": 12, "COPTIC": 2, "ORIENTAL": 2
+};
+
+// Minimum questions threshold for reliable results
+const MIN_QUESTIONS_THRESHOLD = 5;
 
 const SCHOOL_DESC = {
     "AUG": {"summary": "Emphasizes the depth of human fallenness and the absolute necessity of divine grace for any salvific good.", "affirmations": ["Grace precedes all merit", "Original sin profoundly wounds nature", "God's will grounds predestination"]},
@@ -3392,8 +3440,18 @@ function showResults() {
 }
 
 function renderTopMatch() {
-    const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    const ranked = Object.entries(scores)
+        .filter(([code, score]) => (SCHOOL_QUESTION_COUNTS[code] || 0) >= MIN_QUESTIONS_THRESHOLD)
+        .sort((a, b) => {
+            // Sort by percentage of max possible score
+            const pctA = (a[1] / (MAX_POSSIBLE_SCORES[a[0]] || 1)) * 100;
+            const pctB = (b[1] / (MAX_POSSIBLE_SCORES[b[0]] || 1)) * 100;
+            return pctB - pctA;
+        });
     const [topCode, topScore] = ranked[0];
+    const maxPossible = MAX_POSSIBLE_SCORES[topCode] || topScore;
+    const questionCount = SCHOOL_QUESTION_COUNTS[topCode] || 0;
+    const percentage = Math.round((topScore / maxPossible) * 100);
     const name = SCHOOL_NAME[topCode] || topCode;
     const desc = SCHOOL_DESC[topCode] || {};
     const patron = PATRON_SAINTS[topCode];
@@ -3408,7 +3466,7 @@ function renderTopMatch() {
     document.getElementById('top-match').innerHTML = `
         <div class="top-match-label">Your Top Match</div>
         <div class="top-match-name">${name}</div>
-        <div class="top-match-score">Score: ${topScore} points</div>
+        <div class="top-match-score">${percentage}% affinity (${topScore}/${maxPossible} points) · Based on ${questionCount} questions</div>
         <div class="top-match-summary">${desc.summary || ''}</div>
         <div class="top-match-affirmations">${affirmationsHTML}</div>
         ${patronHTML}
@@ -3416,18 +3474,28 @@ function renderTopMatch() {
 }
 
 function renderRankings() {
-    const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    const maxScore = ranked[0][1] || 1;
+    // Sort by percentage of max possible score (affinity percentage)
+    // Filter out schools with fewer than MIN_QUESTIONS_THRESHOLD questions
+    const ranked = Object.entries(scores)
+        .filter(([code, score]) => (SCHOOL_QUESTION_COUNTS[code] || 0) >= MIN_QUESTIONS_THRESHOLD)
+        .sort((a, b) => {
+            const pctA = (a[1] / (MAX_POSSIBLE_SCORES[a[0]] || 1)) * 100;
+            const pctB = (b[1] / (MAX_POSSIBLE_SCORES[b[0]] || 1)) * 100;
+            return pctB - pctA;
+        });
     const tbody = document.getElementById('rankings-body');
     tbody.innerHTML = '';
     ranked.slice(0, 20).forEach(([code, score], i) => {
+        const maxPossible = MAX_POSSIBLE_SCORES[code] || score || 1;
+        const questionCount = SCHOOL_QUESTION_COUNTS[code] || 0;
+        const percentage = Math.round((score / maxPossible) * 100);
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td class="rank-num ${i < 3 ? 'top-3' : ''}">${i + 1}</td>
-            <td class="school-name">${SCHOOL_NAME[code] || code}</td>
+            <td class="school-name">${SCHOOL_NAME[code] || code}<span class="question-count">(${questionCount} Qs)</span></td>
             <td class="score-bar-container">
-                <div class="score-bar"><div class="score-bar-fill" style="width: ${(score / maxScore) * 100}%"></div></div>
-                <div class="score-value">${score} pts</div>
+                <div class="score-bar"><div class="score-bar-fill" style="width: ${percentage}%"></div></div>
+                <div class="score-value">${percentage}% (${score}/${maxPossible})</div>
             </td>
         `;
         tbody.appendChild(tr);
