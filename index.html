@@ -1397,14 +1397,14 @@ const QUESTIONS = [
         "axis_weights": {"GRACE": 2}
     },
     {
-    "text": "How should we understand predestination and the decree of reprobation?",
+    "text": "How should we understand the decree of predestination and reprobation?",
     "options": [
-        ["God actively elects some to glory and, in a similar mode of sovereignty, decrees the damnation of the rest (Symmetrical/Equal Ultimacy).", {"SUPRA": 3, "AUGP": 1}],
-        ["God actively elects some to glory, but merely 'passes over' the rest (Preterition), leaving them to the justice their sins deserve (Asymmetrical Double Predestination).", {"REFORM": 4, "AUG": 3, "THOM": 3, "BANEZ": 2, "INFRA": 2, "JANS": 2}],
-        ["God predestines the elect to salvation, but reprobation is solely the result of God's foreknowledge of man's rejection of grace.", {"MOL": 4, "JES": 3, "SEMIAUG": 2, "STD": 1}],
-        ["We should only speak of predestination to salvation; the loss of the soul is a mystery of human resistance, not a divine decree.", {"LUTHERAN": 4, "PROG": 2, "STD": 2}]
+        ["God actively elects some to glory and, with equal sovereignty and by a parallel act of will, positively decrees the damnation of the rest for His glory. (Symmetrical Double Predestination / Equal Ultimacy)", {"SUPRA": 5, "AUGP": 3}],
+        ["God actively elects some to glory by an efficacious decree, but merely 'passes over' (preteritio) the rest, justly permitting them to fall into the end their sins deserve without a positive decree of reprobation. (Asymmetrical Double Predestination / Preterition)", {"REFORM": 4, "AUG": 4, "THOM": 4, "BANEZ": 4, "JANS": 3, "INFRA": 3}],
+        ["We should only speak of God predestining the elect to salvation; the loss of the reprobate is entirely a mystery of human rejection and resistance to grace, not a divine decree. (Single Predestination)", {"LUTHERAN": 5, "ANGLICAN": 4, "METHOD": 3, "STD": 3, "PROG": 2}],
+        ["Predestination is grounded in God's infallible foreknowledge (scientia media) of how each person would freely cooperate with grace in any given circumstance. (Conditional / Molinist)", {"MOL": 5, "JES": 4, "CONG": 3, "SEMIAUG": 3, "STD": 1}]
     ],
-    "axis_weights": {"GRACE": 2, "ESCH": 1}
+    "axis_weights": {"GRACE": 5, "ESCH": 2}
 },
    {
     "text": "Regarding the logical order of God's decrees about predestination and the Fall:",
@@ -1439,20 +1439,21 @@ const QUESTIONS = [
     {
         "text": "What is the relationship between God's will and God's intellect?",
         "options": [
-            ["Intellectualist: God wills things because they are good; goodness is prior to willing (Intellectualist, Thomist)", {"INTELL": 3, "THOM": 3, "DOM": 2, "THOMMETA": 2}],
-            ["Voluntarist: Things are good because God wills them; divine will is the source of moral order (Voluntarist, Scotist)", {"VOLUNT": 3, "SCOT": 2, "NOMIN": 2}],
-            ["Modified voluntarism: God's will is primary but always acts according to wisdom (Scotist)", {"SCOT": 2, "VOLUNT": 1, "FRANC": 1}],
-            ["The distinction is artificial; will and intellect are identical in God (Palamite/Eastern)", {"PALAM": 2, "NEOPLAT": 1}],
+            ["Intellectualist: God wills things because they are good; goodness is prior to willing. The divine intellect apprehends the good, and the will necessarily follows. (Intellectualist, Thomist)", {"INTELL": 4, "THOM": 4, "DOM": 3, "THOMMETA": 2}],
+            ["Radical Voluntarist: Things are good solely because God wills them; divine will alone is the arbitrary source of all moral order. (Nominalist)", {"NOMIN": 4, "VOLUNT": 4}],
+            ["Moderate Voluntarism: God's will is formally primary and free, but always acts according to wisdom and the divine nature—never arbitrarily. (Scotist)", {"SCOT": 4, "VOLUNT": 2, "FRANC": 3, "SCOTMETA": 2}],
+            ["The distinction is artificial; will and intellect are identical in God and mutually implicate each other in the divine simplicity. (Palamite/Eastern)", {"PALAM": 3, "NEOPLAT": 2, "EASTECC": 2}],
         ],
         "axis_weights": {}
     },
     {
         "text": "What is the source of moral obligations?",
         "options": [
-            ["Divine commands—things are good/evil because God wills them so (Voluntarist, Scotist)", {"VOLUNT": 3, "SCOT": 2, "NOMIN": 2}],
-            ["The nature of things known by reason—God wills them because they are good (Thomist, Intellectualist)", {"THOM": 3, "INTELL": 3, "THOMMOR": 2, "DOM": 1}],
-            ["Participation in eternal law, which is both rational and willed (Augustinian, Neo-Platonist)", {"AUG": 2, "NEOPLAT": 2, "THOM": 1}],
-            ["A combination: God's will establishes positive law, but natural law reflects reason (Mainstream)", {"STD": 2, "THOM": 1}],
+            ["Radical divine command—things are good/evil solely because God wills them so; there is no independent rational order prior to the divine decree. (Nominalist)", {"NOMIN": 4, "VOLUNT": 4}],
+            ["The nature of things known by reason—God wills them because they are good. Natural law is grounded in eternal reason, not arbitrary will. (Thomist, Intellectualist)", {"THOM": 4, "INTELL": 4, "THOMMOR": 3, "DOM": 2}],
+            ["God's will freely establishes the moral order, but this will is always guided by wisdom and the divine nature, never arbitrary or irrational. (Scotist)", {"SCOT": 4, "VOLUNT": 2, "FRANC": 3}],
+            ["Participation in eternal law, which is both rational and willed—the law written on our hearts reflects both divine wisdom and divine decree. (Augustinian, Neo-Platonist)", {"AUG": 3, "NEOPLAT": 3, "THOM": 1}],
+            ["A combination: God's will establishes positive/ceremonial law, but natural law reflects the rational order of creation. (Mainstream)", {"STD": 3, "THOM": 1, "PAPMOD": 1}],
         ],
         "axis_weights": {"RIGOR": 1}
     },
@@ -1469,10 +1470,10 @@ const QUESTIONS = [
     {
         "text": "What is the best framework for understanding being?",
         "options": [
-            ["Analogy of being: Being is predicated analogically between God and creatures (Thomist)", {"THOMMETA": 3, "THOM": 3, "DOM": 2}],
-            ["Univocity of being: Being is predicated in the same sense of God and creatures (Scotist)", {"SCOTMETA": 3, "SCOT": 3}],
-            ["Participatory: Creatures participate in divine being without univocity or mere analogy (Neo-Platonist, Palamite/Eastern)", {"NEOPLAT": 3, "PALAM": 2}],
-            ["The question is too abstract; focus on God's revealed names instead (Nominalist)", {"NOMIN": 2, "VOLUNT": 1}],
+            ["Analogy of being (Analogia Entis): Being is predicated analogically between God and creatures—neither univocally nor equivocally, but proportionally. (Thomist, Thomist Realism)", {"THOMMETA": 5, "THOM": 4, "DOM": 2, "INTELL": 2}],
+            ["Univocity of being: Being is predicated in the same fundamental sense of God and creatures, though infinitely different in mode and perfection. (Scotist)", {"SCOTMETA": 5, "SCOT": 4, "FRANC": 2}],
+            ["Participatory/Emanation: Creatures participate in or emanate from divine being through a hierarchy of degrees; emphasis on return to the One. (Neo-Platonist)", {"NEOPLAT": 5, "AUG": 2, "PALAM": 2}],
+            ["The question is too abstract and speculative; focus on God's revealed names and salvation history rather than metaphysical speculation. (Nominalist)", {"NOMIN": 3, "VOLUNT": 1, "PROG": 1}],
         ],
         "axis_weights": {}
     },
@@ -1919,6 +1920,17 @@ const QUESTIONS = [
         "axis_weights": {"GRACE": 2, "JUST": 1}
     },
     {
+        "text": "How did Christ's death on the Cross achieve our salvation?",
+        "options": [
+            ["Christ stood under the full weight of the Father's forensic wrath as one legally counted a sinner; God treated Him as if He had committed all our sins, pouring out punitive hatred upon Him in our place. (Radical Penal Substitution)", {"REFORM": 5, "LUTHERAN": 4, "SUPRA": 3, "ANGLICAN": 2}],
+            ["Christ, as our innocent Surety and Guarantor, freely accepted a real abandonment by the Father—not as one hated, but as one bearing the just debt of our impieties. His sacrifice of infinite love satisfied divine justice while remaining an act of supreme charity. (Moderate PSA / Vicarious Satisfaction — Bossuet, Liguori)", {"AUG": 5, "CSSR": 5, "ORAT": 4, "THOM": 4, "THOMP": 3, "BANEZ": 3, "TRIDSAC": 2, "STD": 2}],
+            ["The Cross was primarily Christ's triumphant victory over the powers of sin, death, and the devil, liberating humanity from bondage and recapitulating Adam's fall through His obedience. (Christus Victor / Recapitulation)", {"RESS": 5, "PALAM": 5, "EASTECC": 4, "EORTHO": 4, "NEOAUG": 3, "BENED": 2}],
+            ["The Cross is supremely the revelation of God's boundless love, designed to move our hearts to repentance and kindle a response of love in return; juridical categories are secondary or metaphorical. (Moral Influence / Exemplarist)", {"PROG": 4, "LIBCATH": 4, "PERSMOR": 3, "SDB": 2, "KENOT": 2}],
+            ["The Cross is the 'Primordial Sacrament' where Christ enters into the depths of human suffering and God-forsakenness, sanctifying all human anguish and opening the path to mystical union through co-suffering. (Passionist / Mystical Solidarity)", {"CP": 5, "CARM": 4, "CM": 3, "KENOT": 3, "OSM": 2, "EUCHMYST": 2}]
+        ],
+        "axis_weights": {"JUST": 5, "GRACE": 3, "PIETY": 2}
+    },
+    {
         "text": "Christ's descent into hell (Sheol/Hades):",
         "options": [
             ["Triumphant proclamation and liberation of righteous — Harrowing of Hell. (Traditionalist, Eastern Sacramental)", {"TRAD": 3, "EASTSAC": 3, "BENED": 2, "CHALMAX": 1}],
@@ -2264,6 +2276,39 @@ const QUESTIONS = [
         "axis_weights": {"PIETY": 2}
     },
     {
+        "text": "What is the proper understanding of Mary's role as 'Mediatrix' and the proposed title 'Co-redemptrix'?",
+        "options": [
+            ["Mary truly cooperated in our redemption in a unique and subordinate manner; the titles 'Mediatrix of All Graces' and 'Co-redemptrix' should be solemnly defined to crown Catholic Mariology. (Marian Maximalist)", {"TRAD": 5, "CSSR": 4, "OSM": 4, "MERC": 3, "INTEG": 3, "MANUAL": 2, "PROG": -4, "ORTHOPH": -3}],
+            ["These titles, while capable of orthodox interpretation, risk serious misunderstanding and ecumenical harm; the Church should refrain from dogmatic definition while permitting private devotion. (Moderate / Prudential)", {"STD": 4, "PAPMOD": 4, "COMMUN": 3, "DEVPROG": 3, "THOM": 2, "JES": 2}],
+            ["Mary is best understood as the 'Archetype' or 'Type' of the Church—the first and most perfect disciple who models receptivity to grace. Maximalist titles obscure this ecclesiotypical emphasis recovered by ressourcement. (Ressourcement / Ecclesiotypical)", {"RESS": 5, "NEOAUG": 4, "COMMUN": 4, "BENED": 3, "TRAD": -2}],
+            ["The East venerates the Theotokos as 'more honorable than the Cherubim' and prays 'through her intercessions, save us,' but without the juridical Latin categories of 'mediatrix' or 'co-redemptrix.' (Eastern / Patristic)", {"EASTECC": 5, "PALAM": 4, "EASTSAC": 4, "ORTHOPH": 4, "EORTHO": 3, "EASTLIT": 3}],
+            ["Marian titles beyond 'Mother of God' risk detracting from Christ's unique mediation (1 Tim 2:5); the Church should adopt a more Christocentric and scripturally restrained Mariology. (Minimalist / Ecumenical)", {"PROG": 4, "LIBCATH": 4, "LUTHCAT": 3, "ECUMON": 3, "ANGLICAN": 2, "TRAD": -4, "CSSR": -3}]
+        ],
+        "axis_weights": {"PIETY": 4, "PAPAL": 2, "LIT": 1}
+    },
+    {
+        "text": "How does the dogma of the Immaculate Conception relate to the Augustinian doctrine of original sin and the 'massa damnata'?",
+        "options": [
+            ["The dogma magnificently vindicates Augustine: Mary's singular exemption proves how universal and inescapable original sin truly is—only an extraordinary divine intervention could preserve anyone from the massa damnata. (Strict Augustinian)", {"AUGP": 5, "AUG": 4, "JANS": 4, "BANEZ": 3, "TRAD": 3, "SCOT": -2, "FRANC": -2}],
+            ["The Immaculate Conception represents a harmonious synthesis: Mary was preserved by grace applied in anticipation of Christ's merits, fully consistent with Augustinian hamartiology and Thomistic precision. (Thomist-Augustinian Synthesis)", {"THOM": 5, "AUG": 4, "DOM": 4, "TRIDSAC": 3, "NEOSCH": 3, "STD": 2}],
+            ["Bl. Scotus rightly saw that God could, and therefore did, preserve Mary entirely from the stain of original sin from the first instant—a 'more perfect redemption' that requires softening Augustine's view of seminal transmission. (Scotist / Franciscan)", {"SCOT": 5, "FRANC": 5, "SCOTMETA": 3, "CARM": 3, "OSM": 2, "AUGP": -3, "JANS": -3}],
+            ["The East honors Mary as the 'All-Holy' (Panagia) and 'Immaculate' without the Latin juridical framework of inherited guilt or 'original sin' in the Augustinian sense; both traditions affirm her supreme purity by different theological paths. (Eastern Catholic / Patristic)", {"EASTECC": 5, "PALAM": 4, "EASTSAC": 4, "ORTHOPH": 4, "EORTHO": 3, "RESS": 2, "NEOSCH": -2}],
+            ["The dogma was a medieval development driven largely by popular piety and Franciscan advocacy, not strict theological necessity; Augustine's severe view of inherited guilt makes the formulation awkward and historically contingent. (Critical / Progressive)", {"PROG": 4, "LIBCATH": 4, "DEVPROG": 3, "RESS": 2, "TRAD": -4, "INTEG": -3}]
+        ],
+        "axis_weights": {"GRACE": 4, "PIETY": 3, "RIGOR": 2}
+    },
+    {
+        "text": "What form of Marian devotion best reflects authentic Catholic liturgical piety?",
+        "options": [
+            ["The solemn Marian antiphons of the Divine Office—Salve Regina, Alma Redemptoris Mater, Ave Regina Caelorum, Regina Caeli—represent the Church's most sublime and doctrinally precise Marian prayer, rooted in the Fathers. (Liturgical Traditionalist / Benedictine)", {"BENED": 5, "TRAD": 5, "TRIDSAC": 4, "OCSO": 4, "CHART": 3, "OPRAEM": 3, "ROTR": 3, "PROG": -3}],
+            ["The Holy Rosary, particularly the traditional fifteen mysteries contemplated daily, remains the pre-eminent Marian devotion for the faithful and the surest path to Marian consecration. (Dominican / Popular Traditional)", {"DOM": 5, "TRAD": 4, "CSSR": 4, "OSM": 3, "FRAN": 3, "OPUS": 2, "PROG": -2}],
+            ["The Byzantine Akathist Hymn and the rich Eastern Marian troparia preserve the Christological and patristic balance that some Western devotions—particularly post-Tridentine maximalism—have occasionally lost. (Eastern Liturgical)", {"EASTLIT": 5, "EASTECC": 5, "EASTSAC": 4, "PALAM": 4, "ORTHOPH": 4, "RESS": 2}],
+            ["Marian devotion today should emphasize Mary as the first disciple, model of faith, and icon of the pilgrim Church—expressed through contemporary hymnody, inclusive language, and scriptural foundations rather than medieval accretions. (Progressive / Pastoral)", {"PROG": 5, "LIBCATH": 4, "PERSMOR": 3, "SDB": 3, "SYNOD": 2, "TRAD": -4, "TRIDSAC": -3}],
+            ["All authentic forms of Marian devotion—whether Office antiphons, Rosary, Scapular, Akathist, or contemporary hymns—are valuable when they lead souls to Christ; no single form should be privileged over others. (Mainstream / Inclusive)", {"STD": 4, "PAPMOD": 3, "CM": 3, "JES": 2, "ORAT": 2, "DEVPROG": 2, "FRAN": 2}]
+        ],
+        "axis_weights": {"LIT": 5, "PIETY": 4, "RIGOR": 1}
+    },
+    {
         "text": "What is your view on the possibility of an 'empty hell' (Balthasar's hope)?",
         "options": [
             ["Permissible - we may dare to hope all are saved. God's mercy is infinite. (Communio School, Progressive)", {"COMMUN": 5, "PROG": 4, "LIBCATH": 4, "TRAD": -4, "AUGP": -4, "JANS": -4}],
@@ -2384,10 +2429,10 @@ const QUESTIONS = [
     {
         "text": "On divine voluntarism vs intellectualism:",
         "options": [
-            ["Voluntarism - God's will is the ultimate ground of morality. Divine command makes things good. (Voluntarist)", {"VOLUNT": 6, "SCOT": 4, "NOMIN": 3, "THOM": -4, "INTELL": -5}],
-            ["Intellectualism - God wills things because they are good. Natural law reflects eternal reason. (Intellectualist)", {"INTELL": 6, "THOM": 4, "THOMMETA": 3, "DOM": 2, "VOLUNT": -5}],
-            ["A false dichotomy. In God, will and intellect are one. Both capture partial truths. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "DEVPROG": 2, "RESS": 2}],
-            ["I lean Scotist/voluntarist but affirm natural law is knowable by reason.", {"SCOT": 4, "VOLUNT": 3, "FRANC": 2, "SCOTMETA": 2}],
+            ["Radical Voluntarism: God's will alone is the ultimate and arbitrary ground of morality. Divine command makes things good without reference to any prior rational order. (Nominalist)", {"NOMIN": 5, "VOLUNT": 5, "THOM": -4, "INTELL": -5}],
+            ["Intellectualism: God wills things because they are good. Natural law reflects eternal reason, and the divine intellect is logically (not temporally) prior to the divine will. (Intellectualist, Thomist)", {"INTELL": 6, "THOM": 5, "THOMMETA": 3, "DOM": 3, "VOLUNT": -4, "NOMIN": -4}],
+            ["A false dichotomy: In God, will and intellect are one by divine simplicity. Both positions capture partial truths about the unified divine act. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "DEVPROG": 2, "RESS": 2}],
+            ["Moderate Voluntarism: God's will is formally primary and supremely free, but always acts according to wisdom and the divine nature—never capriciously or irrationally. (Scotist)", {"SCOT": 5, "FRANC": 4, "SCOTMETA": 3, "VOLUNT": 2}],
         ],
         "axis_weights": {}
     },
@@ -2428,10 +2473,11 @@ const QUESTIONS = [
     {
         "text": "On the question of being - analogy (Aquinas) or univocity (Scotus)?",
         "options": [
-            ["Analogy - being is said in many ways. God and creatures share being analogically, not identically. (Thomist, Thomist Realism)", {"THOM": 5, "THOMMETA": 5, "DOM": 3, "INTELL": 2, "SCOTMETA": -4}],
-            ["Univocity - being must be predicated univocally or we can't speak of God at all. (Scotist Univocity, Scotist)", {"SCOTMETA": 6, "SCOT": 5, "FRANC": 3, "VOLUNT": 2, "THOMMETA": -4}],
-            ["Both capture important insights. The debate is often overblown. (Mainstream, Developmental)", {"STD": 3, "DEVPROG": 2, "RESS": 2}],
-            ["Univocity opened the door to modern errors. Analogia entis is non-negotiable. (Radical Orthodoxy, Thomist Realism)", {"RADORTH": 4, "THOMMETA": 4, "THOM": 3, "NEOPLAT": 2, "SCOTMETA": -3}],
+            ["Analogy (Analogia Entis): Being is said in many ways. God and creatures share being analogically—neither identically nor equivocally, but proportionally. This preserves divine transcendence. (Thomist, Thomist Realism)", {"THOM": 5, "THOMMETA": 6, "DOM": 3, "INTELL": 2, "SCOTMETA": -4}],
+            ["Univocity: Being must be predicated univocally for our language about God to be meaningful at all. Without a common concept, theology collapses into equivocation. (Scotist Metaphysics, Scotist)", {"SCOTMETA": 6, "SCOT": 5, "FRANC": 3, "THOMMETA": -4}],
+            ["Participatory/Neoplatonic: Creatures participate in divine being through emanation and return; theological language is primarily symbolic, apophatic, and mystical rather than strictly analogical. (Neo-Platonist)", {"NEOPLAT": 5, "PALAM": 3, "AUG": 2}],
+            ["Both capture important insights; the debate is often overblown by partisans. The Church has not definitively settled this metaphysical question. (Mainstream, Developmental)", {"STD": 3, "DEVPROG": 3, "RESS": 2}],
+            ["Univocity opened the door to modern errors (nominalism, secularism); Analogia entis is non-negotiable for sound metaphysics and safeguarding divine transcendence. (Radical Orthodoxy, Thomist Realism)", {"RADORTH": 5, "THOMMETA": 4, "THOM": 3, "SCOTMETA": -3}],
         ],
         "axis_weights": {}
     },
