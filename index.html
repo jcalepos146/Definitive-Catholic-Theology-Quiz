@@ -204,6 +204,129 @@
         .ai-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(42, 82, 152, 0.6); }
         .ai-toggle.hidden { display: none; }
         
+        /* AI Settings */
+        .ai-settings-btn {
+            position: absolute;
+            right: 3.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 1px solid rgba(232, 212, 138, 0.4);
+            color: var(--gold-light);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ai-settings-btn:hover { background: rgba(201, 162, 39, 0.2); border-color: var(--gold-light); }
+        .ai-settings {
+            display: none;
+            padding: 1rem 1.25rem;
+            background: rgba(0,0,0,0.35);
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+            animation: fadeIn 0.2s ease;
+        }
+        .ai-settings.open { display: block; }
+        .ai-settings-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        .ai-settings-group { margin-bottom: 0.65rem; }
+        .ai-settings-label {
+            display: block;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .ai-settings select,
+        .ai-settings input[type="text"] {
+            width: 100%;
+            padding: 0.5rem 0.65rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 6px;
+            color: #e8e8e8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+        .ai-settings select:focus,
+        .ai-settings input[type="text"]:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.12);
+        }
+        .ai-settings select option { background: #1a1a2e; color: #e8e8e8; }
+        .ai-model-row { display: flex; gap: 0.4rem; }
+        .ai-model-row input { flex: 1; }
+        .ai-fetch-models {
+            padding: 0.5rem 0.65rem;
+            background: rgba(201, 162, 39, 0.15);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 6px;
+            color: var(--gold-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .ai-fetch-models:hover { background: rgba(201, 162, 39, 0.3); }
+        .ai-model-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .ai-model-list.open { max-height: 120px; overflow-y: auto; margin-top: 0.35rem; }
+        .ai-model-option {
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: background 0.15s;
+        }
+        .ai-model-option:hover { background: rgba(201, 162, 39, 0.15); color: var(--gold-light); }
+        .ai-test-btn {
+            padding: 0.4rem 0.85rem;
+            background: linear-gradient(135deg, rgba(42, 82, 152, 0.6), rgba(74, 123, 200, 0.6));
+            border: 1px solid rgba(74, 123, 200, 0.4);
+            border-radius: 6px;
+            color: #e8e8e8;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ai-test-btn:hover { background: linear-gradient(135deg, rgba(42, 82, 152, 0.8), rgba(74, 123, 200, 0.8)); }
+        .ai-test-status { font-size: 0.8rem; margin-left: 0.5rem; }
+        .ai-test-status.success { color: #6bcf6b; }
+        .ai-test-status.error { color: #ff6b6b; }
+        .ai-test-status.loading { color: rgba(255,255,255,0.5); }
+        .ai-settings-hint {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 0.65rem;
+            line-height: 1.5;
+        }
+        .ai-settings-hint a { color: var(--gold-light); text-decoration: none; }
+        .ai-settings-hint a:hover { text-decoration: underline; }
+        .ai-settings-hint code {
+            background: rgba(255,255,255,0.1);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+        
         /* Header */
         header { text-align: center; padding: 2.5rem 1rem; border-bottom: 1px solid var(--gold-light); margin-bottom: 1.5rem; }
         header h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 600; color: var(--crimson); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
@@ -530,7 +653,7 @@
         <div class="quiz-panel" id="quiz-panel">
             <header>
                 <h1>Catholic Theology Schools Quiz</h1>
-                <p class="subtitle">150 Questions · 95 Schools of Thought · Hybrid Scoring</p>
+                <p class="subtitle">154 Questions · 95 Schools of Thought · Hybrid Scoring</p>
                 <div class="cross-divider"><span>✝</span></div>
             </header>
 
@@ -538,7 +661,7 @@
                 <h2>Find Your Theological Home</h2>
                 <p>This comprehensive quiz explores your positions on grace, predestination, ecclesiology, moral theology, liturgy, and more.</p>
                 <div class="stats">
-                    <div class="stat"><div class="stat-value">146</div><div class="stat-label">Questions</div></div>
+                    <div class="stat"><div class="stat-value">154</div><div class="stat-label">Questions</div></div>
                     <div class="stat"><div class="stat-value">95</div><div class="stat-label">Schools</div></div>
                     <div class="stat"><div class="stat-value">8</div><div class="stat-label">Axes</div></div>
                 </div>
@@ -546,50 +669,50 @@
                 <div class="quiz-length-section">
                     <h3>Choose Quiz Length</h3>
                     <div class="length-options">
-                        <label class="length-option" onclick="setQuizLength(24)">
-                            <input type="radio" name="length" value="24">
+                        <label class="length-option" onclick="setQuizLength(26)">
+                            <input type="radio" name="length" value="26">
                             <div class="length-card">
-                                <span class="length-number">24</span>
-                                <span class="length-label">Quick<br><small>~6 min</small></span>
+                                <span class="length-number">26</span>
+                                <span class="length-label">Quick<br><small>~7 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(49)">
-                            <input type="radio" name="length" value="49">
+                        <label class="length-option" onclick="setQuizLength(51)">
+                            <input type="radio" name="length" value="51">
                             <div class="length-card">
-                                <span class="length-number">49</span>
-                                <span class="length-label">Short<br><small>~12 min</small></span>
+                                <span class="length-number">51</span>
+                                <span class="length-label">Short<br><small>~13 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(73)">
-                            <input type="radio" name="length" value="73">
+                        <label class="length-option" onclick="setQuizLength(77)">
+                            <input type="radio" name="length" value="77">
                             <div class="length-card">
-                                <span class="length-number">73</span>
-                                <span class="length-label">Medium<br><small>~18 min</small></span>
+                                <span class="length-number">77</span>
+                                <span class="length-label">Medium<br><small>~19 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(97)">
-                            <input type="radio" name="length" value="97">
+                        <label class="length-option" onclick="setQuizLength(103)">
+                            <input type="radio" name="length" value="103">
                             <div class="length-card">
-                                <span class="length-number">97</span>
-                                <span class="length-label">Long<br><small>~24 min</small></span>
+                                <span class="length-number">103</span>
+                                <span class="length-label">Long<br><small>~26 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(122)">
-                            <input type="radio" name="length" value="122">
+                        <label class="length-option" onclick="setQuizLength(128)">
+                            <input type="radio" name="length" value="128">
                             <div class="length-card">
-                                <span class="length-number">122</span>
-                                <span class="length-label">Extended<br><small>~30 min</small></span>
+                                <span class="length-number">128</span>
+                                <span class="length-label">Extended<br><small>~32 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(146)">
-                            <input type="radio" name="length" value="146" checked>
+                        <label class="length-option" onclick="setQuizLength(154)">
+                            <input type="radio" name="length" value="154" checked>
                             <div class="length-card">
-                                <span class="length-number">146</span>
-                                <span class="length-label">Complete<br><small>~38 min</small></span>
+                                <span class="length-number">154</span>
+                                <span class="length-label">Complete<br><small>~39 min</small></span>
                             </div>
                         </label>
                     </div>
-                    <p class="length-note">Questions are organized into 10 theological categories. Quiz lengths scale in equal intervals of ~24 questions.</p>
+                    <p class="length-note">Questions are organized into 10 theological categories. Quiz lengths scale in equal intervals of ~26 questions.</p>
                 </div>
                 
                 <button class="start-btn" onclick="startQuiz()">Begin the Quiz</button>
@@ -600,8 +723,8 @@
                 
                 <div class="progress-section">
                     <div class="progress-header">
-                        <span class="progress-text" id="progress-text">Question 1 of 146</span>
-                        <span class="progress-count" id="answered-count">Answered: 0 / 146</span>
+                        <span class="progress-text" id="progress-text">Question 1 of 154</span>
+                        <span class="progress-count" id="answered-count">Answered: 0 / 154</span>
                     </div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
                 </div>
@@ -646,8 +769,8 @@
                 <div class="top-match" id="top-match"></div>
                 
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="showTab('rankings')">All Rankings</button>
-                    <button class="tab-btn" onclick="showTab('axes')">Theological Axes</button>
+                    <button class="tab-btn active" onclick="showTab('rankings', this)">All Rankings</button>
+                    <button class="tab-btn" onclick="showTab('axes', this)">Theological Axes</button>
                 </div>
                 
                 <div id="rankings-tab" class="tab-content active">
@@ -677,11 +800,48 @@
         <div class="ai-panel" id="ai-panel">
             <div class="ai-header">
                 <h3>🤖 Theological Guide</h3>
+                <button class="ai-settings-btn" onclick="toggleAISettings()" title="AI Settings">⚙</button>
                 <button class="ai-close" onclick="closeAI()">×</button>
+            </div>
+            <div class="ai-settings" id="ai-settings">
+                <div class="ai-settings-title">Local AI Configuration</div>
+                <div class="ai-settings-group">
+                    <label class="ai-settings-label">Provider</label>
+                    <select id="ai-provider" onchange="onProviderChange()">
+                        <option value="ollama">Ollama (default)</option>
+                        <option value="lmstudio">LM Studio</option>
+                        <option value="llamacpp">llama.cpp server</option>
+                        <option value="custom">Custom OpenAI-compatible</option>
+                    </select>
+                </div>
+                <div class="ai-settings-group">
+                    <label class="ai-settings-label">Endpoint URL</label>
+                    <input type="text" id="ai-endpoint" value="http://localhost:11434" placeholder="http://localhost:11434" />
+                </div>
+                <div class="ai-settings-group">
+                    <label class="ai-settings-label">Model</label>
+                    <div class="ai-model-row">
+                        <input type="text" id="ai-model" value="llama3.2" placeholder="llama3.2" />
+                        <button class="ai-fetch-models" onclick="fetchModels()" title="Fetch available models">↻</button>
+                    </div>
+                    <div id="ai-model-list" class="ai-model-list"></div>
+                </div>
+                <div class="ai-settings-group">
+                    <button class="ai-test-btn" onclick="testConnection()">Test Connection</button>
+                    <span id="ai-test-status" class="ai-test-status"></span>
+                </div>
+                <div class="ai-settings-hint">
+                    <strong>Setup:</strong> Install <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a>, then run:<br>
+                    <code>OLLAMA_ORIGINS="*" ollama serve</code><br>
+                    <code>ollama run llama3.2</code><br><br>
+                    <strong>Tip:</strong> Serve this file locally to avoid CORS issues:<br>
+                    <code>python3 -m http.server 8888</code>
+                </div>
             </div>
             <div class="ai-messages" id="ai-messages">
                 <div class="ai-message system">
                     Welcome! I can help explain theological concepts, clarify scholastic terminology, or discuss the nuances of different Catholic schools of thought. Ask me anything about the questions you encounter.
+                    <br><br><em style="font-size: 0.85em; opacity: 0.8;">Powered by your local AI — click ⚙ to configure.</em>
                 </div>
             </div>
             <div class="ai-input-area">
@@ -1242,7 +1402,7 @@ const QUESTIONS = [
         "text": "How would you rank the normative authority of Scripture, Tradition, and the Magisterium?",
         "category": "Scripture & Tradition",
         "options": [
-            ["Scripture has the highest dignity and is the supreme norm, but only as read within apostolic Tradition and the Church's infallible teaching. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 4, "RESS": 3, "AUG": 2, "BENED": 1, "ORAT": 1, "STD"],
+            ["Scripture has the highest dignity and is the supreme norm, but only as read within apostolic Tradition and the Church's infallible teaching. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 4, "RESS": 3, "AUG": 2, "BENED": 1, "ORAT": 1, "STD": 2}],
             ["Scripture and Tradition are co-equal fonts of revelation, while the Magisterium is their authoritative interpreter and guardian. (Thomist, Thomist (Realist))", {"THOM": 3, "THOMMETA": 2, "TRIDSAC": 1, "PAPMOD": 2, "STD": 2, "DOM": 1}],
             ["In practice, the Magisterium is the proximate rule of faith; Scripture and Tradition are received through that living authority. (Ultramontane)", {"ULTRA": 4, "PAPMOD": 2, "INTEG": 2, "NEOSCH": 1}],
             ["The hierarchy can err widely in non-definitive matters; Scripture and the Fathers supply the main corrective. (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2, "ROTR": 1, "NEOAUG": 1, "PAPMIN": 1}],
@@ -1283,7 +1443,7 @@ const QUESTIONS = [
         "text": "Justification consists primarily in which of the following?",
         "category": "Grace & Justification",
         "options": [
-            ["Real interior renewal through infused sanctifying grace: God makes the soul truly righteous, not merely declared so. (Thomist, Jansenist)", {"THOM": 3, "JANS": 3, "THOMSAC": 1, "TRIDSAC": 2, "THOMMOR": 1, "DOM": 1, "STD"],
+            ["Real interior renewal through infused sanctifying grace: God makes the soul truly righteous, not merely declared so. (Thomist, Jansenist)", {"THOM": 3, "JANS": 3, "THOMSAC": 1, "TRIDSAC": 2, "THOMMOR": 1, "DOM": 1, "STD": 2}],
             ["Real participation in Christ Himself: union with Christ is the core, with forensic language secondary. (Neo-Augustinian)", {"NEOAUG": 4, "RESS": 2, "AUG": 2, "EUCHMYST": 1, "BENED": 1, "PALAM": 1}],
             ["Primarily a forensic declaration (acquittal) with sanctification following as a distinct work. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 4, "ANGLICAN": 2}],
             ["Covenantal status within the people of God; categories of 'infused habit' are less central. (Progressive)", {"PROG": 2, "PERSMOR": 1, "TRANSIG": 1, "STD": 1}],
@@ -1354,7 +1514,7 @@ const QUESTIONS = [
         "text": "The Christian life is primarily oriented toward which of the following?",
         "category": "Eschatology",
         "options": [
-            ["The Beatific Vision: loving contemplation of God as final end. (Thomist, Benedictine)", {"THOM": 3, "BENED": 2, "DOM": 1, "STD"],
+            ["The Beatific Vision: loving contemplation of God as final end. (Thomist, Benedictine)", {"THOM": 3, "BENED": 2, "DOM": 1, "STD": 2}],
             ["Final judgment and salvation from damnation: vigilance, penitence, and fear of the Lord. (Jansenist, Traditionalist)", {"JANS": 3, "TRAD": 2, "NEOSCH": 2, "MANUAL": 1, "TUTIOR": 1}],
             ["Theosis/deification: participation in divine life as transformative communion. (Palamite/Eastern)", {"PALAM": 4, "EASTSAC": 2, "EUCHMYST": 2, "NEOPLAT": 1, "RESS": 1}],
             ["Renewal of the world and social holiness: the Church's mission in history. (Progressive)", {"PROG": 3, "SOCDEM": 1, "WORKERCATH": 1, "PERSMOR": 1}],
@@ -1365,7 +1525,7 @@ const QUESTIONS = [
         "text": "Purgatory is best understood primarily as which of the following?",
         "category": "Eschatology",
         "options": [
-            ["Satisfaction and purification from temporal punishment due to sin. (Manualist, Neo-Scholastic)", {"MANUAL": 2, "NEOSCH": 2, "TRAD": 1, "STD"],
+            ["Satisfaction and purification from temporal punishment due to sin. (Manualist, Neo-Scholastic)", {"MANUAL": 2, "NEOSCH": 2, "TRAD": 1, "STD": 2}],
             ["Final purification of love: removal of attachments so the soul can see God. (Thomist, Benedictine)", {"THOM": 2, "BENED": 2, "RESS": 1, "NEOAUG": 1, "STD": 2}],
             ["An encounter with divine fire that heals and illumines (Eastern-leaning emphasis). (Palamite/Eastern, Eastern Sacramental)", {"PALAM": 3, "EASTSAC": 2, "EUCHMYST": 1, "NEOPLAT": 1}],
             ["A symbol pointing to God's mercy; details shouldn't be systematized. (Progressive)", {"PROG": 2, "PERSMOR": 1}],
@@ -2381,7 +2541,7 @@ const QUESTIONS = [
     {
         "text": "Which statement best captures your fundamental theological orientation?",
         "options": [
-            ["'Grace does not destroy nature but perfects it.' The Thomistic synthesis is perennially valid.", {"THOM": 6, "DOM": 4, "THOMMETA": 4, "THOMMOR"],
+            ["'Grace does not destroy nature but perfects it.' The Thomistic synthesis is perennially valid.", {"THOM": 6, "DOM": 4, "THOMMETA": 4, "THOMMOR": 3}],
             ["'Our hearts are restless until they rest in Thee.' Augustine's interiority and grace theology are primary. (Augustinian)", {"AUG": 6, "OSA": 4, "NEOAUG": 4, "AUGMOR": 3}],
             ["'Finding God in all things.' Ignatian discernment and active engagement with the world. (Jesuit)", {"JES": 6, "MOL": 3, "CONG": 2}],
             ["'Pray and work.' The Benedictine balance of liturgy, labor, and stability.", {"BENED": 6, "OCSO": 4, "OPRAEM": 3, "CHART": 2}],
@@ -2859,11 +3019,11 @@ const CATEGORIES = [
     { id: "metaphysics", name: "Metaphysics & Philosophy", shortName: "Metaphysics", icon: "🔮", questions: [23, 24, 113, 117, 118, 119] },
     { id: "orders", name: "Religious Orders", shortName: "Orders", icon: "🕯️", questions: [25, 26, 69, 70, 71, 73, 74, 75, 76, 77, 78, 80, 121, 122, 123] },
     { id: "sacraments", name: "Sacramental Theology", shortName: "Sacraments", icon: "🍷", questions: [27, 28, 30, 51, 52, 53, 54, 55, 56, 86, 90, 103, 114, 133] },
-    { id: "ecclesiology", name: "Ecclesiology & Authority", shortName: "Ecclesiology", icon: "⛪", questions: [0, 31, 32, 33, 35, 37, 57, 58, 59, 84, 109, 129, 136, 139, 142, 145, 146] },
+    { id: "ecclesiology", name: "Ecclesiology & Authority", shortName: "Ecclesiology", icon: "⛪", questions: [0, 31, 32, 33, 35, 37, 57, 58, 59, 84, 109, 129, 136, 139, 142, 146] },
     { id: "moral", name: "Moral Theology", shortName: "Moral", icon: "⚖️", questions: [13, 47, 48, 49, 50, 79, 115] },
     { id: "political", name: "Political & Social", shortName: "Political", icon: "🏛️", questions: [36, 39, 40, 41, 42, 43, 44, 45, 46, 83, 85, 99, 106] },
     { id: "christology", name: "Christology & Soteriology", shortName: "Christology", icon: "✝️", questions: [11, 19, 61, 64, 65, 66, 68, 91, 96, 120, 141] },
-    { id: "contemporary", name: "Contemporary Debates", shortName: "Contemporary", icon: "📰", questions: [2, 8, 12, 14, 15, 21, 22, 34, 38, 60, 62, 63, 67, 72, 81, 87, 88, 89, 92, 94, 97, 98, 100, 101, 102, 104, 105, 107, 108, 116, 124, 125, 126, 127, 128, 130, 131, 137, 143, 145, 147, 148, 149] }
+    { id: "contemporary", name: "Contemporary Debates", shortName: "Contemporary", icon: "📰", questions: [2, 8, 12, 14, 15, 21, 22, 34, 38, 60, 62, 63, 67, 72, 81, 87, 88, 89, 92, 94, 97, 98, 100, 101, 102, 104, 105, 107, 108, 116, 124, 125, 126, 127, 128, 130, 131, 137, 143, 145, 147, 148, 149, 150, 151, 152, 153] }
 ];
 
 const QUESTION_TOPICS = {
@@ -4332,7 +4492,7 @@ let answers = [];
 let scores = {};
 let axisScores = {};
 let selectedQuestions = [];
-let quizLength = 146;
+let quizLength = 154;
 let currentCategoryIndex = 0;
 let categoryQuestions = {}; // Maps category id to selected question indices
 let aiMessages = [];
@@ -4859,10 +5019,10 @@ function renderAxes() {
     });
 }
 
-function showTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+function showTab(tabName, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    event.target.classList.add('active');
+    btn.classList.add('active');
     document.getElementById(tabName + '-tab').classList.add('active');
 }
 
@@ -4924,10 +5084,189 @@ This question is about ${cat.name}. Help me understand the theological concepts 
 }
 
 // =============================================
-// AI HELPER - Google Gemini
+// AI HELPER - Local LLM (Ollama / LM Studio / llama.cpp)
 // =============================================
 
-const GEMINI_API_KEY = 'AIzaSyD7zCVDWVofAo2nrGcfRI9WJ4wCcI3Ts5U';
+const PROVIDER_DEFAULTS = {
+    ollama:   { endpoint: 'http://localhost:11434', model: 'llama3.2' },
+    lmstudio: { endpoint: 'http://localhost:1234',  model: 'default' },
+    llamacpp: { endpoint: 'http://localhost:8080',  model: 'default' },
+    custom:   { endpoint: 'http://localhost:8000',  model: 'default' }
+};
+
+// Load saved settings or use defaults
+function loadAISettings() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('catholicQuizAI') || '{}');
+        return {
+            provider: saved.provider || 'ollama',
+            endpoint: saved.endpoint || PROVIDER_DEFAULTS.ollama.endpoint,
+            model:    saved.model    || PROVIDER_DEFAULTS.ollama.model
+        };
+    } catch { return { provider: 'ollama', ...PROVIDER_DEFAULTS.ollama }; }
+}
+
+function saveAISettings() {
+    const settings = {
+        provider: document.getElementById('ai-provider').value,
+        endpoint: document.getElementById('ai-endpoint').value.replace(/\/+$/, ''),
+        model:    document.getElementById('ai-model').value
+    };
+    localStorage.setItem('catholicQuizAI', JSON.stringify(settings));
+    return settings;
+}
+
+function onProviderChange() {
+    const provider = document.getElementById('ai-provider').value;
+    const defaults = PROVIDER_DEFAULTS[provider];
+    document.getElementById('ai-endpoint').value = defaults.endpoint;
+    document.getElementById('ai-model').value = defaults.model;
+    saveAISettings();
+}
+
+function toggleAISettings() {
+    document.getElementById('ai-settings').classList.toggle('open');
+}
+
+// Build the correct API URL and request body per provider
+function buildAPIRequest(provider, endpoint, model, messages) {
+    if (provider === 'ollama') {
+        return {
+            url: `${endpoint}/api/chat`,
+            body: {
+                model: model,
+                messages: messages,
+                stream: false,
+                options: { temperature: 0.7, num_predict: 1000 }
+            },
+            extractResponse: (data) => data.message?.content
+        };
+    }
+    // LM Studio, llama.cpp, and custom all use OpenAI-compatible format
+    return {
+        url: `${endpoint}/v1/chat/completions`,
+        body: {
+            model: model,
+            messages: messages,
+            temperature: 0.7,
+            max_tokens: 1000,
+            stream: false
+        },
+        extractResponse: (data) => data.choices?.[0]?.message?.content
+    };
+}
+
+async function fetchModels() {
+    const settings = saveAISettings();
+    const listDiv = document.getElementById('ai-model-list');
+    listDiv.innerHTML = '<div class="ai-model-option" style="opacity:0.5;">Fetching…</div>';
+    listDiv.classList.add('open');
+
+    try {
+        let models = [];
+        if (settings.provider === 'ollama') {
+            const res = await fetch(`${settings.endpoint}/api/tags`);
+            const data = await res.json();
+            models = (data.models || []).map(m => m.name);
+        } else {
+            const res = await fetch(`${settings.endpoint}/v1/models`);
+            const data = await res.json();
+            models = (data.data || []).map(m => m.id);
+        }
+
+        if (models.length === 0) {
+            listDiv.innerHTML = '<div class="ai-model-option" style="opacity:0.5;">No models found</div>';
+            return;
+        }
+        listDiv.innerHTML = models.map(m =>
+            `<div class="ai-model-option" onclick="selectModel('${m}')">${m}</div>`
+        ).join('');
+    } catch (err) {
+        listDiv.innerHTML = `<div class="ai-model-option" style="color:#ff6b6b;">Connection failed</div>`;
+    }
+}
+
+function selectModel(name) {
+    document.getElementById('ai-model').value = name;
+    document.getElementById('ai-model-list').classList.remove('open');
+    saveAISettings();
+}
+
+async function testConnection() {
+    const settings = saveAISettings();
+    const statusEl = document.getElementById('ai-test-status');
+    statusEl.className = 'ai-test-status loading';
+    statusEl.textContent = 'Testing…';
+
+    try {
+        let testURL;
+        if (settings.provider === 'ollama') {
+            testURL = `${settings.endpoint}/api/tags`;
+        } else {
+            testURL = `${settings.endpoint}/v1/models`;
+        }
+        const res = await fetch(testURL, { signal: AbortSignal.timeout(5000) });
+        if (res.ok) {
+            statusEl.className = 'ai-test-status success';
+            statusEl.textContent = '✓ Connected';
+        } else {
+            throw new Error(`HTTP ${res.status}`);
+        }
+    } catch (err) {
+        statusEl.className = 'ai-test-status error';
+        const msg = err.message || 'Failed';
+        if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed')) {
+            statusEl.textContent = '✗ CORS / connection blocked — see instructions below';
+        } else {
+            statusEl.textContent = `✗ ${msg}`;
+        }
+    }
+}
+
+// Detect whether we're likely to hit CORS issues
+function getOriginInfo() {
+    const proto = window.location.protocol;
+    return {
+        isFile: proto === 'file:',
+        isLocalhost: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1',
+        protocol: proto
+    };
+}
+
+function getCORSInstructions(settings) {
+    const origin = getOriginInfo();
+    const lines = [];
+
+    lines.push(`⚠ CORS Error: Your browser blocked the request to ${settings.endpoint}.`);
+    lines.push('');
+
+    if (origin.isFile) {
+        lines.push('You are opening this file directly (file://). Browsers block requests from file:// to localhost for security.');
+        lines.push('');
+        lines.push('FIX — choose one:');
+        lines.push('');
+        lines.push('① Serve this file via a local web server (easiest):');
+        lines.push('   python3 -m http.server 8888');
+        lines.push('   Then open http://localhost:8888/index_FINAL_COMPLETE.html');
+        lines.push('');
+        lines.push('② Or set Ollama to allow all origins:');
+    } else {
+        lines.push('FIX — set your AI server to allow this origin:');
+    }
+
+    lines.push('');
+    if (settings.provider === 'ollama') {
+        lines.push('   macOS:    launchctl setenv OLLAMA_ORIGINS "*" && ollama serve');
+        lines.push('   Linux:    OLLAMA_ORIGINS="*" ollama serve');
+        lines.push('   Windows:  set OLLAMA_ORIGINS=* then start Ollama');
+        lines.push('   Docker:   -e OLLAMA_ORIGINS="*"');
+    } else {
+        lines.push('   Start your server with CORS headers allowing this origin.');
+        lines.push('   For LM Studio: enable "Allow Cross-Origin" in server settings.');
+    }
+
+    return lines.join('\n');
+}
 
 async function sendAIMessage() {
     const input = document.getElementById('ai-input');
@@ -4954,7 +5293,7 @@ async function sendAIMessage() {
     const q = QUESTIONS[qIndex];
     const cat = getCategoryForQuestion(qIndex);
     
-    const prompt = `You are a Catholic theological guide helping someone understand complex theological concepts while taking a quiz about Catholic schools of thought. 
+    const systemPrompt = `You are a Catholic theological guide helping someone understand complex theological concepts while taking a quiz about Catholic schools of thought. 
 
 Current question being asked in the quiz:
 "${q.text}"
@@ -4966,35 +5305,38 @@ ${q.options.map((opt, i) => `${i + 1}. ${opt[0]}`).join('\n')}
 
 Be helpful, educational, and explain theological concepts in accessible language. If asked to explain the question, break down the theological terms and what each option represents. Do NOT tell the user which answer to pick - help them understand the concepts so they can decide for themselves based on their own beliefs.
 
-Keep responses concise (2-3 paragraphs max) but informative.
+Keep responses concise (2-3 paragraphs max) but informative.`;
 
-User question: ${message}`;
+    // Build messages array with conversation history
+    const messages = [
+        { role: 'system', content: systemPrompt },
+        ...aiMessages.slice(-8),
+        { role: 'user', content: message }
+    ];
+
+    const settings = loadAISettings();
 
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        const { url, body, extractResponse } = buildAPIRequest(
+            settings.provider, settings.endpoint, settings.model, messages
+        );
+
+        const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }],
-                generationConfig: {
-                    maxOutputTokens: 1000,
-                    temperature: 0.7
-                }
-            })
+            body: JSON.stringify(body)
         });
         
         typingDiv.remove();
         
-        const data = await response.json();
-        
         if (!response.ok) {
-            console.error('Gemini API error:', data);
-            throw new Error(data.error?.message || `API error: ${response.status}`);
+            const errData = await response.json().catch(() => ({}));
+            console.error('Local AI error:', errData);
+            throw new Error(errData.error?.message || `HTTP ${response.status}`);
         }
-        
-        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        const data = await response.json();
+        const aiResponse = extractResponse(data);
         
         if (aiResponse) {
             addAIMessage(aiResponse, 'assistant');
@@ -5005,16 +5347,22 @@ User question: ${message}`;
             if (aiMessages.length > 10) {
                 aiMessages = aiMessages.slice(-10);
             }
-        } else if (data.candidates?.[0]?.finishReason === 'SAFETY') {
-            addAIMessage('I cannot respond to that query due to content safety filters. Please try rephrasing your question.', 'system');
         } else {
             console.error('Unexpected response:', data);
-            addAIMessage('I could not generate a response. Please try rephrasing your question.', 'system');
+            addAIMessage('The model returned an empty response. Try rephrasing your question or check your model settings.', 'system');
         }
     } catch (error) {
-        typingDiv.remove();
+        if (typingDiv.parentNode) typingDiv.remove();
         console.error('AI Helper error:', error);
-        addAIMessage('Unable to connect to the AI service. This feature requires an API connection. You can still use the citations and your own research to understand the questions.', 'system');
+
+        const msg = error.message || '';
+        const isCORS = msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed') || msg.includes('TypeError');
+        
+        if (isCORS) {
+            addAIMessage(getCORSInstructions(settings), 'system');
+        } else {
+            addAIMessage(`Error: ${msg}. Check ⚙ settings or try a different model.`, 'system');
+        }
     }
     
     sendBtn.disabled = false;
@@ -5024,9 +5372,22 @@ function addAIMessage(content, role) {
     const messagesDiv = document.getElementById('ai-messages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `ai-message ${role}`;
+    if (role === 'system') {
+        // Preserve newlines and monospace formatting for instructions
+        messageDiv.style.whiteSpace = 'pre-wrap';
+        messageDiv.style.fontFamily = "'Crimson Pro', Georgia, serif";
+    }
     messageDiv.textContent = content;
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Restore saved AI settings on load
+function initAISettings() {
+    const settings = loadAISettings();
+    document.getElementById('ai-provider').value = settings.provider;
+    document.getElementById('ai-endpoint').value = settings.endpoint;
+    document.getElementById('ai-model').value = settings.model;
 }
 
 // =============================================
@@ -5035,7 +5396,8 @@ function addAIMessage(content, role) {
 
 document.addEventListener('DOMContentLoaded', () => {
     initScores();
-    setQuizLength(146);
+    setQuizLength(154);
+    initAISettings();
 });
     </script>
 </body>
