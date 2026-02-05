@@ -1,28 +1,862 @@
-#!/usr/bin/env python3
-"""
-Catholic Theology Quiz - Build Script (Enhanced)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definitive Catholic Theology Quiz (Hybrid Scoring)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a227;
+            --gold-light: #e8d48a;
+            --crimson: #8b1538;
+            --crimson-dark: #5c0d25;
+            --ivory: #f5f2eb;
+            --parchment: #ede4d3;
+            --ink: #1a1a1a;
+            --ink-light: #3d3d3d;
+            --shadow: rgba(0,0,0,0.15);
+            --blue: #2a5298;
+            --blue-light: #4a7bc8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: linear-gradient(145deg, var(--ivory) 0%, var(--parchment) 100%);
+            min-height: 100vh;
+            color: var(--ink);
+            line-height: 1.6;
+        }
+        
+        /* Main Layout */
+        .main-container { display: flex; min-height: 100vh; }
+        .quiz-panel {
+            flex: 1;
+            max-width: 900px;
+            padding: 2rem;
+            margin: 0 auto;
+            transition: max-width 0.3s ease;
+        }
+        .quiz-panel.with-ai { max-width: 650px; margin-right: 420px; }
+        
+        /* AI Helper Panel */
+        .ai-panel {
+            width: 400px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-left: 3px solid var(--gold);
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.3);
+        }
+        .ai-panel.open { display: flex; }
+        .ai-header {
+            padding: 1.25rem;
+            background: linear-gradient(135deg, var(--crimson-dark), #1a1a2e);
+            border-bottom: 1px solid var(--gold);
+            position: relative;
+        }
+        .ai-header h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .ai-close {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 1px solid var(--gold-light);
+            color: var(--gold-light);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .ai-close:hover { background: var(--gold); color: var(--ink); }
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .ai-message {
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease;
+        }
+        .ai-message.user {
+            background: rgba(201, 162, 39, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            margin-left: 1rem;
+        }
+        .ai-message.assistant {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #e8e8e8;
+            margin-right: 1rem;
+        }
+        .ai-message.system {
+            background: rgba(139, 21, 56, 0.2);
+            border: 1px solid var(--crimson);
+            color: #f0d0d8;
+            font-style: italic;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .ai-input-area {
+            padding: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+        }
+        .ai-input-wrapper { display: flex; gap: 0.5rem; }
+        .ai-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: none;
+        }
+        .ai-input:focus {
+            outline: none;
+            border-color: var(--gold-light);
+            background: rgba(255,255,255,0.1);
+        }
+        .ai-input::placeholder { color: rgba(255,255,255,0.4); }
+        .ai-send {
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border: none;
+            border-radius: 8px;
+            color: var(--ink);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ai-send:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(201, 162, 39, 0.4); }
+        .ai-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .ai-typing {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            color: rgba(255,255,255,0.6);
+            font-style: italic;
+        }
+        .ai-typing .dots span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite;
+            margin: 0 2px;
+        }
+        .ai-typing .dots span:nth-child(2) { animation-delay: 0.2s; }
+        .ai-typing .dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+        }
+        
+        /* AI Toggle Button */
+        .ai-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border: 2px solid var(--gold);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(42, 82, 152, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ai-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(42, 82, 152, 0.6); }
+        .ai-toggle.hidden { display: none; }
+        
+        /* AI Settings */
+        .ai-settings-btn {
+            position: absolute;
+            right: 3.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 1px solid rgba(232, 212, 138, 0.4);
+            color: var(--gold-light);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ai-settings-btn:hover { background: rgba(201, 162, 39, 0.2); border-color: var(--gold-light); }
+        .ai-settings {
+            display: none;
+            padding: 1rem 1.25rem;
+            background: rgba(0,0,0,0.35);
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+            animation: fadeIn 0.2s ease;
+        }
+        .ai-settings.open { display: block; }
+        .ai-settings-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        .ai-settings-group { margin-bottom: 0.65rem; }
+        .ai-settings-label {
+            display: block;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .ai-settings select,
+        .ai-settings input[type="text"] {
+            width: 100%;
+            padding: 0.5rem 0.65rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 6px;
+            color: #e8e8e8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+        .ai-settings select:focus,
+        .ai-settings input[type="text"]:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.12);
+        }
+        .ai-settings select option { background: #1a1a2e; color: #e8e8e8; }
+        .ai-model-row { display: flex; gap: 0.4rem; }
+        .ai-model-row input { flex: 1; }
+        .ai-fetch-models {
+            padding: 0.5rem 0.65rem;
+            background: rgba(201, 162, 39, 0.15);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 6px;
+            color: var(--gold-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .ai-fetch-models:hover { background: rgba(201, 162, 39, 0.3); }
+        .ai-model-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .ai-model-list.open { max-height: 120px; overflow-y: auto; margin-top: 0.35rem; }
+        .ai-model-option {
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: background 0.15s;
+        }
+        .ai-model-option:hover { background: rgba(201, 162, 39, 0.15); color: var(--gold-light); }
+        .ai-test-btn {
+            padding: 0.4rem 0.85rem;
+            background: linear-gradient(135deg, rgba(42, 82, 152, 0.6), rgba(74, 123, 200, 0.6));
+            border: 1px solid rgba(74, 123, 200, 0.4);
+            border-radius: 6px;
+            color: #e8e8e8;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ai-test-btn:hover { background: linear-gradient(135deg, rgba(42, 82, 152, 0.8), rgba(74, 123, 200, 0.8)); }
+        .ai-test-status { font-size: 0.8rem; margin-left: 0.5rem; }
+        .ai-test-status.success { color: #6bcf6b; }
+        .ai-test-status.error { color: #ff6b6b; }
+        .ai-test-status.loading { color: rgba(255,255,255,0.5); }
+        .ai-settings-hint {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 0.65rem;
+            line-height: 1.5;
+        }
+        .ai-settings-hint a { color: var(--gold-light); text-decoration: none; }
+        .ai-settings-hint a:hover { text-decoration: underline; }
+        .ai-settings-hint code {
+            background: rgba(255,255,255,0.1);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+        
+        /* Header */
+        header { text-align: center; padding: 2.5rem 1rem; border-bottom: 1px solid var(--gold-light); margin-bottom: 1.5rem; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 600; color: var(--crimson); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+        header .subtitle { font-size: 1.05rem; color: var(--ink-light); font-style: italic; }
+        .cross-divider { display: flex; align-items: center; justify-content: center; margin: 1.25rem 0; color: var(--gold); }
+        .cross-divider::before, .cross-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); max-width: 150px; }
+        .cross-divider span { padding: 0 1rem; font-size: 1.5rem; }
+        
+        /* Start Screen */
+        .start-screen { text-align: center; padding: 2rem; }
+        .start-screen h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--crimson); margin-bottom: 1.25rem; }
+        .start-screen p { font-size: 1.05rem; color: var(--ink-light); margin-bottom: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .stats { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-value { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--gold); font-weight: 700; }
+        .stat-label { font-size: 0.85rem; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        /* Quiz Length Selector */
+        .quiz-length-section { margin: 1.5rem 0; padding: 1.25rem; background: white; border-radius: 12px; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--gold-light); }
+        .quiz-length-section h3 { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--crimson); margin-bottom: 1rem; }
+        .length-options { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+        .length-option { cursor: pointer; }
+        .length-option input { display: none; }
+        .length-card { display: flex; flex-direction: column; align-items: center; padding: 0.85rem 1rem; border: 2px solid var(--gold-light); border-radius: 8px; transition: all 0.2s ease; min-width: 70px; }
+        .length-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .length-option input:checked + .length-card { border-color: var(--crimson); background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08)); box-shadow: 0 2px 8px rgba(139, 21, 56, 0.2); }
+        .length-number { font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 600; color: var(--crimson); }
+        .length-label { font-size: 0.8rem; color: var(--ink-light); text-align: center; }
+        .length-label small { color: var(--gold); }
+        .length-note { font-size: 0.85rem; color: var(--ink-light); font-style: italic; margin-top: 1rem; margin-bottom: 0; }
+        
+        .start-btn { font-family: 'Cinzel', serif; font-size: 1.1rem; padding: 0.9rem 2.5rem; background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 1rem; }
+        .start-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(139, 21, 56, 0.4); }
+        
+        /* Category Navigation */
+        .category-nav {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px var(--shadow);
+            border: 1px solid var(--gold-light);
+        }
+        .cat-btn {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            padding: 0.4rem 0.7rem;
+            background: transparent;
+            border: 1px solid var(--gold-light);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--ink-light);
+            position: relative;
+            text-align: center;
+        }
+        .cat-btn:hover { border-color: var(--gold); color: var(--ink); }
+        .cat-btn.active { background: var(--crimson); border-color: var(--crimson); color: white; }
+        .cat-btn.completed::after {
+            content: '✓';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--gold);
+            color: var(--ink);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            font-size: 0.55rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cat-progress { font-size: 0.6rem; opacity: 0.8; display: block; margin-top: 2px; }
+        .cat-icon { font-size: 1rem; display: block; margin-bottom: 2px; }
+        
+        /* Progress */
+        .progress-section { background: white; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--gold-light); }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+        .progress-text { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--crimson); }
+        .progress-count { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--ink-light); }
+        .progress-bar { height: 8px; background: var(--parchment); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--crimson), var(--gold)); border-radius: 4px; transition: width 0.4s ease; }
+        
+        /* Question Card */
+        .question-card { background: white; border-radius: 12px; padding: 1.75rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px var(--shadow); border: 1px solid var(--gold-light); position: relative; animation: fadeIn 0.4s ease; }
+        .question-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson)); border-radius: 12px 12px 0 0; }
+        .question-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+        .question-number { font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
+        .question-category-tag {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            background: linear-gradient(135deg, rgba(139, 21, 56, 0.1), rgba(201, 162, 39, 0.1));
+            border: 1px solid var(--gold-light);
+            border-radius: 12px;
+            color: var(--crimson);
+            font-family: 'Cinzel', serif;
+        }
+        .question-text { font-size: 1.2rem; font-weight: 500; color: var(--ink); margin-bottom: 1.25rem; line-height: 1.5; }
+        
+        /* Options */
+        .options { display: flex; flex-direction: column; gap: 0.65rem; }
+        .option { display: flex; align-items: flex-start; padding: 0.9rem 1.1rem; background: var(--ivory); border: 2px solid transparent; border-radius: 8px; cursor: pointer; transition: all 0.25s ease; }
+        .option:hover { background: var(--parchment); border-color: var(--gold-light); transform: translateX(4px); }
+        .option.selected { background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08)); border-color: var(--gold); box-shadow: 0 2px 8px rgba(201, 162, 39, 0.2); }
+        .option input { display: none; }
+        .option-radio { width: 20px; height: 20px; min-width: 20px; border: 2px solid var(--ink-light); border-radius: 50%; margin-right: 0.9rem; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; }
+        .option.selected .option-radio { border-color: var(--crimson); background: var(--crimson); }
+        .option.selected .option-radio::after { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; }
+        .option-text { font-size: 1rem; line-height: 1.5; color: var(--ink); }
+        
+        /* Citation */
+        .citation-section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--gold-light); }
+        .citation-toggle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: var(--blue);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+        .citation-toggle:hover { color: var(--blue-light); }
+        .citation-toggle .arrow { transition: transform 0.2s; }
+        .citation-toggle.open .arrow { transform: rotate(90deg); }
+        .citation-content {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: rgba(42, 82, 152, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--blue);
+        }
+        .citation-content.open { display: block; animation: fadeIn 0.3s ease; }
+        .citation-content h4 { font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--blue); margin-bottom: 0.75rem; }
+        .citation-content ul { list-style: none; padding: 0; }
+        .citation-content li { font-size: 0.85rem; color: var(--ink-light); margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; }
+        .citation-content li::before { content: '📖'; position: absolute; left: 0; font-size: 0.75rem; }
+        .citation-content a { color: var(--blue); text-decoration: none; }
+        .citation-content a:hover { text-decoration: underline; }
+        
+        /* Topic Section */
+        .topic-section { margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px dashed var(--gold-light); }
+        .topic-header { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--crimson); margin-bottom: 0.5rem; font-weight: 600; }
+        .topic-description { font-size: 0.9rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.75rem; }
+        .topic-reading { font-size: 0.85rem; color: var(--ink-light); margin-bottom: 0.75rem; }
+        
+        /* Gemini Prompt Section */
+        .gemini-prompt-section { margin-top: 0.75rem; }
+        .gemini-label { font-size: 0.8rem; color: var(--blue); margin-bottom: 0.4rem; font-weight: 500; }
+        .gemini-prompt { 
+            font-size: 0.8rem; 
+            background: rgba(42, 82, 152, 0.1); 
+            padding: 0.75rem; 
+            border-radius: 6px; 
+            color: var(--ink); 
+            line-height: 1.4;
+            cursor: pointer;
+            border: 1px dashed var(--blue);
+            transition: all 0.2s;
+        }
+        .gemini-prompt:hover { background: rgba(42, 82, 152, 0.15); border-style: solid; }
+        .citation-header { font-size: 0.9rem; color: var(--blue); margin: 0.75rem 0 0.5rem 0; }
+        
+        .ai-explain-btn {
+            margin-top: 0.75rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            padding: 0.45rem 0.9rem;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .ai-explain-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(42, 82, 152, 0.3); }
+        
+        /* Navigation */
+        .navigation { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .nav-btn { font-family: 'Cinzel', serif; font-size: 0.95rem; padding: 0.7rem 1.75rem; border: 2px solid var(--crimson); border-radius: 6px; cursor: pointer; transition: all 0.25s ease; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-btn.primary { background: var(--crimson); color: white; }
+        .nav-btn.primary:hover { background: var(--crimson-dark); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(139, 21, 56, 0.3); }
+        .nav-btn.secondary { background: transparent; color: var(--crimson); }
+        .nav-btn.secondary:hover { background: var(--crimson); color: white; }
+        .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        
+        /* Question Nav Dots */
+        .question-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gold-light); }
+        .q-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--gold-light); background: white; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; color: var(--ink-light); }
+        .q-dot:hover { border-color: var(--gold); transform: scale(1.1); }
+        .q-dot.answered { background: var(--gold); border-color: var(--gold); color: white; }
+        .q-dot.current { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.2); }
+        
+        /* Results */
+        .results-screen { display: none; }
+        .results-header { text-align: center; margin-bottom: 1.5rem; }
+        .results-header h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--crimson); margin-bottom: 0.5rem; }
+        
+        .top-match { background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); color: white; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; text-align: center; position: relative; overflow: hidden; }
+        .top-match::before { content: '✝'; position: absolute; top: -20px; right: -20px; font-size: 120px; opacity: 0.1; color: var(--gold); }
+        .top-match-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.8; margin-bottom: 0.5rem; }
+        .top-match-name { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--gold-light); }
+        .top-match-score { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; opacity: 0.9; margin-bottom: 1.25rem; }
+        .top-match-summary { font-size: 1.05rem; line-height: 1.6; font-style: italic; max-width: 550px; margin: 0 auto 1.25rem; }
+        .top-match-affirmations { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+        .affirmation-tag { background: rgba(255,255,255,0.15); padding: 0.35rem 0.7rem; border-radius: 20px; font-size: 0.8rem; }
+        
+        .patron-section { text-align: center; padding: 1.25rem; background: rgba(255,255,255,0.1); border-radius: 8px; margin-top: 1.25rem; }
+        .patron-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 0.4rem; }
+        .patron-name { font-family: 'Cinzel', serif; font-size: 1.1rem; }
+        .patron-era { font-style: italic; opacity: 0.8; font-size: 0.9rem; }
+        
+        /* Enhanced Figure Section */
+        .figure-section { text-align: left; padding: 1.25rem; background: rgba(255,255,255,0.1); border-radius: 8px; margin-top: 1.25rem; border: 1px solid rgba(201, 162, 39, 0.3); }
+        .figure-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-bottom: 0.4rem; }
+        .figure-name { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 0.2rem; }
+        .figure-era { font-style: italic; opacity: 0.8; font-size: 0.85rem; margin-bottom: 0.75rem; color: var(--gold-light); }
+        .figure-bio { font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.75rem; }
+        .figure-works { font-size: 0.85rem; opacity: 0.9; line-height: 1.4; }
+        
+        /* Heterodoxy Warnings */
+        .heterodoxy-warning { padding: 1rem 1.25rem; border-radius: 8px; margin: 1rem 0; text-align: left; }
+        .heterodoxy-warning.severe { background: rgba(220, 53, 69, 0.2); border: 2px solid #dc3545; }
+        .heterodoxy-warning.moderate { background: rgba(255, 193, 7, 0.2); border: 2px solid #ffc107; }
+        .heterodoxy-warning.caution { background: rgba(255, 193, 7, 0.15); border: 1px solid #ffc107; }
+        .heterodoxy-warning.non-catholic { background: rgba(108, 117, 125, 0.2); border: 1px solid #6c757d; }
+        .heterodoxy-title { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .heterodoxy-warning.severe .heterodoxy-title { color: #ff6b6b; }
+        .heterodoxy-warning.moderate .heterodoxy-title { color: #ffd43b; }
+        .heterodoxy-warning.caution .heterodoxy-title { color: #ffe066; }
+        .heterodoxy-warning.non-catholic .heterodoxy-title { color: #adb5bd; }
+        .heterodoxy-text { font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.75rem; }
+        .heterodoxy-docs { font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.5rem; }
+        .heterodoxy-guidance { font-size: 0.85rem; font-style: italic; opacity: 0.9; }
+        
+        /* Tabs */
+        .tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; justify-content: center; flex-wrap: wrap; }
+        .tab-btn { font-family: 'Cinzel', serif; font-size: 0.85rem; padding: 0.55rem 1.25rem; background: transparent; border: 2px solid var(--gold-light); border-radius: 6px; cursor: pointer; transition: all 0.2s ease; color: var(--ink); }
+        .tab-btn:hover { border-color: var(--gold); }
+        .tab-btn.active { background: var(--crimson); border-color: var(--crimson); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Rankings */
+        .rankings-card, .axes-card { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px var(--shadow); border: 1px solid var(--gold-light); }
+        .rankings-card h3, .axes-card h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--crimson); margin-bottom: 1.25rem; text-align: center; }
+        .rankings-table { width: 100%; border-collapse: collapse; }
+        .rankings-table th { font-family: 'Cinzel', serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-light); padding: 0.65rem; text-align: left; border-bottom: 2px solid var(--gold-light); }
+        .rankings-table td { padding: 0.65rem; border-bottom: 1px solid var(--parchment); }
+        .rankings-table tr:hover { background: var(--ivory); }
+        .rank-num { font-family: 'Cinzel', serif; font-weight: 600; color: var(--gold); width: 50px; }
+        .rank-num.top-3 { color: var(--crimson); }
+        .school-name { font-weight: 500; }
+        .school-name .question-count { font-weight: 400; font-size: 0.75rem; color: var(--ink-light); margin-left: 0.5rem; }
+        .score-bar-container { width: 100%; max-width: 180px; }
+        .score-bar { height: 8px; background: var(--parchment); border-radius: 4px; overflow: hidden; }
+        .score-bar-fill { height: 100%; background: linear-gradient(90deg, var(--crimson), var(--gold)); border-radius: 4px; }
+        .score-value { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--ink-light); margin-top: 2px; }
+        
+        /* Axes */
+        .axis-row { margin-bottom: 1.25rem; }
+        .axis-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+        .axis-name { font-weight: 500; color: var(--ink); font-size: 0.95rem; }
+        .axis-score { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--ink-light); }
+        .axis-bar { position: relative; height: 22px; background: var(--parchment); border-radius: 11px; overflow: hidden; }
+        .axis-labels { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 0.65rem; font-size: 0.65rem; color: var(--ink-light); z-index: 1; }
+        .axis-marker { position: absolute; top: 2px; bottom: 2px; width: 18px; background: var(--crimson); border-radius: 9px; transition: left 0.5s ease; box-shadow: 0 2px 6px rgba(139, 21, 56, 0.4); }
+        
+        .retake-section { text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gold-light); }
+        .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 900px) {
+            .ai-panel { width: 100%; height: 55vh; top: auto; bottom: 0; border-left: none; border-top: 3px solid var(--gold); }
+            .quiz-panel.with-ai { max-width: 100%; margin-right: 0; padding-bottom: 57vh; }
+        }
+        
+        @media (max-width: 600px) {
+            .quiz-panel { padding: 1rem; }
+            header h1 { font-size: 1.5rem; }
+            .question-text { font-size: 1.05rem; }
+            .option { padding: 0.75rem 0.9rem; }
+            .nav-btn { padding: 0.55rem 1.25rem; font-size: 0.85rem; }
+            .q-dot { width: 24px; height: 24px; font-size: 0.55rem; }
+            .top-match-name { font-size: 1.4rem; }
+            .stat-value { font-size: 1.8rem; }
+            .length-options { gap: 0.4rem; }
+            .length-card { padding: 0.65rem 0.85rem; min-width: 55px; }
+            .length-number { font-size: 1.1rem; }
+            .length-label { font-size: 0.7rem; }
+            .cat-btn { font-size: 0.6rem; padding: 0.35rem 0.5rem; }
+            .ai-toggle { width: 50px; height: 50px; font-size: 1.2rem; bottom: 1rem; right: 1rem; }
+        }
+    
+        /* Screen Reader Only - Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
 
-This script can:
-1. Extract question/school data from existing HTML
-2. Modify questions, schools, or options
-3. Regenerate the HTML file
-4. Includes all enhanced data: figures, heterodoxy warnings, question topics
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="quiz-panel" id="quiz-panel">
+            <header>
+                <h1>Catholic Theology Schools Quiz</h1>
+                <p class="subtitle">150 Questions · 95 Schools of Thought · Hybrid Scoring</p>
+                <div class="cross-divider"><span>✝</span></div>
+            </header>
 
-Usage:
-    python3 catholic_quiz_build.py [--extract | --build | --add-question | --annotate]
-"""
+            <div id="start-screen" class="start-screen">
+                <h2>Find Your Theological Home</h2>
+                <p>This comprehensive quiz explores your positions on grace, predestination, ecclesiology, moral theology, liturgy, and more.</p>
+                <div class="stats">
+                    <div class="stat"><div class="stat-value">146</div><div class="stat-label">Questions</div></div>
+                    <div class="stat"><div class="stat-value">95</div><div class="stat-label">Schools</div></div>
+                    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Axes</div></div>
+                </div>
+                
+                <div class="quiz-length-section">
+                    <h3>Choose Quiz Length</h3>
+                    <div class="length-options">
+                        <label class="length-option" onclick="setQuizLength(24)">
+                            <input type="radio" name="length" value="24">
+                            <div class="length-card">
+                                <span class="length-number">24</span>
+                                <span class="length-label">Quick<br><small>~6 min</small></span>
+                            </div>
+                        </label>
+                        <label class="length-option" onclick="setQuizLength(49)">
+                            <input type="radio" name="length" value="49">
+                            <div class="length-card">
+                                <span class="length-number">49</span>
+                                <span class="length-label">Short<br><small>~12 min</small></span>
+                            </div>
+                        </label>
+                        <label class="length-option" onclick="setQuizLength(73)">
+                            <input type="radio" name="length" value="73">
+                            <div class="length-card">
+                                <span class="length-number">73</span>
+                                <span class="length-label">Medium<br><small>~18 min</small></span>
+                            </div>
+                        </label>
+                        <label class="length-option" onclick="setQuizLength(97)">
+                            <input type="radio" name="length" value="97">
+                            <div class="length-card">
+                                <span class="length-number">97</span>
+                                <span class="length-label">Long<br><small>~24 min</small></span>
+                            </div>
+                        </label>
+                        <label class="length-option" onclick="setQuizLength(122)">
+                            <input type="radio" name="length" value="122">
+                            <div class="length-card">
+                                <span class="length-number">122</span>
+                                <span class="length-label">Extended<br><small>~30 min</small></span>
+                            </div>
+                        </label>
+                        <label class="length-option" onclick="setQuizLength(146)">
+                            <input type="radio" name="length" value="146" checked>
+                            <div class="length-card">
+                                <span class="length-number">146</span>
+                                <span class="length-label">Complete<br><small>~38 min</small></span>
+                            </div>
+                        </label>
+                    </div>
+                    <p class="length-note">Questions are organized into 10 theological categories. Quiz lengths scale in equal intervals of ~24 questions.</p>
+                </div>
+                
+                <button class="start-btn" onclick="startQuiz()">Begin the Quiz</button>
+            </div>
 
-import json
-import re
-import argparse
-from pathlib import Path
+            <div id="quiz-screen" class="hidden">
+                <div class="category-nav" id="category-nav"></div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-text" id="progress-text">Question 1 of 146</span>
+                        <span class="progress-count" id="answered-count">Answered: 0 / 146</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number" id="question-number">Question I</span>
+                        <span class="question-category-tag" id="question-category-tag">Grace & Predestination</span>
+                    </div>
+                    <p class="question-text" id="question-text"></p>
+                    <div class="options" id="options"></div>
+                    
+                    <div class="citation-section" id="citation-section">
+                        <button class="citation-toggle" id="citation-toggle" onclick="toggleCitation()">
+                            <span class="arrow">▶</span> Further Reading & Sources
+                        </button>
+                        <div class="citation-content" id="citation-content">
+                            <h4>Recommended Sources</h4>
+                            <ul id="citation-list"></ul>
+                            <button class="ai-explain-btn" onclick="askAIToExplain()">
+                                🤖 Ask AI to Explain This
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn secondary" id="prev-btn" onclick="prevQuestion()" disabled>← Previous</button>
+                    <button class="nav-btn primary" id="next-btn" onclick="nextQuestion()">Next →</button>
+                    <button class="nav-btn primary hidden" id="results-btn" onclick="showResults()">See Results</button>
+                </div>
+                
+                <div class="question-nav" id="question-nav"></div>
+            </div>
 
-# =============================================
-# SCHOOLS DEFINITION
-# =============================================
+            <div id="results-screen" class="results-screen">
+                <div class="results-header">
+                    <h2>Your Theological Profile</h2>
+                    <div class="cross-divider"><span>✝</span></div>
+                </div>
+                
+                <div class="top-match" id="top-match"></div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('rankings', this)">All Rankings</button>
+                    <button class="tab-btn" onclick="showTab('axes', this)">Theological Axes</button>
+                </div>
+                
+                <div id="rankings-tab" class="tab-content active">
+                    <div class="rankings-card">
+                        <h3>Top 20 Schools</h3>
+                        <table class="rankings-table">
+                            <thead><tr><th>Rank</th><th>School</th><th>Score</th></tr></thead>
+                            <tbody id="rankings-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="axes-tab" class="tab-content">
+                    <div class="axes-card">
+                        <h3>Your Position on Key Spectrums</h3>
+                        <div id="axes-content"></div>
+                    </div>
+                </div>
+                
+                <div class="retake-section">
+                    <button class="nav-btn secondary" onclick="retakeQuiz()">Take Quiz Again</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Helper Panel -->
+        <div class="ai-panel" id="ai-panel">
+            <div class="ai-header">
+                <h3>🤖 Theological Guide</h3>
+                <button class="ai-settings-btn" onclick="toggleAISettings()" title="AI Settings">⚙</button>
+                <button class="ai-close" onclick="closeAI()">×</button>
+            </div>
+            <div class="ai-settings" id="ai-settings">
+                <div class="ai-settings-title">Local AI Configuration</div>
+                <div class="ai-settings-group">
+                    <label class="ai-settings-label">Provider</label>
+                    <select id="ai-provider" onchange="onProviderChange()">
+                        <option value="ollama">Ollama (default)</option>
+                        <option value="lmstudio">LM Studio</option>
+                        <option value="llamacpp">llama.cpp server</option>
+                        <option value="custom">Custom OpenAI-compatible</option>
+                    </select>
+                </div>
+                <div class="ai-settings-group">
+                    <label class="ai-settings-label">Endpoint URL</label>
+                    <input type="text" id="ai-endpoint" value="http://localhost:11434" placeholder="http://localhost:11434" />
+                </div>
+                <div class="ai-settings-group">
+                    <label class="ai-settings-label">Model</label>
+                    <div class="ai-model-row">
+                        <input type="text" id="ai-model" value="llama3.2" placeholder="llama3.2" />
+                        <button class="ai-fetch-models" onclick="fetchModels()" title="Fetch available models">↻</button>
+                    </div>
+                    <div id="ai-model-list" class="ai-model-list"></div>
+                </div>
+                <div class="ai-settings-group">
+                    <button class="ai-test-btn" onclick="testConnection()">Test Connection</button>
+                    <span id="ai-test-status" class="ai-test-status"></span>
+                </div>
+                <div class="ai-settings-hint">
+                    Install <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a>, then run: <code>ollama run llama3.2</code>
+                </div>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-message system">
+                    Welcome! I can help explain theological concepts, clarify scholastic terminology, or discuss the nuances of different Catholic schools of thought. Ask me anything about the questions you encounter.
+                    <br><br><em style="font-size: 0.85em; opacity: 0.8;">Powered by your local AI — click ⚙ to configure.</em>
+                </div>
+            </div>
+            <div class="ai-input-area">
+                <div class="ai-input-wrapper">
+                    <textarea class="ai-input" id="ai-input" placeholder="Ask about this question or any theological concept..." rows="2" onkeydown="handleAIKeydown(event)"></textarea>
+                    <button class="ai-send" id="ai-send" onclick="sendAIMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="ai-toggle" id="ai-toggle" onclick="toggleAI()" title="Open AI Theological Guide">
+        🤖
+    </button>
 
-SCHOOLS = [
-    # Grace & Predestination
+    <script>
+
+// Schools from original quiz
+const SCHOOLS = [
     ["AUG", "Augustinian"],
     ["AUGP", "Strict Augustinian"],
     ["NEOAUG", "Neo-Augustinian (ressourcement)"],
@@ -37,8 +871,6 @@ SCHOOLS = [
     ["FRANC", "Franciscan (Bonaventure)"],
     ["INFRA", "Infralapsarian"],
     ["SUPRA", "Supralapsarian"],
-    
-    # Religious Orders
     ["DOM", "Dominican"],
     ["JES", "Jesuit"],
     ["CARM", "Carmelite"],
@@ -58,22 +890,16 @@ SCHOOLS = [
     ["MERC", "Mercedarian"],
     ["CSC", "Holy Cross"],
     ["OSBCAM", "Camaldolese"],
-    
-    # Metaphysics
     ["NEOPLAT", "Neo-Platonist"],
-    ["THOMMETA", "Thomist Realism"],
+    ["THOMMETA", "Thomist (Realist)"],
     ["SCOTMETA", "Scotist (univocity)"],
     ["NOMIN", "Nominalist-leaning"],
     ["VOLUNT", "Voluntarist"],
     ["INTELL", "Intellectualist"],
     ["PALAM", "Palamite"],
-    
-    # Christology
     ["RESSCH", "Ressourcement Christology"],
     ["CHALMAX", "Chalcedonian Maximalist"],
     ["KENOT", "Kenoticism-sympathetic"],
-    
-    # Sacraments
     ["TRIDSAC", "Tridentine Sacramentalism"],
     ["THOMSAC", "Thomist Sacramentology"],
     ["AUGSAC", "Augustinian Sacramentology"],
@@ -82,8 +908,6 @@ SCHOOLS = [
     ["TRANSUB", "Strict Transubstantiation"],
     ["TRANSIG", "Transignification-open"],
     ["EUCHMYST", "Eucharistic Mysticism"],
-    
-    # Ecclesiology
     ["ULTRA", "Ultramontane"],
     ["PAPMOD", "Moderate Papalist"],
     ["PAPMIN", "Papal Minimalist"],
@@ -91,8 +915,6 @@ SCHOOLS = [
     ["CONCIL", "Conciliarist"],
     ["EASTECC", "Eastern Catholic"],
     ["SYNOD", "Synodalist"],
-    
-    # Moral Theology
     ["THOMMOR", "Thomist Natural Law"],
     ["MANUAL", "Manualist"],
     ["VIRTUE", "Virtue Ethics"],
@@ -103,8 +925,6 @@ SCHOOLS = [
     ["CASUIST", "Casuist"],
     ["PROBAB", "Probabilist"],
     ["TUTIOR", "Tutiorist"],
-    
-    # Political/Social
     ["INTEG", "Integralist"],
     ["INTEGHARD", "Hard Integralist"],
     ["INTEGSOFT", "Soft Integralist"],
@@ -117,8 +937,6 @@ SCHOOLS = [
     ["CATHUNIV", "Catholic Universalist"],
     ["WORKERCATH", "Worker-Catholic"],
     ["AGRAR", "Catholic Agrarian"],
-    
-    # Liturgical/Contemporary
     ["TRAD", "Traditionalist"],
     ["ROTR", "Reform of the Reform"],
     ["PROG", "Progressive"],
@@ -137,490 +955,4397 @@ SCHOOLS = [
     ["COMMUN", "Communio School"],
     ["RADORTH", "Radical Orthodoxy"],
     ["TRADUM", "Traditionis Custodes Compliant"],
-    
-    # Protestant
-    ["REFORM", "Reformed/Calvinist"],
+    ["REFORM", "Reformed"],
     ["LUTHERAN", "Lutheran"],
     ["ANGLICAN", "Anglican"],
     ["METHOD", "Methodist"],
-    
-    # Eastern Orthodox
     ["EORTHO", "Eastern Orthodox"],
     ["COPTIC", "Coptic Orthodox"],
     ["ORIENTAL", "Oriental Orthodox"],
-]
+];
 
-# =============================================
-# SCHOOL FIGURES (Public representatives)
-# =============================================
+const SCHOOL_NAME = Object.fromEntries(SCHOOLS);
 
-SCHOOL_FIGURES = {
-    "AUG": {"figure": "St. Augustine of Hippo", "era": "354–430", "bio": "Bishop of Hippo and Doctor of Grace whose writings on original sin, predestination, and divine grace shaped Western theology.", "works": "Confessions, City of God, On Grace and Free Will"},
-    "AUGP": {"figure": "Prosper of Aquitaine", "era": "c. 390–455", "bio": "Lay theologian and defender of Augustine's strict predestinarian views against Semi-Pelagians.", "works": "The Call of All Nations, Grace and Free Will"},
-    "NEOAUG": {"figure": "Henri de Lubac, S.J.", "era": "1896–1991", "bio": "French Jesuit whose ressourcement theology recovered patristic and Augustinian themes.", "works": "Surnaturel, Catholicism, The Mystery of the Supernatural"},
-    "SEMIAUG": {"figure": "St. Francis de Sales", "era": "1567–1622", "bio": "Doctor of the Church known for gentle synthesis of Augustinian grace theology with pastoral accessibility.", "works": "Introduction to the Devout Life, Treatise on the Love of God"},
-    "JANS": {"figure": "Blaise Pascal", "era": "1623–1662", "bio": "French mathematician and philosopher associated with Port-Royal who defended Jansenist theology.", "works": "Pensées, Provincial Letters"},
-    "THOM": {"figure": "St. Thomas Aquinas", "era": "1225–1274", "bio": "The Angelic Doctor whose synthesis of Aristotelian philosophy and Christian theology became the Church's preferred framework.", "works": "Summa Theologiae, Summa Contra Gentiles"},
-    "THOMP": {"figure": "Reginald Garrigou-Lagrange, O.P.", "era": "1877–1964", "bio": "Dominican theologian and strict Thomist who defended classical metaphysics.", "works": "The Three Ages of the Interior Life, Reality: A Synthesis of Thomistic Thought"},
-    "BANEZ": {"figure": "Domingo Báñez, O.P.", "era": "1528–1604", "bio": "Spanish Dominican who developed the theory of physical premotion.", "works": "Scholastic Commentaries on the Summa"},
-    "MOL": {"figure": "Luis de Molina, S.J.", "era": "1535–1600", "bio": "Spanish Jesuit who developed middle knowledge (scientia media) to reconcile divine sovereignty with human freedom.", "works": "Concordia"},
-    "CONG": {"figure": "St. Robert Bellarmine, S.J.", "era": "1542–1621", "bio": "Jesuit Cardinal and Doctor who defended a modified Molinist position (Congruism).", "works": "De Controversiis"},
-    "SCOT": {"figure": "Bl. John Duns Scotus", "era": "c. 1266–1308", "bio": "The Subtle Doctor who championed univocity of being, primacy of will, and absolute primacy of Christ.", "works": "Ordinatio, Quodlibetal Questions"},
-    "FRANC": {"figure": "St. Bonaventure", "era": "1221–1274", "bio": "Seraphic Doctor whose mystical-affective theology emphasized Christ as the center of all knowledge.", "works": "The Soul's Journey into God, Breviloquium"},
-    "DOM": {"figure": "St. Dominic de Guzmán", "era": "1170–1221", "bio": "Founder of the Order of Preachers dedicated to contemplation, study, and preaching.", "works": "Dominican Constitutions"},
-    "JES": {"figure": "St. Ignatius of Loyola", "era": "1491–1556", "bio": "Founder of the Society of Jesus emphasizing discernment and finding God in all things.", "works": "Spiritual Exercises, Autobiography"},
-    "CARM": {"figure": "St. Teresa of Ávila", "era": "1515–1582", "bio": "Doctor of the Church and Carmelite reformer whose writings on contemplative prayer remain unsurpassed.", "works": "Interior Castle, The Way of Perfection"},
-    "BENED": {"figure": "St. Benedict of Nursia", "era": "c. 480–547", "bio": "Father of Western Monasticism whose Rule established ora et labora.", "works": "Rule of St. Benedict"},
-    "TRAD": {"figure": "Dietrich von Hildebrand", "era": "1889–1977", "bio": "Philosopher who defended traditional Catholic teaching against liturgical reform.", "works": "Trojan Horse in the City of God"},
-    "PROG": {"figure": "Karl Rahner, S.J.", "era": "1904–1984", "bio": "German Jesuit whose transcendental Thomism shaped progressive Catholic theology.", "works": "Foundations of Christian Faith"},
-    "STD": {"figure": "St. John Henry Newman", "era": "1801–1890", "bio": "Cardinal whose thought exemplifies balanced, mainstream Catholic theology.", "works": "Grammar of Assent, Parochial Sermons"},
-    "SSPX": {"figure": "Archbishop Marcel Lefebvre", "era": "1905–1991", "bio": "Founder of the Society of St. Pius X who rejected aspects of Vatican II.", "works": "I Accuse the Council"},
-    "SEDE": {"figure": "Various Authors", "era": "20th–21st c.", "bio": "Sedevacantists hold the See of Peter has been vacant since Vatican II.", "works": "Various sedevacantist publications"},
-    "INTEG": {"figure": "Pope St. Pius X", "era": "1835–1914", "bio": "Pope who condemned Modernism and promoted integral Catholicism.", "works": "Pascendi Dominici Gregis"},
-    "DISTRIBUT": {"figure": "G.K. Chesterton", "era": "1874–1936", "bio": "English writer who championed Distributism as a third way.", "works": "What's Wrong with the World"},
-    "REFORM": {"figure": "John Calvin", "era": "1509–1564", "bio": "French Reformer whose Institutes systematized Reformed theology.", "works": "Institutes of the Christian Religion"},
-    "LUTHERAN": {"figure": "Martin Luther", "era": "1483–1546", "bio": "German Reformer whose theology emphasized justification by faith alone.", "works": "Small Catechism, Bondage of the Will"},
-    "EORTHO": {"figure": "St. Photios the Great", "era": "c. 810–893", "bio": "Patriarch of Constantinople and defender of Eastern Orthodoxy.", "works": "Mystagogy of the Holy Spirit"},
-    # Add more as needed...
-}
+// Maximum possible score for each school (sum of highest weights across all questions)
+const MAX_POSSIBLE_SCORES = {
+  "STD": 293, "THOM": 220, "PROG": 214, "TRAD": 202, "PAPMOD": 159, "RESS": 144,
+  "LIBCATH": 128, "SSPX": 112, "NEOSCH": 111, "BENED": 107, "DOM": 101, "EASTECC": 100,
+  "AUG": 94, "DEVPROG": 83, "NEOAUG": 81, "TRIDSAC": 81, "ULTRA": 81, "JES": 79,
+  "INTEG": 79, "COMMUN": 79, "PALAM": 78, "ORTHOPH": 73, "CARM": 72, "ANTIMOD": 72,
+  "JANS": 66, "ROTR": 63, "REFORM": 62, "EASTSAC": 55, "SYNOD": 55, "PERSMOR": 55,
+  "SEDE": 54, "AUGP": 53, "EORTHO": 51, "THOMMETA": 45, "NEOPLAT": 42, "SCOT": 41,
+  "LUTHERAN": 40, "CHART": 39, "PAPMIN": 36, "DISTRIBUT": 36, "MOL": 35, "OPUS": 35,
+  "THOMMOR": 35, "ECUMON": 35, "FRAN": 33, "FRANC": 32, "CM": 32, "WORKERCATH": 32,
+  "MANUAL": 31, "TRADUM": 31, "INTEGSOFT": 30, "SOCDEM": 30, "TRADNAT": 30, "CONCIL": 29,
+  "BANEZ": 28, "EUCHMYST": 27, "EASTLIT": 27, "OCSO": 26, "INTEGHARD": 26, "ORDINAR": 26,
+  "GALL": 25, "ANGLICAN": 25, "NOMIN": 23, "CATHUNIV": 23, "SDB": 22, "VOLUNT": 22,
+  "INTELL": 22, "LUTHCAT": 22, "CP": 21, "KENOT": 21, "TUTIOR": 21, "CORPCATH": 21,
+  "LIBERTAR": 20, "THOMP": 19, "SCOTMETA": 19, "METHOD": 19, "SUPRA": 18, "THOMSAC": 18,
+  "SEDEPRIV": 18, "CONG": 17, "ORAT": 17, "VIRTUE": 17, "CSSR": 16, "CHALMAX": 16,
+  "INFRA": 15, "OSA": 15, "RESSCH": 15, "TRANSUB": 15, "PROBAB": 15, "RADORTH": 15,
+  "AGRAR": 14, "OSM": 13, "AUGMOR": 13, "CASUIST": 13, "SEMIAUG": 12, "PROP": 12,
+  "MERC": 11, "TRANSIG": 11, "COPTIC": 10, "ORIENTAL": 10, "OPRAEM": 9, "AUGSAC": 9,
+  "CSC": 6, "OSBCAM": 5, "MINSAC": 2
+};
 
-# =============================================
-# HETERODOXY WARNINGS
-# =============================================
+// Number of questions each school appears in (for flagging low-coverage schools)
+const SCHOOL_QUESTION_COUNTS = {
+  "AUG": 35, "AUGP": 19, "NEOAUG": 33, "SEMIAUG": 6, "JANS": 23, "THOM": 79,
+  "THOMP": 8, "BANEZ": 10, "MOL": 14, "CONG": 6, "SCOT": 17, "FRANC": 15,
+  "INFRA": 6, "SUPRA": 7, "DOM": 47, "JES": 33, "CARM": 28, "BENED": 48,
+  "OPUS": 13, "FRAN": 14, "ORAT": 10, "CHART": 13, "OSA": 5, "OCSO": 8,
+  "CSSR": 5, "SDB": 10, "CM": 13, "CP": 8, "OSM": 5, "OPRAEM": 6,
+  "MERC": 4, "CSC": 2, "OSBCAM": 3, "NEOPLAT": 21, "THOMMETA": 16, "SCOTMETA": 7,
+  "NOMIN": 8, "VOLUNT": 8, "INTELL": 8, "PALAM": 30, "RESSCH": 6, "CHALMAX": 5,
+  "KENOT": 7, "TRIDSAC": 30, "THOMSAC": 6, "AUGSAC": 3, "MINSAC": 1, "EASTSAC": 19,
+  "TRANSUB": 4, "TRANSIG": 5, "EUCHMYST": 13, "ULTRA": 22, "PAPMOD": 63, "PAPMIN": 14,
+  "GALL": 10, "CONCIL": 11, "EASTECC": 31, "SYNOD": 21, "THOMMOR": 15, "MANUAL": 17,
+  "VIRTUE": 8, "AUGMOR": 5, "PERSMOR": 31, "PROP": 4, "NEOSCH": 44, "CASUIST": 6,
+  "PROBAB": 4, "TUTIOR": 8, "INTEG": 33, "INTEGHARD": 8, "INTEGSOFT": 9, "LIBCATH": 45,
+  "DISTRIBUT": 12, "CORPCATH": 8, "SOCDEM": 14, "LIBERTAR": 7, "TRADNAT": 9, "CATHUNIV": 6,
+  "WORKERCATH": 13, "AGRAR": 5, "TRAD": 75, "ROTR": 22, "PROG": 81, "RESS": 64,
+  "STD": 113, "SSPX": 30, "SEDE": 15, "SEDEPRIV": 6, "ORDINAR": 5, "EASTLIT": 7,
+  "ORTHOPH": 18, "LUTHCAT": 5, "ECUMON": 9, "ANTIMOD": 22, "DEVPROG": 32, "COMMUN": 27,
+  "RADORTH": 5, "TRADUM": 9, "REFORM": 17, "LUTHERAN": 13, "ANGLICAN": 11, "METHOD": 8,
+  "EORTHO": 12, "COPTIC": 2, "ORIENTAL": 2
+};
 
-HETERODOXY_STATUS = {
+// Minimum questions threshold for reliable results
+const MIN_QUESTIONS_THRESHOLD = 5;
+
+const SCHOOL_DESC = {
+    "AUG": {"summary": "Emphasizes the depth of human fallenness and the absolute necessity of divine grace for any salvific good.", "affirmations": ["Grace precedes merit", "Nature profoundly wounded", "Will grounds predestination"]},
+    "AUGP": {"summary": "Stricter Augustine: irresistible grace, massa damnata, double predestination in softer form.", "affirmations": ["Grace infallibly efficacious", "Reprobate justly passed over"]},
+    "NEOAUG": {"summary": "Ressourcement retrieval of Augustine: participatory ontology, Christocentric grace, liturgical renewal.", "affirmations": ["Christ is the concrete universal", "Grace as participation in divine life"]},
+    "SEMIAUG": {"summary": "Moderate Augustinianism: depth of Fall and priority of grace with room for human cooperation.", "affirmations": ["Grace is necessary but human response matters", "Balance of sovereignty and agency"]},
+    "JANS": {"summary": "Jansenist (Pascal, Arnauld): strict Augustinian within Trent; efficacious grace, moral rigorism, infrequent communion, anti-Molinist.", "affirmations": ["Efficacious grace alone saves", "Infused righteousness (per Trent)", "Few are saved", "Worthy communion is rare", "Tutiorist moral approach"]},
+    "THOM": {"summary": "Mainstream Thomism balancing Aristotelian metaphysics with Augustinian grace theology.", "affirmations": ["Being is analogical", "Grace perfects nature", "Will follows intellect's presentation of good"]},
+    "THOMP": {"summary": "Strict Thomism: rigorous adherence to Thomas and traditional commentators.", "affirmations": ["24 Thomistic Theses are normative", "Real distinction of essence and existence"]},
+    "BANEZ": {"summary": "Dominican school emphasizing physical premotion and intrinsically efficacious grace.", "affirmations": ["God physically premoves the will", "Predestination ante praevisa merita"]},
+    "MOL": {"summary": "Jesuit school emphasizing middle knowledge and libertarian freedom.", "affirmations": ["God knows counterfactuals of freedom", "Grace extrinsically efficacious", "Human freedom is libertarian"]},
+    "CONG": {"summary": "Congruism: efficacious grace suited to circumstances God foresees.", "affirmations": ["Grace efficacy depends on divine wisdom", "Middle knowledge grounds providence"]},
+    "SCOT": {"summary": "Franciscan school of Duns Scotus: primacy of will, univocity of being, absolute primacy of Christ.", "affirmations": ["Being is univocal", "Will is primary faculty", "Incarnation independent of Fall"]},
+    "FRANC": {"summary": "Franciscan theology of Bonaventure: exemplarism, Christ as center, affective-mystical approach.", "affirmations": ["Christ is medium of all knowledge", "Love leads to wisdom"]},
+    "INFRA": {"summary": "God's decree of predestination logically follows his decree to permit the Fall.", "affirmations": ["Election from the fallen mass", "More 'merciful' framing"]},
+    "SUPRA": {"summary": "God's decree of predestination logically precedes his decree to permit the Fall.", "affirmations": ["Election logically prior to Fall", "Stronger sovereignty emphasis"]},
+    "DOM": {"summary": "Dominican spirituality: contemplata aliis tradere; truth, preaching, intellectual apostolate.", "affirmations": ["Contemplation ordered to preaching", "Truth is primary", "Thomism as framework"]},
+    "JES": {"summary": "Jesuit spirituality: finding God in all things; discernment, adaptability, active apostolate.", "affirmations": ["Ad maiorem Dei gloriam", "Discernment of spirits central"]},
+    "CARM": {"summary": "Carmelite spirituality: contemplative prayer, mystical theology, interior castle.", "affirmations": ["Prayer is essential", "Mystical union possible for all"]},
+    "BENED": {"summary": "Benedictine spirituality: ora et labora, stability, liturgy of the hours.", "affirmations": ["Liturgy is source and summit", "Stability and community"]},
+    "OPUS": {"summary": "Opus Dei: sanctification of ordinary work, universal call to holiness.", "affirmations": ["Work is path to holiness", "Lay faithful called to sanctity"]},
+    "FRAN": {"summary": "Franciscan spirituality: poverty, simplicity, love of creation, service to poor.", "affirmations": ["Lady Poverty embraced", "Creation reveals Creator"]},
+    "ORAT": {"summary": "Oratorian spirituality: pastoral gentleness, intellectual culture, liturgical beauty.", "affirmations": ["Gentleness in pastoral care", "Liturgy as school of holiness"]},
+    "CHART": {"summary": "Carthusian spirituality: eremitical solitude, perpetual silence, contemplative focus.", "affirmations": ["Solitude is path to God", "Stat crux dum volvitur orbis"]},
+    "OSA": {"summary": "Augustinian Order: interiority, community life, intellectual apostolate, Augustinian tradition.", "affirmations": ["Restless hearts find rest in God", "Truth dwelling within", "Common life and fraternity"]},
+    "OCSO": {"summary": "Cistercian/Trappist: strict Benedictine observance, silence, manual labor, contemplative depth.", "affirmations": ["Silence speaks to God", "Labor is prayer", "Simplicity leads to God"]},
+    "CSSR": {"summary": "Redemptorist: abundant redemption, popular missions, Alphonsian moral theology.", "affirmations": ["Copiosa apud eum redemptio", "Preach to most abandoned", "Equiprobabilism"]},
+    "SDB": {"summary": "Salesian: Don Bosco's preventive system, joy, youth education, Mary Help of Christians.", "affirmations": ["Education is matter of heart", "Reason, religion, loving-kindness"]},
+    "CM": {"summary": "Vincentian: service to poor, clergy formation, simplicity, humility, practical charity.", "affirmations": ["Poor are our masters", "Simplicity, humility, charity", "Love in action"]},
+    "CP": {"summary": "Passionist: memoria passionis, contemplation of Christ's suffering, preaching missions.", "affirmations": ["Keep memory of Passion alive", "Suffering united to Christ redeems"]},
+    "OSM": {"summary": "Servite: servants of Mary, compassion at Cross, Marian devotion, Seven Holy Founders.", "affirmations": ["Stand with Mary at Cross", "Compassion as way of life"]},
+    "OPRAEM": {"summary": "Norbertine: canons regular, liturgical solemnity, communal life, active-contemplative balance.", "affirmations": ["Contemplata aliis tradere", "Solemn liturgy sanctifies"]},
+    "MERC": {"summary": "Mercedarian: ransom of captives, fourth vow to give life for captives, Marian devotion.", "affirmations": ["Free captive at any cost", "Mary of Mercy liberates"]},
+    "CSC": {"summary": "Holy Cross: education as apostolate, hope in Cross, zeal for souls.", "affirmations": ["Cross is our only hope", "Education of mind and heart"]},
+    "OSBCAM": {"summary": "Camaldolese: eremitical Benedictine reform, threefold good, flexibility.", "affirmations": ["Solitude deepens communion", "Hermitage and cenobium united"]},
+    "NEOPLAT": {"summary": "Christian Neo-Platonism: participatory metaphysics, divine ideas, ascent of soul.", "affirmations": ["Reality participates in divine forms", "Beauty leads to Beautiful itself"]},
+    "THOMMETA": {"summary": "Thomistic realism: act-potency, matter-form, being as analogical.", "affirmations": ["Being is analogical", "Aristotelian categories serve theology"]},
+    "SCOTMETA": {"summary": "Scotist metaphysics: univocity of being, formal distinction, haecceity.", "affirmations": ["Being is univocal", "Individuation by haecceity"]},
+    "NOMIN": {"summary": "Universals are names/concepts only; reality consists of particulars. Associated with Ockham.", "affirmations": ["Universals don't exist in re", "Parsimony in metaphysical commitments"]},
+    "VOLUNT": {"summary": "Divine will is the ultimate ground of morality and truth; God's commands make things good.", "affirmations": ["God's will is the source of moral obligation", "Natural law depends on divine command"]},
+    "INTELL": {"summary": "Divine intellect is primary; God wills things because they are good, not vice versa.", "affirmations": ["Goodness is prior to divine willing", "Natural law reflects eternal reason"]},
+    "PALAM": {"summary": "Palamite theology: essence-energies distinction, theosis through uncreated energies.", "affirmations": ["God's energies are participated", "Theosis is real deification"]},
+    "RESSCH": {"summary": "Ressourcement Christology: Christ's concrete humanity, patristic retrieval.", "affirmations": ["Christ's humanity is central", "Chalcedon read through Cyril"]},
+    "CHALMAX": {"summary": "Chalcedonian Maximalist: strict two natures, two wills, two operations.", "affirmations": ["Two natures without confusion", "Dyothelitism essential"]},
+    "KENOT": {"summary": "Kenotic Christology: Philippians 2 self-emptying, Christ genuinely limited.", "affirmations": ["Christ truly emptied himself", "Solidarity with human weakness"]},
+    "TRIDSAC": {"summary": "Tridentine sacramentology: ex opere operato, proper matter and form.", "affirmations": ["Sacraments confer grace ex opere operato", "Trent irreformable"]},
+    "THOMSAC": {"summary": "Thomistic sacramentology: sacraments as instrumental causes.", "affirmations": ["Sacraments are instrumental causes", "Character configures to Christ"]},
+    "AUGSAC": {"summary": "Augustinian sacramentology: faith and interiority, visible words.", "affirmations": ["Word joined to element makes sacrament"]},
+    "MINSAC": {"summary": "Minimalist sacramental: focus on essentials for validity.", "affirmations": ["Essential form and matter suffice"]},
+    "EASTSAC": {"summary": "Eastern sacramental: mystery emphasis, epiclesis, theosis orientation.", "affirmations": ["Sacraments are holy mysteries", "Liturgy is heaven on earth"]},
+    "TRANSUB": {"summary": "Strict Tridentine transubstantiation: substance of bread/wine entirely converted to Body/Blood.", "affirmations": ["Whole substance changes", "Accidents remain without subject", "Real, true, substantial presence"]},
+    "TRANSIG": {"summary": "Open to transignification/transfinalisation language as complementary to transubstantiation.", "affirmations": ["Meaning and purpose truly change", "Phenomenological categories can illuminate"]},
+    "EUCHMYST": {"summary": "Eucharistic mysticism: personal encounter with Christ, adoration.", "affirmations": ["Eucharist is heart of Christian life", "Adoration deepens communion"]},
+    "ULTRA": {"summary": "Ultramontanism: strong papal authority, infallibility maximally interpreted.", "affirmations": ["Pope has supreme jurisdiction everywhere"]},
+    "PAPMOD": {"summary": "Moderate papalism: primacy and infallibility with episcopal collegiality.", "affirmations": ["Pope has primacy, bishops are true pastors"]},
+    "PAPMIN": {"summary": "Papal minimalism: infallibility strictly and rarely applied.", "affirmations": ["Infallibility rare and narrow"]},
+    "GALL": {"summary": "Gallicanism: national church autonomy, conciliar limits on pope.", "affirmations": ["National churches have autonomy"]},
+    "CONCIL": {"summary": "Conciliarism: councils supreme, can limit pope in emergencies.", "affirmations": ["Council can depose erring pope"]},
+    "EASTECC": {"summary": "Eastern Catholic ecclesiology: communion of churches, patriarchal structures.", "affirmations": ["Church is communion of churches"]},
+    "SYNOD": {"summary": "Synodalist: synodal processes, listening, pilgrim people.", "affirmations": ["Synodality constitutive of Church"]},
+    "THOMMOR": {"summary": "Thomistic natural law: acts ordered to end, virtue perfects nature.", "affirmations": ["Natural law participates in eternal law"]},
+    "MANUAL": {"summary": "Manualist moral theology: systematic treatment, confession-focused.", "affirmations": ["Clear categories aid confessors"]},
+    "VIRTUE": {"summary": "Virtue ethics: character, habituation, practical wisdom.", "affirmations": ["Character over isolated acts"]},
+    "AUGMOR": {"summary": "Augustinian moral: rightly ordered love, grace for virtue.", "affirmations": ["Love is form of virtues"]},
+    "PERSMOR": {"summary": "Personalist moral: dignity of person, conscience emphasized.", "affirmations": ["Person never merely a means"]},
+    "PROP": {"summary": "Proportionalism: weighing proportionate reasons in moral evaluation.", "affirmations": ["Proportionate reason can justify"]},
+    "NEOSCH": {"summary": "Neo-scholastic rigorism: strict manual tradition, moral absolutes.", "affirmations": ["Moral absolutes admit no exceptions"]},
+    "CASUIST": {"summary": "Casuistry: case-based moral reasoning, practical wisdom.", "affirmations": ["Cases illuminate principles"]},
+    "PROBAB": {"summary": "In doubtful moral cases, one may follow a solidly probable opinion favoring liberty.", "affirmations": ["Probable opinions can be followed", "Liberty in doubt"]},
+    "TUTIOR": {"summary": "In doubtful cases, one must follow the safer (tutior) opinion favoring the law.", "affirmations": ["Safer opinion must be followed", "Strictness in doubt"]},
+    "INTEG": {"summary": "The state should acknowledge and support the true religion; no strict separation of church and state.", "affirmations": ["Christ's kingship extends to political order", "Religious neutrality is impossible"]},
+    "INTEGHARD": {"summary": "Robust integralism: confessional state, suppression of public heresy, bishops direct temporal rulers.", "affirmations": ["Temporal power subordinate to spiritual", "Error has no rights publicly"]},
+    "INTEGSOFT": {"summary": "Moderate integralism: state should favor true religion but with prudential tolerance.", "affirmations": ["Prudential tolerance in pluralist contexts", "Gradual cultural transformation"]},
+    "LIBCATH": {"summary": "Liberal Catholicism: dialogue with modernity, religious freedom.", "affirmations": ["Dignitatis Humanae is development"]},
+    "DISTRIBUT": {"summary": "Wide distribution of productive property; neither capitalism nor socialism; subsidiarity central.", "affirmations": ["Property ownership should be widespread", "Against concentrated economic power"]},
+    "CORPCATH": {"summary": "Corporatist/solidarist model: organized vocational groups mediate between state and individual.", "affirmations": ["Guilds/corporations structure economy", "Class cooperation over conflict"]},
+    "SOCDEM": {"summary": "Catholic social democracy: welfare state, workers protections.", "affirmations": ["State has role in justice"]},
+    "LIBERTAR": {"summary": "Catholic libertarianism: free markets, minimal state.", "affirmations": ["Economic freedom is right"]},
+    "TRADNAT": {"summary": "Synthesis of Catholic tradition with national/ethnic identity; skeptical of globalism.", "affirmations": ["Nations are natural communities", "Borders and culture worth preserving"]},
+    "CATHUNIV": {"summary": "Emphasis on Church's universal mission transcending national boundaries.", "affirmations": ["Gospel transcends ethnicity", "International solidarity"]},
+    "WORKERCATH": {"summary": "Strong emphasis on workers' rights, unions, just wages, and dignity of labor.", "affirmations": ["Living wage is moral requirement", "Unions are natural right"]},
+    "AGRAR": {"summary": "Catholic agrarianism: rural life ideal, distributed land.", "affirmations": ["Land is proper basis of economy"]},
+    "TRAD": {"summary": "Traditionalist: traditional liturgy, doctrine, discipline.", "affirmations": ["Traditional Latin Mass normative"]},
+    "ROTR": {"summary": "Reform of the Reform: improve Novus Ordo with traditional elements.", "affirmations": ["Novus Ordo can be reverent"]},
+    "PROG": {"summary": "Progressive Catholic: ongoing reform, pastoral accompaniment.", "affirmations": ["Church must continually reform"]},
+    "RESS": {"summary": "Ressourcement: return to patristic and biblical sources.", "affirmations": ["Fathers are primary sources"]},
+    "STD": {"summary": "Mainstream Catholic without strong identification with any particular school.", "affirmations": ["Loyalty to Magisterium", "Balance of traditions"]},
+    "SSPX": {"summary": "Traditionalist resistance to post-conciliar changes while typically maintaining papal legitimacy.", "affirmations": ["Vatican II contains errors/ambiguities", "Traditional Mass normative"]},
+    "SEDE": {"summary": "Sedevacantist: the See is vacant; post-1958 claimants are not true popes.", "affirmations": ["No valid pope since Pius XII", "Vatican II invalid"]},
+    "SEDEPRIV": {"summary": "Material-formal distinction: current claimants are materially but not formally pope.", "affirmations": ["Material succession exists", "Formal authority lacking"]},
+    "ORDINAR": {"summary": "Anglican patrimony within Catholicism; Divine Worship liturgy, English choral tradition, married priesthood exception.", "affirmations": ["Anglican patrimony enriches Catholicism", "Divine Worship is legitimate liturgical expression", "Vernacular solemnity is possible"]},
+    "EASTLIT": {"summary": "Strong preference for Byzantine/Eastern liturgical forms; may attend Eastern Catholic parishes.", "affirmations": ["Eastern liturgies preserved ancient forms", "The West has much to learn from the East", "Liturgical diversity is treasure"]},
+    "ORTHOPH": {"summary": "Strong Eastern Orthodox sympathies; values Orthodox liturgy, theology, and spirituality while remaining Catholic.", "affirmations": ["Orthodoxy preserved much the West lost", "Palamite theology is valuable", "Filioque is negotiable"]},
+    "LUTHCAT": {"summary": "Affirms Lutheran-Catholic convergence on justification; JDDJ as genuine ecumenical achievement.", "affirmations": ["JDDJ represents real progress", "Faith alone rightly understood is Catholic", "Ecumenical progress is real"]},
+    "ECUMON": {"summary": "Catholics open to dialogue on Protestant soteriology; sees possible convergence on grace.", "affirmations": ["Augustinian heritage is shared", "Sola fide can be understood orthodoxly", "Dialogue advances truth"]},
+    "ANTIMOD": {"summary": "Emphasis on Pascendi, Lamentabili, anti-Modernist oath; suspicious of post-conciliar updating.", "affirmations": ["Modernism is synthesis of all heresies", "Anti-Modernist oath should be restored", "Aggiornamento was disaster"]},
+    "DEVPROG": {"summary": "Newman-style development of doctrine; organic growth from seminal principles; neither rigid nor rupturist.", "affirmations": ["Doctrine develops organically", "Later definitions make explicit what was implicit", "Development is not corruption"]},
+    "COMMUN": {"summary": "Communio school: Balthasar, Ratzinger, de Lubac; ecclesiology of communion, Christocentric focus.", "affirmations": ["Church is communion of persons", "Christocentrism integrates all theology", "Ressourcement and aggiornamento balance"]},
+    "RADORTH": {"summary": "Radical Orthodoxy (Milbank, Pickstock); critique of secular modernity, participatory ontology.", "affirmations": ["Secular reason is heretical", "All truth participates in divine truth", "Modernity must be narrated theologically"]},
+    "TRADUM": {"summary": "Traditional preferences within Traditionis Custodes restrictions; obedient but grieving; hopes for restoration.", "affirmations": ["Obedience to Pope even when painful", "TLM will eventually be freed", "Work within system for reform"]},
+    "REFORM": {"summary": "Reformed: TULIP soteriology, covenant theology, sola fide/sola scriptura, Westminster standards.", "affirmations": ["Total depravity", "Unconditional election", "Limited atonement", "Irresistible grace", "Perseverance of saints", "Forensic justification"]},
+    "LUTHERAN": {"summary": "Lutheran: Law-Gospel distinction, forensic justification, sacramental realism, two kingdoms, Book of Concord.", "affirmations": ["Justification by faith alone", "Simul iustus et peccator", "Real presence (sacramental union)", "Law-Gospel hermeneutic"]},
+    "ANGLICAN": {"summary": "Anglican: Via media, Prayer Book tradition, episcopal polity, Reformed Catholic synthesis, comprehensiveness.", "affirmations": ["Scripture, tradition, reason", "Episcopal apostolic succession", "Real presence (various views)", "Justification by faith (Article XI)"]},
+    "METHOD": {"summary": "Methodist/Wesleyan: Prevenient grace, entire sanctification, Arminian soteriology, holiness emphasis, quadrilateral.", "affirmations": ["Universal prevenient grace", "Free will restored by grace", "Entire sanctification possible", "Works of piety and mercy"]},
+    "EORTHO": {"summary": "Eastern Orthodox: Seven Ecumenical Councils, essence-energies distinction, theosis, rejection of papal supremacy and filioque, Divine Liturgy.", "affirmations": ["Nicene Creed without filioque", "Essence-energies distinction", "Theosis as salvation", "Conciliar authority over papal", "Mystery over scholastic precision"]},
+    "COPTIC": {"summary": "Coptic Orthodox: Miaphysite Christology (one united nature), Alexandrian tradition, St. Cyril's theology, ancient African Christianity.", "affirmations": ["One united nature of Christ (miaphysitism)", "Cyril of Alexandria normative", "Three Ecumenical Councils", "Apostolic See of Alexandria"]},
+    "ORIENTAL": {"summary": "Oriental Orthodox: Non-Chalcedonian churches (Coptic, Ethiopian, Armenian, Syriac), miaphysite Christology, ancient apostolic traditions.", "affirmations": ["Miaphysite Christology", "Reject Chalcedon's 'two natures' language", "Three Ecumenical Councils only", "Ancient liturgical traditions"]},
+};
+
+// Public figures and descriptions for each school
+const SCHOOL_FIGURES = {
+    "AUG": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.", works: "Confessions, City of God, On Grace and Free Will" },
+    "AUGP": { figure: "Prosper of Aquitaine", era: "c. 390–455", bio: "Lay theologian and defender of Augustine's strict predestinarian views against Semi-Pelagians.", works: "The Call of All Nations, Grace and Free Will" },
+    "NEOAUG": { figure: "Henri de Lubac, S.J.", era: "1896–1991", bio: "French Jesuit whose ressourcement theology recovered patristic and Augustinian themes.", works: "Surnaturel, Catholicism, The Mystery of the Supernatural" },
+    "SEMIAUG": { figure: "St. Francis de Sales", era: "1567–1622", bio: "Doctor of the Church known for gentle synthesis of Augustinian grace theology with pastoral accessibility.", works: "Introduction to the Devout Life, Treatise on the Love of God" },
+    "JANS": { figure: "Blaise Pascal", era: "1623–1662", bio: "French mathematician and philosopher associated with Port-Royal who defended Jansenist theology.", works: "Pensées, Provincial Letters" },
+    "THOM": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "The Angelic Doctor whose synthesis of Aristotelian philosophy and Christian theology became the Church's preferred framework.", works: "Summa Theologiae, Summa Contra Gentiles" },
+    "THOMP": { figure: "Reginald Garrigou-Lagrange, O.P.", era: "1877–1964", bio: "Dominican theologian and strict Thomist who defended classical metaphysics.", works: "The Three Ages of the Interior Life, Reality: A Synthesis of Thomistic Thought" },
+    "BANEZ": { figure: "Domingo Báñez, O.P.", era: "1528–1604", bio: "Spanish Dominican who developed the theory of physical premotion.", works: "Scholastic Commentaries on the Summa" },
+    "MOL": { figure: "Luis de Molina, S.J.", era: "1535–1600", bio: "Spanish Jesuit who developed middle knowledge (scientia media) to reconcile divine sovereignty with human freedom.", works: "Concordia" },
+    "CONG": { figure: "St. Robert Bellarmine, S.J.", era: "1542–1621", bio: "Jesuit Cardinal and Doctor who defended a modified Molinist position (Congruism).", works: "De Controversiis" },
+    "SCOT": { figure: "Bl. John Duns Scotus", era: "c. 1266–1308", bio: "The Subtle Doctor who championed univocity of being, primacy of will, and absolute primacy of Christ.", works: "Ordinatio, Quodlibetal Questions" },
+    "FRANC": { figure: "St. Bonaventure", era: "1221–1274", bio: "Seraphic Doctor whose mystical-affective theology emphasized Christ as the center of all knowledge.", works: "The Soul's Journey into God, Breviloquium" },
+    "INFRA": { figure: "Francisco Suárez, S.J.", era: "1548–1617", bio: "Spanish Jesuit whose infralapsarian scheme influenced Catholic and Reformed discussions.", works: "Disputationes Metaphysicae" },
+    "SUPRA": { figure: "Gottschalk of Orbais", era: "c. 808–867", bio: "Medieval monk whose strict double predestination was condemned but influenced later debates.", works: "Confessio Prolixior (fragments)" },
+    "DOM": { figure: "St. Dominic de Guzmán", era: "1170–1221", bio: "Founder of the Order of Preachers dedicated to contemplation, study, and preaching.", works: "Dominican Constitutions" },
+    "JES": { figure: "St. Ignatius of Loyola", era: "1491–1556", bio: "Founder of the Society of Jesus emphasizing discernment and finding God in all things.", works: "Spiritual Exercises, Autobiography" },
+    "CARM": { figure: "St. Teresa of Ávila", era: "1515–1582", bio: "Doctor of the Church and Carmelite reformer whose writings on contemplative prayer remain unsurpassed.", works: "Interior Castle, The Way of Perfection" },
+    "BENED": { figure: "St. Benedict of Nursia", era: "c. 480–547", bio: "Father of Western Monasticism whose Rule established ora et labora.", works: "Rule of St. Benedict" },
+    "OPUS": { figure: "St. Josemaría Escrivá", era: "1902–1975", bio: "Founder of Opus Dei emphasizing sanctification of ordinary work.", works: "The Way, Christ Is Passing By" },
+    "FRAN": { figure: "St. Francis of Assisi", era: "1181–1226", bio: "Founder of the Franciscan Order whose radical poverty renewed the medieval Church.", works: "Canticle of the Sun, Testament" },
+    "ORAT": { figure: "St. Philip Neri", era: "1515–1595", bio: "Apostle of Rome and founder of the Oratory known for joyful spirituality.", works: "Maxims and Sayings" },
+    "CHART": { figure: "St. Bruno of Cologne", era: "c. 1030–1101", bio: "Founder of the Carthusian Order dedicated to eremitical contemplation.", works: "Letters" },
+    "OSA": { figure: "St. Monica", era: "c. 331–387", bio: "Mother of Augustine and patroness of the Augustinian Order.", works: "Known through Augustine's Confessions" },
+    "OCSO": { figure: "St. Bernard of Clairvaux", era: "1090–1153", bio: "Doctor of the Church and Cistercian abbot whose mystical writings shaped medieval spirituality.", works: "Sermons on Song of Songs, On Loving God" },
+    "CSSR": { figure: "St. Alphonsus Liguori", era: "1696–1787", bio: "Founder of Redemptorists and Doctor of Moral Theology who developed equiprobabilism.", works: "Moral Theology, The Glories of Mary" },
+    "SDB": { figure: "St. John Bosco", era: "1815–1888", bio: "Founder of the Salesians dedicated to youth education through the Preventive System.", works: "Memoirs of the Oratory" },
+    "CM": { figure: "St. Vincent de Paul", era: "1581–1660", bio: "Founder of the Vincentians dedicated to serving the poor and forming clergy.", works: "Correspondence, Conferences" },
+    "CP": { figure: "St. Paul of the Cross", era: "1694–1775", bio: "Founder of the Passionists dedicated to preaching the Passion of Christ.", works: "Letters, Spiritual Diary" },
+    "OSM": { figure: "The Seven Holy Founders", era: "13th century", bio: "Seven Florentine merchants who founded the Servite Order devoted to Mary's sorrows.", works: "Servite Constitutions" },
+    "OPRAEM": { figure: "St. Norbert of Xanten", era: "c. 1080–1134", bio: "Founder of the Premonstratensian Canons combining contemplative life with active ministry.", works: "Known through hagiography" },
+    "MERC": { figure: "St. Peter Nolasco", era: "c. 1189–1256", bio: "Founder of the Mercedarians dedicated to ransoming Christian captives.", works: "Mercedarian Constitutions" },
+    "CSC": { figure: "Bl. Basil Moreau, C.S.C.", era: "1799–1873", bio: "Founder of the Congregation of Holy Cross dedicated to education and mission.", works: "Christian Education" },
+    "OSBCAM": { figure: "St. Romuald", era: "c. 951–1027", bio: "Founder of the Camaldolese combining Benedictine life with eremitical solitude.", works: "Brief Rule" },
+    "NEOPLAT": { figure: "Pseudo-Dionysius", era: "c. 5th–6th century", bio: "Anonymous author whose mystical theology profoundly influenced Eastern and Western Christianity.", works: "Divine Names, Mystical Theology" },
+    "THOMMETA": { figure: "Étienne Gilson", era: "1884–1978", bio: "French philosopher who championed Thomistic realism and the philosophy of being.", works: "The Spirit of Medieval Philosophy" },
+    "SCOTMETA": { figure: "Charles Sanders Peirce", era: "1839–1914", bio: "American philosopher influenced by Scotus whose work on univocity shaped later metaphysics.", works: "Collected Papers" },
+    "NOMIN": { figure: "William of Ockham", era: "c. 1287–1347", bio: "Franciscan friar whose nominalism challenged realist metaphysics.", works: "Summa Logicae" },
+    "VOLUNT": { figure: "Bl. John Duns Scotus", era: "c. 1266–1308", bio: "Champion of the primacy of will over intellect in both God and humans.", works: "Ordinatio" },
+    "INTELL": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Defender of intellectualism: the will follows the intellect's presentation of the good.", works: "Summa Theologiae I-II" },
+    "PALAM": { figure: "St. Gregory Palamas", era: "1296–1359", bio: "Byzantine theologian who defended the essence-energies distinction and theosis.", works: "The Triads" },
+    "RESSCH": { figure: "Hans Urs von Balthasar", era: "1905–1988", bio: "Swiss theologian whose dramatic Christology emphasized Christ as the concrete universal.", works: "The Glory of the Lord, Theo-Drama" },
+    "CHALMAX": { figure: "St. Cyril of Alexandria", era: "c. 376–444", bio: "Patriarch and Doctor whose Christology emphasized the unity of Christ's person.", works: "On the Unity of Christ" },
+    "KENOT": { figure: "Sergei Bulgakov", era: "1871–1944", bio: "Russian Orthodox theologian whose kenotic Sophiology explored divine self-emptying.", works: "The Lamb of God" },
+    "TRIDSAC": { figure: "St. Charles Borromeo", era: "1538–1584", bio: "Cardinal Archbishop who implemented Tridentine reforms with attention to sacramental discipline.", works: "Acts of the Church of Milan" },
+    "THOMSAC": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Dominican friar, Doctor Angelicus and Universal Doctor. Synthesized Aristotelian philosophy with Christian theology in the Summa Theologiae, creating the foundation for Thomism. His sacramental theology shaped Trent\'s formulations. Leo XIII declared his thought the official philosophy of Catholic Church (Aeterni Patris, 1879). Developed the theology of sacramental causality and matter/form in sacraments.", works: "Summa Theologiae III" },
+    "AUGSAC": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.", works: "On Baptism, Against the Donatists" },
+    "MINSAC": { figure: "Various Modern Theologians", era: "20th century", bio: "Minimalist sacramental approaches emphasizing faith over ritual precision.", works: "Various contemporary sources" },
+    "EASTSAC": { figure: "St. John Chrysostom", era: "c. 349–407", bio: "Doctor whose liturgy and sacramental theology shaped Eastern practice.", works: "On the Priesthood, Divine Liturgy" },
+    "TRANSUB": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Gave classical formulation to transubstantiation using Aristotelian categories.", works: "Summa Theologiae III, q. 75-77" },
+    "TRANSIG": { figure: "Edward Schillebeeckx, O.P.", era: "1914–2009", bio: "Belgian Dominican who explored transignification as a complement to transubstantiation.", works: "The Eucharist" },
+    "EUCHMYST": { figure: "St. John of the Cross", era: "1542–1591", bio: "Doctor of Mystical Theology who emphasized Eucharistic union with Christ.", works: "Ascent of Mount Carmel, Dark Night" },
+    "ULTRA": { figure: "Joseph de Maistre", era: "1753–1821", bio: "Counter-revolutionary thinker who championed absolute papal authority.", works: "The Pope" },
+    "PAPMOD": { figure: "St. John Henry Newman", era: "1801–1890", bio: "Cardinal whose balanced ecclesiology affirmed papal authority while respecting conscience.", works: "Essay on Development, Letter to Duke of Norfolk" },
+    "PAPMIN": { figure: "Johann Adam Möhler", era: "1796–1838", bio: "German theologian who emphasized the organic nature of the Church.", works: "Unity in the Church, Symbolism" },
+    "GALL": { figure: "Jacques-Bénigne Bossuet", era: "1627–1704", bio: "French bishop who defended Gallican liberties while remaining Catholic.", works: "Declaration of the Gallican Clergy" },
+    "CONCIL": { figure: "Jean Gerson", era: "1363–1429", bio: "Chancellor of Paris who advocated conciliar authority during the Western Schism.", works: "On Ecclesiastical Power" },
+    "EASTECC": { figure: "Metropolitan Andrey Sheptytsky", era: "1865–1944", bio: "Ukrainian Greek Catholic leader who preserved Eastern traditions within Catholic communion.", works: "Pastoral Letters" },
+    "SYNOD": { figure: "Cardinal Walter Kasper", era: "1933–present", bio: "German Cardinal whose ecclesiology emphasizes synodality and local church.", works: "The Catholic Church" },
+    "THOMMOR": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Developed natural law ethics grounded in human nature's orientation toward the good.", works: "Summa Theologiae I-II, q. 90-108" },
+    "MANUAL": { figure: "Henry Davis, S.J.", era: "1866–1952", bio: "Author of a widely-used moral theology manual in the manualist tradition.", works: "Moral and Pastoral Theology" },
+    "VIRTUE": { figure: "Alasdair MacIntyre", era: "1929–present", bio: "Philosopher whose recovery of virtue ethics influenced Catholic moral theology.", works: "After Virtue" },
+    "AUGMOR": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.", works: "On the Morals of the Catholic Church" },
+    "PERSMOR": { figure: "St. John Paul II", era: "1920–2005", bio: "Philosopher-pope whose personalist ethics grounded moral norms in human dignity.", works: "Love and Responsibility, Veritatis Splendor" },
+    "PROP": { figure: "Richard McCormick, S.J.", era: "1922–2000", bio: "American moral theologian who developed proportionalist approaches.", works: "Notes on Moral Theology" },
+    "NEOSCH": { figure: "Cardinal Alfredo Ottaviani", era: "1890–1979", bio: "Prefect of the Holy Office who defended neo-scholastic theology.", works: "Various curial documents" },
+    "CASUIST": { figure: "St. Alphonsus Liguori", era: "1696–1787", bio: "Doctor of Moral Theology whose casuistry sought the mean between rigorism and laxism.", works: "Theologia Moralis" },
+    "PROBAB": { figure: "Bartolomé de Medina, O.P.", era: "1527–1580", bio: "Dominican who first systematically defended probabilism.", works: "Commentary on Prima Secundae" },
+    "TUTIOR": { figure: "Giovanni Patuzzi, O.P.", era: "1700–1769", bio: "Dominican defender of tutiorism against probabilist laxity.", works: "Ethica Christiana" },
+    "INTEG": { figure: "Pope St. Pius X", era: "1835–1914", bio: "Pope who condemned Modernism and promoted integral Catholicism.", works: "Pascendi Dominici Gregis" },
+    "INTEGHARD": { figure: "Archbishop Marcel Lefebvre", era: "1905–1991", bio: "Founder of the SSPX who rejected post-conciliar reforms.", works: "They Have Uncrowned Him" },
+    "INTEGSOFT": { figure: "Thomas Pink", era: "Contemporary", bio: "Philosopher who defends integralism while accepting Vatican II.", works: "Articles on religious liberty" },
+    "LIBCATH": { figure: "John Courtney Murray, S.J.", era: "1904–1967", bio: "American Jesuit whose work on religious liberty influenced Dignitatis Humanae.", works: "We Hold These Truths" },
+    "DISTRIBUT": { figure: "G.K. Chesterton", era: "1874–1936", bio: "English writer who championed Distributism as a third way.", works: "What's Wrong with the World" },
+    "CORPCATH": { figure: "Heinrich Pesch, S.J.", era: "1854–1926", bio: "German Jesuit economist who developed Catholic corporatism.", works: "Lehrbuch der Nationalökonomie" },
+    "SOCDEM": { figure: "Jacques Maritain", era: "1882–1973", bio: "French Thomist whose political philosophy supported Christian democracy.", works: "Integral Humanism, Man and the State" },
+    "LIBERTAR": { figure: "Michael Novak", era: "1933–2017", bio: "American theologian who argued for compatibility between Catholicism and democratic capitalism.", works: "The Spirit of Democratic Capitalism" },
+    "TRADNAT": { figure: "Juan Donoso Cortés", era: "1809–1853", bio: "Spanish Catholic political theorist who defended traditional order.", works: "Essay on Catholicism, Liberalism, and Socialism" },
+    "CATHUNIV": { figure: "Pope Francis", era: "1936–present", bio: "Pope whose emphasis on mercy and global solidarity represents Catholic universalism.", works: "Evangelii Gaudium, Laudato Si'" },
+    "WORKERCATH": { figure: "Dorothy Day", era: "1897–1980", bio: "Co-founder of the Catholic Worker Movement combining radical Catholicism with service to the poor.", works: "The Long Loneliness" },
+    "AGRAR": { figure: "Hilaire Belloc", era: "1870–1953", bio: "Anglo-French writer who promoted agrarian distributism.", works: "The Servile State" },
+    "TRAD": { figure: "Dietrich von Hildebrand", era: "1889–1977", bio: "Philosopher who defended traditional Catholic teaching against liturgical reform.", works: "Trojan Horse in the City of God" },
+    "ROTR": { figure: "Pope Benedict XVI", era: "1927–2022", bio: "Pope whose 'reform of the reform' sought continuity while addressing abuses.", works: "The Spirit of the Liturgy" },
+    "PROG": { figure: "Karl Rahner, S.J.", era: "1904–1984", bio: "German Jesuit whose transcendental Thomism shaped progressive Catholic theology.", works: "Foundations of Christian Faith" },
+    "RESS": { figure: "Henri de Lubac, S.J.", era: "1896–1991", bio: "Leader of the ressourcement movement returning to patristic sources.", works: "Catholicism, The Splendor of the Church" },
+    "STD": { figure: "St. John Henry Newman", era: "1801–1890", bio: "Cardinal whose thought exemplifies balanced, mainstream Catholic theology.", works: "Grammar of Assent, Parochial Sermons" },
+    "SSPX": { figure: "Archbishop Marcel Lefebvre", era: "1905–1991", bio: "Founder of the Society of St. Pius X who rejected aspects of Vatican II.", works: "I Accuse the Council" },
+    "SEDE": { figure: "Various Authors", era: "20th–21st c.", bio: "Sedevacantists hold the See of Peter has been vacant since Vatican II.", works: "Various sedevacantist publications" },
+    "SEDEPRIV": { figure: "Bp. Guérard des Lauriers", era: "1898–1988", bio: "Dominican bishop who developed the thesis that post-conciliar popes hold office materially but not formally.", works: "The Cassiciacum Thesis" },
+    "ORDINAR": { figure: "Msgr. Jeffrey Steenson", era: "1952–present", bio: "First Ordinary of the Personal Ordinariate for former Anglicans.", works: "Various addresses" },
+    "EASTLIT": { figure: "Alexander Schmemann", era: "1921–1983", bio: "Orthodox liturgical theologian whose work influenced Eastern Catholic renewal.", works: "For the Life of the World" },
+    "ORTHOPH": { figure: "Sergei Bulgakov", era: "1871–1944", bio: "Russian Orthodox theologian whose Sophiology attracted Catholic interest.", works: "The Orthodox Church" },
+    "LUTHCAT": { figure: "George Lindbeck", era: "1923–2018", bio: "Lutheran theologian who worked on Catholic-Lutheran dialogue.", works: "The Nature of Doctrine" },
+    "ECUMON": { figure: "Louis Bouyer", era: "1913–2004", bio: "Lutheran convert who worked on liturgical renewal and ecumenism.", works: "The Spirit and Forms of Protestantism" },
+    "ANTIMOD": { figure: "Pope St. Pius X", era: "1835–1914", bio: "Pope who issued Pascendi and the Oath Against Modernism.", works: "Pascendi Dominici Gregis" },
+    "DEVPROG": { figure: "St. John Henry Newman", era: "1801–1890", bio: "His Essay on Development established criteria for distinguishing true from false development.", works: "Essay on Development of Christian Doctrine" },
+    "COMMUN": { figure: "Joseph Ratzinger", era: "1927–2022", bio: "Co-founder of Communio journal advocating ressourcement over Rahnerian progressivism.", works: "Introduction to Christianity" },
+    "RADORTH": { figure: "John Milbank", era: "1952–present", bio: "Anglican theologian whose Radical Orthodoxy retrieves patristic-medieval thought.", works: "Theology and Social Theory" },
+    "TRADUM": { figure: "Pope Francis", era: "1936–present", bio: "Issued Traditionis Custodes restricting the 1962 Missal.", works: "Traditionis Custodes" },
+    "REFORM": { figure: "John Calvin", era: "1509–1564", bio: "French Reformer whose Institutes systematized Reformed theology.", works: "Institutes of the Christian Religion" },
+    "LUTHERAN": { figure: "Martin Luther", era: "1483–1546", bio: "German Reformer whose theology emphasized justification by faith alone.", works: "Small Catechism, Bondage of the Will" },
+    "ANGLICAN": { figure: "Thomas Cranmer", era: "1489–1556", bio: "Archbishop of Canterbury who shaped Anglican liturgy and theology.", works: "Book of Common Prayer" },
+    "METHOD": { figure: "John Wesley", era: "1703–1791", bio: "Founder of Methodism emphasizing sanctification and practical holiness.", works: "Sermons, Plain Account of Christian Perfection" },
+    "EORTHO": { figure: "St. Photios the Great", era: "c. 810–893", bio: "Patriarch of Constantinople and defender of Eastern Orthodoxy.", works: "Mystagogy of the Holy Spirit" },
+    "COPTIC": { figure: "St. Athanasius", era: "c. 296–373", bio: "Patriarch and Doctor who defended Nicene orthodoxy.", works: "On the Incarnation" },
+    "ORIENTAL": { figure: "St. Cyril of Alexandria", era: "c. 376–444", bio: "His Christological formula is normative for Oriental Orthodoxy.", works: "Twelve Anathemas" }
+};
+
+// Legacy compatibility - PATRON_SAINTS now references SCHOOL_FIGURES
+const PATRON_SAINTS = Object.fromEntries(
+    Object.entries(SCHOOL_FIGURES).map(([code, data]) => [
+        code, 
+        { primary: [data.figure, data.era], why: data.bio }
+    ])
+);
+
+// =============================================
+// HETERODOXY WARNINGS
+// =============================================
+const HETERODOXY_STATUS = {
     "JANS": {
-        "level": "condemned",
-        "title": "⚠️ Condemned Position",
-        "warning": "Jansenism was formally condemned by multiple popes (Cum Occasione, 1653; Unigenitus, 1713).",
-        "documents": "Cum Occasione (1653), Unigenitus (1713)",
-        "guidance": "While figures like Pascal offer genuine spiritual insight, the core Jansenist theological system is incompatible with Catholic orthodoxy."
+        level: "condemned",
+        title: "⚠️ Condemned Position",
+        warning: "Jansenism was formally condemned by multiple popes (Cum Occasione, 1653; Unigenitus, 1713). Its strict predestinarianism and moral rigorism were judged contrary to Catholic teaching.",
+        documents: "Cum Occasione (1653), Unigenitus (1713)",
+        guidance: "While figures like Pascal offer genuine spiritual insight, the core Jansenist theological system is incompatible with Catholic orthodoxy. Read with discernment."
     },
     "SEDE": {
-        "level": "schismatic",
-        "title": "⛔ Schismatic Position",
-        "warning": "Sedevacantism rejects the legitimacy of post-Vatican II popes, placing adherents outside communion with the Catholic Church.",
-        "documents": "Canon Law on Schism, Ecclesia Dei (1988)",
-        "guidance": "This position is incompatible with Catholic faith."
+        level: "schismatic",
+        title: "⛔ Schismatic Position",
+        warning: "Sedevacantism rejects the legitimacy of post-Vatican II popes, placing adherents outside communion with the Catholic Church.",
+        documents: "Canon Law on Schism, Ecclesia Dei (1988)",
+        guidance: "This position is incompatible with Catholic faith. The Church cannot defect, and valid papal elections cannot be nullified by private judgment."
     },
     "SEDEPRIV": {
-        "level": "schismatic",
-        "title": "⛔ Schismatic Position",
-        "warning": "Sedeprivationism holds that post-conciliar popes are 'material' but not 'formal' popes.",
-        "documents": "Canon Law on Schism",
-        "guidance": "This position lacks any precedent in Catholic theology."
+        level: "schismatic",
+        title: "⛔ Schismatic Position",
+        warning: "Sedeprivationism holds that post-conciliar popes are 'material' but not 'formal' popes—a novel theory without basis in Catholic ecclesiology.",
+        documents: "Canon Law on Schism",
+        guidance: "This position lacks any precedent in Catholic theology and effectively denies the Church's visible unity."
     },
     "PROP": {
-        "level": "problematic",
-        "title": "⚠️ Magisterially Critiqued",
-        "warning": "Proportionalism was critiqued by St. John Paul II in Veritatis Splendor (1993).",
-        "documents": "Veritatis Splendor (1993), §§75-83",
-        "guidance": "Pure proportionalism undermines absolute moral norms."
+        level: "problematic",
+        title: "⚠️ Magisterially Critiqued",
+        warning: "Proportionalism was critiqued by St. John Paul II in Veritatis Splendor (1993) as incompatible with the Catholic understanding of intrinsically evil acts.",
+        documents: "Veritatis Splendor (1993), §§75-83",
+        guidance: "While proportionate reasoning has a place in Catholic moral analysis, pure proportionalism undermines absolute moral norms."
     },
-    "SSPX": {
-        "level": "irregular",
-        "title": "⚠️ Canonically Irregular",
-        "warning": "The SSPX's episcopal consecrations without papal mandate (1988) incurred excommunication (later lifted). The Society remains canonically irregular.",
-        "documents": "Ecclesia Dei (1988), 2009 Decree",
-        "guidance": "Their canonical situation is irregular and sacraments involve complications."
+    "TRANSIG": {
+        level: "caution",
+        title: "⚡ Requires Clarification",
+        warning: "Transignification, if proposed as a replacement for transubstantiation rather than a complement, was critiqued by Paul VI in Mysterium Fidei (1965).",
+        documents: "Mysterium Fidei (1965)",
+        guidance: "The Church affirms transubstantiation as the proper term. Transignification may illumine pastoral aspects but cannot replace the metaphysical reality."
     },
     "GALL": {
-        "level": "historical",
-        "title": "📜 Historically Superseded",
-        "warning": "Gallicanism's claims about limits on papal authority were implicitly rejected by Vatican I (1870).",
-        "documents": "Pastor Aeternus (Vatican I, 1870)",
-        "guidance": "Historical Gallicanism is superseded by Vatican I."
+        level: "historical",
+        title: "📜 Historically Superseded",
+        warning: "Gallicanism's claims about limits on papal authority were implicitly rejected by Vatican I's definitions on papal primacy and infallibility (1870).",
+        documents: "Pastor Aeternus (Vatican I, 1870)",
+        guidance: "Historical Gallicanism is superseded by Vatican I. Some concerns about centralization find legitimate expression in subsidiarity."
     },
     "CONCIL": {
-        "level": "historical",
-        "title": "📜 Historically Superseded",
-        "warning": "Strict conciliarism was condemned at the Fifth Lateran Council and contradicted by Vatican I.",
-        "documents": "Pastor Aeternus (Vatican I, 1870)",
-        "guidance": "The pope is not subject to conciliar judgment."
+        level: "historical",
+        title: "📜 Historically Superseded",
+        warning: "Strict conciliarism—holding that councils are superior to popes—was condemned at the Fifth Lateran Council and contradicted by Vatican I.",
+        documents: "Pastor Aeternus (Vatican I, 1870)",
+        guidance: "While councils have great authority, the pope is not subject to conciliar judgment. Moderate views on conciliar-papal cooperation remain legitimate."
+    },
+    "KENOT": {
+        level: "caution",
+        title: "⚡ Requires Clarification",
+        warning: "Extreme kenoticism can imply that Christ divested himself of divine attributes, which contradicts Chalcedonian Christology.",
+        documents: "Council of Chalcedon (451)",
+        guidance: "Moderate kenotic themes (Phil 2:5-11) are orthodox; extreme versions that compromise Christ's divinity are not."
+    },
+    "NOMIN": {
+        level: "caution",
+        title: "⚡ Philosophical Tension",
+        warning: "Extreme nominalism undermines the analogical knowledge of God central to Catholic theology.",
+        documents: "Various magisterial affirmations of analogical predication",
+        guidance: "While some nominalist insights are valuable, pure nominalism is difficult to reconcile with Catholic metaphysics and sacramental realism."
+    },
+    "SUPRA": {
+        level: "caution",
+        title: "⚡ Requires Qualification",
+        warning: "Strict supralapsarianism, especially in its double predestination form, approaches positions condemned in Jansenism.",
+        documents: "Council of Orange (529), Council of Trent",
+        guidance: "Catholic theology affirms predestination to glory but not predestination to damnation. Supralapsarian language requires careful qualification."
+    },
+    "SSPX": {
+        level: "irregular",
+        title: "⚠️ Canonically Irregular",
+        warning: "The SSPX's episcopal consecrations without papal mandate (1988) incurred excommunication (later lifted). The Society remains canonically irregular.",
+        documents: "Ecclesia Dei (1988), 2009 Decree",
+        guidance: "While the SSPX preserves many traditional practices, their canonical situation is irregular and sacraments involve complications."
+    },
+    "LIBCATH": {
+        level: "caution",
+        title: "⚡ Wide Spectrum",
+        warning: "Some forms of liberal Catholicism accommodate positions contrary to Church teaching. The label covers a wide spectrum from legitimate development to heterodoxy.",
+        documents: "Various encyclicals on modernism",
+        guidance: "Distinguish legitimate development from accommodation to secular ideology. Vatican II's Gaudium et Spes offers balanced engagement with modernity."
     },
     "REFORM": {
-        "level": "non-catholic",
-        "title": "✝️ Non-Catholic Tradition",
-        "warning": "Reformed/Calvinist theology represents a Protestant tradition with substantial disagreements with Catholic teaching.",
-        "documents": "Council of Trent, Joint Declaration (1999)",
-        "guidance": "Study for ecumenical understanding, but recognize incompatibility with Catholic doctrine."
+        level: "non-catholic",
+        title: "✝️ Non-Catholic Tradition",
+        warning: "Reformed theology represents a Protestant tradition with substantial disagreements with Catholic teaching on justification, sacraments, and ecclesiology.",
+        documents: "Council of Trent, Joint Declaration (1999)",
+        guidance: "Study Reformed thought for ecumenical understanding, but recognize its incompatibility with Catholic doctrine on key points."
     },
     "LUTHERAN": {
-        "level": "non-catholic",
-        "title": "✝️ Non-Catholic Tradition",
-        "warning": "Lutheran theology differs from Catholic teaching on justification, the Mass, and papal authority.",
-        "documents": "Council of Trent, Joint Declaration (1999)",
-        "guidance": "The Joint Declaration represents convergence, but real differences remain."
+        level: "non-catholic",
+        title: "✝️ Non-Catholic Tradition",
+        warning: "Lutheran theology, while closer to Catholicism than other Protestant traditions, differs on justification, the Mass, and papal authority.",
+        documents: "Council of Trent, Joint Declaration (1999)",
+        guidance: "The Joint Declaration represents significant convergence, but real differences remain."
+    },
+    "ANGLICAN": {
+        level: "non-catholic",
+        title: "✝️ Non-Catholic Tradition",
+        warning: "Anglicanism spans from Catholic-leaning Anglo-Catholicism to evangelical Protestantism. Apostolicae Curae (1896) declared Anglican orders invalid.",
+        documents: "Apostolicae Curae (1896)",
+        guidance: "Anglo-Catholic spirituality has much to offer, but Anglicanism is not in communion with Rome."
+    },
+    "METHOD": {
+        level: "non-catholic",
+        title: "✝️ Non-Catholic Tradition",
+        warning: "Methodism is a Protestant tradition with significant differences from Catholic sacramental and ecclesial theology.",
+        documents: "Various ecumenical dialogues",
+        guidance: "Methodist spirituality on holiness can complement Catholic devotion, but Methodist ecclesiology differs substantially."
     },
     "EORTHO": {
-        "level": "non-catholic",
-        "title": "☦️ Orthodox (Not in Full Communion)",
-        "warning": "Eastern Orthodoxy shares apostolic succession but is not in full communion with Rome.",
-        "documents": "Unitatis Redintegratio",
-        "guidance": "Orthodox theology is a treasure for Catholics. The differences are real but the traditions are close."
+        level: "non-catholic",
+        title: "☦️ Orthodox (Not in Full Communion)",
+        warning: "Eastern Orthodoxy shares apostolic succession and valid sacraments but is not in full communion with Rome due to the 1054 schism.",
+        documents: "Unitatis Redintegratio",
+        guidance: "Orthodox theology is a treasure for Catholics. The differences (papal primacy, filioque) are real but the traditions are close."
     },
-}
+    "COPTIC": {
+        level: "non-catholic",
+        title: "☦️ Oriental Orthodox",
+        warning: "The Coptic Orthodox Church separated after Chalcedon (451), though modern dialogue suggests the differences may be more verbal than real.",
+        documents: "Common Christological declarations",
+        guidance: "Coptic spirituality is ancient and rich. Recent agreements suggest substantial Christological agreement."
+    },
+    "ORIENTAL": {
+        level: "non-catholic",
+        title: "☦️ Oriental Orthodox",
+        warning: "Oriental Orthodox churches separated after Chalcedon but recent dialogue shows significant Christological agreement.",
+        documents: "Various Christological agreements",
+        guidance: "These ancient churches preserve apostolic tradition. Catholics can learn much while recognizing the separation."
+    }
+};
 
-# =============================================
-# QUESTION TOPICS
-# =============================================
+const AXES = [
+    ["GRACE", "Grace Theology"],
+    ["PAPAL", "Papal Authority"],
+    ["LIT", "Liturgical Traditionalism"],
+    ["RIGOR", "Moral Rigorism"],
+    ["PIETY", "Personal Piety"],
+    ["SCRIPT", "Scripture Authority & Hermeneutics"],
+    ["JUST", "Justification & Union"],
+    ["ESCH", "Eschatology & Final Judgment"]
+];
 
-QUESTION_TOPICS = {
+const AXIS_ENDPOINTS = {"GRACE": ["Synergistic", "Monergistic"], "PAPAL": ["Conciliar/Local", "Ultramontane"], "LIT": ["Reformist", "Traditional"], "RIGOR": ["Pastoral/Lenient", "Rigorist"], "PIETY": ["Lower Intensity", "High Contemplative"], "SCRIPT": ["Magisterium-first", "Scripture-first"], "JUST": ["Forensic emphasis", "Participatory/union"], "ESCH": ["This-world focus", "Judgment & beatific end"]};
+
+const AXIS_MULTIPLIER = {"GRACE": 3, "PAPAL": 3, "LIT": 3, "RIGOR": 3, "PIETY": 3, "SCRIPT": 4, "JUST": 4, "ESCH": 4};
+
+// Questions from original quiz
+const QUESTIONS = [
+    {
+        "text": "How would you rank the normative authority of Scripture, Tradition, and the Magisterium?",
+        "category": "Scripture & Tradition",
+        "options": [
+            ["Scripture has the highest dignity and is the supreme norm, but only as read within apostolic Tradition and the Church's infallible teaching. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 4, "RESS": 3, "AUG": 2, "BENED": 1, "ORAT": 1, "STD": 2}],
+            ["Scripture and Tradition are co-equal fonts of revelation, while the Magisterium is their authoritative interpreter and guardian. (Thomist, Thomist (Realist))", {"THOM": 3, "THOMMETA": 2, "TRIDSAC": 1, "PAPMOD": 2, "STD": 2, "DOM": 1}],
+            ["In practice, the Magisterium is the proximate rule of faith; Scripture and Tradition are received through that living authority. (Ultramontane)", {"ULTRA": 4, "PAPMOD": 2, "INTEG": 2, "NEOSCH": 1}],
+            ["The hierarchy can err widely in non-definitive matters; Scripture and the Fathers supply the main corrective. (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2, "ROTR": 1, "NEOAUG": 1, "PAPMIN": 1}],
+        ],
+        "axis_weights": {"SCRIPT": 4}
+    },
+    {
+        "text": "Which approach best describes how Scripture should normally be interpreted in theology and preaching?",
+        "options": [
+            ["Patristic exegesis (literal + spiritual senses) should normally govern; historical criticism is secondary and constrained. (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2, "AUG": 2, "BENED": 2, "TRAD": 2, "NEOPLAT": 1}],
+            ["Historical-grammatical meaning is primary; spiritual senses are real but must be controlled by the literal sense. (Thomist, Dominican)", {"THOM": 3, "DOM": 2, "THOMMETA": 1, "STD": 2}],
+            ["Historical-critical methods are useful and often necessary, but must be disciplined by dogma and the Church's rule of faith. (Moderate Papalist, Ressourcement)", {"PAPMOD": 2, "RESS": 2, "STD": 2, "JES": 2, "NEOAUG": 1}],
+            ["The text's meaning is best read through contemporary experience and community reception. (Progressive, Personalist)", {"PROG": 3, "PERSMOR": 2, "LIBCATH": 1}],
+        ],
+        "axis_weights": {"SCRIPT": 3}
+    },
+    {
+        "text": "In theological disputes, which is the normal direction of reasoning?",
+        "options": [
+            ["Scripture (as received in the Church) judges theology; systems must be revised to fit Scripture's full witness. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "AUG": 2, "BENED": 1}],
+            ["Dogma and metaphysics provide the framework that stabilizes interpretation; Scripture is read within that settled grammar. (Thomist, Thomist (Realist))", {"THOM": 3, "THOMMETA": 2, "NEOSCH": 2, "DOM": 1}],
+            ["The living Magisterium provides the proximate norm; speculative resolution is less important than obedience. (Ultramontane, Moderate Papalist)", {"ULTRA": 3, "PAPMOD": 2, "STD": 1}],
+            ["Multiple theologies can legitimately coexist; Scripture underdetermines systematic disputes. (Mainstream)", {"STD": 2, "PAPMOD": 1, "RESS": 1, "PROG": 1}],
+        ],
+        "axis_weights": {"SCRIPT": 3}
+    },
+    {
+        "text": "Which Bible translation posture best serves the Church?",
+        "options": [
+            ["Liturgical stability and doctrinal continuity: a formal, traditional Catholic translation style. (Benedictine, Traditionalist)", {"BENED": 3, "TRAD": 2, "TRIDSAC": 2, "NEOSCH": 1, "ROTR": 1}],
+            ["Critical-text precision: modern scholarly editions are valuable so long as doctrine governs interpretation. (Dominican, Thomist)", {"DOM": 2, "THOM": 2, "JES": 2, "PAPMOD": 1, "STD": 2}],
+            ["Pastoral accessibility: clarity for modern readers is the priority. (Progressive, Personalist)", {"PROG": 2, "PERSMOR": 2, "LIBCATH": 1, "STD": 1}],
+            ["Different translations for different uses (liturgy vs study vs devotion). (Mainstream)", {"STD": 3, "RESS": 1, "PAPMOD": 1}],
+        ],
+        "axis_weights": {"SCRIPT": 2, "LIT": 1}
+    },
+    {
+        "text": "Justification consists primarily in which of the following?",
+        "category": "Grace & Justification",
+        "options": [
+            ["Real interior renewal through infused sanctifying grace: God makes the soul truly righteous, not merely declared so. (Thomist, Jansenist)", {"THOM": 3, "JANS": 3, "THOMSAC": 1, "TRIDSAC": 2, "THOMMOR": 1, "DOM": 1, "STD": 2}],
+            ["Real participation in Christ Himself: union with Christ is the core, with forensic language secondary. (Neo-Augustinian)", {"NEOAUG": 4, "RESS": 2, "AUG": 2, "EUCHMYST": 1, "BENED": 1, "PALAM": 1}],
+            ["Primarily a forensic declaration (acquittal) with sanctification following as a distinct work. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 4, "ANGLICAN": 2}],
+            ["Covenantal status within the people of God; categories of 'infused habit' are less central. (Progressive)", {"PROG": 2, "PERSMOR": 1, "TRANSIG": 1, "STD": 1}],
+        ],
+        "axis_weights": {"JUST": 4, "GRACE": 1}
+    },
+    {
+        "text": "After baptism, can justification increase?",
+        "options": [
+            ["Yes: one can truly grow in grace and righteousness (while remaining entirely dependent on grace). (Thomist, Augustinian)", {"THOM": 3, "AUG": 2, "JANS": 2, "TRIDSAC": 2, "STD": 1}],
+            ["Yes, best described as deeper participation/union with Christ rather than as a 'quantity' of righteousness. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "AUG": 1, "PALAM": 1}],
+            ["No: justification is complete as a verdict; only sanctification increases. (Reformed, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["The question is misleading; use primarily relational language. (Progressive)", {"PROG": 2, "PERSMOR": 1}],
+        ],
+        "axis_weights": {"JUST": 3}
+    },
+    {
+        "text": "How are justification and sanctification related?",
+        "options": [
+            ["Distinct but inseparable graces: God both forgives and makes holy; separating them distorts the Gospel. (Thomist, Neo-Augustinian)", {"THOM": 2, "NEOAUG": 2, "RESS": 1, "AUG": 2, "STD": 2}],
+            ["Justification is logically prior; sanctification follows as fruit, and confusing them risks works-righteousness. (Reformed, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "ANGLICAN": 2, "METHOD": 2}],
+            ["Union with Christ is prior: both justification and sanctification flow from participation in Christ. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EUCHMYST": 1}],
+            ["Pastoral framing matters more than precise distinctions; emphasize accompaniment and growth. (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2, "LIBCATH": 1}],
+        ],
+        "axis_weights": {"JUST": 3}
+    },
+    {
+        "text": "Post-baptismal concupiscence is best described as which of the following?",
+        "options": [
+            ["A disordered inclination that remains as a wound and penalty, but is not sin unless consented to. (Thomist, Thomist (Natural Law))", {"THOM": 3, "THOMMOR": 2, "TRIDSAC": 1, "STD": 2}],
+            ["Not formally sinful (guilt/reatus removed in baptism), though materially sinful (disordered inclination). Remains \'for the contest\' (ad agonem); culpability attaches only to consent. (Augustinian, Tridentine)", {"AUG": 3, "JANS": 1, "NEOAUG": 2, "TRIDSAC": 2, "STD": 1}],
+            ["In itself it is truly sin in the regenerate (even without consent), though not always imputable in the same way. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 4}],
+            ["Primarily a psychological phenomenon; 'sin' language should be reserved for conscious harmful choices. (Progressive, Personalist)", {"PROG": 3, "PERSMOR": 2}],
+        ],
+        "axis_weights": {"RIGOR": 2, "GRACE": 1}
+    },
+    {
+        "text": "Habitual vice formed by prior voluntary sin…",
+        "options": [
+            ["Can incur guilt through culpable omission: failure to pursue virtue and remedies becomes morally weighty. (Augustinian, Augustinian Moral)", {"AUG": 2, "AUGMOR": 2, "VIRTUE": 2, "NEOSCH": 1}],
+            ["Is a dangerous disposition, but guilt attaches only to present voluntary acts and consent. (Thomist, Thomist (Natural Law))", {"THOM": 2, "THOMMOR": 2, "STD": 1}],
+            ["Shows that the will is deeply bound; strict ascetic discipline and frequent confession are the safest path. (Traditionalist, Manualist)", {"TRAD": 2, "MANUAL": 2, "NEOSCH": 2, "TUTIOR": 1}],
+            ["The Church should avoid scrupulosity: focus on healing and gradual growth. (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2}],
+        ],
+        "axis_weights": {"RIGOR": 2}
+    },
+    {
+        "text": "Can a Christian know they are presently in the state of grace?",
+        "options": [
+            ["Not with absolute certainty, but one can have moral confidence through signs, humility, and the sacraments. (Thomist, Mainstream)", {"THOM": 3, "STD": 2, "PAPMOD": 1}],
+            ["One should maintain hopeful trust without seeking assurance; fear and humility protect against presumption. (Augustinian)", {"AUG": 2, "AUGP": 1, "TRAD": 1, "NEOSCH": 1}],
+            ["Strong assurance is spiritually dangerous and usually presumption; emphasize penitence. (Jansenist, Tutiorist)", {"JANS": 3, "TUTIOR": 2, "MANUAL": 1}],
+            ["Interior peace is a sufficient indicator; anxiety about grace is unhealthy. (Progressive, Personalist)", {"PROG": 2, "PERSMOR": 2}],
+        ],
+        "axis_weights": {"JUST": 2, "ESCH": 2}
+    },
+    {
+        "text": "Final perseverance is best described as which of the following?",
+        "options": [
+            ["A special grace to be humbly prayed for; not guaranteed, but God is faithful. (Thomist, Augustinian)", {"THOM": 3, "AUG": 2, "STD": 2, "DOM": 1}],
+            ["Infallibly granted to those truly predestined; the elect cannot finally fall away. (Reformed)", {"REFORM": 4, "AUGP": 2, "SUPRA": 1}],
+            ["A mystery better handled pastorally than speculatively; emphasize fidelity in the present. (Moderate Papalist, Mainstream)", {"PAPMOD": 2, "STD": 2, "RESS": 1}],
+            ["Assurance of salvation is central to the Gospel's comfort; excessive emphasis on uncertainty is harmful. (Progressive)", {"PROG": 2, "LIBCATH": 1, "PERSMOR": 1}],
+        ],
+        "axis_weights": {"GRACE": 2, "ESCH": 2}
+    },
+    {
+        "text": "The Christian life is primarily oriented toward which of the following?",
+        "category": "Eschatology",
+        "options": [
+            ["The Beatific Vision: loving contemplation of God as final end. (Thomist, Benedictine)", {"THOM": 3, "BENED": 2, "DOM": 1, "STD": 2}],
+            ["Final judgment and salvation from damnation: vigilance, penitence, and fear of the Lord. (Jansenist, Traditionalist)", {"JANS": 3, "TRAD": 2, "NEOSCH": 2, "MANUAL": 1, "TUTIOR": 1}],
+            ["Theosis/deification: participation in divine life as transformative communion. (Palamite/Eastern)", {"PALAM": 4, "EASTSAC": 2, "EUCHMYST": 2, "NEOPLAT": 1, "RESS": 1}],
+            ["Renewal of the world and social holiness: the Church's mission in history. (Progressive)", {"PROG": 3, "SOCDEM": 1, "WORKERCATH": 1, "PERSMOR": 1}],
+        ],
+        "axis_weights": {"ESCH": 4}
+    },
+    {
+        "text": "Purgatory is best understood primarily as which of the following?",
+        "category": "Eschatology",
+        "options": [
+            ["Satisfaction and purification from temporal punishment due to sin. (Manualist, Neo-Scholastic)", {"MANUAL": 2, "NEOSCH": 2, "TRAD": 1, "STD": 2}],
+            ["Final purification of love: removal of attachments so the soul can see God. (Thomist, Benedictine)", {"THOM": 2, "BENED": 2, "RESS": 1, "NEOAUG": 1, "STD": 2}],
+            ["An encounter with divine fire that heals and illumines (Eastern-leaning emphasis). (Palamite/Eastern, Eastern Sacramental)", {"PALAM": 3, "EASTSAC": 2, "EUCHMYST": 1, "NEOPLAT": 1}],
+            ["A symbol pointing to God's mercy; details shouldn't be systematized. (Progressive)", {"PROG": 2, "PERSMOR": 1}],
+        ],
+        "axis_weights": {"ESCH": 3, "RIGOR": 1}
+    },
+    {
+        "text": "If a non-definitive magisterial teaching seems doubtful or imprudent, what is the Catholic posture?",
+        "options": [
+            ["Interior assent is normally required; public disagreement risks scandal and disobedience. (Ultramontane)", {"ULTRA": 3, "PAPMOD": 1, "INTEG": 1}],
+            ["Religious submission is owed, but one may withhold interior assent cautiously while seeking clarification and remaining obedient. (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 3, "THOM": 1}],
+            ["Respectful, reasoned critique is sometimes necessary; the Fathers and Tradition can correct modern confusions. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2, "TRAD": 2, "SSPX": 2, "PAPMIN": 1}],
+            ["If it conflicts with Tradition, public resistance is justified. (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2, "SEDEPRIV": 1, "SEDE": 1}],
+            ["Conscience is supreme; dissent can be fully legitimate. (Progressive, Liberal Catholic)", {"PROG": 3, "LIBCATH": 2, "PERSMOR": 1}],
+        ],
+        "axis_weights": {"PAPAL": 2, "SCRIPT": 1}
+    },
+    {
+        "text": "Theologians primarily serve the Church by…",
+        "options": [
+            ["Clarifying and defending settled doctrine with precision (often scholastic). (Dominican, Thomist)", {"DOM": 2, "THOM": 2, "NEOSCH": 2, "MANUAL": 1}],
+            ["Retrieving the Fathers and liturgical tradition to renew theology (ressourcement). (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2, "BENED": 1, "NEOPLAT": 1}],
+            ["Mediating doctrine pastorally for modern contexts while preserving essentials. (Moderate Papalist, Mainstream)", {"PAPMOD": 2, "STD": 2, "JES": 2, "PERSMOR": 1}],
+            ["Testing boundaries and developing new paradigms to meet contemporary needs. (Progressive)", {"PROG": 3, "LIBCATH": 1}],
+        ],
+        "axis_weights": {"SCRIPT": 1}
+    },
+    {
+        "text": "What is the relationship between fallen human nature and the ability to do good?",
+        "options": [
+            ["Fallen humans can do natural goods but absolutely cannot move toward salvation without prevenient grace (Augustinian, Strict Augustinian)", {"AUG": 3, "AUGP": 3, "THOM": 2, "BANEZ": 2, "JANS": 2}],
+            ["Fallen humans retain significant natural capacity; grace assists but doesn't wholly initiate (Semi-Augustinian, Molinist)", {"SEMIAUG": 3, "MOL": 2, "PROG": 1}],
+            ["Human nature is so corrupted that even natural goods are tainted without grace (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
+            ["Grace and nature cooperate from the start; the distinction is somewhat artificial (Neo-Augustinian, Ressourcement)", {"NEOAUG": 2, "RESS": 2}],
+        ],
+        "axis_weights": {"GRACE": 1}
+    },
+    {
+        "text": "How does God's grace relate to human freedom in salvation?",
+        "options": [
+            ["Grace is intrinsically efficacious—it infallibly moves the will while preserving freedom (Bañezian)", {"BANEZ": 3, "THOMP": 2, "DOM": 2, "AUGP": 2}],
+            ["Grace is extrinsically efficacious through God's middle knowledge of free response (Molinist)", {"MOL": 3, "JES": 2, "CONG": 1}],
+            ["Grace is congruous—fitted to circumstances so it will be freely accepted (Congruist)", {"CONG": 3, "JES": 1, "MOL": 1}],
+            ["Grace heals and elevates nature, enabling but not determining free response (Thomist)", {"THOM": 3, "DOM": 1}],
+            ["Grace is offered universally; efficacy depends wholly on human cooperation (Semi-Augustinian)", {"SEMIAUG": 2, "PROG": 1}],
+        ],
+        "axis_weights": {"GRACE": 2}
+    },
+    {
+    "text": "How should we understand the decree of predestination and reprobation?",
+    "options": [
+        ["God actively elects some to glory and, with equal sovereignty and by a parallel act of will, positively decrees the damnation of the rest for His glory. (Symmetrical Double Predestination / Equal Ultimacy)", {"SUPRA": 5, "AUGP": 3}],
+        ["God actively elects some to glory by an efficacious decree, but merely 'passes over' (preteritio) the rest, justly permitting them to fall into the end their sins deserve without a positive decree of reprobation. (Asymmetrical Double Predestination / Preterition)", {"REFORM": 4, "AUG": 4, "THOM": 4, "BANEZ": 4, "JANS": 3, "INFRA": 3}],
+        ["We should only speak of God predestining the elect to salvation; the loss of the reprobate is entirely a mystery of human rejection and resistance to grace, not a divine decree. (Single Predestination)", {"LUTHERAN": 5, "ANGLICAN": 4, "METHOD": 3, "STD": 3, "PROG": 2}],
+        ["Predestination is grounded in God's infallible foreknowledge (scientia media) of how each person would freely cooperate with grace in any given circumstance. (Conditional / Molinist)", {"MOL": 5, "JES": 4, "CONG": 3, "SEMIAUG": 3, "STD": 1}]
+    ],
+    "axis_weights": {"GRACE": 5, "ESCH": 2}
+},
+   {
+    "text": "Regarding the logical order of God's decrees about predestination and the Fall:",
+    "options": [
+        ["Supralapsarian: The decree of election logically precedes the decree to permit the Fall (Sovereignty emphasis).", {"SUPRA": 5, "REFORM": 3, "AUGP": 1, "SCOT": 1}],
+        ["Infralapsarian: The decree of election logically follows the decree to permit the Fall (Mercy emphasis).", {"INFRA": 5, "AUG": 3, "THOM": 4, "BANEZ": 2, "JANS": 2, "STD": 1}],
+        ["The decree is based on God's 'Middle Knowledge' of how a person would freely respond in any given circumstance.", {"MOL": 5, "JES": 4, "CONG": 3}],
+        ["These scholastic categories are overly speculative and may distort the simplicity of the Gospel.", {"STD": 3, "RESS": 2, "PROG": 2}]
+    ],
+    "axis_weights": {"GRACE": 3}
+},
+    {
+        "text": "Would the Incarnation have occurred if Adam had never sinned?",
+        "options": [
+            ["Yes—Christ is the absolute primacy of creation, independent of sin (Scotist)", {"SCOT": 3, "FRANC": 3, "SUPRA": 2, "CARM": 1}],
+            ["No—the Incarnation was ordered primarily to redemption from sin (Thomist)", {"THOM": 3, "AUG": 2, "DOM": 1, "INFRA": 1}],
+            ["Probably not, but the question is speculative (Mainstream)", {"STD": 2}],
+            ["Yes, but the mode would have been different (glorious rather than suffering) (Neo-Augustinian)", {"NEOAUG": 2, "RESS": 1}],
+        ],
+        "axis_weights": {"GRACE": -1}
+    },
+    {
+        "text": "What is the nature of sufficient grace?",
+        "options": [
+            ["Sufficient grace gives real power to act but becomes efficacious only with God's further motion (Bañezian, Strict Thomist)", {"BANEZ": 3, "THOMP": 2, "DOM": 2}],
+            ["Sufficient grace becomes efficacious through human free cooperation foreseen by middle knowledge (Molinist, Jesuit)", {"MOL": 3, "JES": 2, "CONG": 2}],
+            ["The distinction between sufficient and efficacious grace is largely verbal (Reformed, Lutheran)", {"REFORM": 2, "LUTHERAN": 2}],
+            ["Sufficient grace truly enables, and its becoming efficacious involves genuine synergy (Semi-Augustinian)", {"SEMIAUG": 2, "THOM": 1}],
+        ],
+        "axis_weights": {"GRACE": 2}
+    },
+    {
+        "text": "What is the relationship between God's will and God's intellect?",
+        "options": [
+            ["Intellectualist: God wills things because they are good; goodness is prior to willing. The divine intellect apprehends the good, and the will necessarily follows. (Intellectualist, Thomist)", {"INTELL": 4, "THOM": 4, "DOM": 3, "THOMMETA": 2}],
+            ["Radical Voluntarist: Things are good solely because God wills them; divine will alone is the arbitrary source of all moral order. (Nominalist)", {"NOMIN": 4, "VOLUNT": 4}],
+            ["Moderate Voluntarism: God's will is formally primary and free, but always acts according to wisdom and the divine nature—never arbitrarily. (Scotist)", {"SCOT": 4, "VOLUNT": 2, "FRANC": 3, "SCOTMETA": 2}],
+            ["The distinction is artificial; will and intellect are identical in God and mutually implicate each other in the divine simplicity. (Palamite/Eastern)", {"PALAM": 3, "NEOPLAT": 2, "EASTECC": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is the source of moral obligations?",
+        "options": [
+            ["Radical divine command—things are good/evil solely because God wills them so; there is no independent rational order prior to the divine decree. (Nominalist)", {"NOMIN": 4, "VOLUNT": 4}],
+            ["The nature of things known by reason—God wills them because they are good. Natural law is grounded in eternal reason, not arbitrary will. (Thomist, Intellectualist)", {"THOM": 4, "INTELL": 4, "THOMMOR": 3, "DOM": 2}],
+            ["God's will freely establishes the moral order, but this will is always guided by wisdom and the divine nature, never arbitrary or irrational. (Scotist)", {"SCOT": 4, "VOLUNT": 2, "FRANC": 3}],
+            ["Participation in eternal law, which is both rational and willed—the law written on our hearts reflects both divine wisdom and divine decree. (Augustinian, Neo-Platonist)", {"AUG": 3, "NEOPLAT": 3, "THOM": 1}],
+            ["A combination: God's will establishes positive/ceremonial law, but natural law reflects the rational order of creation. (Mainstream)", {"STD": 3, "THOM": 1, "PAPMOD": 1}],
+        ],
+        "axis_weights": {"RIGOR": 1}
+    },
+    {
+        "text": "Regarding universals (like 'humanity' or 'justice'):",
+        "options": [
+            ["Moderate realism: Universals exist in things as real natures (Thomist (Realist), Thomist)", {"THOMMETA": 3, "THOM": 2, "DOM": 1, "INTELL": 1}],
+            ["Nominalism: Universals are only names/mental concepts; only particulars exist", {"NOMIN": 3, "VOLUNT": 1}],
+            ["Platonic/Participatory: Universals exist primarily in the divine mind; things participate (Neo-Platonist, Augustinian)", {"NEOPLAT": 3, "AUG": 2, "FRANC": 1}],
+            ["Scotist: Universals have a 'formal distinction'—less than real but more than nominal", {"SCOTMETA": 3, "SCOT": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is the best framework for understanding being?",
+        "options": [
+            ["Analogy of being (Analogia Entis): Being is predicated analogically between God and creatures—neither univocally nor equivocally, but proportionally. (Thomist, Thomist (Realist))", {"THOMMETA": 5, "THOM": 4, "DOM": 2, "INTELL": 2}],
+            ["Univocity of being: Being is predicated in the same fundamental sense of God and creatures, though infinitely different in mode and perfection. (Scotist)", {"SCOTMETA": 5, "SCOT": 4, "FRANC": 2}],
+            ["Participatory/Emanation: Creatures participate in or emanate from divine being through a hierarchy of degrees; emphasis on return to the One. (Neo-Platonist)", {"NEOPLAT": 5, "AUG": 2, "PALAM": 2}],
+            ["The question is too abstract and speculative; focus on God's revealed names and salvation history rather than metaphysical speculation. (Nominalist)", {"NOMIN": 3, "VOLUNT": 1, "PROG": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Which religious order's spirituality most resonates with you?",
+        "options": [
+            ["Dominican: Contemplation for preaching; truth and intellectual apostolate", {"DOM": 3, "THOM": 2, "INTELL": 1}],
+            ["Jesuit: Finding God in all things; discernment, adaptability, active mission", {"JES": 3, "MOL": 1, "CONG": 1}],
+            ["Franciscan: Poverty, simplicity, creation spirituality, affective devotion", {"FRAN": 3, "FRANC": 2, "SCOT": 1}],
+            ["Carmelite: Contemplative prayer, mystical ascent, interior transformation", {"CARM": 3, "NEOPLAT": 1, "PALAM": 1}],
+            ["Benedictine: Liturgy, stability, ora et labora, monastic rhythm", {"BENED": 3, "TRAD": 1, "TRIDSAC": 1}],
+            ["Opus Dei: Sanctification of ordinary work, lay spirituality (Opus Dei)", {"OPUS": 3, "INTEG": 1, "NEOSCH": 1}],
+            ["Oratorian: Community of secular priests, intellectual and pastoral (Oratorian)", {"ORAT": 3, "STD": 1}],
+            ["No particular preference / diocesan spirituality (Mainstream)", {"STD": 2}],
+        ],
+        "axis_weights": {"PIETY": 1}
+    },
+    {
+        "text": "What is the highest form of the religious life?",
+        "options": [
+            ["Contemplative life ordered to preaching and teaching (Dominican ideal)", {"DOM": 3, "THOM": 2}],
+            ["Pure contemplation in solitude (Carthusian/Carmelite ideal)", {"CARM": 3, "CHART": 3, "BENED": 1}],
+            ["Active apostolate for the greater glory of God (Jesuit ideal)", {"JES": 3, "OPUS": 1}],
+            ["Liturgical prayer as the Church's public worship (Benedictine ideal)", {"BENED": 3, "TRAD": 1}],
+            ["Evangelical poverty and simplicity among the people (Franciscan ideal)", {"FRAN": 3, "FRANC": 2}],
+            ["Sanctification in ordinary secular life (Opus Dei ideal)", {"OPUS": 3}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "Which best expresses Christ's presence in the Eucharist?",
+        "options": [
+            ["Transubstantiation: the whole substance of bread/wine converts to Christ's Body/Blood; accidents remain. (Thomist, Tridentine)", {"TRANSUB": 3, "TRIDSAC": 3, "THOMSAC": 3, "THOM": 2, "TRAD": 1}],
+            ["Real presence affirmed, but transignification language can complement traditional terms. (Transignification, Ressourcement)", {"TRANSIG": 3, "RESS": 2, "PROG": 1}],
+            ["True change occurs but precise Latin metaphysics is not binding. (Eastern Orthodox, Eastern Sacramental)", {"EORTHO": 3, "EASTSAC": 3, "EUCHMYST": 2, "PALAM": 1}],
+            ["Mystery best approached contemplatively rather than philosophically defined. (Eucharistic Mysticism, Carmelite)", {"EUCHMYST": 3, "CARM": 2, "NEOPLAT": 1}],
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+    {
+        "text": "What is the primary way to understand the Eucharist?",
+        "options": [
+            ["Real, substantial presence of Christ's Body and Blood under sacramental species (Transubstantiation, Tridentine)", {"TRANSUB": 3, "TRIDSAC": 3, "THOMSAC": 2, "TRAD": 2}],
+            ["The sacrifice of Calvary made present—emphasis on propitiation (Tridentine, Traditionalist)", {"TRIDSAC": 3, "TRAD": 2, "MANUAL": 1}],
+            ["Communion/meal: The gathered community encounters the Risen Lord (Progressive)", {"PROG": 2, "RESS": 1, "TRANSIG": 1}],
+            ["Mystical participation in heavenly liturgy (Eastern Sacramental, Eucharistic Mysticism)", {"EASTSAC": 3, "EUCHMYST": 2, "PALAM": 1}],
+            ["All of the above in balance (Mainstream)", {"STD": 2, "THOM": 1}],
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+    {
+        "text": "How do the sacraments cause grace?",
+        "options": [
+            ["Instrumental efficient causality—sacraments are true instruments that cause grace (Thomist Sacramental, Thomist)", {"THOMSAC": 3, "THOM": 3, "TRIDSAC": 2}],
+            ["Moral causality—sacraments move God to give grace, not physical instruments (Minimalist Sacramental)", {"MINSAC": 2, "SCOT": 1}],
+            ["Occasional causality—God gives grace on the occasion of sacramental rites (Nominalist)", {"NOMIN": 2, "MINSAC": 1}],
+            ["Mystical/symbolic causality—sacraments participate in and manifest grace (Eastern Sacramental, Neo-Platonist)", {"EASTSAC": 3, "NEOPLAT": 2, "AUGSAC": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Regarding ex opere operato (sacraments work by the rite performed):",
+        "options": [
+            ["Strongly affirm: Grace is given by valid administration regardless of minister's holiness (Tridentine, Thomist Sacramental)", {"TRIDSAC": 3, "THOMSAC": 3, "THOM": 2, "STD": 2}],
+            ["Affirm, but recipient's disposition significantly affects fruitfulness (Thomist, Augustinian Sacramental)", {"THOM": 2, "AUGSAC": 2, "STD": 2}],
+            ["The emphasis can obscure the importance of faith and community (Progressive)", {"PROG": 2, "TRANSIG": 1}],
+            ["Valid but the Eastern tradition emphasizes epiclesis and mystery over mechanism (Eastern Sacramental, Palamite/Eastern)", {"EASTSAC": 3, "PALAM": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is the extent of papal authority?",
+        "options": [
+            ["Full, immediate, and ordinary jurisdiction over the entire Church (Ultramontane)", {"ULTRA": 3, "INTEG": 2}],
+            ["Real primacy with ordinary jurisdiction, but exercised with restraint (Moderate)", {"PAPMOD": 3, "STD": 2}],
+            ["Primacy of honor and final appeal, but not ordinary jurisdiction over all (Minimalist)", {"PAPMIN": 3, "GALL": 2, "EASTECC": 2}],
+            ["Conciliar authority is superior to papal in certain circumstances (Conciliarist, Gallican)", {"CONCIL": 3, "GALL": 2}],
+        ],
+        "axis_weights": {"PAPAL": 3}
+    },
+    {
+        "text": "How should papal infallibility be understood?",
+        "options": [
+            ["Broadly: The ordinary magisterium shares in a kind of practical infallibility (Ultramontane)", {"ULTRA": 2, "INTEG": 1}],
+            ["Narrowly: Only ex cathedra definitions on faith/morals are strictly infallible (Papal Minimalist, Gallican)", {"PAPMIN": 3, "GALL": 2, "CONCIL": 2, "EASTECC": 2}],
+            ["Moderately: Infallibility is rare but the ordinary magisterium binds seriously (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 2, "THOM": 1}],
+            ["The concept itself is problematic or needs significant qualification (Progressive)", {"PROG": 2, "CONCIL": 1}],
+        ],
+        "axis_weights": {"PAPAL": 1}
+    },
+    {
+        "text": "Where does episcopal authority come from?",
+        "options": [
+            ["Directly from the Pope; bishops are essentially papal delegates (Ultramontane)", {"ULTRA": 3}],
+            ["From Christ through episcopal consecration, but exercised in communion with Rome (Eastern Catholic, Papal Minimalist)", {"PAPMIN": 2, "EASTECC": 3, "SYNOD": 2, "THOM": 1}],
+            ["From Christ through consecration; Rome has primacy but not source of jurisdiction (Gallican, Conciliarist)", {"GALL": 2, "CONCIL": 2, "PAPMIN": 2}],
+            ["Bishops are true ordinaries with proper authority; papal primacy is real but limited (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 2}],
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+    {
+        "text": "How did the early Church function?",
+        "options": [
+            ["Essentially as today—with Roman primacy and centralized authority (Ultramontane)", {"ULTRA": 3, "INTEG": 1}],
+            ["More synodally and collegially, with Roman primacy developing over time (Synodalist, Conciliarist)", {"SYNOD": 3, "CONCIL": 3, "EASTECC": 2, "GALL": 2}],
+            ["With real Roman primacy but more subsidiarity than later periods (Moderate Papalist, Mainstream)", {"PAPMOD": 2, "STD": 2}],
+            ["As a communion of local churches with Rome as first among equals (Eastern Catholic, Synodalist)", {"EASTECC": 3, "SYNOD": 2, "PAPMIN": 2}],
+        ],
+        "axis_weights": {"PAPAL": 1}
+    },
+    {
+        "text": "What is the proper model of Church unity?",
+        "options": [
+            ["Juridical unity under papal authority with doctrinal uniformity (Ultramontane, Integralist)", {"ULTRA": 3, "INTEG": 2, "NEOSCH": 1}],
+            ["Communion of churches united in faith, sacraments, and fellowship with Rome (Eastern Catholic, Synodalist)", {"EASTECC": 3, "SYNOD": 2, "PAPMOD": 2}],
+            ["Unity in essentials, liberty in doubtful matters, charity in all (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2, "RESS": 1}],
+            ["Conciliar unity: The college of bishops with the Pope as head (Conciliarist, Synodalist)", {"CONCIL": 2, "SYNOD": 2, "PAPMOD": 1}],
+        ],
+        "axis_weights": {"PAPAL": 1}
+    },
+    {
+        "text": "What is the proper relationship between Church and State?",
+        "options": [
+            ["Hard integralism: State must formally recognize Church and suppress public heresy", {"INTEGHARD": 3, "INTEG": 2, "TRAD": 1}],
+            ["Soft integralism: State should favor true religion with prudential tolerance", {"INTEGSOFT": 3, "INTEG": 1, "STD": 1}],
+            ["Separation with cooperation: Distinct spheres cooperating for human flourishing (Moderate Papalist, Mainstream)", {"PAPMOD": 2, "STD": 2, "RESS": 1}],
+            ["Liberal Catholic: Religious liberty is a genuine right; separation protects both (Liberal Catholic, Progressive)", {"LIBCATH": 3, "PROG": 2}],
+            ["Depends entirely on circumstances; no model universally normative (Mainstream)", {"STD": 2}],
+        ],
+        "axis_weights": {"PAPAL": 1, "RIGOR": 1}
+    },
+    {
+        "text": "Should Catholic rulers defer to bishops on faith and morals?",
+        "options": [
+            ["Yes, always—temporal authority is subordinate to spiritual in these matters (Hard Integralist, Integralist)", {"INTEGHARD": 3, "INTEG": 2, "ULTRA": 2}],
+            ["Generally yes, but rulers have their own prudential competence (Soft Integralist, Moderate Papalist)", {"INTEGSOFT": 2, "PAPMOD": 2, "STD": 1}],
+            ["Only when the teaching is clear and definitive (Gallican)", {"GALL": 2, "PAPMIN": 1}],
+            ["No—temporal and spiritual authority should be strictly separate (Liberal Catholic, Progressive)", {"LIBCATH": 3, "PROG": 2}],
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+    {
+        "text": "Is a confessional Catholic state still the ideal?",
+        "options": [
+            ["Yes, absolutely—this is the perennial teaching of the Church (Hard Integralist, Integralist)", {"INTEGHARD": 3, "INTEG": 3, "TRAD": 2, "SSPX": 2}],
+            ["In principle yes, but rarely prudent in modern pluralist societies (Soft Integralist)", {"INTEGSOFT": 3, "STD": 1}],
+            ["No—Dignitatis Humanae represents genuine doctrinal development (Liberal Catholic, Progressive)", {"LIBCATH": 3, "PROG": 2, "RESS": 1}],
+            ["The question is more complex than a simple yes/no (Mainstream)", {"STD": 2, "PAPMOD": 1}],
+        ],
+        "axis_weights": {"PAPAL": 2, "LIT": 1}
+    },
+    {
+        "text": "What is the relationship between Christ's kingship and political order?",
+        "options": [
+            ["Christ is King of nations; states should formally acknowledge this (Integralist, Hard Integralist)", {"INTEG": 3, "INTEGHARD": 3, "TRAD": 2}],
+            ["Christ's kingship is primarily spiritual; political acknowledgment is optional (Liberal Catholic, Progressive)", {"LIBCATH": 2, "PROG": 2}],
+            ["Social kingship is real but expressed through culture more than law (Soft Integralist)", {"INTEGSOFT": 3, "RESS": 1}],
+            ["Christ's kingdom is not of this world in a political sense (Progressive)", {"PROG": 2, "LIBCATH": 1}],
+        ],
+        "axis_weights": {"PAPAL": 1}
+    },
+    {
+        "text": "Which economic vision best reflects Catholic social teaching?",
+        "options": [
+            ["Distributism: Wide property distribution; neither capitalism nor socialism", {"DISTRIBUT": 3, "INTEG": 1, "TRAD": 1}],
+            ["Corporatism/Solidarism: Vocational groups mediate between individual and state", {"CORPCATH": 3, "INTEG": 1}],
+            ["Social market economy: Free markets with strong social safety net (Social Democrat)", {"SOCDEM": 3, "LIBCATH": 1, "STD": 1}],
+            ["Free market with minimal state, relying on private charity (Libertarian)", {"LIBERTAR": 3}],
+            ["Worker cooperatives and strong unions as primary vehicles for justice (Worker-Catholic)", {"WORKERCATH": 3, "SOCDEM": 1}],
+            ["Catholic agrarianism: Return to the land and local economies (Agrarian, Distributist)", {"AGRAR": 3, "DISTRIBUT": 2, "TRAD": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Is a living wage a strict moral obligation?",
+        "options": [
+            ["Yes—employers must pay wages sufficient for dignified family support (Worker-Catholic, Distributist)", {"WORKERCATH": 3, "DISTRIBUT": 2, "SOCDEM": 2, "CORPCATH": 2}],
+            ["It's a strong moral ideal but circumstances may prevent it (Mainstream)", {"STD": 2, "INTEG": 1}],
+            ["Market wages are just if freely agreed; charity handles insufficiency (Libertarian)", {"LIBERTAR": 3}],
+            ["Yes, and the state should enforce it when employers fail (Social Democrat, Worker-Catholic)", {"SOCDEM": 2, "WORKERCATH": 2}],
+        ],
+        "axis_weights": {"RIGOR": 1}
+    },
+    {
+        "text": "What is the role of unions in Catholic social teaching?",
+        "options": [
+            ["Essential: Workers have a natural right to organize that must be respected (Worker-Catholic, Distributist)", {"WORKERCATH": 3, "DISTRIBUT": 2, "SOCDEM": 2, "CORPCATH": 2}],
+            ["Generally positive but can become corrupt or politically captured (Mainstream)", {"STD": 2, "INTEG": 1}],
+            ["Unnecessary in a truly free market; often harmful (Libertarian)", {"LIBERTAR": 3}],
+            ["Useful within a corporatist structure that includes all vocational groups (Corporatist)", {"CORPCATH": 3}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is the proper scope of private property?",
+        "options": [
+            ["Wide distribution is essential; concentrated ownership is problematic (Distributist, Worker-Catholic)", {"DISTRIBUT": 3, "WORKERCATH": 2, "AGRAR": 2}],
+            ["Private property is a natural right with minimal restrictions (Libertarian)", {"LIBERTAR": 3}],
+            ["Property has a social mortgage; regulation for common good is justified (Social Democrat, Worker-Catholic)", {"SOCDEM": 3, "WORKERCATH": 2}],
+            ["Property should be organized through vocational/corporate bodies (Corporatist)", {"CORPCATH": 3}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "How should Catholics view national identity?",
+        "options": [
+            ["Nations are natural communities; Catholicism should be inculturated nationally (Trad. Nationalist)", {"TRADNAT": 3, "INTEG": 1, "TRAD": 1}],
+            ["The Church transcends nations; nationalism easily becomes idolatrous (Catholic Universalist)", {"CATHUNIV": 3, "PROG": 1, "JES": 1}],
+            ["Moderate patriotism is healthy but subordinate to Catholic identity (Mainstream)", {"STD": 2, "PAPMOD": 1}],
+            ["National sovereignty defends against globalist ideologies hostile to faith (Trad. Nationalist, Integralist)", {"TRADNAT": 2, "INTEG": 2, "SSPX": 1}],
+        ],
+        "axis_weights": {"LIT": 1}
+    },
+    {
+        "text": "How should Catholic nations approach immigration?",
+        "options": [
+            ["Prioritize cultural and religious compatibility over economic factors (Trad. Nationalist, Integralist)", {"TRADNAT": 3, "INTEG": 2, "INTEGHARD": 2}],
+            ["Welcome the stranger as a Gospel imperative; borders are secondary (Catholic Universalist, Progressive)", {"CATHUNIV": 3, "PROG": 2, "LIBCATH": 2}],
+            ["Balance hospitality with legitimate concerns for common good (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2}],
+            ["Local communities should decide without centralized immigration policy (Distributist)", {"DISTRIBUT": 2, "LIBERTAR": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Should the Church resist international institutions promoting secular values?",
+        "options": [
+            ["Yes, strongly—these institutions are hostile to natural law and faith (Integralist, Trad. Nationalist)", {"INTEG": 3, "TRADNAT": 3, "TRAD": 2, "SSPX": 2}],
+            ["Engage critically but don't refuse all cooperation (Mainstream, Moderate Papalist)", {"STD": 2, "PAPMOD": 2}],
+            ["Support international cooperation for peace and human rights (Progressive, Liberal Catholic)", {"PROG": 2, "LIBCATH": 2, "CATHUNIV": 2}],
+            ["Focus on local and national levels; international institutions are secondary (Distributist)", {"DISTRIBUT": 2, "TRADNAT": 1}],
+        ],
+        "axis_weights": {"RIGOR": 1}
+    },
+    {
+        "text": "What is the best approach to moral theology?",
+        "options": [
+            ["Virtue ethics: Focus on character formation and the virtues (Virtue Ethics, Thomist (Natural Law))", {"VIRTUE": 3, "THOMMOR": 2, "RESS": 1}],
+            ["Natural law: Universal norms knowable by reason, applied through casuistry (Thomist (Natural Law), Manualist)", {"THOMMOR": 3, "MANUAL": 2, "NEOSCH": 1}],
+            ["Personalist: Emphasis on human dignity and concrete situations", {"PERSMOR": 3, "PROG": 1}],
+            ["Manualist: Clear rules and cases for confessional practice", {"MANUAL": 3, "NEOSCH": 2, "CASUIST": 2}],
+        ],
+        "axis_weights": {"RIGOR": -1}
+    },
+    {
+        "text": "Do universal moral norms admit exceptions in concrete circumstances?",
+        "options": [
+            ["Never for intrinsically evil acts; prudence applies norms, doesn't create exceptions (Thomist (Natural Law), Manualist)", {"THOMMOR": 3, "MANUAL": 3, "NEOSCH": 3}],
+            ["Proportionate reason can justify apparent exceptions (Proportionalism)", {"PROP": 3, "PROG": 2}],
+            ["Pastoral discernment may find that a norm doesn't apply in a particular case (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2}],
+            ["Epikeia allows departure from law's letter to fulfill its spirit (Thomist)", {"THOM": 2, "VIRTUE": 1}],
+        ],
+        "axis_weights": {"RIGOR": -2}
+    },
+    {
+        "text": "How should a confessor handle doubtful cases?",
+        "options": [
+            ["Tutiorism: Always follow the safer opinion favoring the law", {"TUTIOR": 3, "JANS": 2, "NEOSCH": 2}],
+            ["Probabilism: A solidly probable opinion favoring liberty may be followed", {"PROBAB": 3, "JES": 2, "MOL": 1}],
+            ["Equiprobabilism: Follow liberty only if equally or more probable than law", {"THOMMOR": 2, "STD": 2}],
+            ["Laxism: Any probable opinion may be followed (condemned but historically relevant)", {"PROP": 1}],
+        ],
+        "axis_weights": {"RIGOR": 2}
+    },
+    {
+        "text": "What is the value of the manualist tradition in moral theology?",
+        "options": [
+            ["Essential: Provides clarity, precision, and practical guidance for confessors (Manualist, Neo-Scholastic)", {"MANUAL": 3, "NEOSCH": 2, "TRAD": 2, "CASUIST": 2}],
+            ["Useful but needs integration with virtue ethics and Scripture (Thomist (Natural Law), Mainstream)", {"THOMMOR": 2, "STD": 2}],
+            ["Problematic: Legalistic, minimalistic, and detached from spiritual growth", {"VIRTUE": 2, "PERSMOR": 2, "RESS": 2, "PROG": 1}],
+            ["Outdated and should be largely set aside (Proportionalist, Progressive)", {"PROP": 2, "PROG": 2}],
+        ],
+        "axis_weights": {"RIGOR": 2}
+    },
+    {
+        "text": "Which direction should the priest face during the Eucharistic Prayer?",
+        "options": [
+            ["Ad orientem (same direction as people): Expresses common worship toward God (Traditionalist, Tridentine)", {"TRAD": 3, "TRIDSAC": 3, "ROTR": 2, "SSPX": 3, "BENED": 2}],
+            ["Versus populum (facing people): Emphasizes community and participation (Progressive)", {"PROG": 3}],
+            ["Either is legitimate depending on circumstances (Mainstream)", {"STD": 2, "ROTR": 1}],
+            ["The question is secondary to interior participation", {"RESS": 1, "CARM": 1}],
+        ],
+        "axis_weights": {"LIT": 3}
+    },
+    {
+        "text": "How should Holy Communion be received?",
+        "options": [
+            ["On the tongue while kneeling: Traditional and most reverent (Traditionalist, Tridentine)", {"TRAD": 3, "TRIDSAC": 3, "SSPX": 3, "ROTR": 1}],
+            ["On the tongue standing: Traditional but adapted (Reform of Reform)", {"ROTR": 2, "STD": 1}],
+            ["In the hand is legitimate and can express lay dignity (Progressive)", {"PROG": 2}],
+            ["Either way with proper reverence; interior disposition matters most (Mainstream)", {"STD": 2}],
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+    {
+        "text": "How should we evaluate the post-Vatican II liturgical reforms?",
+        "options": [
+            ["Largely mistaken: The Novus Ordo represents a break with tradition (SSPX-leaning, Sedevacantist)", {"SSPX": 3, "SEDE": 3, "TRAD": 2}],
+            ["Good intentions but badly implemented; reform of the reform needed (Reform of Reform, Benedictine)", {"ROTR": 3, "BENED": 2}],
+            ["Generally positive: Made liturgy more accessible and participatory (Progressive)", {"PROG": 3, "STD": 1}],
+            ["Legitimate development guided by the Council Fathers (Mainstream)", {"STD": 2, "RESS": 1}],
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+    {
+        "text": "What is the proper place of the Traditional Latin Mass today?",
+        "options": [
+            ["Should be the normative form or at least freely available everywhere (Traditionalist, SSPX-leaning)", {"TRAD": 3, "SSPX": 3, "SEDE": 3, "ROTR": 2}],
+            ["A legitimate option that enriches the Church's liturgical life (Reform of Reform, Mainstream)", {"ROTR": 2, "STD": 2, "BENED": 1}],
+            ["Of historical interest but the reformed liturgy is the Church's lex orandi", {"PROG": 2}],
+            ["Should be restricted to prevent division", {"PROG": 1}],
+        ],
+        "axis_weights": {"LIT": 3}
+    },
+    {
+        "text": "What is the role of silence in the liturgy?",
+        "options": [
+            ["Essential: Sacred silence enables contemplation and encounter with mystery (Traditionalist, Carmelite)", {"TRAD": 3, "CARM": 2, "BENED": 2, "TRIDSAC": 2}],
+            ["Important but balanced with congregational participation (Mainstream, Reform of Reform)", {"STD": 2, "ROTR": 2}],
+            ["Often excessive in pre-conciliar liturgy; active participation is key (Progressive)", {"PROG": 2}],
+            ["Deeply valued in Eastern liturgy as part of the mystery (Eastern Sacramental)", {"EASTSAC": 2, "PALAM": 1}],
+        ],
+        "axis_weights": {"LIT": 2, "PIETY": 1}
+    },
+    {
+        "text": "How important is rubrical exactness in liturgy?",
+        "options": [
+            ["Very important: Rubrics protect the sacred and express theology (Traditionalist, Tridentine)", {"TRAD": 3, "TRIDSAC": 3, "MANUAL": 2, "NEOSCH": 2}],
+            ["Important but not at the expense of pastoral adaptation (Mainstream)", {"STD": 2, "ROTR": 1}],
+            ["Secondary: The spirit of the liturgy matters more than exact rubrics (Progressive)", {"PROG": 2, "RESS": 1}],
+            ["Rubrics serve the mystery and should be followed with understanding (Benedictine)", {"BENED": 2, "THOM": 1}],
+        ],
+        "axis_weights": {"LIT": 2, "RIGOR": 1}
+    },
+    {
+        "text": "How should we understand Vatican II's doctrinal status?",
+        "options": [
+            ["Fully authoritative ecumenical council binding on all Catholics (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2, "PROG": 2, "RESS": 2}],
+            ["Authoritative but pastoral council that didn't define new dogma (Reform of Reform)", {"ROTR": 2, "TRAD": 1}],
+            ["Contains ambiguities/errors that need correction in light of tradition (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2}],
+            ["A robber council or non-authoritative assembly (Sedevacantist, Sedeprivationist)", {"SEDE": 3, "SEDEPRIV": 2}],
+        ],
+        "axis_weights": {"LIT": 2, "PAPAL": -1}
+    },
+    {
+        "text": "Regarding the post-1958 popes:",
+        "options": [
+            ["Fully legitimate popes with ordinary magisterial authority (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 3, "PROG": 2, "RESS": 2}],
+            ["Legitimate but their prudential decisions can be resisted when conflicting with Tradition (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2}],
+            ["Material but not formal popes (Sedeprivationist thesis)", {"SEDEPRIV": 3}],
+            ["Not true popes at all; the See has been vacant (Sedevacantist)", {"SEDE": 3}],
+        ],
+        "axis_weights": {"PAPAL": -2, "LIT": 2}
+    },
+    {
+        "text": "Can a Catholic resist or disobey Roman directives?",
+        "options": [
+            ["Never: Submission to Rome is essential to Catholic identity (Ultramontane)", {"ULTRA": 3, "PAPMOD": 1}],
+            ["Only in extreme cases where directives clearly contradict defined doctrine (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2}],
+            ["Yes, when they conflict with Sacred Tradition and the sensus fidelium (SSPX-leaning, Sedevacantist)", {"SSPX": 2, "SEDE": 2, "SEDEPRIV": 2}],
+            ["Prudent disagreement is possible but public resistance is rarely justified (Mainstream, Moderate Papalist)", {"STD": 2, "PAPMOD": 2}],
+        ],
+        "axis_weights": {"PAPAL": -3}
+    },
+    {
+        "text": "What is the highest form of prayer?",
+        "options": [
+            ["Contemplative prayer: Simple loving gaze upon God (Carmelite, Neo-Platonist)", {"CARM": 3, "NEOPLAT": 2, "PALAM": 2}],
+            ["The Holy Sacrifice of the Mass (Benedictine, Tridentine)", {"BENED": 3, "TRIDSAC": 2, "TRAD": 2}],
+            ["Liturgy of the Hours as the Church's official prayer (Benedictine)", {"BENED": 3, "DOM": 1}],
+            ["Lectio Divina: Prayerful reading of Scripture (Benedictine, Ressourcement)", {"BENED": 2, "RESS": 2}],
+            ["Ignatian meditation with imagination and application of senses (Jesuit)", {"JES": 3}],
+            ["All are valid paths suited to different vocations (Mainstream)", {"STD": 2}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "How important is mental prayer in the Christian life?",
+        "options": [
+            ["Essential: Daily mental prayer is morally necessary for serious Christians (Carmelite, Jesuit)", {"CARM": 3, "JES": 2, "DOM": 2, "OPUS": 2}],
+            ["Very important but vocal prayer and sacraments can suffice for some (Mainstream)", {"STD": 2, "BENED": 1}],
+            ["Helpful but not essential; the liturgy is sufficient (Benedictine)", {"BENED": 2}],
+            ["Overemphasized in some traditions; action and service matter more", {"PROG": 1}],
+        ],
+        "axis_weights": {"PIETY": 3}
+    },
+    {
+        "text": "How should we understand mystical experiences?",
+        "options": [
+            ["Extraordinary graces given to some; not to be sought but accepted (Carmelite, Dominican)", {"CARM": 3, "DOM": 2, "THOM": 2}],
+            ["The normal flowering of the life of grace available to all who persevere (Carmelite, Neo-Platonist)", {"CARM": 2, "NEOPLAT": 2}],
+            ["Suspect: Focus on ordinary virtue and sacraments instead (Manualist)", {"MANUAL": 2, "NEOSCH": 1}],
+            ["Central to Eastern spirituality: Theosis/deification is the goal (Palamite/Eastern, Eastern Sacramental)", {"PALAM": 3, "EASTSAC": 2}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "How often should a devout Catholic go to confession?",
+        "options": [
+            ["Weekly or at least fortnightly, even without mortal sin (Traditionalist, Opus Dei)", {"TRAD": 3, "CARM": 2, "OPUS": 3, "MANUAL": 2}],
+            ["Monthly for devotional confession; more often if in mortal sin (Mainstream)", {"STD": 2, "JES": 1}],
+            ["Whenever conscious of serious sin; otherwise a few times a year (Progressive)", {"PROG": 2}],
+            ["The Eastern tradition emphasizes spiritual direction over frequent confession (Eastern Sacramental)", {"EASTSAC": 2, "PALAM": 1}],
+        ],
+        "axis_weights": {"PIETY": 2, "RIGOR": 1}
+    },
+    {
+        "text": "How should we understand Christ's human knowledge during His earthly life?",
+        "options": [
+            ["Christ possessed the beatific vision from conception, giving comprehensive knowledge. (Thomist, Chalcedonian Maximalist)", {"THOM": 3, "THOMP": 2, "CHALMAX": 3, "TRIDSAC": 1, "NEOSCH": 2}],
+            ["Christ's human knowledge was genuinely limited; He learned and grew authentically. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "PROG": 2, "PERSMOR": 1}],
+            ["Christ had infused knowledge sufficient for His mission, without unlimited knowledge. (Scotist, Franciscan School)", {"SCOT": 2, "FRANC": 2, "SCOTMETA": 1, "STD": 2}],
+            ["The mystery exceeds our categories; emphasize soteriological sufficiency. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2, "RESSCH": 2, "BENED": 1}],
+        ],
+        "axis_weights": {"JUST": 2}
+    },
+    {
+        "text": "The relationship between Christ's divine and human wills:",
+        "options": [
+            ["Two distinct wills in perfect harmony; human will freely conforms to divine. (Chalcedonian Maximalist, Thomist)", {"CHALMAX": 4, "THOM": 3, "THOMP": 2, "DOM": 1}],
+            ["Divine will primary, human will its instrument; unity with dyothelitism. (Ressourcement Christology, Neo-Augustinian)", {"RESSCH": 3, "NEOAUG": 2, "RESS": 2, "PALAM": 1}],
+            ["Christ's human will genuinely struggled before conforming; soteriologically important. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "FRANC": 2, "PERSMOR": 1}],
+            ["Maximus's synthesis: natural human will always good; gnomic willing absent. (Palamite/Eastern, Eastern Catholic)", {"PALAM": 3, "EASTECC": 2, "CHALMAX": 2, "EASTSAC": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "The 'communication of idioms' (communicatio idiomatum) means:",
+        "options": [
+            ["Predicates of either nature attributed to the Person, carefully avoiding mixing natures. (Chalcedonian Maximalist)", {"CHALMAX": 4, "THOM": 2, "THOMP": 2, "NEOSCH": 1}],
+            ["Profound exchange: 'God suffered,' 'this man is omnipotent' — Incarnation in speech. (Ressourcement Christology, Neo-Augustinian)", {"RESSCH": 3, "NEOAUG": 2, "RESS": 2, "NEOPLAT": 1}],
+            ["Shows divine condescension: God truly entered human weakness and suffering. (Kenotic)", {"KENOT": 4, "FRANC": 2, "CARM": 1, "PERSMOR": 1}],
+            ["Liturgically: 'O admirabile commercium' — God becomes man that man might become God. (Benedictine, Eastern Sacramental)", {"BENED": 3, "EASTSAC": 2, "EUCHMYST": 2, "TRAD": 1}],
+        ],
+        "axis_weights": {"LIT": 1}
+    },
+    {
+        "text": "Why did the Son of God become incarnate?",
+        "options": [
+            ["Primarily to redeem from sin; without Fall, no Incarnation. (Thomist, Augustinian)", {"THOM": 3, "AUG": 2, "AUGP": 1, "INFRA": 2, "THOMP": 1}],
+            ["Christ would have come even without sin; Incarnation is creation's crown. (Scotist, Franciscan School)", {"SCOT": 4, "FRANC": 3, "SCOTMETA": 2, "SUPRA": 2}],
+            ["Both redemption and divinization: save from sin AND unite to God in theosis. (Palamite/Eastern, Eastern Catholic)", {"PALAM": 3, "EASTECC": 2, "RESSCH": 2, "NEOAUG": 2}],
+            ["The question is speculative; focus on actual economy revealed. (Mainstream)", {"STD": 2, "PAPMOD": 1, "RESS": 1, "BENED": 1}],
+        ],
+        "axis_weights": {"GRACE": 2, "JUST": 1}
+    },
+    {
+        "text": "How did Christ's death on the Cross achieve our salvation?",
+        "options": [
+            ["Christ stood under the full weight of the Father's forensic wrath as one legally counted a sinner; God treated Him as if He had committed all our sins, pouring out punitive hatred upon Him in our place. (Radical Penal Substitution)", {"REFORM": 5, "LUTHERAN": 4, "SUPRA": 3, "ANGLICAN": 2}],
+            ["Christ, as our innocent Surety and Guarantor, freely accepted a real abandonment by the Father—not as one hated, but as one bearing the just debt of our impieties. His sacrifice of infinite love satisfied divine justice while remaining an act of supreme charity. (Moderate PSA / Vicarious Satisfaction — Bossuet, Liguori)", {"AUG": 5, "CSSR": 5, "ORAT": 4, "THOM": 4, "THOMP": 3, "BANEZ": 3, "TRIDSAC": 2, "STD": 2}],
+            ["The Cross was primarily Christ's triumphant victory over the powers of sin, death, and the devil, liberating humanity from bondage and recapitulating Adam's fall through His obedience. (Christus Victor / Recapitulation)", {"RESS": 5, "PALAM": 5, "EASTECC": 4, "EORTHO": 4, "NEOAUG": 3, "BENED": 2}],
+            ["The Cross is supremely the revelation of God's boundless love, designed to move our hearts to repentance and kindle a response of love in return; juridical categories are secondary or metaphorical. (Moral Influence / Exemplarist)", {"PROG": 4, "LIBCATH": 4, "PERSMOR": 3, "SDB": 2, "KENOT": 2}],
+            ["The Cross is the 'Primordial Sacrament' where Christ enters into the depths of human suffering and God-forsakenness, sanctifying all human anguish and opening the path to mystical union through co-suffering. (Passionist / Mystical Solidarity)", {"CP": 5, "CARM": 4, "CM": 3, "KENOT": 3, "OSM": 2, "EUCHMYST": 2}]
+        ],
+        "axis_weights": {"JUST": 5, "GRACE": 3, "PIETY": 2}
+    },
+    {
+        "text": "Christ's descent into hell (Sheol/Hades):",
+        "options": [
+            ["Triumphant proclamation and liberation of righteous — Harrowing of Hell. (Traditionalist, Eastern Sacramental)", {"TRAD": 3, "EASTSAC": 3, "BENED": 2, "CHALMAX": 1}],
+            ["Christ truly experienced full human death, including darkness, before rising. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "NEOAUG": 1, "FRANC": 1}],
+            ["Soteriological completion: saving work extends to those who died before. (Thomist, Mainstream)", {"THOM": 2, "STD": 2, "PAPMOD": 1, "INFRA": 1}],
+            ["Primarily creedal affirmation; avoid excessive speculation. (Mainstream)", {"STD": 2, "NEOSCH": 1, "MANUAL": 1}],
+        ],
+        "axis_weights": {"ESCH": 3}
+    },
+    {
+        "text": "Which approach to religious life most appeals to you?",
+        "options": [
+            ["Strict silence, manual labor, deep contemplation removed from world. (Cistercian/Trappist, Carthusian)", {"OCSO": 4, "CHART": 3, "OSBCAM": 2, "BENED": 1}],
+            ["Active apostolate with community prayer; preaching, teaching, serving poor. (Dominican, Jesuit)", {"DOM": 2, "JES": 2, "CM": 2, "SDB": 2, "FRAN": 1}],
+            ["Intellectual life and study as path to God, with pastoral work. (Dominican, Augustinian Order)", {"DOM": 3, "OSA": 3, "JES": 2, "OPRAEM": 1, "CSC": 2}],
+            ["Contemplative prayer and mysticism, available for spiritual direction. (Carmelite)", {"CARM": 4, "ORAT": 2, "CHART": 1}],
+        ],
+        "axis_weights": {"PIETY": 3}
+    },
+    {
+        "text": "St. Augustine's spirituality emphasizes:",
+        "options": [
+            ["Interior journey: 'Return to yourself; truth dwells in the inner man.' (Augustinian Order, Augustinian)", {"OSA": 4, "AUG": 3, "NEOAUG": 2, "CARM": 1}],
+            ["Ordered love (ordo amoris): rightly ordering desires toward God. (Augustinian, Augustinian Moral)", {"AUG": 3, "AUGMOR": 3, "OSA": 2, "VIRTUE": 1}],
+            ["Grace and predestination: absolute priority of God's initiative. (Augustinian, Strict Augustinian)", {"AUG": 3, "AUGP": 3, "BANEZ": 2, "JANS": 1}],
+            ["Community life: 'One mind and one heart intent upon God.' (Augustinian Order)", {"OSA": 4, "BENED": 2, "OPRAEM": 1}],
+        ],
+        "axis_weights": {"GRACE": 2, "PIETY": 2}
+    },
+    {
+        "text": "The Cistercian/Trappist reform emphasizes:",
+        "options": [
+            ["Strict silence and solitude as essential for encountering God. (Cistercian/Trappist, Carthusian)", {"OCSO": 4, "CHART": 3, "OSBCAM": 2}],
+            ["Manual labor as prayer: working with hands sanctifies. (Cistercian/Trappist)", {"OCSO": 4, "BENED": 2, "AGRAR": 1}],
+            ["Simplicity and austerity: stripping away to find essential. (Cistercian/Trappist, Carthusian)", {"OCSO": 3, "CHART": 2, "FRAN": 2, "TRAD": 1}],
+            ["Liturgical beauty in pure, unadorned Benedictine form.", {"OCSO": 3, "BENED": 3, "OPRAEM": 2, "TRAD": 1}],
+        ],
+        "axis_weights": {"PIETY": 4, "LIT": 1}
+    },
+    {
+        "text": "St. Alphonsus Liguori and Redemptorists are known for:",
+        "options": [
+            ["Moral theology: equiprobabilism between rigorism and laxism.", {"CSSR": 4, "PROBAB": 2, "STD": 2, "CASUIST": 1}],
+            ["Popular missions preaching 'abundant redemption' to abandoned. (Redemptorist)", {"CSSR": 4, "CM": 2, "CP": 1, "FRAN": 1}],
+            ["Marian devotion: 'Glories of Mary' and confidence in intercession. (Redemptorist, Servite)", {"CSSR": 3, "OSM": 2, "MERC": 1, "TRAD": 1}],
+            ["Practical pastoral approach: meeting people where they are. (Redemptorist, Vincentian)", {"CSSR": 3, "CM": 2, "SDB": 2, "PERSMOR": 1}],
+        ],
+        "axis_weights": {"RIGOR": -2}
+    },
+    {
+        "text": "Don Bosco's Salesian spirituality centers on:",
+        "options": [
+            ["Preventive system: reason, religion, loving-kindness in education. (Salesian)", {"SDB": 4, "JES": 1, "PERSMOR": 1}],
+            ["Joy and cheerfulness as essential witness, especially to youth. (Salesian)", {"SDB": 4, "FRAN": 2, "ORAT": 1}],
+            ["Practical holiness in everyday life, accessible to all. (Salesian, Opus Dei)", {"SDB": 3, "OPUS": 2, "STD": 2}],
+            ["Devotion to Mary Help of Christians and the Eucharist. (Salesian)", {"SDB": 3, "TRAD": 1, "EUCHMYST": 1}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "St. Vincent de Paul and Vincentian spirituality emphasizes:",
+        "options": [
+            ["'The poor are our lords and masters' — radical service to marginalized. (Vincentian)", {"CM": 4, "FRAN": 2, "WORKERCATH": 2, "SOCDEM": 1}],
+            ["Formation of clergy: holy priests transform the Church. (Vincentian, Oratorian)", {"CM": 3, "ORAT": 2, "OPRAEM": 1, "DOM": 1}],
+            ["Simplicity, humility, meekness as core virtues. (Vincentian)", {"CM": 4, "FRAN": 2, "SDB": 1}],
+            ["Practical charity: 'Love is inventive to infinity.' (Vincentian)", {"CM": 4, "PERSMOR": 1, "VIRTUE": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Passionist spirituality is characterized by:",
+        "options": [
+            ["Keeping alive 'memoria passionis' — memory of Christ's suffering. (Passionist)", {"CP": 4, "CARM": 1, "TRAD": 1}],
+            ["Preaching missions focused on Cross and conversion. (Passionist)", {"CP": 4, "CSSR": 2, "DOM": 1}],
+            ["Reparation for sin through contemplation of Passion. (Passionist, Traditionalist)", {"CP": 3, "TRAD": 2, "EUCHMYST": 1}],
+            ["Solidarity with suffering: finding Christ in those who suffer. (Passionist, Vincentian)", {"CP": 3, "CM": 2, "KENOT": 2, "WORKERCATH": 1}],
+        ],
+        "axis_weights": {"PIETY": 3}
+    },
+
+    {
+        "text": "Which founder's charism most resonates with you?",
+        "options": [
+            ["St. Benedict: stability, prayer-work balance, liturgical life. (Benedictine)", {"BENED": 4, "OCSO": 2, "OPRAEM": 1, "OSBCAM": 1}],
+            ["St. Dominic: truth, preaching, study with contemplation. (Dominican)", {"DOM": 4, "THOM": 2, "OSA": 1}],
+            ["St. Ignatius: discernment, flexibility, God in all things. (Jesuit)", {"JES": 4, "MOL": 1, "ORAT": 1}],
+            ["St. Francis: poverty, simplicity, joy, creation. (Franciscan)", {"FRAN": 4, "FRANC": 2, "SDB": 1}],
+            ["St. Vincent de Paul: practical charity, serving poor, forming priests. (Vincentian)", {"CM": 4, "WORKERCATH": 1, "SOCDEM": 1}],
+            ["Bl. Basil Moreau: education, hope in Cross, zeal for souls. (Holy Cross)", {"CSC": 4, "SDB": 1, "JES": 1}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "Servite devotion to Our Lady of Sorrows teaches:",
+        "options": [
+            ["Standing with Mary at Cross transforms suffering into redemption. (Servite)", {"OSM": 4, "CP": 2, "CARM": 1}],
+            ["Compassion (suffering-with) is central to Christian life. (Servite)", {"OSM": 4, "CM": 2, "KENOT": 1, "PERSMOR": 1}],
+            ["Marian devotion leads to deeper union with Christ. (Servite, Redemptorist)", {"OSM": 3, "CSSR": 2, "MERC": 2, "TRAD": 1}],
+            ["Seven Sorrows are a school of discipleship. (Servite)", {"OSM": 4, "CP": 2, "TRAD": 1}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "In moral theology, when facing a doubtful law:",
+        "options": [
+            ["Follow solidly probable opinion favoring liberty (Probabilism).", {"PROBAB": 4, "JES": 2, "MOL": 1, "CASUIST": 2}],
+            ["Always follow safer opinion favoring law (Tutiorism).", {"TUTIOR": 4, "JANS": 2, "NEOSCH": 2, "AUGP": 1}],
+            ["Follow more probable opinion after discernment (Probabiliorism).", {"THOM": 2, "DOM": 2, "THOMMOR": 2, "STD": 1}],
+            ["Equiprobabilism: liberty only when opinions roughly equal.", {"STD": 3, "PAPMOD": 1, "MANUAL": 1}],
+        ],
+        "axis_weights": {"RIGOR": 4}
+    },
+    {
+        "text": "The Carthusian vocation represents:",
+        "options": [
+            ["Highest Christian life: pure contemplation, hidden intercession. (Carthusian)", {"CHART": 4, "CARM": 2, "BENED": 1, "TRAD": 1}],
+            ["Valid but exceptional; active apostolate normative for most. (Dominican, Jesuit)", {"DOM": 2, "JES": 2, "STD": 2, "FRAN": 1}],
+            ["Important witness, but Church needs engaged presence. (Progressive)", {"PROG": 2, "LIBCATH": 1, "SOCDEM": 1}],
+            ["Desert tradition: 'flee, be silent, pray' as perennial wisdom. (Carthusian, Eastern Catholic)", {"CHART": 3, "EASTECC": 2, "PALAM": 1, "ORAT": 1}],
+        ],
+        "axis_weights": {"PIETY": 4}
+    },
+    {
+        "text": "Catholic rural/agrarian life should be valued as:",
+        "options": [
+            ["Land-based life forms virtue uniquely; prefer smallholdings. (Agrarian, Distributist)", {"AGRAR": 4, "DISTRIBUT": 3, "TRADNAT": 2, "CHART": 1}],
+            ["Has value but industrialization not inherently evil. (Mainstream, Social Democrat)", {"STD": 2, "SOCDEM": 2, "PAPMOD": 1}],
+            ["Romantic nostalgia; address actual worker conditions. (Worker-Catholic, Progressive)", {"WORKERCATH": 2, "PROG": 2, "LIBCATH": 1}],
+            ["Rural parishes preserve faith; special concern for farmers. (Traditionalist, Agrarian)", {"TRAD": 2, "AGRAR": 2, "BENED": 2, "CORPCATH": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Scripture's literal and spiritual senses:",
+        "options": [
+            ["Literal foundational; spiritual senses controlled by it. (Thomist, Dominican)", {"THOM": 3, "DOM": 2, "THOMMETA": 1, "STD": 1}],
+            ["Spiritual senses reveal deepest meaning; Fathers normative. (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 3, "NEOPLAT": 2, "BENED": 2, "ORAT": 1}],
+            ["Historical-critical establishes literal; spiritual is devotional. (Progressive, Liberal Catholic)", {"PROG": 2, "LIBCATH": 2, "JES": 1}],
+            ["All four senses work together; Scripture inexhaustibly rich. (Benedictine, Mainstream)", {"BENED": 2, "STD": 2, "PAPMOD": 1, "EASTECC": 1}],
+        ],
+        "axis_weights": {"SCRIPT": 3}
+    },
+    {
+        "text": "Catholic approaches to nationalism:",
+        "options": [
+            ["Nations are natural communities; faith should inform identity. (Trad. Nationalist)", {"TRADNAT": 4, "INTEG": 2, "INTEGHARD": 1, "CORPCATH": 1}],
+            ["Church transcends nations; nationalism contradicts universality. (Catholic Universalist)", {"CATHUNIV": 4, "LIBCATH": 2, "PROG": 1, "SOCDEM": 1}],
+            ["Legitimate patriotism distinct from nationalism. (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2, "THOMMOR": 1}],
+            ["Subsidiarity supports sovereignty; nations serve persons. (Distributist, Soft Integralist)", {"DISTRIBUT": 2, "INTEGSOFT": 2, "LIBERTAR": 1, "TRADNAT": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is your position on Gallican liberties and national church autonomy?",
+        "options": [
+            ["Nations may legitimately negotiate appointment rights and synodal authority with Rome, provided they don't strongarm the Holy See. (Moderate Papalist, Mainstream)", {"PAPMOD": 4, "STD": 3, "INTEGSOFT": 3, "GALL": 2, "DEVPROG": 2}],
+            ["Would make sense with stable Catholic monarchies, but impractical in modern liberal democracies. (Trad. Nationalist, Integralist)", {"TRADNAT": 4, "INTEG": 3, "TRAD": 3, "GALL": 2, "CORPCATH": 2}],
+            ["A dangerous affront to papal authority. The Pope's universal jurisdiction must not be compromised. (Ultramontane)", {"ULTRA": 6, "INTEG": 3, "PAPMOD": -2, "GALL": -5, "CONCIL": -4}],
+            ["Risks enabling nationalists to co-opt the Church and undermine her transnational mission. (Catholic Universalist, Liberal Catholic)", {"CATHUNIV": 5, "LIBCATH": 4, "PROG": 3, "SOCDEM": 2, "TRADNAT": -4}],
+        ],
+        "axis_weights": {"PAPAL": 3}
+    },
+    {
+        "text": "What is your view of the Church hierarchy's approach to immigration?",
+        "options": [
+            ["A generational matter. Once older bishops retire, I'm optimistic about better balance. (Progressive, Synodalist)", {"PROG": 3, "STD": 2, "SYNOD": 3, "DEVPROG": 2}],
+            ["Some nationalist governments have acted excessively, but prudential judgment on borders isn't sinful. National consciousness is legitimate. (Trad. Nationalist, Soft Integralist)", {"TRADNAT": 5, "INTEGSOFT": 4, "DISTRIBUT": 3, "STD": 2, "CATHUNIV": -3}],
+            ["A welcome prophetic stance against the pagan idols of nationalism and kinism. (Catholic Universalist, Liberal Catholic)", {"CATHUNIV": 6, "LIBCATH": 5, "PROG": 4, "SOCDEM": 3, "TRADNAT": -5}],
+            ["Balanced - the clergy can be naive about practical realities, but their intentions are good. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "ROTR": 2, "TRADUM": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What are your thoughts on reforming the Novus Ordo toward a vernacular TLM (like the Orthodox Divine Liturgy of St. Gregory)?",
+        "options": [
+            ["A worthy compromise honoring tradition without the abuses of the current Pauline Mass. (Reform of Reform, Ordinariate)", {"ROTR": 5, "TRAD": 3, "EASTECC": 3, "BENED": 3, "ORDINAR": 4, "EASTLIT": 3}],
+            ["Good idea if executed carefully. Sacrosanctum Concilium never intended liturgical chaos. (Reform of Reform, Mainstream)", {"ROTR": 4, "STD": 3, "PAPMOD": 2, "COMMUN": 2, "TRADUM": 3}],
+            ["The Mass must be in Latin. Vatican II's liturgical reforms must be entirely undone. (SSPX-leaning, Sedevacantist)", {"SSPX": 6, "SEDE": 5, "TRAD": 4, "ANTIMOD": 4, "PROG": -5, "LIBCATH": -4}],
+            ["The Ordinariate's Divine Worship liturgy is an excellent model of vernacular solemnity. (Ordinariate)", {"ORDINAR": 6, "EASTECC": 3, "ROTR": 4, "BENED": 3, "EASTLIT": 3}],
+            ["Reform of the Reform: end abuses, restore sacred music, ad orientem, keep NO structure. (Reform of Reform)", {"ROTR": 6, "STD": 3, "PAPMOD": 3, "TRADUM": 3, "COMMUN": 2}],
+            ["No - the old liturgy was an ossified relic. The reform liberated us. (Progressive, Liberal Catholic)", {"PROG": 6, "LIBCATH": 5, "TRAD": -5, "ROTR": -3, "SSPX": -6}],
+        ],
+        "axis_weights": {"LIT": 5}
+    },
+    {
+        "text": "How should the Catholic Church approach reunion with the Eastern Orthodox?",
+        "options": [
+            ["Return to Rome under papal authority as Vatican I defined. No compromises on primacy. (Ultramontane)", {"ULTRA": 5, "INTEG": 3, "NEOSCH": 3, "ANTIMOD": 2, "ORTHOPH": -4}],
+            ["A 'Sister Churches' model with restored communion but preserved Eastern autonomy. (Eastern Catholic, Orthophile)", {"EASTECC": 5, "EASTSAC": 4, "PALAM": 3, "SYNOD": 3, "ORTHOPH": 5, "EASTLIT": 3, "ULTRA": -3}],
+            ["Focus on resolving theological issues (Filioque, essence-energies) before structural questions. (Thomist, Ressourcement)", {"THOM": 3, "RESS": 3, "PALAM": 3, "DOM": 2, "COMMUN": 2, "ORTHOPH": 2}],
+            ["Ecumenism has gone too far. Maintain clear boundaries until they accept all Catholic dogma. (Traditionalist, SSPX-leaning)", {"TRAD": 4, "SSPX": 4, "NEOSCH": 3, "ANTIMOD": 3, "PROG": -3}],
+            ["Practical cooperation first; doctrinal unity will follow organically. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 3, "CM": 2, "SYNOD": 2, "TRAD": -2}],
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+    {
+        "text": "How do you understand Vatican II's teaching on religious liberty (Dignitatis Humanae)?",
+        "options": [
+            ["Legitimate development - the state shouldn't coerce conscience, though truth remains objective. (Moderate Papalist, Mainstream)", {"PAPMOD": 4, "STD": 4, "RESS": 3, "DEVPROG": 4, "COMMUN": 3}],
+            ["A prudential adaptation for pluralist societies, not reversal of prior teaching. (Soft Integralist)", {"INTEGSOFT": 5, "ROTR": 3, "STD": 3, "TRADUM": 3}],
+            ["A rupture with Tradition. Quanta Cura condemned exactly what DH teaches. (SSPX-leaning, Traditionalist)", {"SSPX": 6, "TRAD": 5, "INTEGHARD": 5, "SEDE": 4, "ANTIMOD": 5, "LIBCATH": -6}],
+            ["The Church finally embraced freedom of conscience as foundational to human dignity. (Liberal Catholic, Progressive)", {"LIBCATH": 6, "PROG": 5, "PERSMOR": 4, "SYNOD": 2, "INTEG": -5}],
+            ["Ambiguously worded; needs authoritative clarification to reconcile with prior magisterium. (Traditionalist, Reform of Reform)", {"TRAD": 4, "ROTR": 3, "PAPMIN": 3, "TRADUM": 3, "ANTIMOD": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is your view on mandatory clerical celibacy in the Latin Rite?",
+        "options": [
+            ["Precious discipline that should never be relaxed. Frees priests for total dedication. (Traditionalist, Opus Dei)", {"TRAD": 4, "OPUS": 4, "INTEG": 3, "NEOSCH": 3, "CARM": 2, "CHART": 2}],
+            ["Valuable but could permit married priests in mission territories, as Eastern Catholics do. (Eastern Catholic, Moderate Papalist)", {"EASTECC": 4, "PAPMOD": 3, "STD": 3, "SYNOD": 3, "ORDINAR": 3, "ORTHOPH": 2}],
+            ["Should be entirely optional. Many good men are lost; the Apostles were married. (Progressive, Liberal Catholic)", {"PROG": 5, "LIBCATH": 5, "SYNOD": 3, "TRAD": -4, "OPUS": -3}],
+            ["Essential for eschatological witness. It images heavenly life. (Carmelite, Carthusian)", {"CARM": 4, "CHART": 4, "BENED": 3, "OCSO": 4, "TRAD": 3, "CP": 2}],
+            ["The Ordinariate exception shows flexibility is possible. Expand it carefully. (Ordinariate)", {"ORDINAR": 5, "PAPMOD": 3, "DEVPROG": 2, "STD": 2}],
+        ],
+        "axis_weights": {"RIGOR": 2, "PIETY": 1}
+    },
+    {
+        "text": "How do you view Pope Francis's restrictions on the Traditional Latin Mass?",
+        "options": [
+            ["Necessary to prevent the TLM from becoming a flag for rejecting Vatican II. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 3, "SYNOD": 2, "ULTRA": 2, "TRAD": -5, "SSPX": -5}],
+            ["Pastorally devastating. Summorum Pontificum was working. Benedict XVI was right. (Reform of Reform, Traditionalist)", {"ROTR": 5, "TRAD": 5, "BENED": 3, "TRADUM": 4, "COMMUN": 2, "PROG": -3}],
+            ["An unjust suppression. I attend TLM regardless of canonical regularity. (SSPX-leaning, Traditionalist)", {"SSPX": 6, "TRAD": 5, "SEDE": 3, "ANTIMOD": 3, "ULTRA": -4, "PAPMOD": -3}],
+            ["The Pope has authority to regulate liturgy. I obey even if I preferred the old policy. (TC Compliant, Ultramontane)", {"ULTRA": 4, "STD": 4, "PAPMOD": 4, "TRADUM": 5, "SSPX": -4}],
+            ["Understandable concern but heavy-handed. Dialogue would have been better. (Mainstream, Reform of Reform)", {"STD": 3, "ROTR": 3, "PAPMOD": 2, "ORAT": 2, "TRADUM": 3, "DEVPROG": 2}],
+        ],
+        "axis_weights": {"LIT": 4, "PAPAL": 2}
+    },
+    {
+        "text": "Which non-Catholic view of soteriology do you find most compatible with Catholic faith?",
+        "options": [
+            ["Lutheran - if 'faith alone' is properly understood and sacramental realism affirmed, we're close.", {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "NEOAUG": 2, "DEVPROG": 2, "TRAD": -3}],
+            ["Eastern Orthodox - patristic synthesis preserved. Theosis, synergy, mystery are deeply Catholic. (Orthophile, Palamite/Eastern)", {"ORTHOPH": 6, "PALAM": 5, "EASTECC": 4, "EASTSAC": 3, "RESS": 2, "NEOAUG": 2}],
+            ["None. Extra Ecclesiam nulla salus. Protestant communities lack valid sacraments. (Traditionalist, SSPX-leaning)", {"TRAD": 5, "SSPX": 5, "NEOSCH": 4, "ANTIMOD": 3, "ECUMON": -5, "LUTHCAT": -5}],
+            ["Reformed - they take grace seriously. Augustinian roots are shared.", {"AUGP": 4, "JANS": 3, "BANEZ": 2, "ECUMON": 2, "MOL": -3}],
+            ["Anglican - via media, sacramental emphasis, liturgical beauty. The Ordinariate shows convergence.", {"ORDINAR": 6, "ROTR": 2, "BENED": 2, "DEVPROG": 2}],
+        ],
+        "axis_weights": {"GRACE": 2, "JUST": 2}
+    },
+    {
+        "text": "If Lutheran 'Sacramental Union' recognized ontological change, and 'faith alone' was understood as Benedict XVI saw it, would these impede reunion?",
+        "options": [
+            ["No - properly understood, these need not be impediments. JDDJ showed real convergence. (Lutheran-Catholic, Ecumenical Monergist)", {"LUTHCAT": 6, "ECUMON": 5, "DEVPROG": 4, "COMMUN": 3, "PAPMOD": 2, "TRAD": -4}],
+            ["Possibly not, but we'd still need agreement on papacy, Marian dogmas, purgatory. (Moderate Papalist, Mainstream)", {"PAPMOD": 4, "STD": 4, "THOM": 3, "ECUMON": 2, "DEVPROG": 2}],
+            ["Yes - Lutheran theology is fundamentally incompatible. Trent's condemnations stand.", {"TRAD": 5, "NEOSCH": 5, "ANTIMOD": 4, "SSPX": 4, "LUTHCAT": -6, "ECUMON": -5}],
+            ["This hypothetical concedes too much. Lutheranism doesn't actually affirm these things.", {"THOM": 3, "DOM": 2, "STD": 2, "NEOSCH": 2}],
+        ],
+        "axis_weights": {"JUST": 3}
+    },
+    {
+        "text": "What is your opinion on the 'hermeneutic of continuity' proposed by Benedict XVI?",
+        "options": [
+            ["Essential and correct. Vatican II must be read in continuity with all prior councils. (Communio School, Reform of Reform)", {"COMMUN": 5, "ROTR": 5, "DEVPROG": 4, "TRADUM": 4, "STD": 3, "BENED": 3}],
+            ["Noble attempt, but the texts themselves contain ambiguities enabling rupturist readings. (Traditionalist, Reform of Reform)", {"TRAD": 4, "ROTR": 3, "ANTIMOD": 3, "TRADUM": 3, "PAPMIN": 2}],
+            ["Continuity is a fiction. Vatican II was a new beginning, and that's good. (Progressive, Liberal Catholic)", {"PROG": 5, "LIBCATH": 5, "SYNOD": 2, "COMMUN": -3, "TRAD": -5}],
+            ["Partially valid but insufficient. Some texts genuinely conflict with prior magisterium. (SSPX-leaning, Sedevacantist)", {"SSPX": 5, "SEDE": 4, "TRAD": 4, "ANTIMOD": 4, "COMMUN": -2}],
+            ["A pastoral strategy more than theological argument. Useful for maintaining unity. (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 3, "JES": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "How should Catholics approach lay apostolates and evangelization in the digital space?",
+        "options": [
+            ["Embrace fully. Social media is the new Areopagus. Memes and podcasts reach millions. (Salesian, Jesuit)", {"SDB": 4, "JES": 3, "PROG": 3, "OPUS": 3, "STD": 2, "CHART": -2}],
+            ["Cautiously useful, but nothing replaces parish life and sacramental encounter. (Mainstream, Benedictine)", {"STD": 4, "BENED": 3, "PAPMOD": 2, "ORAT": 3, "CM": 2}],
+            ["Dangerous - breeds pride and controversy-seeking. Focus on real community. (Carthusian, Cistercian/Trappist)", {"CHART": 4, "OCSO": 3, "BENED": 2, "CARM": 2, "TRAD": 2}],
+            ["Essential for reaching the young, but must be done with theological competence. (Dominican, Jesuit)", {"DOM": 4, "JES": 3, "COMMUN": 2, "ORAT": 2, "SDB": 3}],
+            ["Lay apostolates online have revived tradition more than the hierarchy. Keep going. (Traditionalist, Reform of Reform)", {"TRAD": 4, "ROTR": 3, "TRADUM": 3, "ANTIMOD": 2, "SYNOD": -2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "'Reformed and Lutheran views of justification, despite differences, are mostly compatible with some Catholic schools.' Your response:",
+        "options": [
+            ["Agree - Augustinian and Bañezian positions share significant common ground. JDDJ was right.", {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "BANEZ": 2, "AUGP": 2, "NEOSCH": -4}],
+            ["Partially - overlap on grace's priority exists, but merit and sacraments differ substantially. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "PAPMOD": 3, "DEVPROG": 2, "AUG": 2}],
+            ["Disagree - Protestant soteriology is forensic and extrinsic. Catholic justification is real transformation. (Thomist, Tridentine)", {"THOM": 4, "TRIDSAC": 4, "NEOSCH": 4, "DOM": 3, "LUTHCAT": -4}],
+            ["Strongly disagree - Trent definitively condemned sola fide as Protestants teach it. (Traditionalist, SSPX-leaning)", {"TRAD": 5, "SSPX": 5, "NEOSCH": 5, "ANTIMOD": 4, "LUTHCAT": -6, "ECUMON": -5}],
+        ],
+        "axis_weights": {"JUST": 4, "GRACE": 3}
+    },
+    {
+        "text": "'Historical Catholic soteriology (Augustine, Prosper, Isidore, Council of Orange) was essentially monergistic.' Your assessment:",
+        "options": [
+            ["Correct. The Fathers and Orange taught even the beginning of faith is God's gift. (Augustinian, Strict Augustinian)", {"AUG": 5, "AUGP": 5, "NEOAUG": 4, "BANEZ": 4, "ECUMON": 3, "JANS": 3, "MOL": -4}],
+            ["Partially true, but 'monergism' is anachronistic. Fathers affirmed grace's priority AND cooperation. (Thomist, Mainstream)", {"THOM": 4, "STD": 3, "RESS": 3, "DEVPROG": 3, "NEOAUG": 2}],
+            ["Overstated. Orange affirmed free will's role. Catholic teaching has always been synergistic. (Molinist)", {"MOL": 5, "JES": 3, "CONG": 3, "SCOT": 2, "AUGP": -4, "BANEZ": -3}],
+            ["Augustinian tradition was later balanced by Aquinas and Jesuits. Don't overcorrect.", {"THOM": 4, "MOL": 3, "JES": 2, "DOM": 2, "STD": 2}],
+        ],
+        "axis_weights": {"GRACE": 5}
+    },
+    {
+        "text": "'We can omit the Filioque from the Creed for reunion with the Orthodox.' Your view:",
+        "options": [
+            ["Yes - it was a Western addition. The original Creed didn't have it. Remove it. (Orthophile, Eastern Catholic)", {"ORTHOPH": 6, "EASTECC": 5, "EASTSAC": 4, "PALAM": 4, "SYNOD": 2, "ULTRA": -4}],
+            ["Possibly in Eastern liturgies, but the theology is true. A pastoral accommodation. (Moderate Papalist, Eastern Catholic)", {"PAPMOD": 4, "EASTECC": 4, "STD": 3, "DEVPROG": 3, "COMMUN": 2, "ORTHOPH": 2}],
+            ["No - Filioque is dogmatically defined and expresses important Trinitarian truth. (Thomist, Traditionalist)", {"THOM": 4, "TRAD": 4, "NEOSCH": 4, "ULTRA": 3, "ANTIMOD": 3, "ORTHOPH": -4}],
+            ["Florence's 'through the Son' shows reconciliation is possible without abandoning Western theology. (Thomist, Moderate Papalist)", {"THOM": 3, "PAPMOD": 3, "RESS": 3, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2}],
+            ["The controversy shows Orthodox are schismatics rejecting legitimate development. (Ultramontane)", {"ULTRA": 5, "ANTIMOD": 3, "NEOSCH": 3, "TRAD": 3, "ORTHOPH": -6}],
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+    {
+        "text": "What expanded roles, if any, should women have in the Church?",
+        "options": [
+            ["Female deacons should be restored; women should lead wherever ordination isn't required. (Progressive, Liberal Catholic)", {"PROG": 5, "SYNOD": 4, "LIBCATH": 5, "TRAD": -5, "INTEG": -4}],
+            ["Women already have vital roles. Recognize existing contributions, don't invent offices. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "OPUS": 3, "TRAD": 2}],
+            ["The push reflects secular feminism infiltrating the Church. Resist it. (Traditionalist, Integralist)", {"TRAD": 5, "INTEG": 5, "SSPX": 4, "ANTIMOD": 4, "PROG": -5}],
+            ["Study historical evidence for deaconesses carefully; proceed with tradition. (Ressourcement, Eastern Catholic)", {"RESS": 3, "EASTECC": 3, "PAPMOD": 3, "DEVPROG": 2, "COMMUN": 2}],
+            ["Religious sisters already exercise profound spiritual authority. This is the feminine genius. (Carmelite, Benedictine)", {"CARM": 4, "BENED": 3, "CM": 2, "FRAN": 2, "OSM": 2, "OPUS": 2}],
+        ],
+        "axis_weights": {"RIGOR": 2}
+    },
+    {
+        "text": "Which economic arrangement best reflects Catholic Social Teaching?",
+        "options": [
+            ["Distributism - widespread ownership, guilds, cooperatives. Chesterton and Belloc were right.", {"DISTRIBUT": 6, "AGRAR": 4, "CORPCATH": 3, "TRADNAT": 2, "LIBERTAR": -3}],
+            ["Regulated markets with welfare state and worker protections. European social model. (Social Democrat, Worker-Catholic)", {"SOCDEM": 5, "WORKERCATH": 4, "CM": 2, "LIBCATH": 2, "LIBERTAR": -4}],
+            ["Free markets with private charity. Government creates dependency. (Libertarian)", {"LIBERTAR": 6, "OPUS": 2, "SOCDEM": -5, "WORKERCATH": -3}],
+            ["Corporatism - organized vocational groups. Quadragesimo Anno's vision.", {"CORPCATH": 6, "INTEG": 3, "DISTRIBUT": 3, "TRADNAT": 2}],
+            ["CST provides principles, not a system. Context determines application. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "JES": 2, "DEVPROG": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "How should the Church understand her relationship with Judaism after Nostra Aetate?",
+        "options": [
+            ["The Old Covenant remains valid. Jews have a unique path not requiring explicit Christian faith. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 4, "RESS": 2, "TRAD": -5, "NEOSCH": -4}],
+            ["Nostra Aetate condemned antisemitism but didn't change the necessity of Christ for salvation. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 4, "THOM": 3, "DEVPROG": 2, "TRAD": 2}],
+            ["The Church has overcorrected. Supersessionism is traditional and shouldn't be abandoned. (Traditionalist, SSPX-leaning)", {"TRAD": 5, "SSPX": 4, "NEOSCH": 4, "ANTIMOD": 3, "PROG": -4}],
+            ["Complex - honor Jewish roots, condemn antisemitism, maintain missionary mandate to all. (Ressourcement, Neo-Augustinian)", {"RESS": 4, "NEOAUG": 3, "BENED": 3, "COMMUN": 3, "STD": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is your view on Marian apparitions (Fatima, Lourdes, etc.)?",
+        "options": [
+            ["Essential to Catholic piety. The Fatima consecration should be taken seriously. (Traditionalist, Redemptorist)", {"TRAD": 4, "CSSR": 3, "OSM": 3, "MERC": 2, "ANTIMOD": 2}],
+            ["Approved apparitions are credible but private revelation is never obligatory. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "THOM": 2, "DEVPROG": 2}],
+            ["Often verge on superstition. Focus on Scripture and Sacraments. (Progressive, Liberal Catholic)", {"PROG": 3, "LIBCATH": 3, "DOM": 2, "TRAD": -2, "CSSR": -2}],
+            ["Some are solid (Fatima, Lourdes) but others (Medjugorje) are likely fraudulent.", {"TRAD": 3, "STD": 3, "ROTR": 2, "PAPMOD": 2}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "What is the proper understanding of Mary's role as 'Mediatrix' and the proposed title 'Co-redemptrix'?",
+        "options": [
+            ["Mary truly cooperated in our redemption in a unique and subordinate manner; the titles 'Mediatrix of All Graces' and 'Co-redemptrix' should be solemnly defined to crown Catholic Mariology. (Marian Maximalist)", {"TRAD": 5, "CSSR": 4, "OSM": 4, "MERC": 3, "INTEG": 3, "MANUAL": 2, "PROG": -4, "ORTHOPH": -3}],
+            ["These titles, while capable of orthodox interpretation, risk serious misunderstanding and ecumenical harm; the Church should refrain from dogmatic definition while permitting private devotion. (Moderate / Prudential)", {"STD": 4, "PAPMOD": 4, "COMMUN": 3, "DEVPROG": 3, "THOM": 2, "JES": 2}],
+            ["Mary is best understood as the 'Archetype' or 'Type' of the Church—the first and most perfect disciple who models receptivity to grace. Maximalist titles obscure this ecclesiotypical emphasis recovered by ressourcement. (Ressourcement / Ecclesiotypical)", {"RESS": 5, "NEOAUG": 4, "COMMUN": 4, "BENED": 3, "TRAD": -2}],
+            ["The East venerates the Theotokos as 'more honorable than the Cherubim' and prays 'through her intercessions, save us,' but without the juridical Latin categories of 'mediatrix' or 'co-redemptrix.' (Eastern / Patristic)", {"EASTECC": 5, "PALAM": 4, "EASTSAC": 4, "ORTHOPH": 4, "EORTHO": 3, "EASTLIT": 3}],
+            ["Marian titles beyond 'Mother of God' risk detracting from Christ's unique mediation (1 Tim 2:5); the Church should adopt a more Christocentric and scripturally restrained Mariology. (Minimalist / Ecumenical)", {"PROG": 4, "LIBCATH": 4, "LUTHCAT": 3, "ECUMON": 3, "ANGLICAN": 2, "TRAD": -4, "CSSR": -3}]
+        ],
+        "axis_weights": {"PIETY": 4, "PAPAL": 2, "LIT": 1}
+    },
+    {
+        "text": "How does the dogma of the Immaculate Conception relate to the Augustinian doctrine of original sin and the 'massa damnata'?",
+        "options": [
+            ["The dogma magnificently vindicates Augustine: Mary's singular exemption proves how universal and inescapable original sin truly is—only an extraordinary divine intervention could preserve anyone from the massa damnata. (Strict Augustinian)", {"AUGP": 5, "AUG": 4, "JANS": 4, "BANEZ": 3, "TRAD": 3, "SCOT": -2, "FRANC": -2}],
+            ["The Immaculate Conception represents a harmonious synthesis: Mary was preserved by grace applied in anticipation of Christ's merits, fully consistent with Augustinian hamartiology and Thomistic precision. (Thomist-Augustinian Synthesis)", {"THOM": 5, "AUG": 4, "DOM": 4, "TRIDSAC": 3, "NEOSCH": 3, "STD": 2}],
+            ["Bl. Scotus rightly saw that God could, and therefore did, preserve Mary entirely from the stain of original sin from the first instant—a 'more perfect redemption' that requires softening Augustine's view of seminal transmission. (Scotist / Franciscan)", {"SCOT": 5, "FRANC": 5, "SCOTMETA": 3, "CARM": 3, "OSM": 2, "AUGP": -3, "JANS": -3}],
+            ["The East honors Mary as the 'All-Holy' (Panagia) and 'Immaculate' without the Latin juridical framework of inherited guilt or 'original sin' in the Augustinian sense; both traditions affirm her supreme purity by different theological paths. (Eastern Catholic / Patristic)", {"EASTECC": 5, "PALAM": 4, "EASTSAC": 4, "ORTHOPH": 4, "EORTHO": 3, "RESS": 2, "NEOSCH": -2}],
+            ["The dogma was a medieval development driven largely by popular piety and Franciscan advocacy, not strict theological necessity; Augustine's severe view of inherited guilt makes the formulation awkward and historically contingent. (Critical / Progressive)", {"PROG": 4, "LIBCATH": 4, "DEVPROG": 3, "RESS": 2, "TRAD": -4, "INTEG": -3}]
+        ],
+        "axis_weights": {"GRACE": 4, "PIETY": 3, "RIGOR": 2}
+    },
+    {
+        "text": "What form of Marian devotion best reflects authentic Catholic liturgical piety?",
+        "options": [
+            ["The solemn Marian antiphons of the Divine Office—Salve Regina, Alma Redemptoris Mater, Ave Regina Caelorum, Regina Caeli—represent the Church's most sublime and doctrinally precise Marian prayer, rooted in the Fathers. (Liturgical Traditionalist / Benedictine)", {"BENED": 5, "TRAD": 5, "TRIDSAC": 4, "OCSO": 4, "CHART": 3, "OPRAEM": 3, "ROTR": 3, "PROG": -3}],
+            ["The Holy Rosary, particularly the traditional fifteen mysteries contemplated daily, remains the pre-eminent Marian devotion for the faithful and the surest path to Marian consecration. (Dominican / Popular Traditional)", {"DOM": 5, "TRAD": 4, "CSSR": 4, "OSM": 3, "FRAN": 3, "OPUS": 2, "PROG": -2}],
+            ["The Byzantine Akathist Hymn and the rich Eastern Marian troparia preserve the Christological and patristic balance that some Western devotions—particularly post-Tridentine maximalism—have occasionally lost. (Eastern Liturgical)", {"EASTLIT": 5, "EASTECC": 5, "EASTSAC": 4, "PALAM": 4, "ORTHOPH": 4, "RESS": 2}],
+            ["Marian devotion today should emphasize Mary as the first disciple, model of faith, and icon of the pilgrim Church—expressed through contemporary hymnody, inclusive language, and scriptural foundations rather than medieval accretions. (Progressive / Pastoral)", {"PROG": 5, "LIBCATH": 4, "PERSMOR": 3, "SDB": 3, "SYNOD": 2, "TRAD": -4, "TRIDSAC": -3}],
+            ["All authentic forms of Marian devotion—whether Office antiphons, Rosary, Scapular, Akathist, or contemporary hymns—are valuable when they lead souls to Christ; no single form should be privileged over others. (Mainstream / Inclusive)", {"STD": 4, "PAPMOD": 3, "CM": 3, "JES": 2, "ORAT": 2, "DEVPROG": 2, "FRAN": 2}]
+        ],
+        "axis_weights": {"LIT": 5, "PIETY": 4, "RIGOR": 1}
+    },
+    {
+        "text": "What is your view on the possibility of an 'empty hell' (Balthasar's hope)?",
+        "options": [
+            ["Permissible - we may dare to hope all are saved. God's mercy is infinite. (Communio School, Progressive)", {"COMMUN": 5, "PROG": 4, "LIBCATH": 4, "TRAD": -4, "AUGP": -4, "JANS": -4}],
+            ["Heretical or temerarious. Scripture and Tradition attest many are damned. (Strict Augustinian, Jansenist)", {"AUGP": 5, "JANS": 4, "TRAD": 4, "NEOSCH": 3, "ANTIMOD": 3, "COMMUN": -4}],
+            ["We can hope for individuals but the Church teaches hell is populated. (Mainstream, Thomist)", {"STD": 4, "THOM": 3, "PAPMOD": 2, "AUG": 2}],
+            ["Speculative. Focus on your own salvation, not universal questions. (Carmelite, Carthusian)", {"CARM": 3, "CHART": 3, "STD": 2, "BENED": 2}],
+        ],
+        "axis_weights": {"ESCH": 4, "RIGOR": 3}
+    },
+    {
+        "text": "What is your view on Amoris Laetitia and communion for the divorced and remarried?",
+        "options": [
+            ["A development allowing pastoral discernment in complex situations. (Progressive, Synodalist)", {"PROG": 5, "SYNOD": 4, "PERSMOR": 3, "LIBCATH": 3, "TRAD": -5, "NEOSCH": -4}],
+            ["Ambiguous document misused by progressives. The dubia remain unanswered. (Traditionalist)", {"TRAD": 5, "ROTR": 3, "TRADUM": 3, "NEOSCH": 3, "ANTIMOD": 2}],
+            ["Heretical. Contradicts Familiaris Consortio and perennial teaching. (SSPX-leaning, Sedevacantist)", {"SSPX": 5, "SEDE": 4, "TRAD": 4, "ANTIMOD": 4, "PROG": -5}],
+            ["Pastoral accompaniment is good but doesn't change the discipline. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "MANUAL": 2, "THOMMOR": 2}],
+        ],
+        "axis_weights": {"RIGOR": 4}
+    },
+    {
+        "text": "How do you assess the Second Vatican Council overall?",
+        "options": [
+            ["The greatest council - opened the Church to the modern world. (Progressive, Liberal Catholic)", {"PROG": 6, "LIBCATH": 5, "SYNOD": 3, "TRAD": -5, "SSPX": -6, "ANTIMOD": -5}],
+            ["Legitimate council often misinterpreted. Hermeneutic of continuity needed. (Communio School, Reform of Reform)", {"COMMUN": 5, "ROTR": 5, "TRADUM": 4, "DEVPROG": 4, "STD": 3}],
+            ["Pastoral, not dogmatic. Prudential judgments can be questioned. (Traditionalist, Reform of Reform)", {"TRAD": 4, "ROTR": 3, "PAPMIN": 3, "TRADUM": 3}],
+            ["A catastrophe. The texts contain errors or dangerous ambiguities. (SSPX-leaning, Anti-Modernist)", {"SSPX": 6, "ANTIMOD": 5, "SEDE": 4, "TRAD": 4, "COMMUN": -3, "PROG": -5}],
+            ["Invalid or doubtfully valid. The Church has been in eclipse since. (Sedevacantist, Sedeprivationist)", {"SEDE": 6, "SEDEPRIV": 5, "SSPX": 3, "STD": -5, "PAPMOD": -5}],
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+    {
+        "text": "What is your position on Humanae Vitae's teaching on contraception?",
+        "options": [
+            ["Prophetic and absolutely binding. NFP is the only moral option. (Traditionalist, Neo-Scholastic)", {"TRAD": 5, "NEOSCH": 5, "OPUS": 4, "THOMMOR": 4, "INTEG": 3}],
+            ["True but pastoral sensitivity needed. Distinguish grave matter from mortal sin. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "PERSMOR": 2}],
+            ["The principle is right but application involves prudential judgment. (Personalist, Casuist)", {"PERSMOR": 4, "CASUIST": 3, "PROG": 2, "NEOSCH": -3}],
+            ["Should be reconsidered. Sensus fidelium has rejected it. (Liberal Catholic, Progressive)", {"PROG": 4, "LIBCATH": 5, "SYNOD": 2, "TRAD": -6, "NEOSCH": -5}],
+        ],
+        "axis_weights": {"RIGOR": 5}
+    },
+    {
+        "text": "How should the Church relate to secular liberal democracy?",
+        "options": [
+            ["Reject it - Christendom should be restored. Christ must reign socially. (Hard Integralist, Integralist)", {"INTEGHARD": 6, "INTEG": 5, "TRADNAT": 4, "TRAD": 3, "LIBCATH": -5}],
+            ["Accept pragmatically but work for culture's conversion over time. (Soft Integralist)", {"INTEGSOFT": 5, "ROTR": 3, "STD": 3, "DEVPROG": 2}],
+            ["Liberal democracy, rightly understood, is compatible with Catholicism. (Liberal Catholic)", {"LIBCATH": 5, "PAPMOD": 3, "STD": 3, "DEVPROG": 3, "INTEG": -4}],
+            ["Fine but must be limited by natural law and subsidiarity. (Distributist, Mainstream)", {"DISTRIBUT": 4, "STD": 3, "THOMMOR": 3, "INTEGSOFT": 2}],
+            ["Church should focus on souls, not political arrangements. (Carmelite, Carthusian)", {"CARM": 3, "CHART": 3, "STD": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Which statement best captures your fundamental theological orientation?",
+        "options": [
+            ["'Grace does not destroy nature but perfects it.' The Thomistic synthesis is perennially valid.", {"THOM": 6, "DOM": 4, "THOMMETA": 4, "THOMMOR": 3}],
+            ["'Our hearts are restless until they rest in Thee.' Augustine's interiority and grace theology are primary. (Augustinian)", {"AUG": 6, "OSA": 4, "NEOAUG": 4, "AUGMOR": 3}],
+            ["'Finding God in all things.' Ignatian discernment and active engagement with the world. (Jesuit)", {"JES": 6, "MOL": 3, "CONG": 2}],
+            ["'Pray and work.' The Benedictine balance of liturgy, labor, and stability.", {"BENED": 6, "OCSO": 4, "OPRAEM": 3, "CHART": 2}],
+            ["'Lady Poverty.' Franciscan simplicity, creation spirituality, and joyful service.", {"FRAN": 6, "FRANC": 4, "SDB": 2}],
+            ["Ressourcement - return to Fathers and Scripture to renew the Church. (Ressourcement)", {"RESS": 6, "NEOAUG": 4, "COMMUN": 4, "BENED": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "On liturgical matters, you identify most closely with:",
+        "options": [
+            ["The Traditional Latin Mass is the Mass of the Ages. The Novus Ordo is at best a compromise. (Traditionalist)", {"TRAD": 6, "SSPX": 4, "ROTR": 2, "ANTIMOD": 3}],
+            ["Novus Ordo celebrated reverently, ad orientem, with chant. Reform of the Reform. (Reform of Reform)", {"ROTR": 6, "TRADUM": 4, "STD": 2, "COMMUN": 2}],
+            ["Eastern Divine Liturgy - Byzantine, Maronite, or other Eastern Catholic traditions. (Eastern Liturgical, Eastern Catholic)", {"EASTLIT": 6, "EASTECC": 5, "EASTSAC": 4, "ORTHOPH": 3}],
+            ["The Ordinariate's Divine Worship - Anglican patrimony in full communion.", {"ORDINAR": 6, "ROTR": 2, "BENED": 2}],
+            ["The reformed liturgy as commonly celebrated. The Mass is the Mass.", {"STD": 5, "PROG": 3, "LIBCATH": 2, "TRAD": -3}],
+            ["Liturgy should be creative, inculturated, and community-centered. (Progressive)", {"PROG": 6, "LIBCATH": 4, "TRAD": -5, "ROTR": -4}],
+        ],
+        "axis_weights": {"LIT": 6}
+    },
+    {
+        "text": "Your view of papal authority is closest to:",
+        "options": [
+            ["Maximal - supreme, immediate, ordinary jurisdiction everywhere. Roma locuta. (Ultramontane)", {"ULTRA": 6, "INTEG": 3, "PAPMOD": -2, "GALL": -5, "CONCIL": -5}],
+            ["Vatican I is true but narrowly applied. Collegiality balances primacy. (Moderate Papalist)", {"PAPMOD": 6, "STD": 3, "COMMUN": 2, "DEVPROG": 2}],
+            ["Papal minimalism - infallibility is real but rare. Most teaching is reformable. (Papal Minimalist)", {"PAPMIN": 6, "GALL": 3, "CONCIL": 2, "ULTRA": -4}],
+            ["The current occupant may not be a true pope. Discernment is required. (Sedevacantist, Sedeprivationist)", {"SEDE": 6, "SEDEPRIV": 5, "SSPX": 3, "ULTRA": -6, "PAPMOD": -5}],
+            ["Synodality should be strengthened. Pope is first among equals. (Synodalist, Eastern Catholic)", {"SYNOD": 5, "EASTECC": 4, "CONCIL": 3, "PROG": 2, "ULTRA": -5}],
+        ],
+        "axis_weights": {"PAPAL": 6}
+    },
+    {
+        "text": "In the De Auxiliis controversy between Bañezians and Molinists, you side with:",
+        "options": [
+            ["Bañez - physical premotion, intrinsically efficacious grace, predestination ante praevisa merita. (Bañezian)", {"BANEZ": 6, "AUGP": 4, "DOM": 3, "AUG": 3, "THOMP": 3, "MOL": -5, "JES": -3}],
+            ["Molina - middle knowledge, extrinsically efficacious grace, libertarian freedom preserved. (Molinist)", {"MOL": 6, "JES": 4, "CONG": 3, "SCOT": 2, "BANEZ": -5, "AUGP": -3}],
+            ["Congruism - a mediating position. Grace is suited to circumstances God foresees. (Congruist)", {"CONG": 6, "MOL": 3, "JES": 2, "STD": 2}],
+            ["The Church left it open. Both are permissible opinions within Catholic bounds. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "THOM": 2, "DEVPROG": 2}],
+            ["I lean Augustinian/Bañezian but wouldn't call Molinism heresy.", {"AUG": 4, "BANEZ": 3, "THOM": 3, "DOM": 2, "STD": 2}],
+        ],
+        "axis_weights": {"GRACE": 6}
+    },
+    {
+        "text": "How do you assess the Jansenist movement?",
+        "options": [
+            ["Authentic Augustinianism unjustly condemned due to Jesuit political maneuvering.", {"JANS": 6, "AUGP": 4, "TRAD": 2, "JES": -5, "MOL": -4}],
+            ["Contained genuine insights about grace but went too far into rigorism and near-Calvinism. (Augustinian, Thomist)", {"AUG": 3, "AUGP": 2, "THOM": 3, "STD": 2}],
+            ["Rightly condemned. Its rigorism harmed souls and its ecclesiology was schismatic. (Jesuit, Molinist)", {"JES": 4, "MOL": 3, "STD": 3, "PAPMOD": 2, "JANS": -5}],
+            ["A complex phenomenon. Some Jansenists were holy; the label was applied too broadly.", {"RESS": 3, "DEVPROG": 2, "STD": 2, "NEOAUG": 2}],
+        ],
+        "axis_weights": {"GRACE": 4, "RIGOR": 3}
+    },
+    {
+        "text": "On the order of divine decrees (predestination), you hold:",
+        "options": [
+            ["Infralapsarianism - God's decree of election logically follows the decree to permit the Fall.", {"INFRA": 6, "THOM": 3, "AUG": 2, "STD": 2}],
+            ["Supralapsarianism - God's decree of election logically precedes the Fall. Stronger sovereignty.", {"SUPRA": 6, "AUGP": 3, "BANEZ": 2, "SCOT": 2}],
+            ["These distinctions are overly speculative. Focus on pastoral realities. (Mainstream, Personalist)", {"STD": 3, "PERSMOR": 2, "PROG": 2}],
+            ["I affirm predestination but don't commit to the order of decrees. (Augustinian, Thomist)", {"AUG": 3, "THOM": 3, "STD": 3, "BANEZ": 2}],
+        ],
+        "axis_weights": {"GRACE": 4}
+    },
+    {
+        "text": "On divine voluntarism vs intellectualism:",
+        "options": [
+            ["Radical Voluntarism: God's will alone is the ultimate and arbitrary ground of morality. Divine command makes things good without reference to any prior rational order. (Nominalist)", {"NOMIN": 5, "VOLUNT": 5, "THOM": -4, "INTELL": -5}],
+            ["Intellectualism: God wills things because they are good. Natural law reflects eternal reason, and the divine intellect is logically (not temporally) prior to the divine will. (Intellectualist, Thomist)", {"INTELL": 6, "THOM": 5, "THOMMETA": 3, "DOM": 3, "VOLUNT": -4, "NOMIN": -4}],
+            ["A false dichotomy: In God, will and intellect are one by divine simplicity. Both positions capture partial truths about the unified divine act. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "DEVPROG": 2, "RESS": 2}],
+            ["Moderate Voluntarism: God's will is formally primary and supremely free, but always acts according to wisdom and the divine nature—never capriciously or irrationally. (Scotist)", {"SCOT": 5, "FRANC": 4, "SCOTMETA": 3, "VOLUNT": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Which sacramental theology resonates most with you?",
+        "options": [
+            ["Strict Tridentine - ex opere operato, transubstantiation precisely defined, seven sacraments.", {"TRIDSAC": 6, "TRANSUB": 5, "NEOSCH": 3, "TRAD": 3}],
+            ["Thomistic - sacraments as instrumental efficient causes, Christ the principal cause.", {"THOMSAC": 6, "THOM": 4, "DOM": 3, "TRIDSAC": 2}],
+            ["Augustinian - emphasis on faith, interiority, sacraments as 'visible words.'", {"AUGSAC": 6, "AUG": 4, "OSA": 3, "NEOAUG": 2}],
+            ["Eastern - holy mysteries, epiclesis centrality, theosis orientation. (Eastern Sacramental)", {"EASTSAC": 6, "EASTLIT": 4, "EASTECC": 4, "PALAM": 3, "ORTHOPH": 3}],
+            ["Open to transignification language as complementary to transubstantiation.", {"TRANSIG": 5, "PROG": 3, "RESS": 2, "TRANSUB": -3, "TRAD": -3}],
+            ["Eucharistic mysticism - personal encounter, adoration, transformative union. (Eucharistic Mysticism)", {"EUCHMYST": 6, "CARM": 3, "BENED": 2, "CP": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "In moral theology, which system do you favor?",
+        "options": [
+            ["Probabilism - in doubt, a solidly probable opinion favoring liberty may be followed.", {"PROBAB": 6, "JES": 3, "CSSR": 3, "CASUIST": 3, "TUTIOR": -5}],
+            ["Tutiorism - always follow the safer opinion favoring law. Strictness protects souls.", {"TUTIOR": 6, "JANS": 4, "NEOSCH": 3, "AUGP": 2, "PROBAB": -5}],
+            ["Equiprobabilism - St. Alphonsus's balanced middle way between rigorism and laxism.", {"CSSR": 5, "STD": 3, "MANUAL": 2, "CASUIST": 2}],
+            ["Virtue ethics over casuistry. Character formation matters more than case analysis. (Virtue Ethics)", {"VIRTUE": 6, "THOMMOR": 3, "AUGMOR": 3, "MANUAL": -3}],
+            ["Proportionalism - weigh proportionate reasons; traditional 'intrinsic evil' needs nuance.", {"PROP": 6, "PERSMOR": 3, "PROG": 2, "NEOSCH": -5, "TRAD": -4}],
+        ],
+        "axis_weights": {"RIGOR": 5}
+    },
+    {
+        "text": "The Radical Orthodoxy movement (Milbank, Pickstock) argues that:",
+        "options": [
+            ["Secular reason is 'heresy' - modernity's autonomy from theology must be rejected root and branch. (Radical Orthodoxy)", {"RADORTH": 6, "INTEG": 3, "NEOPLAT": 3, "COMMUN": 2, "LIBCATH": -4}],
+            ["Interesting critique of secularism but sometimes overstates the case against modernity. (Communio School, Ressourcement)", {"COMMUN": 3, "RESS": 3, "DEVPROG": 2, "STD": 2}],
+            ["Too academic and obscure. Practical pastoral concerns matter more than philosophical critique. (Mainstream, Vincentian)", {"STD": 3, "CM": 2, "SDB": 2, "PROG": 2}],
+            ["Essentially correct - all truth participates in divine truth. There is no 'neutral' reason. (Radical Orthodoxy, Neo-Platonist)", {"RADORTH": 5, "NEOPLAT": 4, "INTEG": 3, "THOMMETA": 2}],
+            ["Dangerous flirtation with fideism. Reason has its own integrity under grace. (Thomist, Dominican)", {"THOM": 3, "DOM": 2, "JES": 2, "RADORTH": -3}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "On the question of being - analogy (Aquinas) or univocity (Scotus)?",
+        "options": [
+            ["Analogy (Analogia Entis): Being is said in many ways. God and creatures share being analogically—neither identically nor equivocally, but proportionally. This preserves divine transcendence. (Thomist, Thomist (Realist))", {"THOM": 5, "THOMMETA": 6, "DOM": 3, "INTELL": 2, "SCOTMETA": -4}],
+            ["Univocity: Being must be predicated univocally for our language about God to be meaningful at all. Without a common concept, theology collapses into equivocation. (Scotist Metaphysics, Scotist)", {"SCOTMETA": 6, "SCOT": 5, "FRANC": 3, "THOMMETA": -4}],
+            ["Participatory/Neoplatonic: Creatures participate in divine being through emanation and return; theological language is primarily symbolic, apophatic, and mystical rather than strictly analogical. (Neo-Platonist)", {"NEOPLAT": 5, "PALAM": 3, "AUG": 2}],
+            ["Both capture important insights; the debate is often overblown by partisans. The Church has not definitively settled this metaphysical question. (Mainstream, Developmental)", {"STD": 3, "DEVPROG": 3, "RESS": 2}],
+            ["Univocity opened the door to modern errors (nominalism, secularism); Analogia entis is non-negotiable for sound metaphysics and safeguarding divine transcendence. (Radical Orthodoxy, Thomist (Realist))", {"RADORTH": 5, "THOMMETA": 4, "THOM": 3, "SCOTMETA": -3}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "How do you assess the nominalist tradition (Ockham, etc.)?",
+        "options": [
+            ["A disaster that led to voluntarism, fideism, and ultimately secularism. (Thomist, Thomist (Realist))", {"THOM": 4, "THOMMETA": 4, "RADORTH": 3, "INTELL": 3, "NOMIN": -5}],
+            ["Contains genuine insights about parsimony and the limits of metaphysical speculation. (Nominalist)", {"NOMIN": 5, "SCOT": 2, "VOLUNT": 2, "THOM": -2}],
+            ["An interesting historical episode with little relevance to contemporary theology. (Mainstream, Progressive)", {"STD": 3, "PROG": 2, "DEVPROG": 2}],
+            ["Ockham was a faithful Catholic; his positions are defensible within tradition. (Nominalist, Voluntarist)", {"NOMIN": 4, "VOLUNT": 3, "SCOTMETA": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is your view of Palamite theology (essence-energies distinction)?",
+        "options": [
+            ["True - distinguishes God's unknowable essence from His participated energies. Essential for theosis. (Palamite/Eastern, Orthophile)", {"PALAM": 6, "ORTHOPH": 5, "EASTECC": 4, "EASTSAC": 3, "THOM": -2}],
+            ["Possibly compatible with Thomism if properly understood. Worth ecumenical dialogue. (Moderate Papalist, Developmental)", {"PAPMOD": 3, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2, "RESS": 2}],
+            ["Incompatible with divine simplicity. The West rightly rejected it. (Thomist, Thomist (Realist))", {"THOM": 4, "THOMMETA": 4, "NEOSCH": 3, "PALAM": -5, "ORTHOPH": -3}],
+            ["A distinctly Eastern approach that enriches Catholic theology without replacing Thomism. (Eastern Catholic, Palamite/Eastern)", {"EASTECC": 4, "PALAM": 3, "RESS": 3, "EASTLIT": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "How central is theosis (divinization) to your understanding of salvation?",
+        "options": [
+            ["Central - 'God became man that man might become God.' This is the heart of soteriology. (Palamite/Eastern, Orthophile)", {"PALAM": 5, "ORTHOPH": 5, "EASTECC": 4, "NEOAUG": 4, "RESS": 3}],
+            ["Important but must be balanced with juridical/forensic categories. Both-and, not either-or. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "DEVPROG": 2, "AUG": 2}],
+            ["Western theology rightly emphasizes justification. Theosis language risks pantheism. (Neo-Scholastic, Tridentine)", {"NEOSCH": 3, "TRIDSAC": 3, "MANUAL": 2, "PALAM": -3}],
+            ["A beautiful Eastern emphasis the West should recover through ressourcement. (Ressourcement, Neo-Augustinian)", {"RESS": 5, "NEOAUG": 4, "COMMUN": 3, "PALAM": 3, "BENED": 2}],
+        ],
+        "axis_weights": {"JUST": 4}
+    },
+    {
+        "text": "Carmelite spirituality (Teresa of Ávila, John of the Cross) emphasizes:",
+        "options": [
+            ["Interior prayer and mystical union - the soul's journey through mansions to divine marriage. (Carmelite)", {"CARM": 6, "EUCHMYST": 3, "CHART": 2, "PIETY": 3}],
+            ["Valuable for contemplatives but most Catholics need active, engaged spirituality. (Jesuit, Dominican)", {"JES": 3, "DOM": 2, "SDB": 2, "OPUS": 2}],
+            ["The 'dark night' teaches detachment from consolations - demanding but transformative. (Carmelite)", {"CARM": 5, "OCSO": 3, "CHART": 3, "CP": 2}],
+            ["Mysticism is dangerous without strong doctrinal grounding and ecclesial oversight. (Neo-Scholastic, Traditionalist)", {"NEOSCH": 3, "TRAD": 2, "DOM": 2, "CARM": -2}],
+        ],
+        "axis_weights": {"PIETY": 5}
+    },
+    {
+        "text": "The Passionist emphasis on 'memoria passionis' (memory of Christ's suffering) is:",
+        "options": [
+            ["Central to Christian life. Meditating on the Passion transforms the soul. (Passionist)", {"CP": 6, "CARM": 3, "TRAD": 2, "OSM": 2}],
+            ["Important but should be balanced with Resurrection joy and hope. (Mainstream, Benedictine)", {"STD": 3, "BENED": 2, "SDB": 2, "FRAN": 2}],
+            ["Can become morbid. Focus on Christ's victory, not His suffering. (Progressive, Liberal Catholic)", {"PROG": 2, "LIBCATH": 2, "CP": -2}],
+            ["Connects us to those who suffer today - solidarity with the crucified peoples. (Passionist, Vincentian)", {"CP": 4, "CM": 3, "WORKERCATH": 3, "KENOT": 2}],
+        ],
+        "axis_weights": {"PIETY": 3}
+    },
+    {
+        "text": "The Mercedarian fourth vow - to give one's life for captives if necessary - represents:",
+        "options": [
+            ["Heroic charity. The willingness to die for another's freedom is profoundly Christlike. (Mercedarian)", {"MERC": 6, "CM": 3, "FRAN": 2, "CP": 2}],
+            ["A noble historical charism that should be adapted for modern forms of captivity (trafficking, addiction). (Mercedarian, Vincentian)", {"MERC": 4, "CM": 3, "WORKERCATH": 2, "PROG": 2}],
+            ["Inspiring but exceptional. Most are not called to such radical sacrifice. (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2}],
+            ["All religious should have this spirit of total self-gift, even if not vowed. (Carthusian, Cistercian/Trappist)", {"CHART": 3, "OCSO": 2, "CARM": 2, "MERC": 2}],
+        ],
+        "axis_weights": {"PIETY": 2}
+    },
+    {
+        "text": "How should the Church relate to modern culture?",
+        "options": [
+            ["Resist: Modern culture is largely hostile to faith and natural law (Traditionalist, Integralist)", {"TRAD": 3, "INTEG": 3, "SSPX": 3, "NEOSCH": 2}],
+            ["Engage critically: Affirm what is good, reject what contradicts faith (Mainstream, Reform of Reform)", {"STD": 2, "ROTR": 2, "PAPMOD": 2}],
+            ["Adapt: The Church must speak modern language to be heard (Progressive, Liberal Catholic)", {"PROG": 3, "LIBCATH": 2}],
+            ["Ressourcement: Return to sources to address modern questions freshly (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2}],
+        ],
+        "axis_weights": {"LIT": 2}
+    },
+    {
+        "text": "What is the value of Scholasticism today?",
+        "options": [
+            ["Perennially valid: Thomistic philosophy and theology remain normative", {"THOMMETA": 3, "THOM": 3, "DOM": 2, "NEOSCH": 3}],
+            ["Valuable but not exclusively: Other traditions have insights (Mainstream, Ressourcement)", {"STD": 2, "RESS": 2}],
+            ["Historically important but modern thought has surpassed it (Progressive)", {"PROG": 2, "LIBCATH": 1}],
+            ["One approach among many; Scotist, Augustinian alternatives are equally valid", {"SCOT": 2, "FRANC": 2, "AUG": 1}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "Did ressourcement theology recover authentic insights?",
+        "options": [
+            ["Yes: Patristic retrieval corrected neo-scholastic narrowness (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2, "NEOPLAT": 2}],
+            ["Partially: Some good insights but also problematic tendencies (Mainstream)", {"STD": 2, "THOM": 1}],
+            ["No: It undermined sound theology and paved way for modernism (Neo-Scholastic, Traditionalist)", {"NEOSCH": 2, "TRAD": 2, "SSPX": 1}],
+            ["It's complicated: Need to distinguish various authors and claims (Moderate Papalist)", {"PAPMOD": 2}],
+        ],
+        "axis_weights": {}
+    },
+    {
+        "text": "What is your view on the 'fewness of the saved' — the traditional teaching that few attain eternal salvation?",
+        "options": [
+            ["A virtual consensus of the Fathers, Doctors, and saints. Our Lord's words 'narrow is the gate' should be taken at face value. (Strict Augustinian, Jansenist)", {"AUGP": 5, "JANS": 4, "TRAD": 4, "NEOSCH": 3, "ANTIMOD": 3, "COMMUN": -3, "PROG": -4}],
+            ["Most are likely lost through their own fault, but the elect may be more numerous and surprising in composition than some expect. Garrigou-Lagrange held this nuanced view. (Thomist, Dominican)", {"THOM": 4, "DOM": 3, "AUG": 3, "STD": 2, "BANEZ": 2, "TRAD": 2}],
+            ["We may hope that a significant portion of practicing Christians receive the grace of final perseverance, though certainty eludes us. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 3, "CARM": 2, "BENED": 2, "JES": 2, "DEVPROG": 2}],
+            ["The question reflects an overly pessimistic spirituality. God's salvific will is universal and His mercy should inspire confidence, not fear. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 4, "COMMUN": 3, "PERSMOR": 2, "TRAD": -4, "AUGP": -3}],
+            ["Speculative questions about numbers distract from the call to personal holiness. Work out your own salvation with fear and trembling. (Carmelite, Carthusian)", {"CARM": 4, "CHART": 3, "BENED": 3, "OPUS": 2, "STD": 2}]
+        ],
+        "axis_weights": {"ESCH": 4, "RIGOR": 3, "GRACE": 2}
+    },
+    {
+        "text": "How should we understand 'Extra Ecclesiam nulla salus' (Outside the Church there is no salvation)?",
+        "options": [
+            ["Strictly: Only those validly baptized who die within the visible bounds of the Roman Catholic Church can be saved. No exceptions. (Sedevacantist, SSPX-leaning)", {"SEDE": 5, "SSPX": 4, "ANTIMOD": 3, "TRAD": 3, "NEOSCH": 2, "PROG": -5, "LIBCATH": -5}],
+            ["The Church is the ordinary and normative means of salvation, but invincible ignorance and baptism of desire are genuine possibilities recognized by Tradition. (Thomist, Mainstream)", {"THOM": 4, "STD": 4, "PAPMOD": 3, "DOM": 2, "DEVPROG": 2, "TRAD": 2}],
+            ["Separated Christians have real though imperfect communion; their obligation is to seek truth, but diminished culpability is possible. (Thomist, Dominican)", {"THOM": 3, "DOM": 3, "ECUMON": 3, "DEVPROG": 3, "PAPMOD": 2, "LUTHCAT": 2, "SEDE": -3}],
+            ["All who die in the state of grace are saved, however they came to it. The Church's boundaries are more mysterious than juridical. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 4, "COMMUN": 3, "RESS": 2, "EASTECC": 2, "TRAD": -3, "NEOSCH": -3}],
+            ["Those with valid sacraments (Eastern Orthodox, some Anglicans) are in a different category than Protestant communities without valid orders.", {"ORTHOPH": 4, "EASTECC": 4, "ORDINAR": 3, "TRAD": 2, "THOM": 2, "ECUMON": 2}]
+        ],
+        "axis_weights": {"PAPAL": 1, "RIGOR": 2, "ESCH": 2}
+    },
+    {
+        "text": "Was papal infallibility an ancient and constant tradition of the Church?",
+        "options": [
+            ["An innovation of Vatican I (1870), contradicted by Haec Sancta (1415) and the historical practice of ecumenical councils correcting popes. (Gallican, Conciliarist)", {"GALL": 5, "CONCIL": 5, "PAPMIN": 3, "PROG": 2, "ULTRA": -5, "INTEG": -4}],
+            ["Implicit from the beginning and increasingly explicit over time. Newman's development of doctrine applies: the seed was always present. (Developmental, Moderate Papalist)", {"DEVPROG": 5, "PAPMOD": 4, "STD": 3, "COMMUN": 3, "THOM": 2, "GALL": -3}],
+            ["Present from the earliest centuries — Leo I, Gelasius, Gregory the Great all exercised it. Vatican I defined what was always believed. (Ultramontane, Integralist)", {"ULTRA": 5, "INTEG": 4, "NEOSCH": 3, "ANTIMOD": 2, "GALL": -4, "CONCIL": -4}],
+            ["The charism is real but narrowly circumscribed. Even after Vatican I, we must distinguish infallible definitions (rare) from ordinary magisterium (reformable). (Papal Minimalist)", {"PAPMIN": 5, "PAPMOD": 3, "STD": 3, "GALL": 2, "EASTECC": 2, "ULTRA": -3}],
+            ["A Western development that the Eastern Churches never accepted. Its definition was a major obstacle to reunion. (Eastern Catholic, Orthophile)", {"EASTECC": 4, "ORTHOPH": 4, "CONCIL": 3, "SYNOD": 3, "ULTRA": -4, "INTEG": -3}]
+        ],
+        "axis_weights": {"PAPAL": 5}
+    },
+    {
+        "text": "What degree of certainty can theology achieve, and how does it relate to faith?",
+        "options": [
+            ["Theology is a true science with demonstrative certainty, proceeding from principles known by divine faith to conclusions known by theological reason. (Thomist, Dominican)", {"THOM": 5, "DOM": 4, "THOMMETA": 4, "NEOSCH": 3, "INTELL": 3, "NOMIN": -3}],
+            ["Theology is wisdom more than science — sapiential knowledge rooted in contemplative union with God, not merely syllogistic demonstration. (Augustinian, Neo-Platonist)", {"AUG": 4, "NEOPLAT": 4, "CARM": 3, "BENED": 2, "NEOAUG": 2, "PALAM": 2}],
+            ["Theological conclusions are probable opinions, not demonstrations. Only Scripture and defined dogma are certain; the rest is theological opinion. (Nominalist, Voluntarist)", {"NOMIN": 4, "VOLUNT": 3, "SCOT": 2, "RESS": 2, "THOMMETA": -2}],
+            ["Theology must be done in dialogue with contemporary philosophy and science; its 'certainties' are always culturally conditioned and revisable. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 3, "PERSMOR": 2, "RADORTH": -3, "NEOSCH": -3}],
+            ["The Eastern tradition emphasizes apophatic theology — God is known through what He is not. Western 'certainty' can become rationalist presumption. (Palamite/Eastern, Eastern Orthodox)", {"PALAM": 5, "EORTHO": 4, "EASTECC": 4, "ORTHOPH": 3, "NEOPLAT": 2, "THOMMETA": -2}]
+        ],
+        "axis_weights": {"SCRIPT": 2}
+    },
+    {
+        "text": "How should Latin Catholics regard the Byzantine and Eastern liturgical traditions?",
+        "options": [
+            ["Eastern liturgies preserved ancient forms often lost in the West. Latin Catholics can learn much from their reverence, iconography, and theological depth. (Eastern Orthodox, Eastern Liturgical)", {"EORTHO": 4, "EASTLIT": 5, "EASTECC": 4, "ORTHOPH": 4, "RESS": 3, "BENED": 2, "TRAD": 2}],
+            ["The Roman Rite is the Church's preeminent liturgy; Eastern rites are legitimate but the Latin tradition is normative and superior in precision. (Ultramontane, Traditionalist)", {"ULTRA": 4, "TRAD": 3, "NEOSCH": 3, "INTEG": 2, "EASTLIT": -3, "ORTHOPH": -2}],
+            ["Both traditions are apostolic and complementary. The 'two lungs' imagery of John Paul II captures the Church's need for both. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 4, "COMMUN": 3, "EASTECC": 3, "DEVPROG": 2, "BENED": 2}],
+            ["Eastern Catholics should be fully Eastern, not Latinized. The Melkite and Ukrainian traditions suffered from Roman centralization. (Eastern Catholic, Eastern Liturgical)", {"EASTECC": 5, "EASTLIT": 4, "SYNOD": 3, "PAPMIN": 2, "ULTRA": -4, "INTEG": -3}],
+            ["The liturgy is the liturgy. Excessive focus on rite distinctions distracts from the essential: valid Mass, real presence, sacrifice. (Mainstream, Opus Dei)", {"STD": 3, "OPUS": 2, "JES": 2, "PROG": 2, "EASTLIT": -2, "TRAD": -2}]
+        ],
+        "axis_weights": {"LIT": 3, "PAPAL": 1}
+    },
+    {
+        "text": "What is the relationship between faith and works in salvation?",
+        "options": [
+            ["Faith alone justifies, but justifying faith is never alone—works necessarily follow as fruit. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["Faith formed by charity (fides caritate formata) justifies; works are intrinsic to living faith. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "AUG": 2, "STD": 2}],
+            ["We are justified by grace through faith, and works are the means of growth in sanctification. (Methodist)", {"METHOD": 4, "ANGLICAN": 2, "SEMIAUG": 2}],
+            ["Initial justification by faith; final salvation involves judgment of works done in grace. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EASTECC": 2}]
+        ],
+        "axis_weights": {"JUST": 4, "GRACE": 2}
+    },
+    {
+        "text": "How is Christ present in the Eucharist/Lord's Supper?",
+        "options": [
+            ["Transubstantiation: substance of bread/wine wholly changed into Body/Blood.", {"TRANSUB": 4, "TRIDSAC": 4, "THOM": 3, "JANS": 2}],
+            ["Sacramental Union: Christ truly present 'in, with, and under' bread and wine.", {"LUTHERAN": 4}],
+            ["Spiritual/Real Presence: Christ truly present to faith, but not corporally in elements. (Reformed, Anglican)", {"REFORM": 3, "ANGLICAN": 2}],
+            ["Memorial/Symbolic: Supper commemorates Christ's sacrifice; presence is spiritual only. (Methodist)", {"METHOD": 2}],
+            ["Mystery: True change occurs but precise metaphysics not required. (Eastern Orthodox, Eastern Sacramental)", {"EORTHO": 4, "EASTSAC": 3, "EUCHMYST": 2, "PALAM": 2}]
+        ],
+        "axis_weights": {"LIT": 3}
+    },
+    {
+        "text": "What is the status of the deuterocanonical books (e.g., Sirach, Wisdom, Maccabees)?",
+        "options": [
+            ["Fully canonical Scripture, equal in authority to all other biblical books. (Tridentine, Thomist)", {"TRIDSAC": 4, "THOM": 3, "STD": 3, "JANS": 2, "BENED": 2}],
+            ["Valuable for edification but not for establishing doctrine (apocrypha). (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
+            ["Deuterocanonical: secondary canon, useful and often read liturgically. (Anglican, Methodist)", {"ANGLICAN": 3, "METHOD": 2}],
+            ["The question of the canon should be approached with more nuance than rigid categories. (Ressourcement, Progressive)", {"RESS": 2, "PROG": 2}]
+        ],
+        "axis_weights": {"SCRIPT": 3}
+    },
+    {
+        "text": "Can a justified person lose salvation?",
+        "options": [
+            ["No: the truly elect will certainly persevere; apparent apostasy proves one was never truly saved. (Reformed)", {"REFORM": 4, "SUPRA": 2}],
+            ["Yes: mortal sin destroys justifying grace, but it can be restored through penance. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "AUG": 2, "STD": 3}],
+            ["Possible but difficult: believers can fall from grace but God's preserving work is powerful. (Lutheran, Methodist)", {"LUTHERAN": 3, "METHOD": 3, "ANGLICAN": 2}],
+            ["The question framed wrongly: focus on God's faithfulness and our response in the present. (Progressive, Personalist)", {"PROG": 2, "PERSMOR": 2}]
+        ],
+        "axis_weights": {"GRACE": 3, "ESCH": 2}
+    },
+    {
+        "text": "What is the proper form of church government?",
+        "options": [
+            ["Episcopal: bishops in apostolic succession are essential to the Church's structure. (Ultramontane, Moderate Papalist)", {"ULTRA": 3, "PAPMOD": 3, "ANGLICAN": 3, "EASTECC": 3, "STD": 2}],
+            ["Presbyterian: governance by elders in graded courts (session, presbytery, synod, assembly). (Reformed)", {"REFORM": 4}],
+            ["Congregational: each local congregation is autonomous under Christ. (Methodist)", {"METHOD": 2}],
+            ["The Pope holds supreme jurisdiction; episcopal authority derives from him. (Ultramontane, Integralist)", {"ULTRA": 4, "INTEG": 3}],
+            ["Synodal/collegial: bishops govern together; Rome has primacy of honor, not jurisdiction. (Eastern Orthodox, Synodalist)", {"EORTHO": 4, "SYNOD": 3, "EASTECC": 2, "GALL": 2, "CONCIL": 2}]
+        ],
+        "axis_weights": {"PAPAL": 2}
+    },
+    {
+        "text": "What role do the saints play in the Christian life?",
+        "options": [
+            ["Saints intercede for us; we may invoke their prayers and venerate relics and images. (Traditionalist, Tridentine)", {"TRAD": 3, "TRIDSAC": 3, "BENED": 2, "STD": 3}],
+            ["Saints are examples of faith; invocation is unbiblical and borders on idolatry. (Reformed)", {"REFORM": 4, "LUTHERAN": 2}],
+            ["Saints are honored as examples; limited invocation may be permissible. (Anglican, Lutheran)", {"ANGLICAN": 3, "LUTHERAN": 2, "METHOD": 1}],
+            ["The communion of saints includes mutual prayer; the details are mysterious. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2}]
+        ],
+        "axis_weights": {"PIETY": 2, "LIT": 1}
+    },
+    {
+        "text": "What is the assurance of salvation?",
+        "options": [
+            ["Believers can and should have confident assurance based on God's promises and inward testimony. (Reformed, Methodist)", {"REFORM": 4, "METHOD": 3}],
+            ["Absolute certainty is not possible without special revelation; moral certitude suffices. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "STD": 2}],
+            ["Anxious uncertainty is unhealthy; the sacraments provide sufficient confidence. (Lutheran, Anglican)", {"LUTHERAN": 3, "ANGLICAN": 2}],
+            ["True humility acknowledges uncertainty; presumption is a grave danger. (Jansenist, Tutiorist)", {"JANS": 3, "TUTIOR": 2, "TRAD": 2}]
+        ],
+        "axis_weights": {"JUST": 2, "PIETY": 2}
+    },
+    {
+        "text": "How should we understand the filioque clause ('and the Son') in the Nicene Creed?",
+        "options": [
+            ["A legitimate and necessary doctrinal development clarifying the Trinity against Arianism. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "ULTRA": 2, "STD": 2}],
+            ["Theologically defensible but pastorally unwise to have added unilaterally; dialogue needed. (Ecumenical Monergist, Ressourcement)", {"ECUMON": 4, "RESS": 3, "COMMUN": 2, "PAPMOD": 2}],
+            ["A Western addition that distorts Trinitarian theology; the Spirit proceeds from the Father alone. (Eastern Orthodox)", {"EORTHO": 5, "ORTHOPH": 4, "EASTECC": 2, "PALAM": 2}],
+            ["The original Creed should be restored; Rome overstepped in adding to an ecumenical formula. (Conciliarist, Gallican)", {"CONCIL": 4, "GALL": 3, "PAPMIN": 2, "SYNOD": 2}]
+        ],
+        "axis_weights": {"PAPAL": 2, "SCRIPT": 2}
+    },
+    {
+        "text": "What is the proper understanding of the relationship between God's essence and energies?",
+        "options": [
+            ["The distinction is real: we participate in God's uncreated energies but not His unknowable essence. (Eastern Orthodox, Palamite/Eastern)", {"EORTHO": 5, "PALAM": 5, "ORTHOPH": 4, "EASTECC": 3}],
+            ["A useful theological distinction but not dogmatically binding for the West. (Ressourcement, Ecumenical Monergist)", {"RESS": 3, "ECUMON": 3, "COMMUN": 2, "NEOAUG": 2}],
+            ["Problematic: risks dividing God's simplicity; better to speak of participated being. (Thomist, Neo-Scholastic)", {"THOM": 4, "NEOSCH": 3, "DOM": 2, "THOMMETA": 2}],
+            ["An Eastern speculation that the West need not adopt; divine simplicity is non-negotiable. (Ultramontane, Traditionalist)", {"ULTRA": 3, "TRAD": 2, "NEOSCH": 2, "ANTIMOD": 2}]
+        ],
+        "axis_weights": {"GRACE": 3}
+    },
+    {
+        "text": "How should we understand the Christological formula of Chalcedon ('two natures')?",
+        "options": [
+            ["Dogmatically binding: Christ has two complete natures, divine and human, without confusion or separation. (Thomist, Chalcedonian Maximalist)", {"THOM": 4, "CHALMAX": 4, "TRIDSAC": 3, "STD": 3}],
+            ["Correct but the 'one nature' (miaphysite) formula of Cyril is also orthodox if properly understood. (Eastern Orthodox, Ressourcement)", {"EORTHO": 3, "RESS": 3, "RESSCH": 3, "ECUMON": 3}],
+            ["Chalcedon betrayed Cyril: 'one incarnate nature of God the Word' is the authentic formula. (Coptic Orthodox, Oriental Orthodox)", {"COPTIC": 5, "ORIENTAL": 5}],
+            ["The terminology matters less than confessing Christ as truly God and truly man. (Progressive, Ecumenical Monergist)", {"PROG": 3, "ECUMON": 2, "LIBCATH": 2}]
+        ],
+        "axis_weights": {"SCRIPT": 3}
+    },
+    {
+        "text": "How many Ecumenical Councils are binding on the Church?",
+        "options": [
+            ["Twenty-one, from Nicaea I (325) to Vatican II (1962-65). (Mainstream, Ultramontane)", {"STD": 4, "ULTRA": 3, "PAPMOD": 3, "TRIDSAC": 2}],
+            ["Seven, from Nicaea I to Nicaea II (787); later councils are Western synods. (Eastern Orthodox)", {"EORTHO": 5, "ORTHOPH": 4, "EASTECC": 2}],
+            ["Three, through Ephesus (431); Chalcedon introduced divisive innovations. (Oriental Orthodox, Coptic Orthodox)", {"ORIENTAL": 5, "COPTIC": 5}],
+            ["The number is less important than continuity with apostolic tradition. (Ressourcement, Developmental)", {"RESS": 3, "DEVPROG": 3, "COMMUN": 2}]
+        ],
+        "axis_weights": {"PAPAL": 3, "SCRIPT": 2}
+    },
+    {
+        "text": "What is the role of icons in Christian worship?",
+        "options": [
+            ["Icons are windows to heaven; veneration is essential to Orthodox piety and theology. (Eastern Orthodox, Eastern Liturgical)", {"EORTHO": 5, "EASTLIT": 4, "ORTHOPH": 4, "EASTECC": 3}],
+            ["Sacred images are legitimate aids to devotion, distinct from idolatry. (Tridentine, Traditionalist)", {"TRIDSAC": 4, "TRAD": 3, "STD": 3, "BENED": 2}],
+            ["Images are acceptable but not essential; the Word preached is primary. (Reformed, Lutheran)", {"REFORM": 2, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["Icons risk becoming idols; worship should focus on God alone. (Reformed)", {"REFORM": 4}]
+        ],
+        "axis_weights": {"LIT": 3, "PIETY": 2}
+    },
+    {
+        "text": "What is the proper understanding of original sin?",
+        "options": [
+            ["Inherited guilt and corruption: all humanity sinned 'in Adam' and inherits both guilt and concupiscence. (Augustinian, Thomist)", {"AUG": 4, "THOM": 3, "JANS": 3, "TRIDSAC": 2}],
+            ["Inherited mortality and corruption but not personal guilt; we sin because we are mortal. (Eastern Orthodox)", {"EORTHO": 4, "ORTHOPH": 3, "EASTECC": 3, "PALAM": 2}],
+            ["Original sin is primarily privation: loss of original justice and sanctifying grace. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "TRIDSAC": 2}],
+            ["The doctrine needs restatement: evolutionary science changes how we understand human origins. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 3}]
+        ],
+        "axis_weights": {"GRACE": 4}
+    },
+    {
+        "text": "How is the Church's unity properly maintained?",
+        "options": [
+            ["Through communion with the Pope, who holds supreme authority over the universal Church. (Ultramontane, Integralist)", {"ULTRA": 5, "INTEG": 4, "PAPMOD": 2}],
+            ["Through the college of bishops in communion with Rome, balancing primacy and collegiality. (Moderate Papalist, Mainstream)", {"PAPMOD": 4, "STD": 3, "COMMUN": 3, "SYNOD": 2}],
+            ["Through conciliar consensus of autocephalous churches; Rome has primacy of honor only. (Eastern Orthodox)", {"EORTHO": 5, "ORTHOPH": 4, "CONCIL": 3, "SYNOD": 2}],
+            ["Through shared apostolic tradition, Scripture, and sacraments; jurisdictional unity is secondary. (Ecumenical Monergist, Ressourcement)", {"ECUMON": 4, "RESS": 3, "LUTHCAT": 2}]
+        ],
+        "axis_weights": {"PAPAL": 5}
+    },
+    {
+        "text": "Which figure would you most like to see the Catholic Church canonize or rehabilitate?",
+        "options": [
+            ["Blaise Pascal - defender of Augustinian grace against Jesuit laxism. (Jansenist, Strict Augustinian)", {"JANS": 5, "AUGP": 4, "AUG": 3, "TUTIOR": 2}],
+            ["Réginald Garrigou-Lagrange, O.P. - champion of strict Thomism and spiritual master. (Strict Thomist, Dominican)", {"THOMP": 5, "DOM": 4, "THOM": 3, "TRAD": 2, "ANTIMOD": 2}],
+            ["Meister Eckhart, O.P. - profound mystic whose condemnation was perhaps too hasty. (Neo-Platonist, Dominican)", {"NEOPLAT": 5, "DOM": 3, "CARM": 2, "EUCHMYST": 2, "RESS": 2}],
+            ["Marsilio Ficino - Christian Platonist who harmonized faith and ancient wisdom. (Neo-Platonist, Ressourcement)", {"NEOPLAT": 5, "RESS": 3, "COMMUN": 2, "RADORTH": 2}],
+            ["Antonio Rosmini - philosopher vindicated after long suspicion, model of patient orthodoxy. (Developmental, Ressourcement)", {"DEVPROG": 4, "RESS": 3, "COMMUN": 3, "LIBCATH": 2}],
+            ["Henri de Lubac, S.J. - ressourcement giant who suffered and was vindicated. (Ressourcement, Communio School)", {"RESS": 5, "COMMUN": 4, "NEOAUG": 3, "JES": 2}],
+            ["Archbishop Marcel Lefebvre - defender of Tradition against modernist corruption. (SSPX-leaning, Traditionalist)", {"SSPX": 5, "TRAD": 4, "SEDE": 2, "ANTIMOD": 3}],
+            ["Dorothy Day - model of radical Gospel poverty and works of mercy. (Worker-Catholic, Distributist)", {"WORKERCATH": 5, "DISTRIBUT": 4, "SOCDEM": 3, "FRAN": 2}],
+        ],
+        "axis_weights": {"PIETY": 3, "RIGOR": 2}
+    },
+    // Question 146: Dealing with heterodox bishops conferences
+    {
+        "text": "How ought the Pope deal with regional Bishops' Conferences in defiance of orthodox teaching, such as the Synodal Path in Germany?",
+        "options": [
+            ["Swift and decisive suppression. The Pope should use his full authority to discipline wayward bishops, remove those who persist in error, and if necessary suppress the conference entirely. Heterodoxy cannot be tolerated. (Ultramontane, Integralist)", {"ULTRA": 4, "INTEG": 4, "INTEGHARD": 3, "ANTIMOD": 3, "NEOSCH": 2, "TRAD": 2}],
+            ["Firm correction within traditional structures. The Pope should clearly restate orthodox doctrine, require retraction of errors, and use canonical measures against persistent dissenters - but through established processes, not raw power. (Reform of the Reform, Traditionalist)", {"ROTR": 4, "TRAD": 3, "PAPMOD": 3, "COMMUN": 2, "BENED": 2, "STD": 1}],
+            ["Patient dialogue and accompaniment. The Church must listen to the concerns driving these movements, discern what the Spirit may be saying through them, and find ways to maintain communion while allowing legitimate diversity. (Progressive, Synodalist)", {"PROG": 4, "SYNOD": 4, "LIBCATH": 3, "PERSMOR": 2, "DEVPROG": 2}],
+            ["Formal doctrinal intervention but respect for subsidiarity. The CDF should issue corrections and the Pope should teach clearly, but local churches have legitimate autonomy. Heavy-handed centralization would be counter-productive. (Moderate Papalist, Standard Catholic)", {"PAPMOD": 3, "STD": 3, "EASTECC": 2, "PAPMIN": 2, "CONCIL": 1}],
+        ],
+        "axis_weights": {"PAPAL": 4, "RIGOR": 2}
+    },
+    // Question 147: Benedict XVI's smaller, purer Church
+    {
+        "text": "Do you agree with Benedict XVI's vision of a smaller, more orthodox Church as potentially ideal?",
+        "options": [
+            ["Yes, and it would be the best thing to happen to the Church. A smaller, fervent remnant living authentic Catholicism is preferable to a bloated institution full of nominal believers and heterodox clergy. Quality over quantity. (Traditionalist, SSPX-leaning)", {"TRAD": 4, "SSPX": 3, "INTEG": 3, "ANTIMOD": 3, "ROTR": 2, "COMMUN": 2}],
+            ["The problems of laxist, progressive clergy and lukewarm piety are generational. Progress is already being made among priests and laity under 50. Organic renewal is happening without requiring a dramatic purge. (Reform of the Reform, Communio School)", {"ROTR": 4, "COMMUN": 4, "STD": 3, "BENED": 2, "DEVPROG": 2}],
+            ["This would require clarifying the ambiguities built into Vatican II. The Council's documents admit of both traditional and progressive readings; only authoritative clarification in a traditional direction could achieve genuine renewal. (Traditionalist, Integralist)", {"TRAD": 3, "INTEG": 3, "ROTR": 2, "ANTIMOD": 2, "NEOSCH": 2, "THOMP": 1}],
+            ["This would require undoing the errors of Vatican II. The Council itself, not just its implementation, introduced novelties incompatible with Tradition. Only a future Council or Pope correcting these errors can restore the Church. (SSPX-leaning, Sedevacantist-adjacent)", {"SSPX": 4, "SEDE": 2, "TRAD": 3, "ANTIMOD": 3, "INTEGHARD": 2}],
+            ["No. Growth from the Church in the Global South will supersede Europe, and we must not have a Eurocentric church based on strict interpretations of rules and dogma. The future is inculturation and pastoral flexibility. (Progressive, Catholic Universalist)", {"PROG": 4, "CATHUNIV": 4, "LIBCATH": 3, "SYNOD": 2, "PERSMOR": 2}],
+            ["In the West this would be ideal, but the Church is growing in the Global South. We should accept a smaller Western church while celebrating growth elsewhere. Different regions may need different pastoral approaches. (Standard Catholic, Moderate)", {"STD": 3, "PAPMOD": 2, "CATHUNIV": 2, "COMMUN": 2, "EASTECC": 1}],
+        ],
+        "axis_weights": {"LIT": 2, "RIGOR": 3, "PAPAL": 1}
+    },
+    // Question 148: Favorite post-conciliar Pope
+    {
+        "text": "Which post-conciliar Pope do you most admire?",
+        "options": [
+            ["Paul VI - He faithfully implemented the Council while holding the line on Humanae Vitae. His suffering witness during the post-conciliar crisis was heroic. (Progressive-Moderate, Standard Catholic)", {"PROG": 2, "STD": 3, "PAPMOD": 3, "DEVPROG": 2, "TRADUM": 2}],
+            ["John Paul I - His brief pontificate suggested a simpler, more pastoral papacy. We can only imagine what renewal he might have brought. (Progressive, Pastoral)", {"PROG": 2, "LIBCATH": 2, "PERSMOR": 2, "STD": 2, "PAPMIN": 1}],
+            ["St. John Paul II - The Great Pope who defeated Communism, taught magnificently on faith and morals, and revitalized Catholic identity worldwide. (Standard Catholic, Personalist)", {"STD": 4, "PERSMOR": 4, "PAPMOD": 3, "INTEG": 2, "THOMMOR": 2, "COMMUN": 2}],
+            ["Benedict XVI - The theologian-Pope who diagnosed the dictatorship of relativism, promoted liturgical renewal, and offered the hermeneutic of continuity. (Reform of the Reform, Communio School)", {"ROTR": 5, "COMMUN": 5, "TRAD": 3, "BENED": 3, "RESS": 2, "THOM": 2}],
+            ["Francis - The Pope of mercy, peripheries, and synodality who is renewing the Church for the 21st century and refocusing on the poor and marginalized. (Progressive, Synodalist)", {"PROG": 4, "SYNOD": 4, "LIBCATH": 3, "CATHUNIV": 3, "WORKERCATH": 2, "FRAN": 2}],
+            ["None of them adequately preserved Tradition. The post-conciliar papacy has been a disaster requiring future correction. (SSPX-leaning, Sedevacantist-adjacent)", {"SSPX": 4, "SEDE": 3, "TRAD": 2, "ANTIMOD": 3, "INTEGHARD": 2}],
+        ],
+        "axis_weights": {"PAPAL": 2, "LIT": 2}
+    },
+    // Question 149: Personal outlook for the Church
+    {
+        "text": "What is your personal outlook for the future of the Catholic Church?",
+        "options": [
+            ["Optimistic - The gates of hell shall not prevail. Despite current troubles, renewal movements, young orthodox vocations, and the growth of the Global South Church point to a bright future. (Standard Catholic, Hopeful)", {"STD": 4, "PAPMOD": 2, "CATHUNIV": 2, "DEVPROG": 2, "COMMUN": 2}],
+            ["Cautiously hopeful - A smaller, purer Church is emerging in the West while the faith flourishes elsewhere. The 'biological solution' will resolve many current problems. (Reform of the Reform, Communio School)", {"ROTR": 4, "COMMUN": 4, "TRAD": 2, "BENED": 2, "STD": 2}],
+            ["Concerned but trusting Divine Providence - We are in a deep crisis, perhaps the worst since the Arian heresy. But God will raise up saints to renew the Church as He always has. (Traditionalist, Prayerful)", {"TRAD": 4, "CARM": 2, "BENED": 2, "INTEG": 2, "ANTIMOD": 2, "SSPX": 1}],
+            ["Dark before the dawn - Things will get worse before they get better. A great chastisement or major supernatural intervention may be necessary. Fatima's warnings remain unfulfilled. (Traditionalist Apocalyptic, Marian)", {"TRAD": 3, "SSPX": 3, "INTEG": 2, "ANTIMOD": 2, "SEDE": 1, "CARM": 2}],
+            ["Progressive transformation - The Church is finally updating for the modern world. What looks like decline to some is actually healthy pruning and the Spirit leading us to new forms of being Church. (Progressive, Developmental)", {"PROG": 4, "DEVPROG": 3, "LIBCATH": 3, "SYNOD": 2, "PERSMOR": 2}],
+            ["The institutional Church may collapse, but the Faith will endure in remnant communities maintaining Tradition until restoration comes. (SSPX-leaning, Remnant)", {"SSPX": 4, "SEDE": 2, "TRAD": 3, "INTEGHARD": 2, "ANTIMOD": 2}],
+        ],
+        "axis_weights": {"ESCH": 3, "LIT": 1}
+    },
+];
+
+// Category definitions
+const CATEGORIES = [
+    { id: "scripture", name: "Scripture & Hermeneutics", shortName: "Scripture", icon: "📖", questions: [1, 3, 82, 93, 134] },
+    { id: "grace", name: "Grace & Predestination", shortName: "Grace", icon: "✨", questions: [4, 5, 6, 7, 9, 10, 16, 17, 18, 20, 29, 95, 110, 111, 112, 132, 135, 138, 140, 144] },
+    { id: "metaphysics", name: "Metaphysics & Philosophy", shortName: "Metaphysics", icon: "🔮", questions: [23, 24, 113, 117, 118, 119] },
+    { id: "orders", name: "Religious Orders", shortName: "Orders", icon: "🕯️", questions: [25, 26, 69, 70, 71, 73, 74, 75, 76, 77, 78, 80, 121, 122, 123] },
+    { id: "sacraments", name: "Sacramental Theology", shortName: "Sacraments", icon: "🍷", questions: [27, 28, 30, 51, 52, 53, 54, 55, 56, 86, 90, 103, 114, 133] },
+    { id: "ecclesiology", name: "Ecclesiology & Authority", shortName: "Ecclesiology", icon: "⛪", questions: [0, 31, 32, 33, 35, 37, 57, 58, 59, 84, 109, 129, 136, 139, 142, 146] },
+    { id: "moral", name: "Moral Theology", shortName: "Moral", icon: "⚖️", questions: [13, 47, 48, 49, 50, 79, 115] },
+    { id: "political", name: "Political & Social", shortName: "Political", icon: "🏛️", questions: [36, 39, 40, 41, 42, 43, 44, 45, 46, 83, 85, 99, 106] },
+    { id: "christology", name: "Christology & Soteriology", shortName: "Christology", icon: "✝️", questions: [11, 19, 61, 64, 65, 66, 68, 91, 96, 120, 141] },
+    { id: "contemporary", name: "Contemporary Debates", shortName: "Contemporary", icon: "📰", questions: [2, 8, 12, 14, 15, 21, 22, 34, 38, 60, 62, 63, 67, 72, 81, 87, 88, 89, 92, 94, 97, 98, 100, 101, 102, 104, 105, 107, 108, 116, 124, 125, 126, 127, 128, 130, 131, 137, 143, 145, 147, 148, 149, 150, 151, 152, 153] }
+];
+
+const QUESTION_TOPICS = {
     0: {
-        "topic": "The Rule of Faith: Scripture, Tradition, and Magisterium",
-        "description": "This question addresses the relationship between the three sources of Catholic authority.",
-        "reading": "Dei Verbum (Vatican II), Catechism §§74-100, Congar's 'Tradition and Traditions'",
-        "geminiPrompt": "Explain the Catholic understanding of the relationship between Scripture, Tradition, and the Magisterium. What are the main theological schools of thought? Present Ressourcement, Thomist, Ultramontane, and Traditionalist perspectives fairly."
+        topic: "The Rule of Faith: Scripture, Tradition, and Magisterium",
+        description: "The relationship between the three sources of Catholic authority and how they should be ranked or related.",
+        reading: "Dei Verbum (Vatican II), Catechism §§74-100, Congar's 'Tradition and Traditions', Ratzinger's 'God's Word'",
+        geminiPrompt: "Explain the Catholic understanding of the relationship between Scripture, Tradition, and the Magisterium. Present Ressourcement, Thomist, Ultramontane, and Traditionalist perspectives fairly without advocating for any position."
     },
     1: {
-        "topic": "Biblical Hermeneutics",
-        "description": "The proper method of interpreting Scripture: patristic exegesis, scholastic priority, historical-critical, or reader-response.",
-        "reading": "Dei Verbum §§11-13, de Lubac's 'Medieval Exegesis'",
-        "geminiPrompt": "What are the main approaches to biblical interpretation in Catholic theology? Explain patristic exegesis, Thomistic interpretation, historical-critical method, and contemporary approaches fairly."
+        topic: "Biblical Hermeneutics and Interpretation",
+        description: "The proper method of interpreting Scripture: patristic spiritual exegesis, scholastic literal-sense priority, historical-critical methods, or contemporary approaches.",
+        reading: "Dei Verbum §§11-13, Pontifical Biblical Commission documents, de Lubac's 'Medieval Exegesis', Ratzinger's 'Jesus of Nazareth' preface",
+        geminiPrompt: "What are the main approaches to biblical interpretation in Catholic theology? Explain patristic four-fold exegesis, Thomistic interpretation, historical-critical method, and canonical approaches. Present each fairly."
     },
     2: {
-        "topic": "Theological Method",
-        "description": "Whether Scripture, metaphysics, or Magisterium should be primary in resolving disputes.",
-        "reading": "Fides et Ratio, Aeterni Patris",
-        "geminiPrompt": "In Catholic theology, what should be the primary norm for resolving theological disputes? Explain views prioritizing Scripture, metaphysical frameworks, or magisterial teaching."
+        topic: "Theological Method and Norms",
+        description: "What should govern theological reasoning - Scripture, metaphysical systems, or the living Magisterium.",
+        reading: "Fides et Ratio (John Paul II), Aeterni Patris (Leo XIII), Dei Filius (Vatican I)",
+        geminiPrompt: "In Catholic theology, what should be the primary norm for resolving theological disputes? Explain views prioritizing Scripture, metaphysical frameworks, magisterial teaching, or theological pluralism."
     },
     3: {
-        "topic": "Bible Translation Philosophy",
-        "description": "Formal equivalence, dynamic equivalence, liturgical considerations, and pastoral accessibility.",
-        "reading": "Liturgiam Authenticam, Comme le Prévoit",
-        "geminiPrompt": "What are the main philosophies of Bible translation in Catholic context? Explain formal equivalence, dynamic equivalence, and liturgical translation principles."
+        topic: "Bible Translation Philosophy",
+        description: "Approaches to Bible translation: formal equivalence, dynamic equivalence, liturgical tradition, and pastoral accessibility.",
+        reading: "Liturgiam Authenticam (2001), Comme le Prévoit (1969), various Bible translation prefaces",
+        geminiPrompt: "What are the main philosophies of Bible translation? Explain formal equivalence, dynamic equivalence, and liturgical translation principles. How do different Catholic perspectives view the balance?"
     },
     4: {
-        "topic": "The Doctrine of Justification",
-        "description": "How sinners are reconciled to God. Catholic teaching affirms real interior transformation.",
-        "reading": "Council of Trent Session 6, Joint Declaration on Justification (1999), Catechism §§1987-2029",
-        "geminiPrompt": "Explain the Catholic doctrine of justification. How does it differ from Protestant views? What are the emphases within Catholic theology?"
+        topic: "The Doctrine of Justification",
+        description: "How sinners are reconciled to God - through infused righteousness, participation in Christ, or forensic declaration.",
+        reading: "Council of Trent Session 6, Joint Declaration on Justification (1999), Catechism §§1987-2029, Aquinas ST I-II q.113",
+        geminiPrompt: "Explain the Catholic doctrine of justification. How does it differ from Protestant views? What are the various emphases within Catholic theology - Thomist infusion, Augustinian participation, and others?"
     },
     5: {
-        "topic": "Growth in Justification",
-        "description": "Whether and how justification can increase after baptism through cooperation with grace.",
-        "reading": "Council of Trent Session 6, Chapter 10",
-        "geminiPrompt": "Can justification increase after baptism according to Catholic teaching? Explain the Tridentine doctrine and various interpretations."
+        topic: "Growth in Justification",
+        description: "Whether and how justification can increase after baptism through cooperation with grace.",
+        reading: "Council of Trent Session 6, Chapters 10-11; Catechism §2010; Aquinas ST I-II q.114",
+        geminiPrompt: "Can justification increase after baptism according to Catholic teaching? Explain the Tridentine doctrine of growth in grace and various theological interpretations."
     },
     6: {
-        "topic": "Justification and Sanctification",
-        "description": "The relationship between being declared righteous and being made holy.",
-        "reading": "Trent Session 6, Joint Declaration on Justification",
-        "geminiPrompt": "How are justification and sanctification related in Catholic theology? Compare Catholic and Protestant understandings."
+        topic: "Justification and Sanctification",
+        description: "The relationship between being declared/made righteous and the process of being made holy.",
+        reading: "Trent Session 6, Joint Declaration on Justification (1999), Catechism §§1989-1995",
+        geminiPrompt: "How are justification and sanctification related in Catholic theology? Are they the same thing or distinct? Compare Catholic, Lutheran, and Reformed understandings."
     },
     7: {
-        "topic": "Concupiscence After Baptism",
-        "description": "The nature and moral status of disordered desires remaining after baptismal regeneration.",
-        "reading": "Trent Session 5, Catechism §§1264, 2515",
-        "geminiPrompt": "What is concupiscence and how does Catholic theology understand its status after baptism?"
+        topic: "Concupiscence After Baptism",
+        description: "The nature and moral status of disordered desires remaining after baptismal regeneration.",
+        reading: "Trent Session 5 (Decree on Original Sin), Catechism §§1264, 2515; Augustine's anti-Pelagian writings",
+        geminiPrompt: "What is concupiscence and how does Catholic theology understand its status after baptism? Is it sin, the 'tinder of sin,' or morally neutral? Compare Catholic and Protestant views."
     },
     8: {
-        "topic": "Habitual Vice and Culpability",
-        "description": "How prior sinful choices affect moral responsibility for present actions.",
-        "reading": "Aquinas ST I-II q.78, Catechism §§1865-1866",
-        "geminiPrompt": "How does habitual vice formed by prior voluntary sin affect moral culpability according to Catholic moral theology?"
+        topic: "Habitual Vice and Moral Culpability",
+        description: "How prior sinful choices that form habits affect present moral responsibility.",
+        reading: "Aquinas ST I-II q.78 (on causes of sin), Catechism §§1865-1866, 1735",
+        geminiPrompt: "How does habitual vice formed by prior voluntary sin affect moral culpability for present acts? Does it diminish or aggravate guilt? Explain the Catholic moral tradition."
     },
     9: {
-        "topic": "Assurance of Salvation",
-        "description": "Whether Christians can know they are presently in the state of grace.",
-        "reading": "Trent Session 6, Chapter 9; Catechism §2005",
-        "geminiPrompt": "Can a Christian know with certainty they are in the state of grace? Explain the Catholic position versus Protestant views on assurance."
+        topic: "Assurance of Salvation",
+        description: "Whether Christians can have certainty about their present state of grace.",
+        reading: "Trent Session 6, Chapter 9 & Canon 13-14; Catechism §2005; 1 John 5:13",
+        geminiPrompt: "Can a Christian know with certainty they are in the state of grace? Explain the Catholic position (moral certainty vs. absolute certainty) versus Protestant views on assurance."
     },
     10: {
-        "topic": "Final Perseverance",
-        "description": "The gift of persisting in grace until death.",
-        "reading": "Trent Session 6, Chapter 13; Augustine's De Dono Perseverantiae",
-        "geminiPrompt": "What is final perseverance in Catholic theology? Explain the various views on whether it is a special gift or assured for the elect."
+        topic: "Final Perseverance",
+        description: "The gift of persisting in grace until death - is it guaranteed, a special gift, or uncertain?",
+        reading: "Trent Session 6, Chapter 13; Augustine's 'De Dono Perseverantiae'; Catechism §2016, 162",
+        geminiPrompt: "What is final perseverance in Catholic theology? Is it a special gift, the ordinary result of cooperation with grace, or uncertain? Compare Augustinian, Thomist, and Molinist views."
     },
     11: {
-        "topic": "The Goal of the Christian Life",
-        "description": "What the Christian life is primarily oriented toward.",
-        "reading": "Catechism §§1-3, 1024; Aquinas ST I-II q.3",
-        "geminiPrompt": "What is the ultimate goal of the Christian life according to Catholic teaching? Explain beatific vision, theosis, and other frameworks."
+        topic: "The Goal of the Christian Life",
+        description: "What the Christian life is ultimately oriented toward - beatific vision, theosis, or other framings.",
+        reading: "Catechism §§1-3, 1023-1029; Aquinas ST I-II q.3 (on beatitude); Eastern theology on theosis",
+        geminiPrompt: "What is the ultimate goal of the Christian life according to Catholic teaching? Explain beatific vision, theosis/divinization, and how different theological traditions frame the end of human life."
     },
     12: {
-        "topic": "Purgatory",
-        "description": "The nature and purpose of purgatorial purification after death.",
-        "reading": "Catechism §§1030-1032, Council of Florence, Trent Session 25",
-        "geminiPrompt": "Explain the Catholic doctrine of purgatory. What are the various theological models for understanding purification after death?"
+        topic: "The Doctrine of Purgatory",
+        description: "The nature and purpose of purification after death.",
+        reading: "Catechism §§1030-1032, Council of Florence, Trent Session 25, 2 Maccabees 12:46",
+        geminiPrompt: "Explain the Catholic doctrine of purgatory. What are the various models - satisfaction for temporal punishment, purification, spiritual maturation? What is its biblical and historical basis?"
     },
     13: {
-        "topic": "Dissent from Non-Definitive Teaching",
-        "description": "The proper Catholic response to ordinary magisterial teaching that seems doubtful.",
-        "reading": "Donum Veritatis (CDF 1990), Catechism §892",
-        "geminiPrompt": "What is the proper Catholic posture toward non-definitive magisterial teaching that seems doubtful? Explain religious submission and legitimate dissent."
+        topic: "Dissent from Non-Definitive Teaching",
+        description: "The proper Catholic response when ordinary magisterial teaching seems doubtful or problematic.",
+        reading: "Donum Veritatis (CDF 1990), Lumen Gentium §25, Catechism §892, Canon 752-753",
+        geminiPrompt: "What is the proper Catholic posture toward non-definitive magisterial teaching that seems doubtful? Explain religious submission of intellect and will, and when legitimate dissent might be possible."
     },
     14: {
-        "topic": "The Role of Theologians",
-        "description": "How theologians serve the Church in relation to the Magisterium.",
-        "reading": "Donum Veritatis, Veritatis Gaudium",
-        "geminiPrompt": "How do theologians serve the Church according to Catholic teaching? What is their relationship to the Magisterium?"
+        topic: "The Role of Theologians",
+        description: "How theologians serve the Church in relation to the Magisterium.",
+        reading: "Donum Veritatis (CDF 1990), Veritatis Gaudium, Sapientia Christiana",
+        geminiPrompt: "How do theologians serve the Church according to Catholic teaching? What is their proper relationship to the Magisterium? Can they legitimately critique or must they only explain?"
     },
     15: {
-        "topic": "Fallen Nature and the Good",
-        "description": "The relationship between fallen human nature and the ability to do good.",
-        "reading": "Trent Session 6, Catechism §§405-406, 1949",
-        "geminiPrompt": "What is the relationship between fallen human nature and the ability to do good in Catholic theology? Explain various positions from Semi-Pelagian to strict Augustinian."
+        topic: "Fallen Nature and Natural Goodness",
+        description: "What fallen humans can do without grace - total depravity versus wounded but capable nature.",
+        reading: "Trent Session 6, Catechism §§405-409, Orange II (529), Augustine vs. Pelagius",
+        geminiPrompt: "What is the relationship between fallen human nature and the ability to do good? Explain the spectrum from Semi-Pelagianism to strict Augustinianism, and where Catholic teaching falls."
     },
     16: {
-        "topic": "Grace and Freedom",
-        "description": "How God's grace relates to human freedom in salvation.",
-        "reading": "Trent Session 6, Catechism §§1993-2000",
-        "geminiPrompt": "How does God's grace relate to human freedom in salvation? Explain Thomist, Molinist, and Augustinian perspectives."
+        topic: "Grace and Human Freedom",
+        description: "How divine grace relates to human free will in salvation.",
+        reading: "Trent Session 6, Catechism §§1993-2000, De Auxiliis controversy documents",
+        geminiPrompt: "How does God's grace relate to human freedom in salvation? Explain Thomist (Bañezian), Molinist, and Augustinian positions on the grace-freedom relationship."
     },
     17: {
-        "topic": "Predestination",
-        "description": "How to understand God's eternal decree regarding salvation.",
-        "reading": "Romans 8-9, Aquinas ST I q.23, Catechism §600",
-        "geminiPrompt": "How should Catholics understand predestination? Explain the spectrum from double predestination to conditional election."
+        topic: "Predestination",
+        description: "God's eternal decree regarding salvation - unconditional, conditional, or based on foreseen merits.",
+        reading: "Romans 8-9, Aquinas ST I q.23, Catechism §600, Council of Orange (529)",
+        geminiPrompt: "How should Catholics understand predestination? Explain the range from double predestination to predestination post praevisa merita, and where Catholic teaching draws boundaries."
     },
     18: {
-        "topic": "Infralapsarianism vs Supralapsarianism",
-        "description": "The logical order of God's decrees about predestination and the Fall.",
-        "reading": "Aquinas ST I q.23, Garrigou-Lagrange's Predestination",
-        "geminiPrompt": "What is the difference between infralapsarianism and supralapsarianism? How do Catholic theologians approach this question?"
+        topic: "Infralapsarianism vs Supralapsarianism",
+        description: "Whether God's decree of predestination logically precedes or follows His permission of the Fall.",
+        reading: "Aquinas ST I q.23, Garrigou-Lagrange's 'Predestination', Reformed confessions for comparison",
+        geminiPrompt: "What is the difference between infralapsarianism and supralapsarianism? How do Catholic theologians approach this question of the logical order of divine decrees?"
     },
     19: {
-        "topic": "The Absolute Primacy of Christ",
-        "description": "Whether the Incarnation would have occurred if Adam had never sinned.",
-        "reading": "Scotus' Ordinatio, Aquinas ST III q.1 a.3",
-        "geminiPrompt": "Would the Incarnation have occurred if Adam had never sinned? Explain the Scotist and Thomist positions on Christ's primacy."
+        topic: "The Absolute Primacy of Christ",
+        description: "Whether the Incarnation would have occurred without the Fall.",
+        reading: "Scotus' Ordinatio III, Aquinas ST III q.1 a.3, Col 1:15-20",
+        geminiPrompt: "Would Christ have become incarnate if Adam had not sinned? Explain the Scotist position (absolute primacy) versus the Thomist position (Incarnation for redemption)."
     },
     20: {
-        "topic": "Sufficient Grace",
-        "description": "The nature of grace that enables but does not determine salvation.",
-        "reading": "De Auxiliis controversy documents, Garrigou-Lagrange",
-        "geminiPrompt": "What is sufficient grace in Catholic theology? Explain how Thomists, Molinists, and Augustinians understand its relationship to efficacious grace."
+        topic: "Sufficient and Efficacious Grace",
+        description: "The distinction between grace that enables and grace that achieves its salvific effect.",
+        reading: "De Auxiliis controversy documents, Garrigou-Lagrange, Molina's 'Concordia'",
+        geminiPrompt: "What is the difference between sufficient and efficacious grace? Explain how Thomists, Molinists, and Augustinians understand why some grace achieves its effect and some does not."
     },
     21: {
-        "topic": "Divine Will and Intellect",
-        "description": "The relationship between God's will and God's intellect.",
-        "reading": "Aquinas ST I q.19, Scotus' Ordinatio",
-        "geminiPrompt": "What is the relationship between God's will and intellect? Explain intellectualist and voluntarist positions in Catholic theology."
+        topic: "Divine Will and Intellect",
+        description: "The relationship between God's will and God's knowledge - intellectualism versus voluntarism.",
+        reading: "Aquinas ST I q.19, Scotus' Ordinatio, Ockham's writings",
+        geminiPrompt: "What is the relationship between God's will and intellect? Does God will something because it is good, or is it good because God wills it? Explain intellectualist and voluntarist positions."
     },
     22: {
-        "topic": "The Source of Moral Obligations",
-        "description": "What grounds moral obligations - divine command, natural law, or something else.",
-        "reading": "Aquinas ST I-II q.90-94",
-        "geminiPrompt": "What is the source of moral obligations according to Catholic theology? Explain natural law, divine command, and virtue-based approaches."
+        topic: "The Foundation of Morality",
+        description: "What grounds moral obligations - natural law, divine command, or human nature.",
+        reading: "Aquinas ST I-II q.90-94, Veritatis Splendor, natural law tradition",
+        geminiPrompt: "What is the source of moral obligations according to Catholic theology? Explain natural law theory, divine command theory, and how they relate in Catholic moral theology."
     },
     23: {
-        "topic": "The Problem of Universals",
-        "description": "The metaphysical status of universals like 'humanity' or 'justice'.",
-        "reading": "Aquinas' De Ente et Essentia, various medieval commentaries",
-        "geminiPrompt": "What is the problem of universals and how do Catholic philosophers approach it? Explain realism, nominalism, and moderate realism."
+        topic: "The Problem of Universals",
+        description: "The metaphysical status of universal concepts like 'humanity' or 'justice'.",
+        reading: "Aquinas' De Ente et Essentia, Boethius, medieval commentaries on Porphyry",
+        geminiPrompt: "What is the problem of universals? Explain realism, nominalism, and moderate realism (conceptualism). Where does Thomism fall and why does it matter theologically?"
     },
     24: {
-        "topic": "The Analogy of Being",
-        "description": "How we can speak meaningfully about God using created concepts.",
-        "reading": "Aquinas ST I q.13, Fourth Lateran Council",
-        "geminiPrompt": "What is the analogy of being (analogia entis)? Explain how Thomists and Scotists differ on how we can speak about God."
+        topic: "The Analogy of Being",
+        description: "How human concepts can apply meaningfully to God - analogy versus univocity.",
+        reading: "Aquinas ST I q.13, Fourth Lateran Council, Scotus on univocity, Przywara's 'Analogia Entis'",
+        geminiPrompt: "What is the analogy of being (analogia entis)? How do Thomists and Scotists differ on how we can speak meaningfully about God? Why does this matter theologically?"
+    },
+    25: {
+        topic: "Choosing a Religious Order",
+        description: "Which religious order's charism and spirituality best fits one's vocation.",
+        reading: "Various order constitutions, 'A Right to Be Merry' (Franciscan), Dominican and Jesuit spirituality texts",
+        geminiPrompt: "What are the distinctive charisms and spiritualities of the major Catholic religious orders? Compare Dominican, Franciscan, Jesuit, Carmelite, and Benedictine approaches to religious life."
+    },
+    26: {
+        topic: "Forms of Religious Life",
+        description: "The relative merits of contemplative, active, and mixed religious life.",
+        reading: "Aquinas ST II-II q.182-188, Perfectae Caritatis (Vatican II), various rules",
+        geminiPrompt: "What is the highest form of religious life? Compare purely contemplative (Carthusian), purely active (Vincentian), and mixed (Dominican 'contemplata aliis tradere') vocations."
+    },
+    27: {
+        topic: "Eucharistic Presence",
+        description: "How Christ is present in the Eucharist - substance, accidents, modes of presence.",
+        reading: "Trent Session 13, Catechism §§1373-1381, Aquinas ST III q.75-76, Mysterium Fidei (Paul VI)",
+        geminiPrompt: "How is Christ present in the Eucharist? Explain transubstantiation, the distinction of substance and accidents, and various theological models of real presence."
+    },
+    28: {
+        topic: "Eucharistic Theology",
+        description: "The primary framework for understanding the Eucharist - sacrifice, meal, presence, or mystery.",
+        reading: "Trent Sessions 13 & 22, Catechism §§1356-1372, Sacrosanctum Concilium",
+        geminiPrompt: "What is the primary way to understand the Eucharist? Explain the Eucharist as sacrifice, communion meal, real presence, and eschatological banquet. How do these relate?"
+    },
+    29: {
+        topic: "Sacramental Causality",
+        description: "How the sacraments cause grace - physical, moral, or instrumental causality.",
+        reading: "Aquinas ST III q.62, Catechism §§1127-1129, Scheeben's 'The Mysteries of Christianity'",
+        geminiPrompt: "How do the sacraments cause grace? Explain ex opere operato, instrumental causality, and the debate between physical and moral causality theories."
+    },
+    30: {
+        topic: "Ex Opere Operato",
+        description: "The principle that sacraments work by the rite performed, not the minister's holiness.",
+        reading: "Trent Session 7, Catechism §§1127-1128, Augustine against the Donatists",
+        geminiPrompt: "What does ex opere operato mean? What are its limits? Explain the difference between valid and fruitful sacraments, and how recipient disposition matters."
+    },
+    31: {
+        topic: "Papal Authority",
+        description: "The extent and limits of the pope's authority in the Church.",
+        reading: "Pastor Aeternus (Vatican I), Lumen Gentium Ch. 3, Catechism §§880-887",
+        geminiPrompt: "What is the extent of papal authority? Explain Ultramontane, moderate, and minimalist views. What are the limits of papal power according to Catholic teaching?"
+    },
+    32: {
+        topic: "Papal Infallibility",
+        description: "The conditions and scope of the pope's infallible teaching authority.",
+        reading: "Pastor Aeternus (Vatican I) Ch. 4, Catechism §§891-892, Lumen Gentium §25",
+        geminiPrompt: "How should papal infallibility be understood? Explain the conditions required (ex cathedra, on faith and morals, binding the whole Church) and various theological interpretations."
+    },
+    33: {
+        topic: "Episcopal Authority",
+        description: "Where bishops' authority comes from - directly from Christ or through the pope.",
+        reading: "Lumen Gentium Ch. 3, Catechism §§880-887, Apostolos Suos (1998)",
+        geminiPrompt: "Where does episcopal authority come from? Explain the debate between those who see it as immediately from Christ versus mediated through papal jurisdiction."
+    },
+    34: {
+        topic: "Early Church Governance",
+        description: "How authority functioned in the early Church - monarchical bishop, collegial, or congregational.",
+        reading: "Acts, Didache, Ignatius of Antioch, 1 Clement, Irenaeus",
+        geminiPrompt: "How did the early Church function in terms of governance? What models of authority existed? How do Catholics, Orthodox, and Protestants read this history differently?"
+    },
+    35: {
+        topic: "Models of Church Unity",
+        description: "What properly constitutes the unity of the Church - Roman primacy, communion, or federation.",
+        reading: "Unitatis Redintegratio, Dominus Iesus (2000), Lumen Gentium §8",
+        geminiPrompt: "What is the proper model of Church unity? Explain Roman centralization, communion ecclesiology, and conciliar models. How do these affect ecumenical dialogue?"
+    },
+    36: {
+        topic: "Church and State Relations",
+        description: "The proper relationship between religious and civil authority.",
+        reading: "Dignitatis Humanae, Quas Primas, Gelasian doctrine, Immortale Dei (Leo XIII)",
+        geminiPrompt: "What is the proper relationship between Church and State? Explain integralism, separation, cooperation, and how Catholic teaching has developed from Gelasius to Vatican II."
+    },
+    37: {
+        topic: "Catholic Rulers and Episcopal Guidance",
+        description: "Whether and how Catholic political leaders should defer to Church authority on faith and morals.",
+        reading: "Quas Primas (Pius XI), Dignitatis Humanae, medieval political theology",
+        geminiPrompt: "Should Catholic rulers defer to bishops on matters of faith and morals? Explain the historical relationship and how Vatican II's teaching on religious liberty affects this question."
+    },
+    38: {
+        topic: "The Confessional State",
+        description: "Whether a formally Catholic state remains the ideal even after Vatican II.",
+        reading: "Dignitatis Humanae, Quas Primas, Libertas (Leo XIII), Pink's articles on DH",
+        geminiPrompt: "Is a confessional Catholic state still the ideal? Explain how different Catholics interpret Vatican II's Dignitatis Humanae - as development, rupture, or pastoral accommodation."
+    },
+    39: {
+        topic: "Christ's Kingship and Political Order",
+        description: "How the social reign of Christ relates to political arrangements.",
+        reading: "Quas Primas (Pius XI), Catechism §2105, integralist literature",
+        geminiPrompt: "What is the relationship between Christ's kingship and political order? Explain the Feast of Christ the King's meaning, integralist views, and liberal Catholic alternatives."
+    },
+    40: {
+        topic: "Catholic Economic Vision",
+        description: "Which economic system best reflects Catholic social teaching.",
+        reading: "Rerum Novarum, Quadragesimo Anno, Centesimus Annus, Caritas in Veritate",
+        geminiPrompt: "Which economic vision best reflects Catholic social teaching? Explain distributism, social market economy, corporatism, and where capitalism and socialism fall short."
+    },
+    41: {
+        topic: "The Living Wage",
+        description: "Whether employers have a strict moral obligation to pay a family-sustaining wage.",
+        reading: "Rerum Novarum §45, Quadragesimo Anno, Catechism §2434",
+        geminiPrompt: "Is a living wage a strict moral obligation according to Catholic social teaching? Explain the tradition from Leo XIII forward and various interpretations of this obligation."
+    },
+    42: {
+        topic: "Labor Unions in Catholic Social Teaching",
+        description: "The role and value of labor organizations in Catholic thought.",
+        reading: "Rerum Novarum, Laborem Exercens, Catechism §2430",
+        geminiPrompt: "What is the role of unions in Catholic social teaching? Explain the right to organize, limits of union power, and how this teaching developed from Leo XIII to John Paul II."
+    },
+    43: {
+        topic: "Private Property",
+        description: "The scope and limits of the right to private property in Catholic teaching.",
+        reading: "Rerum Novarum, Quadragesimo Anno §§45-46, Catechism §§2401-2406",
+        geminiPrompt: "What is the proper scope of private property according to Catholic social teaching? Explain the universal destination of goods, the right to property, and its social mortgage."
+    },
+    44: {
+        topic: "National Identity and Catholicism",
+        description: "How Catholics should view national identity - patriotism, nationalism, or universalism.",
+        reading: "Mit brennender Sorge, Fratelli Tutti, Summi Pontificatus",
+        geminiPrompt: "How should Catholics view national identity? Explain legitimate patriotism versus excessive nationalism, and how Catholic universalism relates to particular national loyalties."
+    },
+    45: {
+        topic: "Immigration and Catholic Teaching",
+        description: "How Catholic nations should approach immigration - open borders, restriction, or prudential balance.",
+        reading: "Pacem in Terris, Catechism §2241, USCCB statements on immigration",
+        geminiPrompt: "How should Catholic nations approach immigration? Explain the right to emigrate, the right of nations to control borders, and how to balance these in Catholic teaching."
+    },
+    46: {
+        topic: "The Church and International Institutions",
+        description: "Whether the Church should resist or cooperate with international bodies promoting secular values.",
+        reading: "Sollicitudo Rei Socialis, Caritas in Veritate, Vatican statements at the UN",
+        geminiPrompt: "Should the Church resist international institutions promoting secular values? Explain Catholic approaches to international cooperation, subsidiarity, and moral limits."
+    },
+    47: {
+        topic: "Moral Theological Method",
+        description: "The best approach to moral theology - natural law, virtue ethics, personalism, or manualism.",
+        reading: "Veritatis Splendor, Aquinas ST I-II, Servais Pinckaers' 'Sources of Christian Ethics'",
+        geminiPrompt: "What is the best approach to moral theology? Compare natural law, manualist tradition, virtue ethics revival, and personalist approaches. What are each's strengths and weaknesses?"
+    },
+    48: {
+        topic: "Moral Absolutes and Exceptions",
+        description: "Whether universal moral norms admit exceptions in concrete circumstances.",
+        reading: "Veritatis Splendor §§79-83, Aquinas on intrinsically evil acts, proportionalism debates",
+        geminiPrompt: "Do universal moral norms admit exceptions in concrete circumstances? Explain intrinsically evil acts, proportionalism, and why John Paul II rejected consequentialist reasoning."
+    },
+    49: {
+        topic: "Probabilism in Moral Theology",
+        description: "How confessors should handle doubtful moral cases.",
+        reading: "St. Alphonsus Liguori's Moral Theology, Deman's 'Probabilisme'",
+        geminiPrompt: "What is probabilism and how should a confessor handle doubtful cases? Explain probabilism, probabiliorism, equiprobabilism, and tutiorism. What did Alphonsus Liguori teach?"
+    },
+    50: {
+        topic: "The Manualist Tradition",
+        description: "The value and limits of the moral theology manuals used in seminary formation.",
+        reading: "Noldin, Davis, Prümmer manuals; Pinckaers' critique; Cessario's defense",
+        geminiPrompt: "What is the value of the manualist tradition in moral theology? Explain its strengths (clarity, practicality) and criticisms (legalism, minimalism). Should it be recovered?"
+    },
+    51: {
+        topic: "Liturgical Orientation (Ad Orientem)",
+        description: "Which direction the priest should face during the Eucharistic Prayer.",
+        reading: "Ratzinger's 'Spirit of the Liturgy', Lang's 'Turning Towards the Lord', GIRM",
+        geminiPrompt: "Which direction should the priest face during the Eucharistic Prayer? Explain ad orientem (toward the East/altar) versus versus populum (toward the people) and the theological arguments."
+    },
+    52: {
+        topic: "Manner of Receiving Communion",
+        description: "How Holy Communion should be received - kneeling/standing, tongue/hand.",
+        reading: "Redemptionis Sacramentum, Memoriale Domini (1969), GIRM adaptations",
+        geminiPrompt: "How should Holy Communion be received? Explain the arguments for communion on the tongue while kneeling versus in the hand while standing. What does Church law permit?"
+    },
+    53: {
+        topic: "Post-Vatican II Liturgical Reform",
+        description: "Evaluating the liturgical changes after the Council.",
+        reading: "Sacrosanctum Concilium, Ratzinger's writings, Gamber's 'Reform of the Roman Liturgy'",
+        geminiPrompt: "How should we evaluate the post-Vatican II liturgical reforms? Did they faithfully implement the Council or go beyond it? Present traditionalist, reform-of-reform, and progressive views."
+    },
+    54: {
+        topic: "The Traditional Latin Mass Today",
+        description: "The proper place of the 1962 Missal in today's Church.",
+        reading: "Summorum Pontificum (2007), Traditionis Custodes (2021), Quo Primum",
+        geminiPrompt: "What is the proper place of the Traditional Latin Mass today? Explain the arguments for wide availability, restricted use, and eventual abolition. What did Benedict XVI and Francis teach?"
+    },
+    55: {
+        topic: "Silence in the Liturgy",
+        description: "The role of sacred silence in Catholic worship.",
+        reading: "Sacrosanctum Concilium §30, GIRM §45, Sarah's 'The Power of Silence'",
+        geminiPrompt: "What is the role of silence in the liturgy? Explain different types of liturgical silence and how various Catholic perspectives value contemplative quiet versus active participation."
+    },
+    56: {
+        topic: "Rubrical Exactness",
+        description: "How important is precise adherence to liturgical rubrics.",
+        reading: "Redemptionis Sacramentum, Summorum Pontificum, various liturgical legislation",
+        geminiPrompt: "How important is rubrical exactness in liturgy? Explain the arguments for strict adherence versus pastoral flexibility, and what the Church's liturgical law actually requires."
+    },
+    57: {
+        topic: "Vatican II's Doctrinal Status",
+        description: "How to understand the authority of the Council's teachings.",
+        reading: "Lumen Gentium, Nota Praevia, Benedict XVI's 'hermeneutic of continuity' address (2005)",
+        geminiPrompt: "How should we understand Vatican II's doctrinal status? Was it pastoral or doctrinal? Infallible or reformable? Explain different Catholic interpretations of the Council's authority."
+    },
+    58: {
+        topic: "Evaluating Post-1958 Popes",
+        description: "How to assess the pontificates from John XXIII onward.",
+        reading: "Various papal biographies and assessments, Weigel, de Mattei, Faggioli",
+        geminiPrompt: "How should Catholics evaluate the post-1958 popes? Present traditionalist, conservative, moderate, and progressive assessments of John XXIII through Francis."
+    },
+    59: {
+        topic: "Resisting Roman Directives",
+        description: "Whether and when a Catholic can resist or disobey papal or curial commands.",
+        reading: "Aquinas on fraternal correction, Bellarmine on resisting a pope, Canon law on obedience",
+        geminiPrompt: "Can a Catholic resist or disobey Roman directives? Explain the tradition of legitimate resistance, limits of papal authority, and when obedience may or must be withheld."
+    },
+    60: {
+        topic: "Forms of Prayer",
+        description: "The highest form of prayer - liturgical, mental, contemplative, or devotional.",
+        reading: "Sacrosanctum Concilium §10, Teresa of Avila's 'Interior Castle', Catechism §§2697-2719",
+        geminiPrompt: "What is the highest form of prayer? Compare liturgical prayer, lectio divina, mental prayer, contemplation, and popular devotions. How do different spiritualities rank these?"
+    },
+    61: {
+        topic: "Mental Prayer in Christian Life",
+        description: "The importance and practice of discursive meditation.",
+        reading: "Teresa of Avila, Francis de Sales' 'Introduction to the Devout Life', Catechism §§2705-2708",
+        geminiPrompt: "How important is mental prayer in the Christian life? Explain its necessity for spiritual growth, methods of meditation, and different schools of mental prayer."
+    },
+    62: {
+        topic: "Mystical Experiences",
+        description: "How to understand and evaluate mystical phenomena.",
+        reading: "John of the Cross, Teresa of Avila, Poulain's 'Graces of Interior Prayer', Catechism §2014",
+        geminiPrompt: "How should we understand mystical experiences? Explain the stages of mystical prayer, extraordinary phenomena (visions, locutions), and how to discern authentic from false mysticism."
+    },
+    63: {
+        topic: "Frequency of Confession",
+        description: "How often a devout Catholic should receive the sacrament of penance.",
+        reading: "Pius XII's 'Mystici Corporis' §88, Catechism §1458, various spiritual directors",
+        geminiPrompt: "How often should a devout Catholic go to confession? Explain the minimum obligation, the tradition of frequent confession, and different spiritual traditions' recommendations."
+    },
+    64: {
+        topic: "Christ's Human Knowledge",
+        description: "What Jesus knew during His earthly life and how He knew it.",
+        reading: "Aquinas ST III q.9-12, Pius XII's 'Mystici Corporis', CDF 1985 notification",
+        geminiPrompt: "How should we understand Christ's human knowledge during His earthly life? Did He know everything? Explain beatific, infused, and acquired knowledge in Christ's human intellect."
+    },
+    65: {
+        topic: "Christ's Divine and Human Wills",
+        description: "How Jesus' two wills relate - dyothelitism versus monothelitism.",
+        reading: "Third Council of Constantinople (681), Aquinas ST III q.18, Catechism §475",
+        geminiPrompt: "What is the relationship between Christ's divine and human wills? Explain dyothelitism (two wills), why monothelitism was condemned, and how the wills cooperate."
+    },
+    66: {
+        topic: "Communication of Idioms",
+        description: "How attributes of one nature can be predicated of Christ in the other nature.",
+        reading: "Cyril of Alexandria, Council of Ephesus, Aquinas ST III q.16",
+        geminiPrompt: "What is the communication of idioms (communicatio idiomatum)? Explain how we can say 'God died' and 'Mary is the Mother of God' and what limits apply to such statements."
+    },
+    67: {
+        topic: "The Purpose of the Incarnation",
+        description: "Why the Son of God became incarnate - redemption, theosis, or cosmic recapitulation.",
+        reading: "Athanasius' 'On the Incarnation', Anselm's 'Cur Deus Homo', Irenaeus",
+        geminiPrompt: "Why did the Son of God become incarnate? Explain redemption from sin (Anselm), theosis/divinization (Athanasius), and recapitulation (Irenaeus) theories of the Incarnation's purpose."
+    },
+    68: {
+        topic: "Christ's Descent into Hell",
+        description: "What happened between Christ's death and resurrection.",
+        reading: "1 Peter 3:19-20, Catechism §§631-635, Balthasar's 'Mysterium Paschale'",
+        geminiPrompt: "What did Christ do between His death and resurrection? Explain the descent into hell/Sheol, liberation of the righteous dead, and the theological significance of Holy Saturday."
+    },
+    69: {
+        topic: "Approaches to Religious Life",
+        description: "Different emphases in religious vocation - contemplative, apostolic, or mixed.",
+        reading: "Perfectae Caritatis, various religious constitutions, Aquinas ST II-II q.188",
+        geminiPrompt: "What are the different approaches to religious life? Compare contemplative (Carthusian/Carmelite), apostolic (Jesuit/Vincentian), and mixed (Dominican) vocations."
+    },
+    70: {
+        topic: "Augustinian Spirituality",
+        description: "The distinctive emphases of St. Augustine's spiritual teaching.",
+        reading: "Augustine's 'Confessions', 'Rule of St. Augustine', Zumkeller on Augustinian spirituality",
+        geminiPrompt: "What are the distinctive emphases of Augustinian spirituality? Explain restless heart seeking God, interiority, community life, and the primacy of grace in Augustine's teaching."
+    },
+    71: {
+        topic: "Cistercian/Trappist Spirituality",
+        description: "The emphases of the Cistercian reform and Trappist tradition.",
+        reading: "St. Bernard's writings, 'Charter of Charity', Thomas Merton",
+        geminiPrompt: "What does Cistercian/Trappist spirituality emphasize? Explain the return to strict Benedictine observance, manual labor, silence, and the mystical tradition of St. Bernard."
+    },
+    72: {
+        topic: "Redemptorist Spirituality",
+        description: "St. Alphonsus Liguori and the Redemptorist charism.",
+        reading: "Alphonsus' 'Practice of the Love of Jesus Christ', Redemptorist constitutions",
+        geminiPrompt: "What are St. Alphonsus Liguori and the Redemptorists known for? Explain their focus on the poor, moral theology, Marian devotion, and preaching missions."
+    },
+    73: {
+        topic: "Salesian Spirituality",
+        description: "Don Bosco's approach to youth ministry and holiness.",
+        reading: "Don Bosco's 'Memoirs of the Oratory', 'Preventive System', Salesian constitutions",
+        geminiPrompt: "What does Salesian spirituality center on? Explain Don Bosco's Preventive System (reason, religion, loving-kindness), focus on youth, and joyful approach to holiness."
+    },
+    74: {
+        topic: "Vincentian Spirituality",
+        description: "St. Vincent de Paul's spirituality of service to the poor.",
+        reading: "Vincent de Paul's conferences, Vincentian constitutions, Louise de Marillac",
+        geminiPrompt: "What does Vincentian spirituality emphasize? Explain seeing Christ in the poor, simplicity, humility, and the integration of contemplation with active service."
+    },
+    75: {
+        topic: "Passionist Spirituality",
+        description: "The Passionist focus on the memory of Christ's Passion.",
+        reading: "Paul of the Cross' letters, Passionist constitutions",
+        geminiPrompt: "What characterizes Passionist spirituality? Explain the 'memoria passionis' (memory of Christ's suffering), its role in preaching and contemplation, and the fourth vow."
+    },
+    76: {
+        topic: "Founder Charisms",
+        description: "Which religious founder's charism most resonates personally.",
+        reading: "Various founder biographies and spiritual writings",
+        geminiPrompt: "What are the distinctive charisms of major religious founders? Compare Dominic, Francis, Ignatius, Teresa, Benedict, Vincent, and others. How do their charisms differ?"
+    },
+    77: {
+        topic: "Servite Devotion to Our Lady of Sorrows",
+        description: "The Servite focus on Mary's compassion at the Cross.",
+        reading: "Servite constitutions, 'Stabat Mater', Seven Sorrows devotion",
+        geminiPrompt: "What does Servite devotion to Our Lady of Sorrows teach? Explain the Seven Sorrows, how contemplating Mary's suffering leads to Christ, and the Servite vocation."
+    },
+    78: {
+        topic: "Doubtful Law in Moral Theology",
+        description: "How to act when it's unclear whether a law binds.",
+        reading: "Alphonsus Liguori, probabilism tradition, 'lex dubia non obligat'",
+        geminiPrompt: "In moral theology, how should one act when facing a doubtful law? Explain the principle 'lex dubia non obligat', probabilism, and when one may follow the opinion for liberty."
+    },
+    79: {
+        topic: "The Carthusian Vocation",
+        description: "The most austere Western form of religious life.",
+        reading: "Guigo's 'Customs', 'An Introduction to the Carthusian Life', 'Into Great Silence' documentary",
+        geminiPrompt: "What does the Carthusian vocation represent? Explain the eremitical-cenobitic combination, the charterhouse structure, silence, and why some consider this the highest calling."
+    },
+    80: {
+        topic: "Catholic Agrarian Life",
+        description: "The value of rural and farming life in Catholic thought.",
+        reading: "Chesterton and Belloc on agriculture, 'Catholic Land Movement', Rerum Novarum",
+        geminiPrompt: "How should Catholic rural/agrarian life be valued? Explain the distributist vision of widespread land ownership, subsidiarity, and the dignity of agricultural work."
+    },
+    81: {
+        topic: "Scripture's Multiple Senses",
+        description: "The relationship between literal and spiritual senses of Scripture.",
+        reading: "Catechism §§115-119, de Lubac's 'Medieval Exegesis', Aquinas ST I q.1 a.10",
+        geminiPrompt: "What are Scripture's literal and spiritual senses? Explain the four senses (literal, allegorical, moral, anagogical), how they relate, and their place in modern exegesis."
+    },
+    82: {
+        topic: "Catholicism and Nationalism",
+        description: "Catholic approaches to national identity and loyalty.",
+        reading: "Mit brennender Sorge, Summi Pontificatus, Fratelli Tutti, MacIntyre on patriotism",
+        geminiPrompt: "What are Catholic approaches to nationalism? Explain legitimate patriotism, the dangers of excessive nationalism, Catholic universalism, and how to balance local and universal loyalties."
+    },
+    83: {
+        topic: "Gallicanism and National Church Autonomy",
+        description: "Historical and contemporary debates about local church independence from Rome.",
+        reading: "Gallican Articles (1682), Pastor Aeternus (Vatican I), Eastern Catholic sui iuris churches",
+        geminiPrompt: "What is Gallicanism and what is your position on national church autonomy? Explain the historical debate, Vatican I's settlement, and how Eastern Catholics maintain autonomy within communion."
+    },
+    84: {
+        topic: "Church Hierarchy and Immigration",
+        description: "Evaluating episcopal statements on immigration policy.",
+        reading: "USCCB statements, Catechism §2241, various episcopal conferences",
+        geminiPrompt: "How should Catholics view the Church hierarchy's approach to immigration? Is it too liberal, appropriate, or insufficient? How do prudential judgments relate to binding teaching?"
+    },
+    85: {
+        topic: "Reforming the Novus Ordo",
+        description: "Whether the ordinary form should be reformed toward traditional liturgy.",
+        reading: "Ratzinger's 'Spirit of the Liturgy', Lang's 'Turning Towards the Lord', GIRM options",
+        geminiPrompt: "Should the Novus Ordo be reformed toward a vernacular TLM (like Orthodox Divine Liturgy)? Explain 'reform of the reform' ideas, arguments for and against, and practical possibilities."
+    },
+    86: {
+        topic: "Catholic-Orthodox Reunion",
+        description: "How the Catholic Church should approach reunion with Eastern Orthodoxy.",
+        reading: "Unitatis Redintegratio, Joint declarations, Ratzinger's 'Many Religions, One Covenant'",
+        geminiPrompt: "How should the Catholic Church approach reunion with the Eastern Orthodox? What obstacles exist (filioque, papal primacy)? What models of reunion are possible?"
+    },
+    87: {
+        topic: "Religious Liberty (Dignitatis Humanae)",
+        description: "Understanding Vatican II's teaching on religious freedom.",
+        reading: "Dignitatis Humanae, Murray's 'We Hold These Truths', Pink's articles, Lefebvre's objections",
+        geminiPrompt: "How should we understand Vatican II's teaching on religious liberty? Does it contradict earlier teaching or develop it? Explain development, rupture, and continuity interpretations."
+    },
+    88: {
+        topic: "Clerical Celibacy",
+        description: "Whether mandatory celibacy for Latin Rite priests should continue.",
+        reading: "Sacerdotalis Caelibatus (Paul VI), Eastern practice, Cochini's 'Apostolic Origins of Priestly Celibacy'",
+        geminiPrompt: "What is your view on mandatory clerical celibacy in the Latin Rite? Explain the arguments for maintaining, relaxing, or abolishing the discipline. What is its theological basis?"
+    },
+    89: {
+        topic: "Traditionis Custodes and the TLM",
+        description: "Evaluating Pope Francis's restrictions on the Traditional Latin Mass.",
+        reading: "Traditionis Custodes (2021), Summorum Pontificum (2007), various commentaries",
+        geminiPrompt: "How should Catholics view Pope Francis's restrictions on the Traditional Latin Mass? Explain the arguments defending Traditionis Custodes and those criticizing it."
+    },
+    90: {
+        topic: "Non-Catholic Soteriology",
+        description: "Which non-Catholic view of salvation is most compatible with Catholicism.",
+        reading: "Joint Declaration on Justification, Catholic-Orthodox dialogues, comparative soteriology",
+        geminiPrompt: "Which non-Catholic view of soteriology is most compatible with Catholic faith? Compare Lutheran, Reformed, Methodist, and Orthodox approaches to salvation."
+    },
+    91: {
+        topic: "Lutheran-Catholic Convergence",
+        description: "Whether Lutheran positions on Eucharist and justification could be reconciled with Catholicism.",
+        reading: "Joint Declaration (1999), Ratzinger on Luther, Group of Dombes",
+        geminiPrompt: "Could Lutheran positions on Eucharist and justification be reconciled with Catholic teaching? What modifications would be needed? What did the Joint Declaration achieve?"
+    },
+    92: {
+        topic: "Hermeneutic of Continuity",
+        description: "Benedict XVI's proposal for interpreting Vatican II.",
+        reading: "Benedict XVI's December 2005 address, Marchetto's 'Council Ecumenical Vatican II'",
+        geminiPrompt: "What is the 'hermeneutic of continuity' proposed by Benedict XVI? Contrast it with the 'hermeneutic of rupture'. How should Vatican II be interpreted in relation to tradition?"
+    },
+    93: {
+        topic: "Digital Evangelization",
+        description: "How Catholics should engage lay apostolate and evangelization online.",
+        reading: "Various Vatican documents on media, Bishop Barron's approach",
+        geminiPrompt: "How should Catholics approach lay apostolates and evangelization in the digital space? What opportunities and dangers exist? How can social media serve the Gospel?"
+    },
+    94: {
+        topic: "Protestant-Catholic Compatibility on Justification",
+        description: "Whether Reformed and Lutheran views can be reconciled with Catholic schools.",
+        reading: "Joint Declaration, Trent, various ecumenical dialogues",
+        geminiPrompt: "Are Reformed and Lutheran views of justification compatible with some Catholic schools? Compare Protestant positions with Augustinian, Thomist, and Molinist Catholic views."
+    },
+    95: {
+        topic: "Historical Catholic Soteriology and Monergism",
+        description: "Whether early Catholic teaching was essentially monergistic.",
+        reading: "Augustine, Prosper, Council of Orange (529), Gregory the Great",
+        geminiPrompt: "Was historical Catholic soteriology (Augustine, Prosper, Council of Orange) essentially monergistic? What role did human cooperation play? How did this develop over time?"
+    },
+    96: {
+        topic: "The Filioque Controversy",
+        description: "Whether the Filioque can be omitted from the Creed for reunion.",
+        reading: "Council of Florence, Photius, Councils on the Filioque, Siecienski's 'The Filioque'",
+        geminiPrompt: "Can we omit the Filioque from the Creed for reunion with the Orthodox? Explain the theological issues, historical development, and various Catholic positions on this question."
+    },
+    97: {
+        topic: "Women's Roles in the Church",
+        description: "What expanded roles, if any, women should have.",
+        reading: "Ordinatio Sacerdotalis, Mulieris Dignitatem, Inter Insigniores",
+        geminiPrompt: "What expanded roles, if any, should women have in the Church? Explain settled teaching (male-only priesthood), debated questions (deaconesses, altar servers), and various perspectives."
+    },
+    98: {
+        topic: "Economic Systems and Catholic Teaching",
+        description: "Which economic arrangement best reflects Catholic social principles.",
+        reading: "Centesimus Annus, Caritas in Veritate, distributist literature",
+        geminiPrompt: "Which economic arrangement best reflects Catholic Social Teaching? Compare market economy with social safety net, distributism, democratic socialism, and other options."
+    },
+    99: {
+        topic: "Catholic-Jewish Relations",
+        description: "How the Church should understand her relationship with Judaism after Nostra Aetate.",
+        reading: "Nostra Aetate §4, 'The Gifts and Calling of God Are Irrevocable' (2015), Supersessionism debate",
+        geminiPrompt: "How should the Church understand her relationship with Judaism? Explain Nostra Aetate, ongoing covenant debates, supersessionism, and two-covenant theories."
+    },
+    100: {
+        topic: "Marian Apparitions",
+        description: "How to evaluate private revelations like Fatima and Lourdes.",
+        reading: "CDF norms on apparitions, approved apparition documentation, Catechism §67",
+        geminiPrompt: "How should Catholics view Marian apparitions? Explain the approval process, the status of 'worthy of belief', and different levels of Catholic devotion to apparitions."
+    },
+    101: {
+        topic: "Universal Salvation (Hope for an Empty Hell)",
+        description: "Balthasar's hope that all might be saved.",
+        reading: "Balthasar's 'Dare We Hope', Catechism §§1033-1037, Aquinas on hell",
+        geminiPrompt: "What is the Catholic position on universal salvation? Explain Balthasar's 'hope for an empty hell', traditional teaching on hell's population, and whether universalism is compatible with faith."
+    },
+    102: {
+        topic: "Amoris Laetitia and Communion",
+        description: "Whether divorced and remarried Catholics can receive communion.",
+        reading: "Amoris Laetitia Chapter 8, Familiaris Consortio §84, dubia and responses",
+        geminiPrompt: "What is your view on Amoris Laetitia and communion for the divorced and remarried? Explain the traditional discipline, Chapter 8's approach, and various interpretations."
+    },
+    103: {
+        topic: "Assessing Vatican II",
+        description: "Overall evaluation of the Second Vatican Council.",
+        reading: "Council documents, de Mattei's 'Second Vatican Council', O'Malley's 'What Happened at Vatican II'",
+        geminiPrompt: "How should we assess the Second Vatican Council overall? Present traditionalist, conservative, moderate, and progressive evaluations of its teaching and implementation."
+    },
+    104: {
+        topic: "Humanae Vitae and Contraception",
+        description: "The Church's teaching on artificial contraception.",
+        reading: "Humanae Vitae, John Paul II's Theology of the Body, Majority Report controversy",
+        geminiPrompt: "What is your position on Humanae Vitae's teaching on contraception? Explain the theological arguments, reception of the encyclical, and ongoing debates."
+    },
+    105: {
+        topic: "Church and Liberal Democracy",
+        description: "How the Church should relate to secular democratic systems.",
+        reading: "Centesimus Annus, Dignitatis Humanae, Ratzinger's political writings",
+        geminiPrompt: "How should the Church relate to secular liberal democracy? Can she affirm it, must she tolerate it, or should she seek alternatives? What are the limits of Catholic engagement?"
+    },
+    106: {
+        topic: "Fundamental Theological Orientation",
+        description: "Self-identification along the theological spectrum.",
+        reading: "Various theological school descriptions",
+        geminiPrompt: "What are the main theological orientations in contemporary Catholicism? Explain traditionalist, conservative, ressourcement, communio, and progressive positions."
+    },
+    107: {
+        topic: "Liturgical Self-Identification",
+        description: "Where one falls on the liturgical spectrum.",
+        reading: "Sacrosanctum Concilium, Summorum Pontificum, various liturgical theology",
+        geminiPrompt: "What are the main positions on Catholic liturgy today? Explain traditionalist (TLM-only), reform-of-reform, mainstream Novus Ordo, and progressive liturgical approaches."
+    },
+    108: {
+        topic: "Papal Authority Self-Identification",
+        description: "Where one falls on views of papal power.",
+        reading: "Pastor Aeternus, Lumen Gentium, various ecclesiologies",
+        geminiPrompt: "What are the different views of papal authority among Catholics? Explain ultramontane, moderate papalist, and minimalist positions. What does each emphasize or de-emphasize?"
+    },
+    109: {
+        topic: "The De Auxiliis Controversy",
+        description: "The Bañezian-Molinist debate on grace and freedom.",
+        reading: "De Auxiliis documents, Garrigou-Lagrange, Molina's 'Concordia'",
+        geminiPrompt: "What was the De Auxiliis controversy between Bañezians and Molinists? Explain physical premotion versus middle knowledge, and why the Church declined to settle the question."
+    },
+    110: {
+        topic: "Assessing Jansenism",
+        description: "How to evaluate the Jansenist movement.",
+        reading: "Augustine's anti-Pelagian writings, Jansen's 'Augustinus', papal condemnations",
+        geminiPrompt: "How should we assess the Jansenist movement? Was it authentic Augustinianism or heresy? Explain its teachings, the papal condemnations, and its lasting influence."
+    },
+    111: {
+        topic: "Order of Divine Decrees",
+        description: "Infralapsarianism versus supralapsarianism on predestination.",
+        reading: "Reformed confessions, Aquinas ST I q.23, De Auxiliis debates",
+        geminiPrompt: "What is your position on the order of divine decrees regarding predestination? Explain infralapsarianism, supralapsarianism, and Catholic boundaries on this question."
+    },
+    112: {
+        topic: "Voluntarism versus Intellectualism",
+        description: "Whether will or intellect is primary in God and humans.",
+        reading: "Aquinas ST I q.19, Scotus, Ockham",
+        geminiPrompt: "On divine voluntarism versus intellectualism: which is primary, God's will or intellect? Explain the Thomist and Scotist positions and their implications."
+    },
+    113: {
+        topic: "Sacramental Theology Preferences",
+        description: "Which approach to sacramental theology resonates most.",
+        reading: "Aquinas ST III, Eastern sacramental theology, Scheeben",
+        geminiPrompt: "What are the different approaches to sacramental theology? Compare Thomist (causality focus), Augustinian (sign focus), and Eastern (mystical-transformative) approaches."
+    },
+    114: {
+        topic: "Moral Theology Systems",
+        description: "Which moral system one favors - probabilism, equiprobabilism, or tutiorism.",
+        reading: "Alphonsus Liguori, manualist tradition, contemporary debates",
+        geminiPrompt: "In moral theology, which system do you favor? Explain probabilism, equiprobabilism, probabiliorism, and tutiorism. What are the practical implications of each?"
+    },
+    115: {
+        topic: "Radical Orthodoxy Movement",
+        description: "Evaluating Milbank and Pickstock's theological project.",
+        reading: "Milbank's 'Theology and Social Theory', Pickstock's 'After Writing'",
+        geminiPrompt: "What does the Radical Orthodoxy movement (Milbank, Pickstock) argue? Explain their critique of secular modernity and retrieval of patristic-medieval thought."
+    },
+    116: {
+        topic: "Analogy versus Univocity of Being",
+        description: "The Aquinas-Scotus debate on how 'being' applies to God and creatures.",
+        reading: "Aquinas ST I q.13, Scotus' Ordinatio, Przywara",
+        geminiPrompt: "On the question of being - analogy (Aquinas) or univocity (Scotus)? Explain what's at stake theologically and philosophically in this debate."
+    },
+    117: {
+        topic: "Nominalism Assessment",
+        description: "Evaluating the nominalist tradition and its influence.",
+        reading: "Ockham's writings, Gillespie's 'Theological Origins of Modernity'",
+        geminiPrompt: "How should we assess the nominalist tradition (Ockham, etc.)? Did it undermine realist metaphysics destructively, or offer valuable insights? What is its legacy?"
+    },
+    118: {
+        topic: "Palamite Theology",
+        description: "The Orthodox essence-energies distinction and its Catholic reception.",
+        reading: "Palamas' 'Triads', Council of Florence, recent Catholic-Orthodox dialogue",
+        geminiPrompt: "What is Palamite theology (essence-energies distinction)? How have Catholics received it - as compatible with Thomism, incompatible, or requiring development?"
+    },
+    119: {
+        topic: "Theosis/Divinization",
+        description: "How central is theosis to understanding salvation.",
+        reading: "Athanasius, Eastern Fathers, de Lubac, Catechism §460",
+        geminiPrompt: "How central is theosis (divinization) to understanding salvation? Explain the patristic teaching, its place in Eastern theology, and whether Latin theology adequately incorporates it."
+    },
+    120: {
+        topic: "Carmelite Spirituality",
+        description: "The mystical teaching of Teresa of Ávila and John of the Cross.",
+        reading: "Teresa's 'Interior Castle', John's 'Ascent of Mount Carmel', 'Dark Night'",
+        geminiPrompt: "What does Carmelite spirituality (Teresa of Ávila, John of the Cross) emphasize? Explain stages of prayer, dark nights, and the goal of transforming union."
+    },
+    121: {
+        topic: "Memoria Passionis",
+        description: "The Passionist emphasis on remembering Christ's suffering.",
+        reading: "Paul of the Cross, Passionist spirituality texts",
+        geminiPrompt: "What is the Passionist emphasis on 'memoria passionis' (memory of Christ's suffering)? How does contemplating the Passion lead to transformation and apostolate?"
+    },
+    122: {
+        topic: "The Mercedarian Fourth Vow",
+        description: "The vow to give one's life for captives if necessary.",
+        reading: "Mercedarian constitutions, Peter Nolasco",
+        geminiPrompt: "What does the Mercedarian fourth vow - to give one's life for captives if necessary - represent? Explain its historical context and contemporary spiritual meaning."
+    },
+    123: {
+        topic: "Church and Modern Culture",
+        description: "How the Church should relate to contemporary society.",
+        reading: "Gaudium et Spes, Communio-Concilium debates, MacIntyre",
+        geminiPrompt: "How should the Church relate to modern culture? Explain engagement, resistance, and transformation models. What can the Church affirm and what must she reject?"
+    },
+    124: {
+        topic: "The Value of Scholasticism Today",
+        description: "Whether scholastic philosophy and theology remain valuable.",
+        reading: "Aeterni Patris, neo-scholastic manuals, ressourcement critiques",
+        geminiPrompt: "What is the value of Scholasticism today? Should it be recovered, supplemented, or superseded? What are its enduring contributions and limitations?"
+    },
+    125: {
+        topic: "Ressourcement Theology",
+        description: "Evaluating the return-to-sources movement.",
+        reading: "de Lubac, Congar, Daniélou, Ratzinger's 'Milestones'",
+        geminiPrompt: "Did ressourcement theology recover authentic insights or introduce problematic novelties? Explain the movement, its contributions, and criticisms from both left and right."
+    },
+    126: {
+        topic: "The Fewness of the Saved",
+        description: "The traditional teaching that few attain eternal salvation.",
+        reading: "Matthew 7:13-14, Augustine, Aquinas, Balthasar's alternative",
+        geminiPrompt: "What is the traditional teaching on the 'fewness of the saved'? Is it still tenable? Explain the biblical basis, patristic teaching, and modern challenges to this view."
+    },
+    127: {
+        topic: "Extra Ecclesiam Nulla Salus",
+        description: "How to understand 'Outside the Church there is no salvation'.",
+        reading: "Florence, Pius IX, Lumen Gentium §16, Dominus Iesus",
+        geminiPrompt: "How should we understand 'Extra Ecclesiam nulla salus'? Explain rigorist, moderate, and liberal interpretations. How has the Church's understanding developed?"
+    },
+    128: {
+        topic: "Papal Infallibility's Historical Basis",
+        description: "Whether infallibility was an ancient constant tradition.",
+        reading: "Pastor Aeternus, patristic evidence, Newman's development theory",
+        geminiPrompt: "Was papal infallibility an ancient and constant tradition of the Church? Explain the historical evidence, development theory, and traditionalist versus historical-critical views."
+    },
+    129: {
+        topic: "Theological Certainty and Faith",
+        description: "What degree of certainty theology can achieve.",
+        reading: "Dei Filius, Aquinas on faith and reason, theological notes",
+        geminiPrompt: "What degree of certainty can theology achieve? Explain the relationship between faith, theological reasoning, and different levels of doctrinal authority (de fide, sententia certa, etc.)."
+    },
+    130: {
+        topic: "Latin Catholics and Eastern Traditions",
+        description: "How Western Catholics should regard Byzantine and Eastern liturgies.",
+        reading: "Orientalium Ecclesiarum, Orientale Lumen, Code of Canons of Eastern Churches",
+        geminiPrompt: "How should Latin Catholics regard Byzantine and Eastern liturgical traditions? Explain equality of rites, mutual enrichment, and avoiding Latinization of Eastern practice."
+    },
+    131: {
+        topic: "Faith and Works in Salvation",
+        description: "The relationship between faith and works in the order of salvation.",
+        reading: "James 2, Trent Session 6, Joint Declaration",
+        geminiPrompt: "What is the relationship between faith and works in salvation? Compare Catholic, Lutheran, and Reformed positions. How did Trent and the Joint Declaration address this?"
+    },
+    132: {
+        topic: "Eucharistic Presence Across Traditions",
+        description: "How Christ is present in the Eucharist according to different traditions.",
+        reading: "Trent, Lutheran confessions, Reformed views, Orthodox theology",
+        geminiPrompt: "How is Christ present in the Eucharist according to different Christian traditions? Compare transubstantiation, sacramental union, spiritual presence, and Eastern approaches."
+    },
+    133: {
+        topic: "The Deuterocanonical Books",
+        description: "The status of books like Sirach, Wisdom, and Maccabees.",
+        reading: "Trent Session 4, Jerome's prologues, Protestant position",
+        geminiPrompt: "What is the status of the deuterocanonical books? Explain the Catholic position (fully canonical), Protestant view (apocrypha), and the historical development of the canon."
+    },
+    134: {
+        topic: "Loss of Salvation",
+        description: "Whether a justified person can fall from grace and lose salvation.",
+        reading: "Trent Session 6, Hebrews 6, 'Once saved always saved' debate",
+        geminiPrompt: "Can a justified person lose salvation? Explain the Catholic position, compare with 'once saved always saved' (perseverance of the saints), and the biblical evidence."
+    },
+    135: {
+        topic: "Church Government",
+        description: "The proper form of church governance - episcopal, presbyterian, or congregational.",
+        reading: "Lumen Gentium, historical development, ecumenical dialogues",
+        geminiPrompt: "What is the proper form of church government? Explain episcopal (Catholic/Orthodox), presbyterian (Reformed), and congregational models and their theological bases."
+    },
+    136: {
+        topic: "The Role of Saints",
+        description: "What role do the saints play in Christian life and prayer.",
+        reading: "Lumen Gentium Chapter 7, Catechism §§954-962",
+        geminiPrompt: "What role do the saints play in the Christian life? Explain intercession, imitation, communion of saints, and respond to Protestant objections about praying to saints."
+    },
+    137: {
+        topic: "Assurance of Salvation Across Traditions",
+        description: "Different Christian views on knowing one is saved.",
+        reading: "Trent, Westminster Confession, Methodist position",
+        geminiPrompt: "What is the assurance of salvation according to different traditions? Compare Catholic moral certainty, Reformed 'perseverance of the saints', and Methodist assurance through the Spirit."
+    },
+    138: {
+        topic: "The Filioque",
+        description: "Understanding the clause 'and the Son' in the Creed.",
+        reading: "Council of Florence, Photius, Siecienski's 'The Filioque'",
+        geminiPrompt: "How should we understand the filioque clause? Explain the Western position (Spirit proceeds from Father and Son), Eastern objection, and whether reconciliation is possible."
+    },
+    139: {
+        topic: "Divine Essence and Energies",
+        description: "The Orthodox distinction between God's essence and energies.",
+        reading: "Palamas, Council of Florence, Catholic-Orthodox dialogue",
+        geminiPrompt: "What is the proper understanding of God's essence and energies? Explain the Palamite distinction, Thomist critique, and recent attempts at reconciliation."
+    },
+    140: {
+        topic: "Chalcedonian Christology",
+        description: "How to understand the 'two natures' formula.",
+        reading: "Council of Chalcedon, Cyril of Alexandria, modern Christological debates",
+        geminiPrompt: "How should we understand Chalcedon's 'two natures' Christology? Explain Alexandrian versus Antiochene emphases, and how to avoid Nestorianism and Monophysitism."
+    },
+    141: {
+        topic: "Ecumenical Councils",
+        description: "How many councils are binding on the Church.",
+        reading: "Council documents, Catholic vs. Orthodox vs. Oriental counts",
+        geminiPrompt: "How many Ecumenical Councils are binding on the Church? Explain why Catholics recognize 21, Orthodox 7, and Oriental Orthodox 3. What makes a council ecumenical?"
+    },
+    142: {
+        topic: "Icons in Christian Worship",
+        description: "The role and theology of sacred images.",
+        reading: "Nicaea II (787), Catechism §§1159-1162, Orthodox icon theology",
+        geminiPrompt: "What is the role of icons in Christian worship? Explain the theology of icons, the iconoclast controversy, and the difference between veneration and worship."
+    },
+    143: {
+        topic: "Original Sin",
+        description: "How to understand inherited sin and its effects.",
+        reading: "Trent Session 5, Catechism §§396-409, Augustine vs. Pelagius",
+        geminiPrompt: "What is the proper understanding of original sin? Explain inherited guilt versus inherited consequences, how it's transmitted, and Eastern versus Western emphases."
+    },
+    144: {
+        topic: "Church Unity",
+        description: "How the Church's unity is properly maintained.",
+        reading: "Lumen Gentium, Unitatis Redintegratio, various ecclesiologies",
+        geminiPrompt: "How is the Church's unity properly maintained? Compare Roman primacy, conciliarity, doctrinal agreement, and communion models. What constitutes full versus partial communion?"
+    },
+    145: {
+        topic: "Canonization and Rehabilitation",
+        description: "Which figures Catholics would like to see recognized or rehabilitated.",
+        reading: "Canonization processes, historical controversies",
+        geminiPrompt: "What figures would Catholics like to see canonized or rehabilitated? Explain figures like Eckhart, Rosmini, and Lefebvre and the debates surrounding them."
     },
     146: {
-        "topic": "Papal Response to Heterodox Bishops' Conferences",
-        "description": "How the Pope should respond to regional episcopal conferences that deviate from orthodox teaching.",
-        "reading": "Pastor Aeternus, Apostolos Suos (1998), CDF documents on the Synodal Path",
-        "geminiPrompt": "How should the Pope respond to bishops' conferences that deviate from orthodox teaching? Explain different ecclesiological approaches."
+        topic: "Papal Response to Heterodox Bishops' Conferences",
+        description: "How the Pope should respond to regional episcopal conferences that deviate from orthodox teaching.",
+        reading: "Pastor Aeternus, Apostolos Suos (1998), CDF documents on the German Synodal Path",
+        geminiPrompt: "How should the Pope respond to bishops' conferences that deviate from orthodox teaching? Explain Ultramontane, traditionalist, progressive, and moderate approaches."
     },
     147: {
-        "topic": "Benedict XVI's 'Smaller, Purer Church'",
-        "description": "Whether a smaller, more orthodox Church would be preferable to a larger but less fervent one.",
-        "reading": "Ratzinger's 'Faith and the Future' (1969)",
-        "geminiPrompt": "What did Benedict XVI mean by a 'smaller, purer Church'? Explain various perspectives on numerical decline and spiritual renewal."
+        topic: "Benedict XVI's 'Smaller, Purer Church'",
+        description: "Whether a smaller, more orthodox Church would be preferable to a larger but less fervent one.",
+        reading: "Ratzinger's 'Faith and the Future' (1969), various Benedict XVI writings",
+        geminiPrompt: "What did Benedict XVI mean by a 'smaller, purer Church'? Explain the various perspectives on whether numerical decline might lead to spiritual renewal."
     },
     148: {
-        "topic": "Evaluating Post-Conciliar Popes",
-        "description": "Which post-Vatican II pope best served the Church.",
-        "reading": "Biographies and encyclicals of post-conciliar popes",
-        "geminiPrompt": "Compare the post-conciliar popes. What were their main contributions and how do different Catholic groups evaluate them?"
+        topic: "Evaluating Post-Conciliar Popes",
+        description: "Which post-Vatican II pope best served the Church and why.",
+        reading: "Biographies and major documents of Paul VI, John Paul II, Benedict XVI, and Francis",
+        geminiPrompt: "How should we evaluate the post-conciliar popes? Present traditionalist, conservative, moderate, and progressive assessments of each pontificate."
     },
     149: {
-        "topic": "The Future of the Catholic Church",
-        "description": "Personal outlook on where the Church is headed.",
-        "reading": "Various contemporary Catholic commentary",
-        "geminiPrompt": "What are the different Catholic perspectives on the future of the Church? Explain optimistic, cautious, traditionalist, and progressive views."
+        topic: "The Future of the Catholic Church",
+        description: "Personal outlook on where the Church is headed.",
+        reading: "Various contemporary Catholic analysis and commentary",
+        geminiPrompt: "What are the different Catholic perspectives on the future of the Church? Explain optimistic, cautiously hopeful, traditionalist concerned, progressive transformative, and remnant views."
     },
-    # Default fallback
-    "default": {
-        "topic": "Catholic Theological Question",
-        "description": "This question explores an area of Catholic theological discussion where different schools offer varying perspectives.",
-        "reading": "Catechism of the Catholic Church, relevant theological manuals",
-        "geminiPrompt": "Explain the various Catholic theological perspectives on this topic, presenting each school of thought fairly."
+    default: {
+        topic: "Catholic Theological Question",
+        description: "This question explores an area of Catholic theological discussion where different schools of thought offer varying perspectives.",
+        reading: "Catechism of the Catholic Church, relevant theological manuals and primary sources",
+        geminiPrompt: "Explain the various Catholic theological perspectives on this topic, presenting each school of thought fairly and noting where they agree and disagree."
+    }
+};
+
+// Function to get topic for a question (with fallback)
+function getQuestionTopic(qIndex) {
+    return QUESTION_TOPICS[qIndex] || QUESTION_TOPICS.default;
+}
+// Citations database
+const CITATIONS = {
+  "0": [
+    {
+      "title": "Dei Verbum",
+      "author": "Second Vatican Council",
+      "year": 1965,
+      "note": "Constitution on Divine Revelation"
+    },
+    {
+      "title": "Summa Theologiae I-II, q. 106-108",
+      "author": "St. Thomas Aquinas"
+    },
+    {
+      "title": "Scripture in the Tradition",
+      "author": "Yves Congar, O.P.",
+      "year": 1964
+    }
+  ],
+  "1": [
+    {
+      "title": "Medieval Exegesis (4 vols)",
+      "author": "Henri de Lubac",
+      "year": 1959
+    },
+    {
+      "title": "Divino Afflante Spiritu",
+      "author": "Pope Pius XII",
+      "year": 1943
+    },
+    {
+      "title": "Interpretation of the Bible in the Church",
+      "author": "Pontifical Biblical Commission",
+      "year": 1993
+    }
+  ],
+  "2": [
+    {
+      "title": "The Senses of Scripture",
+      "author": "Raymond Brown",
+      "year": 1955
+    },
+    {
+      "title": "Providentissimus Deus",
+      "author": "Pope Leo XIII",
+      "year": 1893
+    }
+  ],
+  "3": [
+    {
+      "title": "Concordia liberi arbitrii",
+      "author": "Luis de Molina, S.J.",
+      "year": 1588
+    },
+    {
+      "title": "Commentary on ST I",
+      "author": "Domingo B\u00e1\u00f1ez, O.P.",
+      "year": 1584
+    },
+    {
+      "title": "De gratia et libero arbitrio",
+      "author": "St. Augustine",
+      "year": 426
+    },
+    {
+      "title": "Grace and Freedom",
+      "author": "Bernard Lonergan, S.J.",
+      "year": 1971
+    }
+  ],
+  "4": [
+    {
+      "title": "Summa Theologiae I, q. 23",
+      "author": "St. Thomas Aquinas",
+      "note": "On Predestination"
+    },
+    {
+      "title": "De praedestinatione sanctorum",
+      "author": "St. Augustine",
+      "year": 429
+    },
+    {
+      "title": "Ordinatio I, d. 41",
+      "author": "Bl. John Duns Scotus"
+    }
+  ],
+  "5": [
+    {
+      "title": "Surnaturel",
+      "author": "Henri de Lubac",
+      "year": 1946
+    },
+    {
+      "title": "The Mystery of the Supernatural",
+      "author": "Henri de Lubac",
+      "year": 1967
+    },
+    {
+      "title": "Humani Generis",
+      "author": "Pope Pius XII",
+      "year": 1950
+    }
+  ],
+  "6": [
+    {
+      "title": "Council of Trent, Session VI",
+      "year": 1547,
+      "note": "Decree on Justification"
+    },
+    {
+      "title": "De perseverantiae dono",
+      "author": "St. Augustine",
+      "year": 429
+    }
+  ],
+  "7": [
+    {
+      "title": "Concordia",
+      "author": "Luis de Molina, S.J.",
+      "year": 1588
+    },
+    {
+      "title": "Summa Theologiae I, q. 14, a. 13",
+      "author": "St. Thomas Aquinas"
+    }
+  ],
+  "8": [
+    {
+      "title": "De auxiliis divinae gratiae",
+      "author": "Congregation de Auxiliis",
+      "year": 1607
+    },
+    {
+      "title": "Grace, Predestination and Freewill",
+      "author": "Reginald Garrigou-Lagrange, O.P.",
+      "year": 1936
+    }
+  ],
+  "9": [
+    {
+      "title": "Summa Theologiae I-II, q. 109-114",
+      "author": "St. Thomas Aquinas"
+    },
+    {
+      "title": "The Theology of Grace",
+      "author": "Joseph Pohle",
+      "year": 1911
+    }
+  ],
+  "10": [
+    {
+      "title": "Augustinus",
+      "author": "Cornelius Jansen",
+      "year": 1640
+    },
+    {
+      "title": "Cum occasione",
+      "author": "Pope Innocent X",
+      "year": 1653
+    }
+  ],
+  "17": [
+    {
+      "title": "Summa Theologiae I, q. 19",
+      "author": "St. Thomas Aquinas",
+      "note": "On the Will of God"
+    },
+    {
+      "title": "Ordinatio I, d. 8",
+      "author": "Bl. John Duns Scotus"
+    },
+    {
+      "title": "Quodlibetal Questions",
+      "author": "William of Ockham"
+    }
+  ],
+  "18": [
+    {
+      "title": "Natural Law and Natural Rights",
+      "author": "John Finnis",
+      "year": 1980
+    },
+    {
+      "title": "The Sources of Christian Ethics",
+      "author": "Servais Pinckaers, O.P.",
+      "year": 1985
+    },
+    {
+      "title": "Veritatis Splendor",
+      "author": "Pope John Paul II",
+      "year": 1993
+    }
+  ],
+  "19": [
+    {
+      "title": "De ente et essentia",
+      "author": "St. Thomas Aquinas"
+    },
+    {
+      "title": "Ordinatio II, d. 3",
+      "author": "Bl. John Duns Scotus"
+    },
+    {
+      "title": "Metalogicon",
+      "author": "John of Salisbury",
+      "year": 1159
+    }
+  ],
+  "20": [
+    {
+      "title": "The Analogy of Being",
+      "author": "Erich Przywara",
+      "year": 1932
+    },
+    {
+      "title": "Ordinatio I, d. 3 & d. 8",
+      "author": "Bl. John Duns Scotus"
+    }
+  ],
+  "26": [
+    {
+      "title": "Rule of St. Benedict",
+      "author": "St. Benedict of Nursia",
+      "year": 530
+    },
+    {
+      "title": "Spiritual Exercises",
+      "author": "St. Ignatius of Loyola",
+      "year": 1548
+    },
+    {
+      "title": "Interior Castle",
+      "author": "St. Teresa of \u00c1vila",
+      "year": 1577
+    }
+  ],
+  "27": [
+    {
+      "title": "Summa de vita spirituali",
+      "author": "St. Thomas Aquinas"
+    },
+    {
+      "title": "Ascent of Mount Carmel",
+      "author": "St. John of the Cross",
+      "year": 1585
+    }
+  ],
+  "46": [
+    {
+      "title": "Council of Trent, Session XIII",
+      "year": 1551,
+      "note": "Decree on the Eucharist"
+    },
+    {
+      "title": "Mysterium Fidei",
+      "author": "Pope Paul VI",
+      "year": 1965
+    },
+    {
+      "title": "Summa Theologiae III, q. 75-77",
+      "author": "St. Thomas Aquinas"
+    }
+  ],
+  "47": [
+    {
+      "title": "Mediator Dei",
+      "author": "Pope Pius XII",
+      "year": 1947
+    },
+    {
+      "title": "The Spirit of the Liturgy",
+      "author": "Joseph Ratzinger",
+      "year": 2000
+    },
+    {
+      "title": "Sacrosanctum Concilium",
+      "year": 1963
+    }
+  ],
+  "48": [
+    {
+      "title": "Summa Theologiae III, q. 62",
+      "author": "St. Thomas Aquinas"
+    },
+    {
+      "title": "In IV Sent., d. 1",
+      "author": "Bl. John Duns Scotus"
+    }
+  ],
+  "56": [
+    {
+      "title": "Pastor Aeternus",
+      "year": 1870,
+      "note": "Vatican I on Papal Primacy"
+    },
+    {
+      "title": "Lumen Gentium",
+      "year": 1964,
+      "note": "Chapter III on Hierarchy"
+    },
+    {
+      "title": "The Limits of the Papacy",
+      "author": "Patrick Granfield",
+      "year": 1987
+    }
+  ],
+  "57": [
+    {
+      "title": "Pastor Aeternus, Chapter 4",
+      "year": 1870
+    },
+    {
+      "title": "Infallibility",
+      "author": "Peter Chirico",
+      "year": 1977
+    }
+  ],
+  "72": [
+    {
+      "title": "Veritatis Splendor",
+      "author": "Pope John Paul II",
+      "year": 1993
+    },
+    {
+      "title": "The Acting Person",
+      "author": "Karol Wojty\u0142a",
+      "year": 1969
+    }
+  ],
+  "73": [
+    {
+      "title": "Theologia Moralis",
+      "author": "St. Alphonsus Liguori",
+      "year": 1748
+    },
+    {
+      "title": "Provinciales",
+      "author": "Blaise Pascal",
+      "year": 1656
+    }
+  ],
+  "85": [
+    {
+      "title": "Dignitatis Humanae",
+      "year": 1965
+    },
+    {
+      "title": "Quas Primas",
+      "author": "Pope Pius XI",
+      "year": 1925
+    }
+  ],
+  "86": [
+    {
+      "title": "Rerum Novarum",
+      "author": "Pope Leo XIII",
+      "year": 1891
+    },
+    {
+      "title": "Quadragesimo Anno",
+      "author": "Pope Pius XI",
+      "year": 1931
+    },
+    {
+      "title": "What's Wrong with the World",
+      "author": "G.K. Chesterton",
+      "year": 1910
+    }
+  ],
+  "100": [
+    {
+      "title": "Council of Chalcedon",
+      "year": 451
+    },
+    {
+      "title": "Summa Theologiae III, q. 1-26",
+      "author": "St. Thomas Aquinas"
+    },
+    {
+      "title": "Cur Deus Homo",
+      "author": "St. Anselm",
+      "year": 1098
+    }
+  ],
+  "112": [
+    {
+      "title": "Sacrosanctum Concilium",
+      "year": 1963
+    },
+    {
+      "title": "Traditionis Custodes",
+      "author": "Pope Francis",
+      "year": 2021
+    }
+  ],
+  "113": [
+    {
+      "title": "Amoris Laetitia",
+      "author": "Pope Francis",
+      "year": 2016
+    },
+    {
+      "title": "Familiaris Consortio",
+      "author": "Pope John Paul II",
+      "year": 1981
+    }
+  ],
+  "114": [
+    {
+      "title": "Nostra Aetate",
+      "year": 1965
+    },
+    {
+      "title": "Dominus Iesus",
+      "author": "CDF",
+      "year": 2000
+    }
+  ],
+  "127": [
+    {
+      "title": "De gratia et praedestinatione",
+      "author": "Garrigou-Lagrange, O.P."
+    },
+    {
+      "title": "Summa Theologiae Suppl., q. 72",
+      "author": "St. Thomas Aquinas",
+      "note": "On the number of the elect"
+    },
+    {
+      "title": "City of God XXI",
+      "author": "St. Augustine"
+    },
+    {
+      "title": "Dare We Hope That All Men Be Saved?",
+      "author": "Hans Urs von Balthasar",
+      "year": 1988
+    }
+  ],
+  "128": [
+    {
+      "title": "Quanto conficiamur moerore",
+      "author": "Pope Pius IX",
+      "year": 1863
+    },
+    {
+      "title": "Lumen Gentium \u00a714-16",
+      "note": "Vatican II on Church membership"
+    },
+    {
+      "title": "Letter to Fr. Leonard Feeney",
+      "author": "Holy Office",
+      "year": 1949
+    },
+    {
+      "title": "The One Mediator, The Saints, and Mary",
+      "note": "Lutheran-Catholic Dialogue",
+      "year": 1992
+    }
+  ],
+  "129": [
+    {
+      "title": "Pastor Aeternus",
+      "note": "Vatican I",
+      "year": 1870
+    },
+    {
+      "title": "Haec Sancta",
+      "note": "Council of Constance",
+      "year": 1415
+    },
+    {
+      "title": "An Essay on the Development of Christian Doctrine",
+      "author": "John Henry Newman",
+      "year": 1845
+    },
+    {
+      "title": "The Limits of the Papacy",
+      "author": "Patrick Granfield",
+      "year": 1987
+    }
+  ],
+  "130": [
+    {
+      "title": "Summa Theologiae I, q. 1",
+      "author": "St. Thomas Aquinas",
+      "note": "On sacred doctrine as science"
+    },
+    {
+      "title": "De Trinitate",
+      "author": "St. Augustine"
+    },
+    {
+      "title": "The Mystical Theology of the Eastern Church",
+      "author": "Vladimir Lossky",
+      "year": 1944
+    },
+    {
+      "title": "Ordinatio Prol.",
+      "author": "Bl. John Duns Scotus"
+    }
+  ],
+  "131": [
+    {
+      "title": "Orientalium Ecclesiarum",
+      "note": "Vatican II",
+      "year": 1964
+    },
+    {
+      "title": "Ut Unum Sint",
+      "author": "Pope John Paul II",
+      "year": 1995
+    },
+    {
+      "title": "For the Life of the World",
+      "author": "Alexander Schmemann",
+      "year": 1963
+    },
+    {
+      "title": "The Byzantine Liturgy",
+      "author": "Hans-Joachim Schulz",
+      "year": 1986
+    }
+  ]
+};
+
+const DEFAULT_CITATIONS = [
+  {
+    "title": "Catechism of the Catholic Church",
+    "year": 1992
+  },
+  {
+    "title": "Denzinger-H\u00fcnermann",
+    "note": "Enchiridion Symbolorum"
+  },
+  {
+    "title": "New Catholic Encyclopedia",
+    "year": 2003
+  }
+];
+
+function getCitationsForQuestion(index) {
+    return CITATIONS[index] || DEFAULT_CITATIONS;
+}
+
+// =============================================
+// QUIZ STATE
+// =============================================
+
+let currentQuestion = 0;
+let answers = [];
+let scores = {};
+let axisScores = {};
+let selectedQuestions = [];
+let quizLength = 146;
+let currentCategoryIndex = 0;
+let categoryQuestions = {}; // Maps category id to selected question indices
+let aiMessages = [];
+
+// =============================================
+// QUIZ LENGTH AND SELECTION
+// =============================================
+
+function setQuizLength(length) {
+    quizLength = length;
+    document.querySelectorAll('.length-option input').forEach(input => {
+        const card = input.nextElementSibling;
+        if (parseInt(input.value) === length) {
+            input.checked = true;
+            card.style.borderColor = 'var(--crimson)';
+            card.style.background = 'linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(201, 162, 39, 0.08))';
+        } else {
+            input.checked = false;
+            card.style.borderColor = 'var(--gold-light)';
+            card.style.background = 'transparent';
+        }
+    });
+}
+
+function selectQuestionsForQuiz(count) {
+    // Distribute questions proportionally across categories
+    const totalQuestions = QUESTIONS.length;
+    categoryQuestions = {};
+    
+    CATEGORIES.forEach(cat => {
+        const catTotal = cat.questions.length;
+        const proportion = catTotal / totalQuestions;
+        let numToSelect = Math.max(1, Math.round(count * proportion));
+        
+        // Don't select more than available
+        numToSelect = Math.min(numToSelect, catTotal);
+        
+        // Shuffle and select
+        const shuffled = [...cat.questions].sort(() => Math.random() - 0.5);
+        categoryQuestions[cat.id] = shuffled.slice(0, numToSelect).sort((a, b) => a - b);
+    });
+    
+    // Flatten to get all selected questions in order
+    const allSelected = [];
+    CATEGORIES.forEach(cat => {
+        allSelected.push(...categoryQuestions[cat.id]);
+    });
+    
+    return allSelected;
+}
+
+// =============================================
+// INITIALIZATION
+// =============================================
+
+function initScores() {
+    scores = {};
+    SCHOOLS.forEach(([code]) => scores[code] = 0);
+    axisScores = {};
+    AXES.forEach(([code]) => axisScores[code] = 0);
+}
+
+
+    // ARIA Accessibility Enhancement
+    function updateQuestionDotsAria() {
+        const dots = document.querySelectorAll('.q-dot');
+        dots.forEach((dot, index) => {
+            const questionNum = index + 1;
+            let status = 'Not answered';
+            if (dot.classList.contains('answered')) status = 'Answered';
+            if (dot.classList.contains('current')) status = 'Current question';
+            dot.setAttribute('aria-label', `Question ${questionNum}: ${status}`);
+            dot.setAttribute('role', 'button');
+            dot.setAttribute('tabindex', '0');
+        });
+    }
+
+function startQuiz() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    initScores();
+    selectedQuestions = selectQuestionsForQuiz(quizLength);
+    answers = new Array(selectedQuestions.length).fill(null);
+    currentQuestion = 0;
+    currentCategoryIndex = 0;
+    buildCategoryNav();
+    buildQuestionNav();
+    renderQuestion();
+}
+
+// =============================================
+// CATEGORY NAVIGATION
+// =============================================
+
+function buildCategoryNav() {
+    const nav = document.getElementById('category-nav');
+    nav.innerHTML = '';
+    
+    CATEGORIES.forEach((cat, idx) => {
+        const catQs = categoryQuestions[cat.id] || [];
+        if (catQs.length === 0) return;
+        
+        const btn = document.createElement('button');
+        btn.className = 'cat-btn' + (idx === 0 ? ' active' : '');
+        btn.onclick = () => jumpToCategory(idx);
+        btn.innerHTML = `
+            <span class="cat-icon">${cat.icon}</span>
+            ${cat.shortName}
+            <span class="cat-progress">0/${catQs.length}</span>
+        `;
+        btn.dataset.catIdx = idx;
+        nav.appendChild(btn);
+    });
+}
+
+function updateCategoryNav() {
+    const buttons = document.querySelectorAll('.cat-btn');
+    buttons.forEach(btn => {
+        const idx = parseInt(btn.dataset.catIdx);
+        const cat = CATEGORIES[idx];
+        const catQs = categoryQuestions[cat.id] || [];
+        
+        // Count answered in this category
+        let answered = 0;
+        catQs.forEach(qIdx => {
+            const selIdx = selectedQuestions.indexOf(qIdx);
+            if (selIdx !== -1 && answers[selIdx] !== null) answered++;
+        });
+        
+        // Update progress
+        const progressSpan = btn.querySelector('.cat-progress');
+        if (progressSpan) progressSpan.textContent = `${answered}/${catQs.length}`;
+        
+        // Mark as completed
+        btn.classList.toggle('completed', answered === catQs.length && catQs.length > 0);
+        
+        // Mark current category
+        const currentQIdx = selectedQuestions[currentQuestion];
+        const isCurrentCat = catQs.includes(currentQIdx);
+        btn.classList.toggle('active', isCurrentCat);
+    });
+}
+
+function jumpToCategory(catIdx) {
+    const cat = CATEGORIES[catIdx];
+    const catQs = categoryQuestions[cat.id] || [];
+    if (catQs.length === 0) return;
+    
+    // Find first question of this category in selected questions
+    const firstQIdx = catQs[0];
+    const selIdx = selectedQuestions.indexOf(firstQIdx);
+    if (selIdx !== -1) {
+        currentQuestion = selIdx;
+        renderQuestion();
+        window.scrollTo(0, 0);
     }
 }
 
-# =============================================
-# CATEGORIES
-# =============================================
+function getCategoryForQuestion(qIdx) {
+    for (const cat of CATEGORIES) {
+        if (cat.questions.includes(qIdx)) return cat;
+    }
+    return CATEGORIES[0];
+}
 
-CATEGORIES = [
-    {"id": "scripture", "name": "Scripture & Hermeneutics", "shortName": "Scripture", "icon": "📖"},
-    {"id": "grace", "name": "Grace & Predestination", "shortName": "Grace", "icon": "✨"},
-    {"id": "metaphysics", "name": "Metaphysics & Philosophy", "shortName": "Metaphysics", "icon": "🔮"},
-    {"id": "orders", "name": "Religious Orders", "shortName": "Orders", "icon": "🕯️"},
-    {"id": "sacraments", "name": "Sacramental Theology", "shortName": "Sacraments", "icon": "🍷"},
-    {"id": "ecclesiology", "name": "Ecclesiology & Authority", "shortName": "Ecclesiology", "icon": "⛪"},
-    {"id": "moral", "name": "Moral Theology", "shortName": "Moral", "icon": "⚖️"},
-    {"id": "political", "name": "Political & Social", "shortName": "Political", "icon": "🏛️"},
-    {"id": "christology", "name": "Christology & Soteriology", "shortName": "Christology", "icon": "✝️"},
-    {"id": "contemporary", "name": "Contemporary Debates", "shortName": "Contemporary", "icon": "📰"},
-]
+// =============================================
+// QUESTION NAVIGATION
+// =============================================
 
-# =============================================
-# UTILITY FUNCTIONS
-# =============================================
+function buildQuestionNav() {
+    const nav = document.getElementById('question-nav');
+    nav.innerHTML = '';
+    for (let i = 0; i < selectedQuestions.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'q-dot';
+        dot.textContent = i + 1;
+        dot.onclick = () => jumpToQuestion(i);
+        nav.appendChild(dot);
+    }
+    updateQuestionNav();
+}
 
-def extract_questions_from_html(html_path):
-    """Extract QUESTIONS array from existing HTML file."""
-    with open(html_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+function updateQuestionNav() {
+    const dots = document.querySelectorAll('.q-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.remove('answered', 'current');
+        if (answers[i] !== null) dot.classList.add('answered');
+        if (i === currentQuestion) dot.classList.add('current');
+    });
+    updateCategoryNav();
+}
+
+// =============================================
+// QUESTION RENDERING
+// =============================================
+
+function renderQuestion() {
+    const qIndex = selectedQuestions[currentQuestion];
+    const q = QUESTIONS[qIndex];
+    const cat = getCategoryForQuestion(qIndex);
     
-    match = re.search(r'const QUESTIONS = (\[[\s\S]*?\]);[\s\n]*(?:const|//)', content)
-    if match:
-        return match.group(1)
-    return None
-
-def extract_schools_from_html(html_path):
-    """Extract SCHOOLS array from existing HTML file."""
-    with open(html_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+    // Update progress
+    document.getElementById('progress-text').textContent = `Question ${currentQuestion + 1} of ${selectedQuestions.length}`;
+    const answeredCount = answers.filter(a => a !== null).length;
+    document.getElementById('answered-count').textContent = `Answered: ${answeredCount} / ${selectedQuestions.length}`;
+    document.getElementById('progress-fill').style.width = `${(answeredCount / selectedQuestions.length) * 100}%`;
     
-    match = re.search(r'const SCHOOLS = (\[[\s\S]*?\]);', content)
-    if match:
-        return match.group(1)
-    return None
-
-def generate_js_school_figures():
-    """Generate JavaScript object for SCHOOL_FIGURES."""
-    lines = ["const SCHOOL_FIGURES = {"]
-    for code, data in SCHOOL_FIGURES.items():
-        lines.append(f'    "{code}": {{ figure: "{data["figure"]}", era: "{data["era"]}", bio: "{data["bio"]}", works: "{data["works"]}" }},')
-    lines.append("};")
-    return "\n".join(lines)
-
-def generate_js_heterodoxy():
-    """Generate JavaScript object for HETERODOXY_STATUS."""
-    lines = ["const HETERODOXY_STATUS = {"]
-    for code, data in HETERODOXY_STATUS.items():
-        lines.append(f'    "{code}": {{')
-        lines.append(f'        level: "{data["level"]}",')
-        lines.append(f'        title: "{data["title"]}",')
-        lines.append(f'        warning: "{data["warning"]}",')
-        lines.append(f'        documents: "{data["documents"]}",')
-        lines.append(f'        guidance: "{data["guidance"]}"')
-        lines.append('    },')
-    lines.append("};")
-    return "\n".join(lines)
-
-def generate_js_question_topics():
-    """Generate JavaScript object for QUESTION_TOPICS."""
-    lines = ["const QUESTION_TOPICS = {"]
-    for key, data in QUESTION_TOPICS.items():
-        if key == "default":
-            lines.append(f'    default: {{')
-        else:
-            lines.append(f'    {key}: {{')
-        lines.append(f'        topic: "{data["topic"]}",')
-        lines.append(f'        description: "{data["description"]}",')
-        lines.append(f'        reading: "{data["reading"]}",')
-        lines.append(f'        geminiPrompt: "{data["geminiPrompt"]}"')
-        lines.append('    },')
-    lines.append("};")
-    return "\n".join(lines)
-
-def add_theological_indicators(content):
-    """Add parenthetical theological position indicators to answer options."""
+    // Roman numerals
+    const romanNumerals = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI','XXII','XXIII','XXIV','XXV','XXVI','XXVII','XXVIII','XXIX','XXX','XXXI','XXXII','XXXIII','XXXIV','XXXV','XXXVI','XXXVII','XXXVIII','XXXIX','XL','XLI','XLII','XLIII','XLIV','XLV','XLVI','XLVII','XLVIII','XLIX','L','LI','LII','LIII','LIV','LV','LVI','LVII','LVIII','LIX','LX','LXI','LXII','LXIII','LXIV','LXV','LXVI','LXVII','LXVIII','LXIX','LXX','LXXI','LXXII','LXXIII','LXXIV','LXXV','LXXVI','LXXVII','LXXVIII','LXXIX','LXXX','LXXXI','LXXXII','LXXXIII','LXXXIV','LXXXV','LXXXVI','LXXXVII','LXXXVIII','LXXXIX','XC','XCI','XCII','XCIII','XCIV','XCV','XCVI','XCVII','XCVIII','XCIX','C','CI','CII','CIII','CIV','CV','CVI','CVII','CVIII','CIX','CX','CXI','CXII','CXIII','CXIV','CXV','CXVI','CXVII','CXVIII','CXIX','CXX','CXXI','CXXII','CXXIII','CXXIV','CXXV','CXXVI','CXXVII'];
     
-    INDICATORS = {
-        "AUG": "Augustinian", "AUGP": "Strict Augustinian", "JANS": "Jansenist",
-        "THOM": "Thomist", "BANEZ": "Bañezian", "MOL": "Molinist",
-        "REFORM": "Reformed/Calvinist", "LUTHERAN": "Lutheran", 
-        "ANGLICAN": "Anglican", "METHOD": "Methodist",
-        "EORTHO": "Eastern Orthodox", "COPTIC": "Coptic Orthodox",
-        "ORIENTAL": "Oriental Orthodox", "PALAM": "Palamite/Eastern",
-        "ULTRA": "Ultramontane", "TRAD": "Traditionalist", "PROG": "Progressive",
-        "RESS": "Ressourcement", "STD": "Mainstream",
+    document.getElementById('question-number').textContent = `Question ${romanNumerals[currentQuestion] || currentQuestion + 1}`;
+    document.getElementById('question-category-tag').textContent = `${cat.icon} ${cat.shortName}`;
+    document.getElementById('question-text').textContent = q.text;
+    
+    // Options
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    q.options.forEach((opt, i) => {
+        const option = document.createElement('label');
+        option.className = 'option' + (answers[currentQuestion] === i ? ' selected' : '');
+        option.innerHTML = `<input type="radio" name="answer" value="${i}"><div class="option-radio"></div><span class="option-text">${opt[0]}</span>`;
+        option.onclick = () => selectOption(i);
+        optionsDiv.appendChild(option);
+    });
+    
+    // Citations
+    renderCitations(qIndex);
+    
+    // Navigation buttons
+    document.getElementById('prev-btn').disabled = currentQuestion === 0;
+    const nextBtn = document.getElementById('next-btn');
+    const resultsBtn = document.getElementById('results-btn');
+    if (currentQuestion === selectedQuestions.length - 1) {
+        nextBtn.classList.add('hidden');
+        resultsBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        resultsBtn.classList.add('hidden');
     }
     
-    def get_top_schools(scores_str):
-        pairs = re.findall(r'"(\w+)":\s*(-?\d+)', scores_str)
-        scores = {k: int(v) for k, v in pairs if int(v) > 0}
-        if not scores:
-            return []
-        sorted_schools = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-        top_score = sorted_schools[0][1]
-        return [code for code, score in sorted_schools[:2] if score >= top_score - 1 and score >= 2]
+    updateQuestionNav();
     
-    def add_indicator(match):
-        text = match.group(1)
-        scores = match.group(2)
-        
-        if re.search(r'\([A-Z][a-z]+', text):
-            return match.group(0)
-        
-        top = get_top_schools(scores)
-        if not top:
-            return match.group(0)
-        
-        labels = [INDICATORS.get(code, code) for code in top]
-        indicator = " (" + ", ".join(labels) + ")"
-        return f'["{text.rstrip()}{indicator}", {{{scores}}}]'
-    
-    pattern = r'\["([^"]+)",\s*\{([^}]+)\}\]'
-    return re.sub(pattern, add_indicator, content)
+    // Close citation panel on new question
+    document.getElementById('citation-toggle').classList.remove('open');
+    document.getElementById('citation-content').classList.remove('open');
+}
 
-# =============================================
-# MAIN
-# =============================================
-
-def main():
-    parser = argparse.ArgumentParser(description='Catholic Theology Quiz Build Tool')
-    parser.add_argument('--extract', action='store_true', help='Extract data from existing HTML')
-    parser.add_argument('--build', action='store_true', help='Build new HTML from Python data')
-    parser.add_argument('--annotate', action='store_true', help='Add theological indicators to options')
-    parser.add_argument('--generate-js', action='store_true', help='Generate JS data structures')
-    parser.add_argument('--input', type=str, default='index.html', help='Input HTML file')
-    parser.add_argument('--output', type=str, default='index.html', help='Output HTML file')
+function renderCitations(qIndex) {
+    const citations = getCitationsForQuestion(qIndex);
+    const topic = getQuestionTopic(qIndex);
+    const list = document.getElementById('citation-list');
+    list.innerHTML = '';
     
-    args = parser.parse_args()
+    // Add topic section at the top
+    const topicSection = document.createElement('div');
+    topicSection.className = 'topic-section';
+    topicSection.innerHTML = `
+        <div class="topic-header">📚 ${topic.topic}</div>
+        <div class="topic-description">${topic.description}</div>
+        <div class="topic-reading"><strong>Further Reading:</strong> ${topic.reading}</div>
+        <div class="gemini-prompt-section">
+            <div class="gemini-label">🤖 Gemini/AI Prompt (click to copy):</div>
+            <div class="gemini-prompt" onclick="copyGeminiPrompt(this)">${topic.geminiPrompt}</div>
+        </div>
+    `;
+    list.appendChild(topicSection);
     
-    if args.extract:
-        print(f"Extracting from {args.input}...")
-        questions = extract_questions_from_html(args.input)
-        schools = extract_schools_from_html(args.input)
-        print(f"Found {len(SCHOOLS)} schools defined")
+    // Add citations
+    if (citations.length > 0) {
+        const citationHeader = document.createElement('div');
+        citationHeader.className = 'citation-header';
+        citationHeader.innerHTML = '<strong>📖 Sources & Citations:</strong>';
+        list.appendChild(citationHeader);
         
-    elif args.annotate:
-        print(f"Adding theological indicators to {args.input}...")
-        with open(args.input, 'r', encoding='utf-8') as f:
-            content = f.read()
-        content = add_theological_indicators(content)
-        with open(args.output, 'w', encoding='utf-8') as f:
-            f.write(content)
-        print(f"Saved to {args.output}")
-        
-    elif args.generate_js:
-        print("Generating JavaScript data structures...")
-        print("\n" + "="*60)
-        print("SCHOOL_FIGURES:")
-        print("="*60)
-        print(generate_js_school_figures())
-        print("\n" + "="*60)
-        print("HETERODOXY_STATUS:")
-        print("="*60)
-        print(generate_js_heterodoxy())
-        print("\n" + "="*60)
-        print("QUESTION_TOPICS:")
-        print("="*60)
-        print(generate_js_question_topics())
-        
-    else:
-        print("Catholic Theology Quiz Build Tool (Enhanced)")
-        print("Usage:")
-        print("  --extract     : Extract data from existing HTML")
-        print("  --annotate    : Add theological position indicators")
-        print("  --generate-js : Generate JS data structures for copy/paste")
-        print("  --build       : Build HTML from Python data (not yet implemented)")
+        citations.forEach(cite => {
+            const li = document.createElement('li');
+            let text = `<strong>${cite.title}</strong>`;
+            if (cite.author) text += ` — ${cite.author}`;
+            if (cite.year) text += ` (${cite.year})`;
+            if (cite.note) text += `<br><em style="font-size: 0.8rem; opacity: 0.8;">${cite.note}</em>`;
+            li.innerHTML = text;
+            list.appendChild(li);
+        });
+    }
+}
 
-if __name__ == "__main__":
-    main()
+function copyGeminiPrompt(element) {
+    const text = element.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const original = element.innerHTML;
+        element.innerHTML = '✓ Copied to clipboard!';
+        element.style.background = 'rgba(40, 167, 69, 0.3)';
+        setTimeout(() => {
+            element.innerHTML = original;
+            element.style.background = '';
+        }, 1500);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+}
+
+function toggleCitation() {
+    const toggle = document.getElementById('citation-toggle');
+    const content = document.getElementById('citation-content');
+    toggle.classList.toggle('open');
+    content.classList.toggle('open');
+}
+
+// =============================================
+// ANSWER SELECTION
+// =============================================
+
+function selectOption(index) {
+    answers[currentQuestion] = index;
+    document.querySelectorAll('.option').forEach((opt, i) => opt.classList.toggle('selected', i === index));
+    updateQuestionNav();
+    const answeredCount = answers.filter(a => a !== null).length;
+    document.getElementById('answered-count').textContent = `Answered: ${answeredCount} / ${selectedQuestions.length}`;
+    document.getElementById('progress-fill').style.width = `${(answeredCount / selectedQuestions.length) * 100}%`;
+}
+
+function nextQuestion() {
+    if (answers[currentQuestion] === null) {
+        alert('Please select an answer.');
+        return;
+    }
+    if (currentQuestion < selectedQuestions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+        window.scrollTo(0, 0);
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+        window.scrollTo(0, 0);
+    }
+}
+
+function jumpToQuestion(index) {
+    currentQuestion = index;
+    renderQuestion();
+    window.scrollTo(0, 0);
+}
+
+// =============================================
+// SCORING AND RESULTS
+// =============================================
+
+// Track how many questions the user answered that contributed to each school
+let matchCounts = {};
+
+function calculateScores() {
+    initScores();
+    // Reset match counts
+    matchCounts = {};
+    Object.keys(scores).forEach(code => matchCounts[code] = 0);
+    
+    answers.forEach((ans, i) => {
+        if (ans === null) return;
+        const qIndex = selectedQuestions[i];
+        const q = QUESTIONS[qIndex];
+        const weights = q.options[ans][1];
+        Object.entries(weights).forEach(([code, w]) => {
+            if (scores.hasOwnProperty(code)) {
+                scores[code] += w;
+                matchCounts[code]++;  // Count this as a match for this school
+            }
+        });
+        Object.entries(q.axis_weights || {}).forEach(([ax, w]) => {
+            if (axisScores.hasOwnProperty(ax)) axisScores[ax] += w;
+        });
+    });
+}
+
+// Hybrid scoring formula: 65% percentage of max + 35% match rate
+// Returns a score from 0-100
+function calculateHybridScore(code) {
+    const rawScore = scores[code] || 0;
+    const maxPossible = MAX_POSSIBLE_SCORES[code] || 1;
+    const questionCount = SCHOOL_QUESTION_COUNTS[code] || 1;
+    const matches = matchCounts[code] || 0;
+    
+    const pctOfMax = rawScore / maxPossible;
+    const matchRate = matches / questionCount;
+    
+    // Weighted average: 65% raw percentage, 35% match rate
+    return (0.65 * pctOfMax + 0.35 * matchRate) * 100;
+}
+
+function showResults() {
+    const answeredCount = answers.filter(a => a !== null).length;
+    if (answeredCount < selectedQuestions.length / 2) {
+        if (!confirm(`You've only answered ${answeredCount} of ${selectedQuestions.length} questions. Show results anyway?`)) return;
+    }
+    calculateScores();
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('results-screen').style.display = 'block';
+    renderTopMatch();
+    renderRankings();
+    renderAxes();
+    window.scrollTo(0, 0);
+}
+
+function renderTopMatch() {
+    const ranked = Object.entries(scores)
+        .filter(([code, score]) => (SCHOOL_QUESTION_COUNTS[code] || 0) >= MIN_QUESTIONS_THRESHOLD)
+        .sort((a, b) => {
+            // Sort by hybrid score
+            const hybridA = calculateHybridScore(a[0]);
+            const hybridB = calculateHybridScore(b[0]);
+            return hybridB - hybridA;
+        });
+    const [topCode, topScore] = ranked[0];
+    const maxPossible = MAX_POSSIBLE_SCORES[topCode] || topScore;
+    const questionCount = SCHOOL_QUESTION_COUNTS[topCode] || 0;
+    const matches = matchCounts[topCode] || 0;
+    const hybridScore = calculateHybridScore(topCode);
+    const pctOfMax = Math.round((topScore / maxPossible) * 100);
+    const matchRate = Math.round((matches / questionCount) * 100);
+    const name = SCHOOL_NAME[topCode] || topCode;
+    const desc = SCHOOL_DESC[topCode] || {};
+    const figureData = SCHOOL_FIGURES[topCode] || {};
+    const heterodoxy = HETERODOXY_STATUS[topCode];
+    
+    // Build figure section with enhanced data
+    let figureHTML = '';
+    if (figureData.figure) {
+        figureHTML = `
+            <div class="figure-section">
+                <div class="figure-label">Representative Figure</div>
+                <div class="figure-name">${figureData.figure}</div>
+                <div class="figure-era">${figureData.era}</div>
+                <div class="figure-bio">${figureData.bio}</div>
+                <div class="figure-works"><strong>Key Works:</strong> ${figureData.works}</div>
+            </div>
+        `;
+    }
+    
+    // Build heterodoxy warning if applicable
+    let heterodoxyHTML = '';
+    if (heterodoxy) {
+        const levelClass = heterodoxy.level === 'condemned' || heterodoxy.level === 'schismatic' ? 'severe' : 
+                          heterodoxy.level === 'problematic' || heterodoxy.level === 'irregular' ? 'moderate' : 
+                          heterodoxy.level === 'non-catholic' ? 'non-catholic' : 'caution';
+        heterodoxyHTML = `
+            <div class="heterodoxy-warning ${levelClass}">
+                <div class="heterodoxy-title">${heterodoxy.title}</div>
+                <div class="heterodoxy-text">${heterodoxy.warning}</div>
+                <div class="heterodoxy-docs"><strong>Relevant Documents:</strong> ${heterodoxy.documents}</div>
+                <div class="heterodoxy-guidance"><strong>Guidance:</strong> ${heterodoxy.guidance}</div>
+            </div>
+        `;
+    }
+    
+    const affirmationsHTML = (desc.affirmations || []).map(a => `<span class="affirmation-tag">${a}</span>`).join('');
+    
+    document.getElementById('top-match').innerHTML = `
+        <div class="top-match-label">Your Top Match</div>
+        <div class="top-match-name">${name}</div>
+        <div class="top-match-score">${hybridScore.toFixed(1)}% affinity · ${pctOfMax}% of max pts · ${matchRate}% match rate (${matches}/${questionCount} Qs)</div>
+        ${heterodoxyHTML}
+        <div class="top-match-summary">${desc.summary || ''}</div>
+        <div class="top-match-affirmations">${affirmationsHTML}</div>
+        ${figureHTML}
+    `;
+}
+
+function renderRankings() {
+    // Sort by hybrid score (65% pct of max + 35% match rate)
+    // Filter out schools with fewer than MIN_QUESTIONS_THRESHOLD questions
+    const ranked = Object.entries(scores)
+        .filter(([code, score]) => (SCHOOL_QUESTION_COUNTS[code] || 0) >= MIN_QUESTIONS_THRESHOLD)
+        .sort((a, b) => {
+            const hybridA = calculateHybridScore(a[0]);
+            const hybridB = calculateHybridScore(b[0]);
+            return hybridB - hybridA;
+        });
+    const tbody = document.getElementById('rankings-body');
+    tbody.innerHTML = '';
+    ranked.slice(0, 20).forEach(([code, score], i) => {
+        const maxPossible = MAX_POSSIBLE_SCORES[code] || score || 1;
+        const questionCount = SCHOOL_QUESTION_COUNTS[code] || 0;
+        const matches = matchCounts[code] || 0;
+        const hybridScore = calculateHybridScore(code);
+        const pctOfMax = Math.round((score / maxPossible) * 100);
+        const matchRate = Math.round((matches / questionCount) * 100);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td class="rank-num ${i < 3 ? 'top-3' : ''}">${i + 1}</td>
+            <td class="school-name">${SCHOOL_NAME[code] || code}<span class="question-count">(${matches}/${questionCount} Qs)</span></td>
+            <td class="score-bar-container">
+                <div class="score-bar"><div class="score-bar-fill" style="width: ${hybridScore}%"></div></div>
+                <div class="score-value">${hybridScore.toFixed(1)}% (${pctOfMax}% pts, ${matchRate}% match)</div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function renderAxes() {
+    const container = document.getElementById('axes-content');
+    container.innerHTML = '';
+    AXES.forEach(([code, name]) => {
+        const score = axisScores[code] || 0;
+        const mult = AXIS_MULTIPLIER[code] || 3;
+        const [lo, hi] = AXIS_ENDPOINTS[code] || ['Low', 'High'];
+        const normalized = Math.max(0, Math.min(100, 50 + score * mult));
+        const row = document.createElement('div');
+        row.className = 'axis-row';
+        row.innerHTML = `
+            <div class="axis-header">
+                <span class="axis-name">${name}</span>
+                <span class="axis-score">(${score >= 0 ? '+' : ''}${score})</span>
+            </div>
+            <div class="axis-bar">
+                <div class="axis-labels"><span>${lo}</span><span>${hi}</span></div>
+                <div class="axis-marker" style="left: calc(${normalized}% - 9px)"></div>
+            </div>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function showTab(tabName, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabName + '-tab').classList.add('active');
+}
+
+function retakeQuiz() {
+    document.getElementById('results-screen').style.display = 'none';
+    document.getElementById('start-screen').classList.remove('hidden');
+    window.scrollTo(0, 0);
+}
+
+// =============================================
+// AI HELPER FUNCTIONS
+// =============================================
+
+function toggleAI() {
+    const panel = document.getElementById('ai-panel');
+    const quizPanel = document.getElementById('quiz-panel');
+    const toggle = document.getElementById('ai-toggle');
+    
+    panel.classList.toggle('open');
+    quizPanel.classList.toggle('with-ai');
+    toggle.classList.toggle('hidden', panel.classList.contains('open'));
+}
+
+function closeAI() {
+    const panel = document.getElementById('ai-panel');
+    const quizPanel = document.getElementById('quiz-panel');
+    const toggle = document.getElementById('ai-toggle');
+    
+    panel.classList.remove('open');
+    quizPanel.classList.remove('with-ai');
+    toggle.classList.remove('hidden');
+}
+
+function handleAIKeydown(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendAIMessage();
+    }
+}
+
+function askAIToExplain() {
+    const qIndex = selectedQuestions[currentQuestion];
+    const q = QUESTIONS[qIndex];
+    const cat = getCategoryForQuestion(qIndex);
+    
+    // Open AI panel if not open
+    const panel = document.getElementById('ai-panel');
+    if (!panel.classList.contains('open')) {
+        toggleAI();
+    }
+    
+    // Send automatic explanation request
+    const message = `Please explain this question in simpler terms: "${q.text}" 
+
+This question is about ${cat.name}. Help me understand the theological concepts and what each option means.`;
+    
+    document.getElementById('ai-input').value = message;
+    sendAIMessage();
+}
+
+// =============================================
+// AI HELPER - Local LLM (Ollama / LM Studio / llama.cpp)
+// =============================================
+
+const PROVIDER_DEFAULTS = {
+    ollama:   { endpoint: 'http://localhost:11434', model: 'llama3.2' },
+    lmstudio: { endpoint: 'http://localhost:1234',  model: 'default' },
+    llamacpp: { endpoint: 'http://localhost:8080',  model: 'default' },
+    custom:   { endpoint: 'http://localhost:8000',  model: 'default' }
+};
+
+// Load saved settings or use defaults
+function loadAISettings() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('catholicQuizAI') || '{}');
+        return {
+            provider: saved.provider || 'ollama',
+            endpoint: saved.endpoint || PROVIDER_DEFAULTS.ollama.endpoint,
+            model:    saved.model    || PROVIDER_DEFAULTS.ollama.model
+        };
+    } catch { return { provider: 'ollama', ...PROVIDER_DEFAULTS.ollama }; }
+}
+
+function saveAISettings() {
+    const settings = {
+        provider: document.getElementById('ai-provider').value,
+        endpoint: document.getElementById('ai-endpoint').value.replace(/\/+$/, ''),
+        model:    document.getElementById('ai-model').value
+    };
+    localStorage.setItem('catholicQuizAI', JSON.stringify(settings));
+    return settings;
+}
+
+function onProviderChange() {
+    const provider = document.getElementById('ai-provider').value;
+    const defaults = PROVIDER_DEFAULTS[provider];
+    document.getElementById('ai-endpoint').value = defaults.endpoint;
+    document.getElementById('ai-model').value = defaults.model;
+    saveAISettings();
+}
+
+function toggleAISettings() {
+    document.getElementById('ai-settings').classList.toggle('open');
+}
+
+// Build the correct API URL and request body per provider
+function buildAPIRequest(provider, endpoint, model, messages) {
+    if (provider === 'ollama') {
+        return {
+            url: `${endpoint}/api/chat`,
+            body: {
+                model: model,
+                messages: messages,
+                stream: false,
+                options: { temperature: 0.7, num_predict: 1000 }
+            },
+            extractResponse: (data) => data.message?.content
+        };
+    }
+    // LM Studio, llama.cpp, and custom all use OpenAI-compatible format
+    return {
+        url: `${endpoint}/v1/chat/completions`,
+        body: {
+            model: model,
+            messages: messages,
+            temperature: 0.7,
+            max_tokens: 1000,
+            stream: false
+        },
+        extractResponse: (data) => data.choices?.[0]?.message?.content
+    };
+}
+
+async function fetchModels() {
+    const settings = saveAISettings();
+    const listDiv = document.getElementById('ai-model-list');
+    listDiv.innerHTML = '<div class="ai-model-option" style="opacity:0.5;">Fetching…</div>';
+    listDiv.classList.add('open');
+
+    try {
+        let models = [];
+        if (settings.provider === 'ollama') {
+            const res = await fetch(`${settings.endpoint}/api/tags`);
+            const data = await res.json();
+            models = (data.models || []).map(m => m.name);
+        } else {
+            const res = await fetch(`${settings.endpoint}/v1/models`);
+            const data = await res.json();
+            models = (data.data || []).map(m => m.id);
+        }
+
+        if (models.length === 0) {
+            listDiv.innerHTML = '<div class="ai-model-option" style="opacity:0.5;">No models found</div>';
+            return;
+        }
+        listDiv.innerHTML = models.map(m =>
+            `<div class="ai-model-option" onclick="selectModel('${m}')">${m}</div>`
+        ).join('');
+    } catch (err) {
+        listDiv.innerHTML = `<div class="ai-model-option" style="color:#ff6b6b;">Connection failed</div>`;
+    }
+}
+
+function selectModel(name) {
+    document.getElementById('ai-model').value = name;
+    document.getElementById('ai-model-list').classList.remove('open');
+    saveAISettings();
+}
+
+async function testConnection() {
+    const settings = saveAISettings();
+    const statusEl = document.getElementById('ai-test-status');
+    statusEl.className = 'ai-test-status loading';
+    statusEl.textContent = 'Testing…';
+
+    try {
+        let testURL;
+        if (settings.provider === 'ollama') {
+            testURL = `${settings.endpoint}/api/tags`;
+        } else {
+            testURL = `${settings.endpoint}/v1/models`;
+        }
+        const res = await fetch(testURL, { signal: AbortSignal.timeout(5000) });
+        if (res.ok) {
+            statusEl.className = 'ai-test-status success';
+            statusEl.textContent = '✓ Connected';
+        } else {
+            throw new Error(`HTTP ${res.status}`);
+        }
+    } catch (err) {
+        statusEl.className = 'ai-test-status error';
+        statusEl.textContent = `✗ ${err.message || 'Failed'}`;
+    }
+}
+
+async function sendAIMessage() {
+    const input = document.getElementById('ai-input');
+    const message = input.value.trim();
+    if (!message) return;
+    
+    const sendBtn = document.getElementById('ai-send');
+    sendBtn.disabled = true;
+    input.value = '';
+    
+    // Add user message
+    addAIMessage(message, 'user');
+    
+    // Show typing indicator
+    const messagesDiv = document.getElementById('ai-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'ai-typing';
+    typingDiv.innerHTML = 'Thinking<div class="dots"><span></span><span></span><span></span></div>';
+    messagesDiv.appendChild(typingDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    // Get current question context
+    const qIndex = selectedQuestions[currentQuestion];
+    const q = QUESTIONS[qIndex];
+    const cat = getCategoryForQuestion(qIndex);
+    
+    const systemPrompt = `You are a Catholic theological guide helping someone understand complex theological concepts while taking a quiz about Catholic schools of thought. 
+
+Current question being asked in the quiz:
+"${q.text}"
+
+Category: ${cat.name}
+
+Options:
+${q.options.map((opt, i) => `${i + 1}. ${opt[0]}`).join('\n')}
+
+Be helpful, educational, and explain theological concepts in accessible language. If asked to explain the question, break down the theological terms and what each option represents. Do NOT tell the user which answer to pick - help them understand the concepts so they can decide for themselves based on their own beliefs.
+
+Keep responses concise (2-3 paragraphs max) but informative.`;
+
+    // Build messages array with conversation history
+    const messages = [
+        { role: 'system', content: systemPrompt },
+        ...aiMessages.slice(-8),
+        { role: 'user', content: message }
+    ];
+
+    const settings = loadAISettings();
+
+    try {
+        const { url, body, extractResponse } = buildAPIRequest(
+            settings.provider, settings.endpoint, settings.model, messages
+        );
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        
+        typingDiv.remove();
+        
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            console.error('Local AI error:', errData);
+            throw new Error(errData.error?.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const aiResponse = extractResponse(data);
+        
+        if (aiResponse) {
+            addAIMessage(aiResponse, 'assistant');
+            aiMessages.push({ role: 'user', content: message });
+            aiMessages.push({ role: 'assistant', content: aiResponse });
+            
+            // Keep conversation history manageable
+            if (aiMessages.length > 10) {
+                aiMessages = aiMessages.slice(-10);
+            }
+        } else {
+            console.error('Unexpected response:', data);
+            addAIMessage('The model returned an empty response. Try rephrasing your question or check your model settings.', 'system');
+        }
+    } catch (error) {
+        if (typingDiv.parentNode) typingDiv.remove();
+        console.error('AI Helper error:', error);
+
+        const isConnectionError = error.message?.includes('Failed to fetch') || error.message?.includes('NetworkError');
+        if (isConnectionError) {
+            addAIMessage(
+                `Unable to connect to ${settings.provider} at ${settings.endpoint}. ` +
+                `Make sure your local AI server is running.\n\n` +
+                `Quick start:\n` +
+                `• Ollama: install from ollama.com, then run "ollama run ${settings.model}"\n` +
+                `• LM Studio: download from lmstudio.ai, load a model, start the server\n\n` +
+                `Click ⚙ above to configure your connection.`,
+                'system'
+            );
+        } else {
+            addAIMessage(`Error: ${error.message}. Check ⚙ settings or try a different model.`, 'system');
+        }
+    }
+    
+    sendBtn.disabled = false;
+}
+
+function addAIMessage(content, role) {
+    const messagesDiv = document.getElementById('ai-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ${role}`;
+    messageDiv.textContent = content;
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Restore saved AI settings on load
+function initAISettings() {
+    const settings = loadAISettings();
+    document.getElementById('ai-provider').value = settings.provider;
+    document.getElementById('ai-endpoint').value = settings.endpoint;
+    document.getElementById('ai-model').value = settings.model;
+}
+
+// =============================================
+// INITIALIZATION
+// =============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    initScores();
+    setQuizLength(146);
+    initAISettings();
+});
+    </script>
+</body>
+</html>
