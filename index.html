@@ -509,6 +509,20 @@
             .cat-btn { font-size: 0.6rem; padding: 0.35rem 0.5rem; }
             .ai-toggle { width: 50px; height: 50px; font-size: 1.2rem; bottom: 1rem; right: 1rem; }
         }
+    
+        /* Screen Reader Only - Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -721,7 +735,7 @@ const SCHOOLS = [
     ["CSC", "Holy Cross"],
     ["OSBCAM", "Camaldolese"],
     ["NEOPLAT", "Neo-Platonist"],
-    ["THOMMETA", "Thomist Realism"],
+    ["THOMMETA", "Thomist (Realist)"],
     ["SCOTMETA", "Scotist (univocity)"],
     ["NOMIN", "Nominalist-leaning"],
     ["VOLUNT", "Voluntarist"],
@@ -785,7 +799,7 @@ const SCHOOLS = [
     ["COMMUN", "Communio School"],
     ["RADORTH", "Radical Orthodoxy"],
     ["TRADUM", "Traditionis Custodes Compliant"],
-    ["REFORM", "Reformed/Calvinist"],
+    ["REFORM", "Reformed"],
     ["LUTHERAN", "Lutheran"],
     ["ANGLICAN", "Anglican"],
     ["METHOD", "Methodist"],
@@ -844,8 +858,8 @@ const SCHOOL_QUESTION_COUNTS = {
 const MIN_QUESTIONS_THRESHOLD = 5;
 
 const SCHOOL_DESC = {
-    "AUG": {"summary": "Emphasizes the depth of human fallenness and the absolute necessity of divine grace for any salvific good.", "affirmations": ["Grace precedes all merit", "Original sin profoundly wounds nature", "God's will grounds predestination"]},
-    "AUGP": {"summary": "Stricter Augustine: irresistible grace, massa damnata, double predestination in softer form.", "affirmations": ["Efficacious grace infallibly achieves its effect", "The reprobate are justly passed over"]},
+    "AUG": {"summary": "Emphasizes the depth of human fallenness and the absolute necessity of divine grace for any salvific good.", "affirmations": ["Grace precedes merit", "Nature profoundly wounded", "Will grounds predestination"]},
+    "AUGP": {"summary": "Stricter Augustine: irresistible grace, massa damnata, double predestination in softer form.", "affirmations": ["Grace infallibly efficacious", "Reprobate justly passed over"]},
     "NEOAUG": {"summary": "Ressourcement retrieval of Augustine: participatory ontology, Christocentric grace, liturgical renewal.", "affirmations": ["Christ is the concrete universal", "Grace as participation in divine life"]},
     "SEMIAUG": {"summary": "Moderate Augustinianism: depth of Fall and priority of grace with room for human cooperation.", "affirmations": ["Grace is necessary but human response matters", "Balance of sovereignty and agency"]},
     "JANS": {"summary": "Jansenist (Pascal, Arnauld): strict Augustinian within Trent; efficacious grace, moral rigorism, infrequent communion, anti-Molinist.", "affirmations": ["Efficacious grace alone saves", "Infused righteousness (per Trent)", "Few are saved", "Worthy communion is rare", "Tutiorist moral approach"]},
@@ -942,7 +956,7 @@ const SCHOOL_DESC = {
     "COMMUN": {"summary": "Communio school: Balthasar, Ratzinger, de Lubac; ecclesiology of communion, Christocentric focus.", "affirmations": ["Church is communion of persons", "Christocentrism integrates all theology", "Ressourcement and aggiornamento balance"]},
     "RADORTH": {"summary": "Radical Orthodoxy (Milbank, Pickstock); critique of secular modernity, participatory ontology.", "affirmations": ["Secular reason is heretical", "All truth participates in divine truth", "Modernity must be narrated theologically"]},
     "TRADUM": {"summary": "Traditional preferences within Traditionis Custodes restrictions; obedient but grieving; hopes for restoration.", "affirmations": ["Obedience to Pope even when painful", "TLM will eventually be freed", "Work within system for reform"]},
-    "REFORM": {"summary": "Reformed/Calvinist: TULIP soteriology, covenant theology, sola fide/sola scriptura, Westminster standards.", "affirmations": ["Total depravity", "Unconditional election", "Limited atonement", "Irresistible grace", "Perseverance of saints", "Forensic justification"]},
+    "REFORM": {"summary": "Reformed: TULIP soteriology, covenant theology, sola fide/sola scriptura, Westminster standards.", "affirmations": ["Total depravity", "Unconditional election", "Limited atonement", "Irresistible grace", "Perseverance of saints", "Forensic justification"]},
     "LUTHERAN": {"summary": "Lutheran: Law-Gospel distinction, forensic justification, sacramental realism, two kingdoms, Book of Concord.", "affirmations": ["Justification by faith alone", "Simul iustus et peccator", "Real presence (sacramental union)", "Law-Gospel hermeneutic"]},
     "ANGLICAN": {"summary": "Anglican: Via media, Prayer Book tradition, episcopal polity, Reformed Catholic synthesis, comprehensiveness.", "affirmations": ["Scripture, tradition, reason", "Episcopal apostolic succession", "Real presence (various views)", "Justification by faith (Article XI)"]},
     "METHOD": {"summary": "Methodist/Wesleyan: Prevenient grace, entire sanctification, Arminian soteriology, holiness emphasis, quadrilateral.", "affirmations": ["Universal prevenient grace", "Free will restored by grace", "Entire sanctification possible", "Works of piety and mercy"]},
@@ -953,7 +967,7 @@ const SCHOOL_DESC = {
 
 // Public figures and descriptions for each school
 const SCHOOL_FIGURES = {
-    "AUG": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop of Hippo and Doctor of Grace whose writings on original sin, predestination, and divine grace shaped Western theology.", works: "Confessions, City of God, On Grace and Free Will" },
+    "AUG": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.", works: "Confessions, City of God, On Grace and Free Will" },
     "AUGP": { figure: "Prosper of Aquitaine", era: "c. 390–455", bio: "Lay theologian and defender of Augustine's strict predestinarian views against Semi-Pelagians.", works: "The Call of All Nations, Grace and Free Will" },
     "NEOAUG": { figure: "Henri de Lubac, S.J.", era: "1896–1991", bio: "French Jesuit whose ressourcement theology recovered patristic and Augustinian themes.", works: "Surnaturel, Catholicism, The Mystery of the Supernatural" },
     "SEMIAUG": { figure: "St. Francis de Sales", era: "1567–1622", bio: "Doctor of the Church known for gentle synthesis of Augustinian grace theology with pastoral accessibility.", works: "Introduction to the Devout Life, Treatise on the Love of God" },
@@ -997,8 +1011,8 @@ const SCHOOL_FIGURES = {
     "CHALMAX": { figure: "St. Cyril of Alexandria", era: "c. 376–444", bio: "Patriarch and Doctor whose Christology emphasized the unity of Christ's person.", works: "On the Unity of Christ" },
     "KENOT": { figure: "Sergei Bulgakov", era: "1871–1944", bio: "Russian Orthodox theologian whose kenotic Sophiology explored divine self-emptying.", works: "The Lamb of God" },
     "TRIDSAC": { figure: "St. Charles Borromeo", era: "1538–1584", bio: "Cardinal Archbishop who implemented Tridentine reforms with attention to sacramental discipline.", works: "Acts of the Church of Milan" },
-    "THOMSAC": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Developed the theology of sacramental causality and matter/form in sacraments.", works: "Summa Theologiae III" },
-    "AUGSAC": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Developed theology of sacramental validity independent of minister's holiness.", works: "On Baptism, Against the Donatists" },
+    "THOMSAC": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Dominican friar, Doctor Angelicus and Universal Doctor. Synthesized Aristotelian philosophy with Christian theology in the Summa Theologiae, creating the foundation for Thomism. His sacramental theology shaped Trent\'s formulations. Leo XIII declared his thought the official philosophy of Catholic Church (Aeterni Patris, 1879). Developed the theology of sacramental causality and matter/form in sacraments.", works: "Summa Theologiae III" },
+    "AUGSAC": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.", works: "On Baptism, Against the Donatists" },
     "MINSAC": { figure: "Various Modern Theologians", era: "20th century", bio: "Minimalist sacramental approaches emphasizing faith over ritual precision.", works: "Various contemporary sources" },
     "EASTSAC": { figure: "St. John Chrysostom", era: "c. 349–407", bio: "Doctor whose liturgy and sacramental theology shaped Eastern practice.", works: "On the Priesthood, Divine Liturgy" },
     "TRANSUB": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Gave classical formulation to transubstantiation using Aristotelian categories.", works: "Summa Theologiae III, q. 75-77" },
@@ -1014,7 +1028,7 @@ const SCHOOL_FIGURES = {
     "THOMMOR": { figure: "St. Thomas Aquinas", era: "1225–1274", bio: "Developed natural law ethics grounded in human nature's orientation toward the good.", works: "Summa Theologiae I-II, q. 90-108" },
     "MANUAL": { figure: "Henry Davis, S.J.", era: "1866–1952", bio: "Author of a widely-used moral theology manual in the manualist tradition.", works: "Moral and Pastoral Theology" },
     "VIRTUE": { figure: "Alasdair MacIntyre", era: "1929–present", bio: "Philosopher whose recovery of virtue ethics influenced Catholic moral theology.", works: "After Virtue" },
-    "AUGMOR": { figure: "St. Augustine of Hippo", era: "354–430", bio: "His moral theology emphasized primacy of charity and need for grace in moral action.", works: "On the Morals of the Catholic Church" },
+    "AUGMOR": { figure: "St. Augustine of Hippo", era: "354–430", bio: "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.", works: "On the Morals of the Catholic Church" },
     "PERSMOR": { figure: "St. John Paul II", era: "1920–2005", bio: "Philosopher-pope whose personalist ethics grounded moral norms in human dignity.", works: "Love and Responsibility, Veritatis Splendor" },
     "PROP": { figure: "Richard McCormick, S.J.", era: "1922–2000", bio: "American moral theologian who developed proportionalist approaches.", works: "Notes on Moral Theology" },
     "NEOSCH": { figure: "Cardinal Alfredo Ottaviani", era: "1890–1979", bio: "Prefect of the Holy Office who defended neo-scholastic theology.", works: "Various curial documents" },
@@ -1159,7 +1173,7 @@ const HETERODOXY_STATUS = {
     "REFORM": {
         level: "non-catholic",
         title: "✝️ Non-Catholic Tradition",
-        warning: "Reformed/Calvinist theology represents a Protestant tradition with substantial disagreements with Catholic teaching on justification, sacraments, and ecclesiology.",
+        warning: "Reformed theology represents a Protestant tradition with substantial disagreements with Catholic teaching on justification, sacraments, and ecclesiology.",
         documents: "Council of Trent, Joint Declaration (1999)",
         guidance: "Study Reformed thought for ecumenical understanding, but recognize its incompatibility with Catholic doctrine on key points."
     },
@@ -1226,9 +1240,10 @@ const AXIS_MULTIPLIER = {"GRACE": 3, "PAPAL": 3, "LIT": 3, "RIGOR": 3, "PIETY": 
 const QUESTIONS = [
     {
         "text": "How would you rank the normative authority of Scripture, Tradition, and the Magisterium?",
+        "category": "Scripture & Tradition",
         "options": [
-            ["Scripture has the highest dignity and is the supreme norm, but only as read within apostolic Tradition and the Church's infallible teaching. (Ressourcement-Augustinian, Ressourcement)", {"NEOAUG": 4, "RESS": 3, "AUG": 2, "BENED": 1, "ORAT": 1, "STD": 1}],
-            ["Scripture and Tradition are co-equal fonts of revelation, while the Magisterium is their authoritative interpreter and guardian. (Thomist, Thomist Realism)", {"THOM": 3, "THOMMETA": 2, "TRIDSAC": 1, "PAPMOD": 2, "STD": 2, "DOM": 1}],
+            ["Scripture has the highest dignity and is the supreme norm, but only as read within apostolic Tradition and the Church's infallible teaching. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 4, "RESS": 3, "AUG": 2, "BENED": 1, "ORAT": 1, "STD"],
+            ["Scripture and Tradition are co-equal fonts of revelation, while the Magisterium is their authoritative interpreter and guardian. (Thomist, Thomist (Realist))", {"THOM": 3, "THOMMETA": 2, "TRIDSAC": 1, "PAPMOD": 2, "STD": 2, "DOM": 1}],
             ["In practice, the Magisterium is the proximate rule of faith; Scripture and Tradition are received through that living authority. (Ultramontane)", {"ULTRA": 4, "PAPMOD": 2, "INTEG": 2, "NEOSCH": 1}],
             ["The hierarchy can err widely in non-definitive matters; Scripture and the Fathers supply the main corrective. (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2, "ROTR": 1, "NEOAUG": 1, "PAPMIN": 1}],
         ],
@@ -1237,7 +1252,7 @@ const QUESTIONS = [
     {
         "text": "Which approach best describes how Scripture should normally be interpreted in theology and preaching?",
         "options": [
-            ["Patristic exegesis (literal + spiritual senses) should normally govern; historical criticism is secondary and constrained. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 3, "NEOAUG": 2, "AUG": 2, "BENED": 2, "TRAD": 2, "NEOPLAT": 1}],
+            ["Patristic exegesis (literal + spiritual senses) should normally govern; historical criticism is secondary and constrained. (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2, "AUG": 2, "BENED": 2, "TRAD": 2, "NEOPLAT": 1}],
             ["Historical-grammatical meaning is primary; spiritual senses are real but must be controlled by the literal sense. (Thomist, Dominican)", {"THOM": 3, "DOM": 2, "THOMMETA": 1, "STD": 2}],
             ["Historical-critical methods are useful and often necessary, but must be disciplined by dogma and the Church's rule of faith. (Moderate Papalist, Ressourcement)", {"PAPMOD": 2, "RESS": 2, "STD": 2, "JES": 2, "NEOAUG": 1}],
             ["The text's meaning is best read through contemporary experience and community reception. (Progressive, Personalist)", {"PROG": 3, "PERSMOR": 2, "LIBCATH": 1}],
@@ -1247,8 +1262,8 @@ const QUESTIONS = [
     {
         "text": "In theological disputes, which is the normal direction of reasoning?",
         "options": [
-            ["Scripture (as received in the Church) judges theology; systems must be revised to fit Scripture's full witness. (Ressourcement-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "AUG": 2, "BENED": 1}],
-            ["Dogma and metaphysics provide the framework that stabilizes interpretation; Scripture is read within that settled grammar. (Thomist, Thomist Realism)", {"THOM": 3, "THOMMETA": 2, "NEOSCH": 2, "DOM": 1}],
+            ["Scripture (as received in the Church) judges theology; systems must be revised to fit Scripture's full witness. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "AUG": 2, "BENED": 1}],
+            ["Dogma and metaphysics provide the framework that stabilizes interpretation; Scripture is read within that settled grammar. (Thomist, Thomist (Realist))", {"THOM": 3, "THOMMETA": 2, "NEOSCH": 2, "DOM": 1}],
             ["The living Magisterium provides the proximate norm; speculative resolution is less important than obedience. (Ultramontane, Moderate Papalist)", {"ULTRA": 3, "PAPMOD": 2, "STD": 1}],
             ["Multiple theologies can legitimately coexist; Scripture underdetermines systematic disputes. (Mainstream)", {"STD": 2, "PAPMOD": 1, "RESS": 1, "PROG": 1}],
         ],
@@ -1265,12 +1280,13 @@ const QUESTIONS = [
         "axis_weights": {"SCRIPT": 2, "LIT": 1}
     },
     {
-        "text": "Justification consists primarily in…",
+        "text": "Justification consists primarily in which of the following?",
+        "category": "Grace & Justification",
         "options": [
-            ["A real interior renewal by infused grace: God makes the soul righteous (not merely declared so). (Thomist, Jansenist)", {"THOM": 3, "JANS": 3, "THOMSAC": 1, "TRIDSAC": 2, "THOMMOR": 1, "DOM": 1, "STD": 1}],
-            ["A real participation in Christ Himself: union with Christ is the core, with forensic language secondary. (Ressourcement-Augustinian)", {"NEOAUG": 4, "RESS": 2, "AUG": 2, "EUCHMYST": 1, "BENED": 1, "PALAM": 1}],
-            ["Primarily a forensic declaration (acquittal) with sanctification following as a distinct work. (Reformed/Calvinist, Lutheran)", {"REFORM": 4, "LUTHERAN": 4, "ANGLICAN": 2}],
-            ["A covenantal status within the people of God; categories of 'infused habit' are less central. (Progressive)", {"PROG": 2, "PERSMOR": 1, "TRANSIG": 1, "STD": 1}],
+            ["Real interior renewal through infused sanctifying grace: God makes the soul truly righteous, not merely declared so. (Thomist, Jansenist)", {"THOM": 3, "JANS": 3, "THOMSAC": 1, "TRIDSAC": 2, "THOMMOR": 1, "DOM": 1, "STD"],
+            ["Real participation in Christ Himself: union with Christ is the core, with forensic language secondary. (Neo-Augustinian)", {"NEOAUG": 4, "RESS": 2, "AUG": 2, "EUCHMYST": 1, "BENED": 1, "PALAM": 1}],
+            ["Primarily a forensic declaration (acquittal) with sanctification following as a distinct work. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 4, "ANGLICAN": 2}],
+            ["Covenantal status within the people of God; categories of 'infused habit' are less central. (Progressive)", {"PROG": 2, "PERSMOR": 1, "TRANSIG": 1, "STD": 1}],
         ],
         "axis_weights": {"JUST": 4, "GRACE": 1}
     },
@@ -1278,8 +1294,8 @@ const QUESTIONS = [
         "text": "After baptism, can justification increase?",
         "options": [
             ["Yes: one can truly grow in grace and righteousness (while remaining entirely dependent on grace). (Thomist, Augustinian)", {"THOM": 3, "AUG": 2, "JANS": 2, "TRIDSAC": 2, "STD": 1}],
-            ["Yes, best described as deeper participation/union with Christ rather than as a 'quantity' of righteousness. (Ressourcement-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "AUG": 1, "PALAM": 1}],
-            ["No: justification is complete as a verdict; only sanctification increases. (Reformed/Calvinist, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["Yes, best described as deeper participation/union with Christ rather than as a 'quantity' of righteousness. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "AUG": 1, "PALAM": 1}],
+            ["No: justification is complete as a verdict; only sanctification increases. (Reformed, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "ANGLICAN": 2}],
             ["The question is misleading; use primarily relational language. (Progressive)", {"PROG": 2, "PERSMOR": 1}],
         ],
         "axis_weights": {"JUST": 3}
@@ -1287,19 +1303,19 @@ const QUESTIONS = [
     {
         "text": "How are justification and sanctification related?",
         "options": [
-            ["Distinct but inseparable graces: God both forgives and makes holy; separating them distorts the Gospel. (Thomist, Ressourcement-Augustinian)", {"THOM": 2, "NEOAUG": 2, "RESS": 1, "AUG": 2, "STD": 2}],
-            ["Justification is logically prior; sanctification follows as fruit, and confusing them risks works-righteousness. (Reformed/Calvinist, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "ANGLICAN": 2, "METHOD": 2}],
-            ["Union with Christ is prior: both justification and sanctification flow from participation in Christ. (Ressourcement-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EUCHMYST": 1}],
+            ["Distinct but inseparable graces: God both forgives and makes holy; separating them distorts the Gospel. (Thomist, Neo-Augustinian)", {"THOM": 2, "NEOAUG": 2, "RESS": 1, "AUG": 2, "STD": 2}],
+            ["Justification is logically prior; sanctification follows as fruit, and confusing them risks works-righteousness. (Reformed, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "ANGLICAN": 2, "METHOD": 2}],
+            ["Union with Christ is prior: both justification and sanctification flow from participation in Christ. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EUCHMYST": 1}],
             ["Pastoral framing matters more than precise distinctions; emphasize accompaniment and growth. (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2, "LIBCATH": 1}],
         ],
         "axis_weights": {"JUST": 3}
     },
     {
-        "text": "Post-baptismal concupiscence is best described as…",
+        "text": "Post-baptismal concupiscence is best described as which of the following?",
         "options": [
-            ["A disordered inclination that remains as a wound and penalty, but is not sin unless consented to. (Thomist, Natural Law Thomist)", {"THOM": 3, "THOMMOR": 2, "TRIDSAC": 1, "STD": 2}],
-            ["Not formally sin, but it can carry derivative moral responsibility insofar as it flows from prior voluntary vice and culpable negligence. (Augustinian, Jansenist)", {"AUG": 3, "JANS": 2, "NEOAUG": 2, "AUGMOR": 2, "VIRTUE": 1, "NEOPLAT": 1}],
-            ["In itself it is truly sin in the regenerate (even without consent), though not always imputable in the same way. (Reformed/Calvinist, Lutheran)", {"REFORM": 4, "LUTHERAN": 4}],
+            ["A disordered inclination that remains as a wound and penalty, but is not sin unless consented to. (Thomist, Thomist (Natural Law))", {"THOM": 3, "THOMMOR": 2, "TRIDSAC": 1, "STD": 2}],
+            ["Not formally sinful (guilt/reatus removed in baptism), though materially sinful (disordered inclination). Remains \'for the contest\' (ad agonem); culpability attaches only to consent. (Augustinian, Tridentine)", {"AUG": 3, "JANS": 1, "NEOAUG": 2, "TRIDSAC": 2, "STD": 1}],
+            ["In itself it is truly sin in the regenerate (even without consent), though not always imputable in the same way. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 4}],
             ["Primarily a psychological phenomenon; 'sin' language should be reserved for conscious harmful choices. (Progressive, Personalist)", {"PROG": 3, "PERSMOR": 2}],
         ],
         "axis_weights": {"RIGOR": 2, "GRACE": 1}
@@ -1308,7 +1324,7 @@ const QUESTIONS = [
         "text": "Habitual vice formed by prior voluntary sin…",
         "options": [
             ["Can incur guilt through culpable omission: failure to pursue virtue and remedies becomes morally weighty. (Augustinian, Augustinian Moral)", {"AUG": 2, "AUGMOR": 2, "VIRTUE": 2, "NEOSCH": 1}],
-            ["Is a dangerous disposition, but guilt attaches only to present voluntary acts and consent. (Thomist, Natural Law Thomist)", {"THOM": 2, "THOMMOR": 2, "STD": 1}],
+            ["Is a dangerous disposition, but guilt attaches only to present voluntary acts and consent. (Thomist, Thomist (Natural Law))", {"THOM": 2, "THOMMOR": 2, "STD": 1}],
             ["Shows that the will is deeply bound; strict ascetic discipline and frequent confession are the safest path. (Traditionalist, Manualist)", {"TRAD": 2, "MANUAL": 2, "NEOSCH": 2, "TUTIOR": 1}],
             ["The Church should avoid scrupulosity: focus on healing and gradual growth. (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2}],
         ],
@@ -1325,19 +1341,20 @@ const QUESTIONS = [
         "axis_weights": {"JUST": 2, "ESCH": 2}
     },
     {
-        "text": "Final perseverance is best described as…",
+        "text": "Final perseverance is best described as which of the following?",
         "options": [
             ["A special grace to be humbly prayed for; not guaranteed, but God is faithful. (Thomist, Augustinian)", {"THOM": 3, "AUG": 2, "STD": 2, "DOM": 1}],
-            ["Infallibly granted to those truly predestined; the elect cannot finally fall away. (Reformed/Calvinist)", {"REFORM": 4, "AUGP": 2, "SUPRA": 1}],
+            ["Infallibly granted to those truly predestined; the elect cannot finally fall away. (Reformed)", {"REFORM": 4, "AUGP": 2, "SUPRA": 1}],
             ["A mystery better handled pastorally than speculatively; emphasize fidelity in the present. (Moderate Papalist, Mainstream)", {"PAPMOD": 2, "STD": 2, "RESS": 1}],
             ["Assurance of salvation is central to the Gospel's comfort; excessive emphasis on uncertainty is harmful. (Progressive)", {"PROG": 2, "LIBCATH": 1, "PERSMOR": 1}],
         ],
         "axis_weights": {"GRACE": 2, "ESCH": 2}
     },
     {
-        "text": "The Christian life is primarily oriented toward…",
+        "text": "The Christian life is primarily oriented toward which of the following?",
+        "category": "Eschatology",
         "options": [
-            ["The Beatific Vision: loving contemplation of God as final end. (Thomist, Benedictine)", {"THOM": 3, "BENED": 2, "DOM": 1, "STD": 1}],
+            ["The Beatific Vision: loving contemplation of God as final end. (Thomist, Benedictine)", {"THOM": 3, "BENED": 2, "DOM": 1, "STD"],
             ["Final judgment and salvation from damnation: vigilance, penitence, and fear of the Lord. (Jansenist, Traditionalist)", {"JANS": 3, "TRAD": 2, "NEOSCH": 2, "MANUAL": 1, "TUTIOR": 1}],
             ["Theosis/deification: participation in divine life as transformative communion. (Palamite/Eastern)", {"PALAM": 4, "EASTSAC": 2, "EUCHMYST": 2, "NEOPLAT": 1, "RESS": 1}],
             ["Renewal of the world and social holiness: the Church's mission in history. (Progressive)", {"PROG": 3, "SOCDEM": 1, "WORKERCATH": 1, "PERSMOR": 1}],
@@ -1345,9 +1362,10 @@ const QUESTIONS = [
         "axis_weights": {"ESCH": 4}
     },
     {
-        "text": "Purgatory is best understood primarily as…",
+        "text": "Purgatory is best understood primarily as which of the following?",
+        "category": "Eschatology",
         "options": [
-            ["Satisfaction and purification from temporal punishment due to sin. (Manualist, Neo-Scholastic)", {"MANUAL": 2, "NEOSCH": 2, "TRAD": 1, "STD": 1}],
+            ["Satisfaction and purification from temporal punishment due to sin. (Manualist, Neo-Scholastic)", {"MANUAL": 2, "NEOSCH": 2, "TRAD": 1, "STD"],
             ["Final purification of love: removal of attachments so the soul can see God. (Thomist, Benedictine)", {"THOM": 2, "BENED": 2, "RESS": 1, "NEOAUG": 1, "STD": 2}],
             ["An encounter with divine fire that heals and illumines (Eastern-leaning emphasis). (Palamite/Eastern, Eastern Sacramental)", {"PALAM": 3, "EASTSAC": 2, "EUCHMYST": 1, "NEOPLAT": 1}],
             ["A symbol pointing to God's mercy; details shouldn't be systematized. (Progressive)", {"PROG": 2, "PERSMOR": 1}],
@@ -1359,7 +1377,7 @@ const QUESTIONS = [
         "options": [
             ["Interior assent is normally required; public disagreement risks scandal and disobedience. (Ultramontane)", {"ULTRA": 3, "PAPMOD": 1, "INTEG": 1}],
             ["Religious submission is owed, but one may withhold interior assent cautiously while seeking clarification and remaining obedient. (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 3, "THOM": 1}],
-            ["Respectful, reasoned critique is sometimes necessary; the Fathers and Tradition can correct modern confusions. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 2, "NEOAUG": 2, "TRAD": 2, "SSPX": 2, "PAPMIN": 1}],
+            ["Respectful, reasoned critique is sometimes necessary; the Fathers and Tradition can correct modern confusions. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2, "TRAD": 2, "SSPX": 2, "PAPMIN": 1}],
             ["If it conflicts with Tradition, public resistance is justified. (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2, "SEDEPRIV": 1, "SEDE": 1}],
             ["Conscience is supreme; dissent can be fully legitimate. (Progressive, Liberal Catholic)", {"PROG": 3, "LIBCATH": 2, "PERSMOR": 1}],
         ],
@@ -1369,7 +1387,7 @@ const QUESTIONS = [
         "text": "Theologians primarily serve the Church by…",
         "options": [
             ["Clarifying and defending settled doctrine with precision (often scholastic). (Dominican, Thomist)", {"DOM": 2, "THOM": 2, "NEOSCH": 2, "MANUAL": 1}],
-            ["Retrieving the Fathers and liturgical tradition to renew theology (ressourcement). (Ressourcement, Ressourcement-Augustinian)", {"RESS": 3, "NEOAUG": 2, "BENED": 1, "NEOPLAT": 1}],
+            ["Retrieving the Fathers and liturgical tradition to renew theology (ressourcement). (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2, "BENED": 1, "NEOPLAT": 1}],
             ["Mediating doctrine pastorally for modern contexts while preserving essentials. (Moderate Papalist, Mainstream)", {"PAPMOD": 2, "STD": 2, "JES": 2, "PERSMOR": 1}],
             ["Testing boundaries and developing new paradigms to meet contemporary needs. (Progressive)", {"PROG": 3, "LIBCATH": 1}],
         ],
@@ -1380,8 +1398,8 @@ const QUESTIONS = [
         "options": [
             ["Fallen humans can do natural goods but absolutely cannot move toward salvation without prevenient grace (Augustinian, Strict Augustinian)", {"AUG": 3, "AUGP": 3, "THOM": 2, "BANEZ": 2, "JANS": 2}],
             ["Fallen humans retain significant natural capacity; grace assists but doesn't wholly initiate (Semi-Augustinian, Molinist)", {"SEMIAUG": 3, "MOL": 2, "PROG": 1}],
-            ["Human nature is so corrupted that even natural goods are tainted without grace (Reformed/Calvinist, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
-            ["Grace and nature cooperate from the start; the distinction is somewhat artificial (Ressourcement-Augustinian, Ressourcement)", {"NEOAUG": 2, "RESS": 2}],
+            ["Human nature is so corrupted that even natural goods are tainted without grace (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
+            ["Grace and nature cooperate from the start; the distinction is somewhat artificial (Neo-Augustinian, Ressourcement)", {"NEOAUG": 2, "RESS": 2}],
         ],
         "axis_weights": {"GRACE": 1}
     },
@@ -1422,7 +1440,7 @@ const QUESTIONS = [
             ["Yes—Christ is the absolute primacy of creation, independent of sin (Scotist)", {"SCOT": 3, "FRANC": 3, "SUPRA": 2, "CARM": 1}],
             ["No—the Incarnation was ordered primarily to redemption from sin (Thomist)", {"THOM": 3, "AUG": 2, "DOM": 1, "INFRA": 1}],
             ["Probably not, but the question is speculative (Mainstream)", {"STD": 2}],
-            ["Yes, but the mode would have been different (glorious rather than suffering) (Ressourcement-Augustinian)", {"NEOAUG": 2, "RESS": 1}],
+            ["Yes, but the mode would have been different (glorious rather than suffering) (Neo-Augustinian)", {"NEOAUG": 2, "RESS": 1}],
         ],
         "axis_weights": {"GRACE": -1}
     },
@@ -1431,7 +1449,7 @@ const QUESTIONS = [
         "options": [
             ["Sufficient grace gives real power to act but becomes efficacious only with God's further motion (Bañezian, Strict Thomist)", {"BANEZ": 3, "THOMP": 2, "DOM": 2}],
             ["Sufficient grace becomes efficacious through human free cooperation foreseen by middle knowledge (Molinist, Jesuit)", {"MOL": 3, "JES": 2, "CONG": 2}],
-            ["The distinction between sufficient and efficacious grace is largely verbal (Reformed/Calvinist, Lutheran)", {"REFORM": 2, "LUTHERAN": 2}],
+            ["The distinction between sufficient and efficacious grace is largely verbal (Reformed, Lutheran)", {"REFORM": 2, "LUTHERAN": 2}],
             ["Sufficient grace truly enables, and its becoming efficacious involves genuine synergy (Semi-Augustinian)", {"SEMIAUG": 2, "THOM": 1}],
         ],
         "axis_weights": {"GRACE": 2}
@@ -1460,7 +1478,7 @@ const QUESTIONS = [
     {
         "text": "Regarding universals (like 'humanity' or 'justice'):",
         "options": [
-            ["Moderate realism: Universals exist in things as real natures (Thomist Realism, Thomist)", {"THOMMETA": 3, "THOM": 2, "DOM": 1, "INTELL": 1}],
+            ["Moderate realism: Universals exist in things as real natures (Thomist (Realist), Thomist)", {"THOMMETA": 3, "THOM": 2, "DOM": 1, "INTELL": 1}],
             ["Nominalism: Universals are only names/mental concepts; only particulars exist", {"NOMIN": 3, "VOLUNT": 1}],
             ["Platonic/Participatory: Universals exist primarily in the divine mind; things participate (Neo-Platonist, Augustinian)", {"NEOPLAT": 3, "AUG": 2, "FRANC": 1}],
             ["Scotist: Universals have a 'formal distinction'—less than real but more than nominal", {"SCOTMETA": 3, "SCOT": 2}],
@@ -1470,7 +1488,7 @@ const QUESTIONS = [
     {
         "text": "What is the best framework for understanding being?",
         "options": [
-            ["Analogy of being (Analogia Entis): Being is predicated analogically between God and creatures—neither univocally nor equivocally, but proportionally. (Thomist, Thomist Realism)", {"THOMMETA": 5, "THOM": 4, "DOM": 2, "INTELL": 2}],
+            ["Analogy of being (Analogia Entis): Being is predicated analogically between God and creatures—neither univocally nor equivocally, but proportionally. (Thomist, Thomist (Realist))", {"THOMMETA": 5, "THOM": 4, "DOM": 2, "INTELL": 2}],
             ["Univocity of being: Being is predicated in the same fundamental sense of God and creatures, though infinitely different in mode and perfection. (Scotist)", {"SCOTMETA": 5, "SCOT": 4, "FRANC": 2}],
             ["Participatory/Emanation: Creatures participate in or emanate from divine being through a hierarchy of degrees; emphasis on return to the One. (Neo-Platonist)", {"NEOPLAT": 5, "AUG": 2, "PALAM": 2}],
             ["The question is too abstract and speculative; focus on God's revealed names and salvation history rather than metaphysical speculation. (Nominalist)", {"NOMIN": 3, "VOLUNT": 1, "PROG": 1}],
@@ -1710,8 +1728,8 @@ const QUESTIONS = [
     {
         "text": "What is the best approach to moral theology?",
         "options": [
-            ["Virtue ethics: Focus on character formation and the virtues (Virtue Ethics, Natural Law Thomist)", {"VIRTUE": 3, "THOMMOR": 2, "RESS": 1}],
-            ["Natural law: Universal norms knowable by reason, applied through casuistry (Natural Law Thomist, Manualist)", {"THOMMOR": 3, "MANUAL": 2, "NEOSCH": 1}],
+            ["Virtue ethics: Focus on character formation and the virtues (Virtue Ethics, Thomist (Natural Law))", {"VIRTUE": 3, "THOMMOR": 2, "RESS": 1}],
+            ["Natural law: Universal norms knowable by reason, applied through casuistry (Thomist (Natural Law), Manualist)", {"THOMMOR": 3, "MANUAL": 2, "NEOSCH": 1}],
             ["Personalist: Emphasis on human dignity and concrete situations", {"PERSMOR": 3, "PROG": 1}],
             ["Manualist: Clear rules and cases for confessional practice", {"MANUAL": 3, "NEOSCH": 2, "CASUIST": 2}],
         ],
@@ -1720,7 +1738,7 @@ const QUESTIONS = [
     {
         "text": "Do universal moral norms admit exceptions in concrete circumstances?",
         "options": [
-            ["Never for intrinsically evil acts; prudence applies norms, doesn't create exceptions (Natural Law Thomist, Manualist)", {"THOMMOR": 3, "MANUAL": 3, "NEOSCH": 3}],
+            ["Never for intrinsically evil acts; prudence applies norms, doesn't create exceptions (Thomist (Natural Law), Manualist)", {"THOMMOR": 3, "MANUAL": 3, "NEOSCH": 3}],
             ["Proportionate reason can justify apparent exceptions (Proportionalism)", {"PROP": 3, "PROG": 2}],
             ["Pastoral discernment may find that a norm doesn't apply in a particular case (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2}],
             ["Epikeia allows departure from law's letter to fulfill its spirit (Thomist)", {"THOM": 2, "VIRTUE": 1}],
@@ -1741,7 +1759,7 @@ const QUESTIONS = [
         "text": "What is the value of the manualist tradition in moral theology?",
         "options": [
             ["Essential: Provides clarity, precision, and practical guidance for confessors (Manualist, Neo-Scholastic)", {"MANUAL": 3, "NEOSCH": 2, "TRAD": 2, "CASUIST": 2}],
-            ["Useful but needs integration with virtue ethics and Scripture (Natural Law Thomist, Mainstream)", {"THOMMOR": 2, "STD": 2}],
+            ["Useful but needs integration with virtue ethics and Scripture (Thomist (Natural Law), Mainstream)", {"THOMMOR": 2, "STD": 2}],
             ["Problematic: Legalistic, minimalistic, and detached from spiritual growth", {"VIRTUE": 2, "PERSMOR": 2, "RESS": 2, "PROG": 1}],
             ["Outdated and should be largely set aside (Proportionalist, Progressive)", {"PROP": 2, "PROG": 2}],
         ],
@@ -1885,7 +1903,7 @@ const QUESTIONS = [
             ["Christ possessed the beatific vision from conception, giving comprehensive knowledge. (Thomist, Chalcedonian Maximalist)", {"THOM": 3, "THOMP": 2, "CHALMAX": 3, "TRIDSAC": 1, "NEOSCH": 2}],
             ["Christ's human knowledge was genuinely limited; He learned and grew authentically. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "PROG": 2, "PERSMOR": 1}],
             ["Christ had infused knowledge sufficient for His mission, without unlimited knowledge. (Scotist, Franciscan School)", {"SCOT": 2, "FRANC": 2, "SCOTMETA": 1, "STD": 2}],
-            ["The mystery exceeds our categories; emphasize soteriological sufficiency. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 2, "NEOAUG": 2, "RESSCH": 2, "BENED": 1}],
+            ["The mystery exceeds our categories; emphasize soteriological sufficiency. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2, "RESSCH": 2, "BENED": 1}],
         ],
         "axis_weights": {"JUST": 2}
     },
@@ -1893,7 +1911,7 @@ const QUESTIONS = [
         "text": "The relationship between Christ's divine and human wills:",
         "options": [
             ["Two distinct wills in perfect harmony; human will freely conforms to divine. (Chalcedonian Maximalist, Thomist)", {"CHALMAX": 4, "THOM": 3, "THOMP": 2, "DOM": 1}],
-            ["Divine will primary, human will its instrument; unity with dyothelitism. (Ressourcement Christology, Ressourcement-Augustinian)", {"RESSCH": 3, "NEOAUG": 2, "RESS": 2, "PALAM": 1}],
+            ["Divine will primary, human will its instrument; unity with dyothelitism. (Ressourcement Christology, Neo-Augustinian)", {"RESSCH": 3, "NEOAUG": 2, "RESS": 2, "PALAM": 1}],
             ["Christ's human will genuinely struggled before conforming; soteriologically important. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "FRANC": 2, "PERSMOR": 1}],
             ["Maximus's synthesis: natural human will always good; gnomic willing absent. (Palamite/Eastern, Eastern Catholic)", {"PALAM": 3, "EASTECC": 2, "CHALMAX": 2, "EASTSAC": 1}],
         ],
@@ -1903,7 +1921,7 @@ const QUESTIONS = [
         "text": "The 'communication of idioms' (communicatio idiomatum) means:",
         "options": [
             ["Predicates of either nature attributed to the Person, carefully avoiding mixing natures. (Chalcedonian Maximalist)", {"CHALMAX": 4, "THOM": 2, "THOMP": 2, "NEOSCH": 1}],
-            ["Profound exchange: 'God suffered,' 'this man is omnipotent' — Incarnation in speech. (Ressourcement Christology, Ressourcement-Augustinian)", {"RESSCH": 3, "NEOAUG": 2, "RESS": 2, "NEOPLAT": 1}],
+            ["Profound exchange: 'God suffered,' 'this man is omnipotent' — Incarnation in speech. (Ressourcement Christology, Neo-Augustinian)", {"RESSCH": 3, "NEOAUG": 2, "RESS": 2, "NEOPLAT": 1}],
             ["Shows divine condescension: God truly entered human weakness and suffering. (Kenotic)", {"KENOT": 4, "FRANC": 2, "CARM": 1, "PERSMOR": 1}],
             ["Liturgically: 'O admirabile commercium' — God becomes man that man might become God. (Benedictine, Eastern Sacramental)", {"BENED": 3, "EASTSAC": 2, "EUCHMYST": 2, "TRAD": 1}],
         ],
@@ -2067,7 +2085,7 @@ const QUESTIONS = [
         "text": "Scripture's literal and spiritual senses:",
         "options": [
             ["Literal foundational; spiritual senses controlled by it. (Thomist, Dominican)", {"THOM": 3, "DOM": 2, "THOMMETA": 1, "STD": 1}],
-            ["Spiritual senses reveal deepest meaning; Fathers normative. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 3, "NEOAUG": 3, "NEOPLAT": 2, "BENED": 2, "ORAT": 1}],
+            ["Spiritual senses reveal deepest meaning; Fathers normative. (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 3, "NEOPLAT": 2, "BENED": 2, "ORAT": 1}],
             ["Historical-critical establishes literal; spiritual is devotional. (Progressive, Liberal Catholic)", {"PROG": 2, "LIBCATH": 2, "JES": 1}],
             ["All four senses work together; Scripture inexhaustibly rich. (Benedictine, Mainstream)", {"BENED": 2, "STD": 2, "PAPMOD": 1, "EASTECC": 1}],
         ],
@@ -2165,7 +2183,7 @@ const QUESTIONS = [
             ["Lutheran - if 'faith alone' is properly understood and sacramental realism affirmed, we're close.", {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "NEOAUG": 2, "DEVPROG": 2, "TRAD": -3}],
             ["Eastern Orthodox - patristic synthesis preserved. Theosis, synergy, mystery are deeply Catholic. (Orthophile, Palamite/Eastern)", {"ORTHOPH": 6, "PALAM": 5, "EASTECC": 4, "EASTSAC": 3, "RESS": 2, "NEOAUG": 2}],
             ["None. Extra Ecclesiam nulla salus. Protestant communities lack valid sacraments. (Traditionalist, SSPX-leaning)", {"TRAD": 5, "SSPX": 5, "NEOSCH": 4, "ANTIMOD": 3, "ECUMON": -5, "LUTHCAT": -5}],
-            ["Reformed/Calvinist - they take grace seriously. Augustinian roots are shared.", {"AUGP": 4, "JANS": 3, "BANEZ": 2, "ECUMON": 2, "MOL": -3}],
+            ["Reformed - they take grace seriously. Augustinian roots are shared.", {"AUGP": 4, "JANS": 3, "BANEZ": 2, "ECUMON": 2, "MOL": -3}],
             ["Anglican - via media, sacramental emphasis, liturgical beauty. The Ordinariate shows convergence.", {"ORDINAR": 6, "ROTR": 2, "BENED": 2, "DEVPROG": 2}],
         ],
         "axis_weights": {"GRACE": 2, "JUST": 2}
@@ -2261,7 +2279,7 @@ const QUESTIONS = [
             ["The Old Covenant remains valid. Jews have a unique path not requiring explicit Christian faith. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 4, "RESS": 2, "TRAD": -5, "NEOSCH": -4}],
             ["Nostra Aetate condemned antisemitism but didn't change the necessity of Christ for salvation. (Mainstream, Moderate Papalist)", {"STD": 4, "PAPMOD": 4, "THOM": 3, "DEVPROG": 2, "TRAD": 2}],
             ["The Church has overcorrected. Supersessionism is traditional and shouldn't be abandoned. (Traditionalist, SSPX-leaning)", {"TRAD": 5, "SSPX": 4, "NEOSCH": 4, "ANTIMOD": 3, "PROG": -4}],
-            ["Complex - honor Jewish roots, condemn antisemitism, maintain missionary mandate to all. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 4, "NEOAUG": 3, "BENED": 3, "COMMUN": 3, "STD": 2}],
+            ["Complex - honor Jewish roots, condemn antisemitism, maintain missionary mandate to all. (Ressourcement, Neo-Augustinian)", {"RESS": 4, "NEOAUG": 3, "BENED": 3, "COMMUN": 3, "STD": 2}],
         ],
         "axis_weights": {}
     },
@@ -2363,7 +2381,7 @@ const QUESTIONS = [
     {
         "text": "Which statement best captures your fundamental theological orientation?",
         "options": [
-            ["'Grace does not destroy nature but perfects it.' The Thomistic synthesis is perennially valid.", {"THOM": 6, "DOM": 4, "THOMMETA": 4, "THOMMOR": 3}],
+            ["'Grace does not destroy nature but perfects it.' The Thomistic synthesis is perennially valid.", {"THOM": 6, "DOM": 4, "THOMMETA": 4, "THOMMOR"],
             ["'Our hearts are restless until they rest in Thee.' Augustine's interiority and grace theology are primary. (Augustinian)", {"AUG": 6, "OSA": 4, "NEOAUG": 4, "AUGMOR": 3}],
             ["'Finding God in all things.' Ignatian discernment and active engagement with the world. (Jesuit)", {"JES": 6, "MOL": 3, "CONG": 2}],
             ["'Pray and work.' The Benedictine balance of liturgy, labor, and stability.", {"BENED": 6, "OCSO": 4, "OPRAEM": 3, "CHART": 2}],
@@ -2473,18 +2491,18 @@ const QUESTIONS = [
     {
         "text": "On the question of being - analogy (Aquinas) or univocity (Scotus)?",
         "options": [
-            ["Analogy (Analogia Entis): Being is said in many ways. God and creatures share being analogically—neither identically nor equivocally, but proportionally. This preserves divine transcendence. (Thomist, Thomist Realism)", {"THOM": 5, "THOMMETA": 6, "DOM": 3, "INTELL": 2, "SCOTMETA": -4}],
+            ["Analogy (Analogia Entis): Being is said in many ways. God and creatures share being analogically—neither identically nor equivocally, but proportionally. This preserves divine transcendence. (Thomist, Thomist (Realist))", {"THOM": 5, "THOMMETA": 6, "DOM": 3, "INTELL": 2, "SCOTMETA": -4}],
             ["Univocity: Being must be predicated univocally for our language about God to be meaningful at all. Without a common concept, theology collapses into equivocation. (Scotist Metaphysics, Scotist)", {"SCOTMETA": 6, "SCOT": 5, "FRANC": 3, "THOMMETA": -4}],
             ["Participatory/Neoplatonic: Creatures participate in divine being through emanation and return; theological language is primarily symbolic, apophatic, and mystical rather than strictly analogical. (Neo-Platonist)", {"NEOPLAT": 5, "PALAM": 3, "AUG": 2}],
             ["Both capture important insights; the debate is often overblown by partisans. The Church has not definitively settled this metaphysical question. (Mainstream, Developmental)", {"STD": 3, "DEVPROG": 3, "RESS": 2}],
-            ["Univocity opened the door to modern errors (nominalism, secularism); Analogia entis is non-negotiable for sound metaphysics and safeguarding divine transcendence. (Radical Orthodoxy, Thomist Realism)", {"RADORTH": 5, "THOMMETA": 4, "THOM": 3, "SCOTMETA": -3}],
+            ["Univocity opened the door to modern errors (nominalism, secularism); Analogia entis is non-negotiable for sound metaphysics and safeguarding divine transcendence. (Radical Orthodoxy, Thomist (Realist))", {"RADORTH": 5, "THOMMETA": 4, "THOM": 3, "SCOTMETA": -3}],
         ],
         "axis_weights": {}
     },
     {
         "text": "How do you assess the nominalist tradition (Ockham, etc.)?",
         "options": [
-            ["A disaster that led to voluntarism, fideism, and ultimately secularism. (Thomist, Thomist Realism)", {"THOM": 4, "THOMMETA": 4, "RADORTH": 3, "INTELL": 3, "NOMIN": -5}],
+            ["A disaster that led to voluntarism, fideism, and ultimately secularism. (Thomist, Thomist (Realist))", {"THOM": 4, "THOMMETA": 4, "RADORTH": 3, "INTELL": 3, "NOMIN": -5}],
             ["Contains genuine insights about parsimony and the limits of metaphysical speculation. (Nominalist)", {"NOMIN": 5, "SCOT": 2, "VOLUNT": 2, "THOM": -2}],
             ["An interesting historical episode with little relevance to contemporary theology. (Mainstream, Progressive)", {"STD": 3, "PROG": 2, "DEVPROG": 2}],
             ["Ockham was a faithful Catholic; his positions are defensible within tradition. (Nominalist, Voluntarist)", {"NOMIN": 4, "VOLUNT": 3, "SCOTMETA": 2}],
@@ -2496,7 +2514,7 @@ const QUESTIONS = [
         "options": [
             ["True - distinguishes God's unknowable essence from His participated energies. Essential for theosis. (Palamite/Eastern, Orthophile)", {"PALAM": 6, "ORTHOPH": 5, "EASTECC": 4, "EASTSAC": 3, "THOM": -2}],
             ["Possibly compatible with Thomism if properly understood. Worth ecumenical dialogue. (Moderate Papalist, Developmental)", {"PAPMOD": 3, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2, "RESS": 2}],
-            ["Incompatible with divine simplicity. The West rightly rejected it. (Thomist, Thomist Realism)", {"THOM": 4, "THOMMETA": 4, "NEOSCH": 3, "PALAM": -5, "ORTHOPH": -3}],
+            ["Incompatible with divine simplicity. The West rightly rejected it. (Thomist, Thomist (Realist))", {"THOM": 4, "THOMMETA": 4, "NEOSCH": 3, "PALAM": -5, "ORTHOPH": -3}],
             ["A distinctly Eastern approach that enriches Catholic theology without replacing Thomism. (Eastern Catholic, Palamite/Eastern)", {"EASTECC": 4, "PALAM": 3, "RESS": 3, "EASTLIT": 2}],
         ],
         "axis_weights": {}
@@ -2507,7 +2525,7 @@ const QUESTIONS = [
             ["Central - 'God became man that man might become God.' This is the heart of soteriology. (Palamite/Eastern, Orthophile)", {"PALAM": 5, "ORTHOPH": 5, "EASTECC": 4, "NEOAUG": 4, "RESS": 3}],
             ["Important but must be balanced with juridical/forensic categories. Both-and, not either-or. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "DEVPROG": 2, "AUG": 2}],
             ["Western theology rightly emphasizes justification. Theosis language risks pantheism. (Neo-Scholastic, Tridentine)", {"NEOSCH": 3, "TRIDSAC": 3, "MANUAL": 2, "PALAM": -3}],
-            ["A beautiful Eastern emphasis the West should recover through ressourcement. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 5, "NEOAUG": 4, "COMMUN": 3, "PALAM": 3, "BENED": 2}],
+            ["A beautiful Eastern emphasis the West should recover through ressourcement. (Ressourcement, Neo-Augustinian)", {"RESS": 5, "NEOAUG": 4, "COMMUN": 3, "PALAM": 3, "BENED": 2}],
         ],
         "axis_weights": {"JUST": 4}
     },
@@ -2547,7 +2565,7 @@ const QUESTIONS = [
             ["Resist: Modern culture is largely hostile to faith and natural law (Traditionalist, Integralist)", {"TRAD": 3, "INTEG": 3, "SSPX": 3, "NEOSCH": 2}],
             ["Engage critically: Affirm what is good, reject what contradicts faith (Mainstream, Reform of Reform)", {"STD": 2, "ROTR": 2, "PAPMOD": 2}],
             ["Adapt: The Church must speak modern language to be heard (Progressive, Liberal Catholic)", {"PROG": 3, "LIBCATH": 2}],
-            ["Ressourcement: Return to sources to address modern questions freshly (Ressourcement, Ressourcement-Augustinian)", {"RESS": 3, "NEOAUG": 2}],
+            ["Ressourcement: Return to sources to address modern questions freshly (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2}],
         ],
         "axis_weights": {"LIT": 2}
     },
@@ -2564,7 +2582,7 @@ const QUESTIONS = [
     {
         "text": "Did ressourcement theology recover authentic insights?",
         "options": [
-            ["Yes: Patristic retrieval corrected neo-scholastic narrowness (Ressourcement, Ressourcement-Augustinian)", {"RESS": 3, "NEOAUG": 2, "NEOPLAT": 2}],
+            ["Yes: Patristic retrieval corrected neo-scholastic narrowness (Ressourcement, Neo-Augustinian)", {"RESS": 3, "NEOAUG": 2, "NEOPLAT": 2}],
             ["Partially: Some good insights but also problematic tendencies (Mainstream)", {"STD": 2, "THOM": 1}],
             ["No: It undermined sound theology and paved way for modernism (Neo-Scholastic, Traditionalist)", {"NEOSCH": 2, "TRAD": 2, "SSPX": 1}],
             ["It's complicated: Need to distinguish various authors and claims (Moderate Papalist)", {"PAPMOD": 2}],
@@ -2629,10 +2647,10 @@ const QUESTIONS = [
     {
         "text": "What is the relationship between faith and works in salvation?",
         "options": [
-            ["Faith alone justifies, but justifying faith is never alone—works necessarily follow as fruit. (Reformed/Calvinist, Lutheran)", {"REFORM": 4, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["Faith alone justifies, but justifying faith is never alone—works necessarily follow as fruit. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3, "ANGLICAN": 2}],
             ["Faith formed by charity (fides caritate formata) justifies; works are intrinsic to living faith. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "AUG": 2, "STD": 2}],
             ["We are justified by grace through faith, and works are the means of growth in sanctification. (Methodist)", {"METHOD": 4, "ANGLICAN": 2, "SEMIAUG": 2}],
-            ["Initial justification by faith; final salvation involves judgment of works done in grace. (Ressourcement-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EASTECC": 2}]
+            ["Initial justification by faith; final salvation involves judgment of works done in grace. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EASTECC": 2}]
         ],
         "axis_weights": {"JUST": 4, "GRACE": 2}
     },
@@ -2641,7 +2659,7 @@ const QUESTIONS = [
         "options": [
             ["Transubstantiation: substance of bread/wine wholly changed into Body/Blood.", {"TRANSUB": 4, "TRIDSAC": 4, "THOM": 3, "JANS": 2}],
             ["Sacramental Union: Christ truly present 'in, with, and under' bread and wine.", {"LUTHERAN": 4}],
-            ["Spiritual/Real Presence: Christ truly present to faith, but not corporally in elements. (Reformed/Calvinist, Anglican)", {"REFORM": 3, "ANGLICAN": 2}],
+            ["Spiritual/Real Presence: Christ truly present to faith, but not corporally in elements. (Reformed, Anglican)", {"REFORM": 3, "ANGLICAN": 2}],
             ["Memorial/Symbolic: Supper commemorates Christ's sacrifice; presence is spiritual only. (Methodist)", {"METHOD": 2}],
             ["Mystery: True change occurs but precise metaphysics not required. (Eastern Orthodox, Eastern Sacramental)", {"EORTHO": 4, "EASTSAC": 3, "EUCHMYST": 2, "PALAM": 2}]
         ],
@@ -2651,7 +2669,7 @@ const QUESTIONS = [
         "text": "What is the status of the deuterocanonical books (e.g., Sirach, Wisdom, Maccabees)?",
         "options": [
             ["Fully canonical Scripture, equal in authority to all other biblical books. (Tridentine, Thomist)", {"TRIDSAC": 4, "THOM": 3, "STD": 3, "JANS": 2, "BENED": 2}],
-            ["Valuable for edification but not for establishing doctrine (apocrypha). (Reformed/Calvinist, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
+            ["Valuable for edification but not for establishing doctrine (apocrypha). (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
             ["Deuterocanonical: secondary canon, useful and often read liturgically. (Anglican, Methodist)", {"ANGLICAN": 3, "METHOD": 2}],
             ["The question of the canon should be approached with more nuance than rigid categories. (Ressourcement, Progressive)", {"RESS": 2, "PROG": 2}]
         ],
@@ -2660,7 +2678,7 @@ const QUESTIONS = [
     {
         "text": "Can a justified person lose salvation?",
         "options": [
-            ["No: the truly elect will certainly persevere; apparent apostasy proves one was never truly saved. (Reformed/Calvinist)", {"REFORM": 4, "SUPRA": 2}],
+            ["No: the truly elect will certainly persevere; apparent apostasy proves one was never truly saved. (Reformed)", {"REFORM": 4, "SUPRA": 2}],
             ["Yes: mortal sin destroys justifying grace, but it can be restored through penance. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "AUG": 2, "STD": 3}],
             ["Possible but difficult: believers can fall from grace but God's preserving work is powerful. (Lutheran, Methodist)", {"LUTHERAN": 3, "METHOD": 3, "ANGLICAN": 2}],
             ["The question framed wrongly: focus on God's faithfulness and our response in the present. (Progressive, Personalist)", {"PROG": 2, "PERSMOR": 2}]
@@ -2671,7 +2689,7 @@ const QUESTIONS = [
         "text": "What is the proper form of church government?",
         "options": [
             ["Episcopal: bishops in apostolic succession are essential to the Church's structure. (Ultramontane, Moderate Papalist)", {"ULTRA": 3, "PAPMOD": 3, "ANGLICAN": 3, "EASTECC": 3, "STD": 2}],
-            ["Presbyterian: governance by elders in graded courts (session, presbytery, synod, assembly). (Reformed/Calvinist)", {"REFORM": 4}],
+            ["Presbyterian: governance by elders in graded courts (session, presbytery, synod, assembly). (Reformed)", {"REFORM": 4}],
             ["Congregational: each local congregation is autonomous under Christ. (Methodist)", {"METHOD": 2}],
             ["The Pope holds supreme jurisdiction; episcopal authority derives from him. (Ultramontane, Integralist)", {"ULTRA": 4, "INTEG": 3}],
             ["Synodal/collegial: bishops govern together; Rome has primacy of honor, not jurisdiction. (Eastern Orthodox, Synodalist)", {"EORTHO": 4, "SYNOD": 3, "EASTECC": 2, "GALL": 2, "CONCIL": 2}]
@@ -2682,16 +2700,16 @@ const QUESTIONS = [
         "text": "What role do the saints play in the Christian life?",
         "options": [
             ["Saints intercede for us; we may invoke their prayers and venerate relics and images. (Traditionalist, Tridentine)", {"TRAD": 3, "TRIDSAC": 3, "BENED": 2, "STD": 3}],
-            ["Saints are examples of faith; invocation is unbiblical and borders on idolatry. (Reformed/Calvinist)", {"REFORM": 4, "LUTHERAN": 2}],
+            ["Saints are examples of faith; invocation is unbiblical and borders on idolatry. (Reformed)", {"REFORM": 4, "LUTHERAN": 2}],
             ["Saints are honored as examples; limited invocation may be permissible. (Anglican, Lutheran)", {"ANGLICAN": 3, "LUTHERAN": 2, "METHOD": 1}],
-            ["The communion of saints includes mutual prayer; the details are mysterious. (Ressourcement, Ressourcement-Augustinian)", {"RESS": 2, "NEOAUG": 2}]
+            ["The communion of saints includes mutual prayer; the details are mysterious. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2}]
         ],
         "axis_weights": {"PIETY": 2, "LIT": 1}
     },
     {
         "text": "What is the assurance of salvation?",
         "options": [
-            ["Believers can and should have confident assurance based on God's promises and inward testimony. (Reformed/Calvinist, Methodist)", {"REFORM": 4, "METHOD": 3}],
+            ["Believers can and should have confident assurance based on God's promises and inward testimony. (Reformed, Methodist)", {"REFORM": 4, "METHOD": 3}],
             ["Absolute certainty is not possible without special revelation; moral certitude suffices. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "STD": 2}],
             ["Anxious uncertainty is unhealthy; the sacraments provide sufficient confidence. (Lutheran, Anglican)", {"LUTHERAN": 3, "ANGLICAN": 2}],
             ["True humility acknowledges uncertainty; presumption is a grave danger. (Jansenist, Tutiorist)", {"JANS": 3, "TUTIOR": 2, "TRAD": 2}]
@@ -2743,8 +2761,8 @@ const QUESTIONS = [
         "options": [
             ["Icons are windows to heaven; veneration is essential to Orthodox piety and theology. (Eastern Orthodox, Eastern Liturgical)", {"EORTHO": 5, "EASTLIT": 4, "ORTHOPH": 4, "EASTECC": 3}],
             ["Sacred images are legitimate aids to devotion, distinct from idolatry. (Tridentine, Traditionalist)", {"TRIDSAC": 4, "TRAD": 3, "STD": 3, "BENED": 2}],
-            ["Images are acceptable but not essential; the Word preached is primary. (Reformed/Calvinist, Lutheran)", {"REFORM": 2, "LUTHERAN": 3, "ANGLICAN": 2}],
-            ["Icons risk becoming idols; worship should focus on God alone. (Reformed/Calvinist)", {"REFORM": 4}]
+            ["Images are acceptable but not essential; the Word preached is primary. (Reformed, Lutheran)", {"REFORM": 2, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["Icons risk becoming idols; worship should focus on God alone. (Reformed)", {"REFORM": 4}]
         ],
         "axis_weights": {"LIT": 3, "PIETY": 2}
     },
@@ -4376,6 +4394,21 @@ function initScores() {
     axisScores = {};
     AXES.forEach(([code]) => axisScores[code] = 0);
 }
+
+
+    // ARIA Accessibility Enhancement
+    function updateQuestionDotsAria() {
+        const dots = document.querySelectorAll('.q-dot');
+        dots.forEach((dot, index) => {
+            const questionNum = index + 1;
+            let status = 'Not answered';
+            if (dot.classList.contains('answered')) status = 'Answered';
+            if (dot.classList.contains('current')) status = 'Current question';
+            dot.setAttribute('aria-label', `Question ${questionNum}: ${status}`);
+            dot.setAttribute('role', 'button');
+            dot.setAttribute('tabindex', '0');
+        });
+    }
 
 function startQuiz() {
     document.getElementById('start-screen').classList.add('hidden');
