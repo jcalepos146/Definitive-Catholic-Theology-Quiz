@@ -653,7 +653,7 @@
         <div class="quiz-panel" id="quiz-panel">
             <header>
                 <h1>Catholic Theology Schools Quiz</h1>
-                <p class="subtitle">150 Questions · 95 Schools of Thought · Hybrid Scoring</p>
+                <p class="subtitle">154 Questions · 95 Schools of Thought · Hybrid Scoring</p>
                 <div class="cross-divider"><span>✝</span></div>
             </header>
 
@@ -661,7 +661,7 @@
                 <h2>Find Your Theological Home</h2>
                 <p>This comprehensive quiz explores your positions on grace, predestination, ecclesiology, moral theology, liturgy, and more.</p>
                 <div class="stats">
-                    <div class="stat"><div class="stat-value">146</div><div class="stat-label">Questions</div></div>
+                    <div class="stat"><div class="stat-value">154</div><div class="stat-label">Questions</div></div>
                     <div class="stat"><div class="stat-value">95</div><div class="stat-label">Schools</div></div>
                     <div class="stat"><div class="stat-value">8</div><div class="stat-label">Axes</div></div>
                 </div>
@@ -669,50 +669,50 @@
                 <div class="quiz-length-section">
                     <h3>Choose Quiz Length</h3>
                     <div class="length-options">
-                        <label class="length-option" onclick="setQuizLength(24)">
-                            <input type="radio" name="length" value="24">
+                        <label class="length-option" onclick="setQuizLength(26)">
+                            <input type="radio" name="length" value="26">
                             <div class="length-card">
-                                <span class="length-number">24</span>
-                                <span class="length-label">Quick<br><small>~6 min</small></span>
+                                <span class="length-number">26</span>
+                                <span class="length-label">Quick<br><small>~7 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(49)">
-                            <input type="radio" name="length" value="49">
+                        <label class="length-option" onclick="setQuizLength(51)">
+                            <input type="radio" name="length" value="51">
                             <div class="length-card">
-                                <span class="length-number">49</span>
-                                <span class="length-label">Short<br><small>~12 min</small></span>
+                                <span class="length-number">51</span>
+                                <span class="length-label">Short<br><small>~13 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(73)">
-                            <input type="radio" name="length" value="73">
+                        <label class="length-option" onclick="setQuizLength(77)">
+                            <input type="radio" name="length" value="77">
                             <div class="length-card">
-                                <span class="length-number">73</span>
-                                <span class="length-label">Medium<br><small>~18 min</small></span>
+                                <span class="length-number">77</span>
+                                <span class="length-label">Medium<br><small>~19 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(97)">
-                            <input type="radio" name="length" value="97">
+                        <label class="length-option" onclick="setQuizLength(103)">
+                            <input type="radio" name="length" value="103">
                             <div class="length-card">
-                                <span class="length-number">97</span>
-                                <span class="length-label">Long<br><small>~24 min</small></span>
+                                <span class="length-number">103</span>
+                                <span class="length-label">Long<br><small>~26 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(122)">
-                            <input type="radio" name="length" value="122">
+                        <label class="length-option" onclick="setQuizLength(128)">
+                            <input type="radio" name="length" value="128">
                             <div class="length-card">
-                                <span class="length-number">122</span>
-                                <span class="length-label">Extended<br><small>~30 min</small></span>
+                                <span class="length-number">128</span>
+                                <span class="length-label">Extended<br><small>~32 min</small></span>
                             </div>
                         </label>
-                        <label class="length-option" onclick="setQuizLength(146)">
-                            <input type="radio" name="length" value="146" checked>
+                        <label class="length-option" onclick="setQuizLength(154)">
+                            <input type="radio" name="length" value="154" checked>
                             <div class="length-card">
-                                <span class="length-number">146</span>
-                                <span class="length-label">Complete<br><small>~38 min</small></span>
+                                <span class="length-number">154</span>
+                                <span class="length-label">Complete<br><small>~39 min</small></span>
                             </div>
                         </label>
                     </div>
-                    <p class="length-note">Questions are organized into 10 theological categories. Quiz lengths scale in equal intervals of ~24 questions.</p>
+                    <p class="length-note">Questions are organized into 10 theological categories. Quiz lengths scale in equal intervals of ~26 questions.</p>
                 </div>
                 
                 <button class="start-btn" onclick="startQuiz()">Begin the Quiz</button>
@@ -723,8 +723,8 @@
                 
                 <div class="progress-section">
                     <div class="progress-header">
-                        <span class="progress-text" id="progress-text">Question 1 of 146</span>
-                        <span class="progress-count" id="answered-count">Answered: 0 / 146</span>
+                        <span class="progress-text" id="progress-text">Question 1 of 154</span>
+                        <span class="progress-count" id="answered-count">Answered: 0 / 154</span>
                     </div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
                 </div>
@@ -831,7 +831,11 @@
                     <span id="ai-test-status" class="ai-test-status"></span>
                 </div>
                 <div class="ai-settings-hint">
-                    Install <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a>, then run: <code>ollama run llama3.2</code>
+                    <strong>Setup:</strong> Install <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a>, then run:<br>
+                    <code>OLLAMA_ORIGINS="*" ollama serve</code><br>
+                    <code>ollama run llama3.2</code><br><br>
+                    <strong>Tip:</strong> Serve this file locally to avoid CORS issues:<br>
+                    <code>python3 -m http.server 8888</code>
                 </div>
             </div>
             <div class="ai-messages" id="ai-messages">
@@ -1574,7 +1578,7 @@ const QUESTIONS = [
     "text": "How should we understand the decree of predestination and reprobation?",
     "options": [
         ["God actively elects some to glory and, with equal sovereignty and by a parallel act of will, positively decrees the damnation of the rest for His glory. (Symmetrical Double Predestination / Equal Ultimacy)", {"SUPRA": 5, "AUGP": 3}],
-        ["God actively elects some to glory by an efficacious decree, but merely 'passes over' (preteritio) the rest, justly permitting them to fall into the end their sins deserve without a positive decree of reprobation. (Asymmetrical Double Predestination / Preterition)", {"REFORM": 4, "AUG": 4, "THOM": 4, "BANEZ": 4, "JANS": 3, "INFRA": 3}],
+        ["God actively elects some to glory by an efficacious decree, but merely 'passes over' (preteritio) the rest, justly permitting them to fall into the end their sins deserve without a positive decree of reprobation. (Asymmetrical Double Predestination / Preterition)", {"REFORM": 4, "AUG": 4, "THOM": 2, "BANEZ": 5, "JANS": 3, "INFRA": 3}],
         ["We should only speak of God predestining the elect to salvation; the loss of the reprobate is entirely a mystery of human rejection and resistance to grace, not a divine decree. (Single Predestination)", {"LUTHERAN": 5, "ANGLICAN": 4, "METHOD": 3, "STD": 3, "PROG": 2}],
         ["Predestination is grounded in God's infallible foreknowledge (scientia media) of how each person would freely cooperate with grace in any given circumstance. (Conditional / Molinist)", {"MOL": 5, "JES": 4, "CONG": 3, "SEMIAUG": 3, "STD": 1}]
     ],
@@ -1583,8 +1587,8 @@ const QUESTIONS = [
    {
     "text": "Regarding the logical order of God's decrees about predestination and the Fall:",
     "options": [
-        ["Supralapsarian: The decree of election logically precedes the decree to permit the Fall (Sovereignty emphasis).", {"SUPRA": 5, "REFORM": 3, "AUGP": 1, "SCOT": 1}],
-        ["Infralapsarian: The decree of election logically follows the decree to permit the Fall (Mercy emphasis).", {"INFRA": 5, "AUG": 3, "THOM": 4, "BANEZ": 2, "JANS": 2, "STD": 1}],
+        ["Supralapsarian: The decree of election logically precedes the decree to permit the Fall (Sovereignty emphasis).", {"SUPRA": 5, "REFORM": 3, "AUGP": 1}],
+        ["Infralapsarian: The decree of election logically follows the decree to permit the Fall (Mercy emphasis).", {"INFRA": 5, "AUG": 3, "THOM": 3, "BANEZ": 4, "JANS": 2, "STD": 1}],
         ["The decree is based on God's 'Middle Knowledge' of how a person would freely respond in any given circumstance.", {"MOL": 5, "JES": 4, "CONG": 3}],
         ["These scholastic categories are overly speculative and may distort the simplicity of the Gospel.", {"STD": 3, "RESS": 2, "PROG": 2}]
     ],
@@ -1904,9 +1908,9 @@ const QUESTIONS = [
     {
         "text": "How should a confessor handle doubtful cases?",
         "options": [
-            ["Tutiorism: Always follow the safer opinion favoring the law", {"TUTIOR": 3, "JANS": 2, "NEOSCH": 2}],
-            ["Probabilism: A solidly probable opinion favoring liberty may be followed", {"PROBAB": 3, "JES": 2, "MOL": 1}],
-            ["Equiprobabilism: Follow liberty only if equally or more probable than law", {"THOMMOR": 2, "STD": 2}],
+            ["Tutiorism: Always follow the safer opinion favoring the law", {"TUTIOR": 3, "JANS": 2, "NEOSCH": 2, "DOM": 2}],
+            ["Probabilism: A solidly probable opinion favoring liberty may be followed", {"PROBAB": 3, "JES": 3, "MOL": 1}],
+            ["Equiprobabilism: Follow liberty only if equally or more probable than law (St. Alphonsus Liguori)", {"CSSR": 4, "THOMMOR": 2, "STD": 2}],
             ["Laxism: Any probable opinion may be followed (condemned but historically relevant)", {"PROP": 1}],
         ],
         "axis_weights": {"RIGOR": 2}
@@ -1984,7 +1988,7 @@ const QUESTIONS = [
     {
         "text": "How should we understand Vatican II's doctrinal status?",
         "options": [
-            ["Fully authoritative ecumenical council binding on all Catholics (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2, "PROG": 2, "RESS": 2}],
+            ["Fully authoritative ecumenical council binding on all Catholics (Mainstream, Moderate Papalist)", {"STD": 3, "PAPMOD": 2, "PROG": 2, "RESS": 4}],
             ["Authoritative but pastoral council that didn't define new dogma (Reform of Reform)", {"ROTR": 2, "TRAD": 1}],
             ["Contains ambiguities/errors that need correction in light of tradition (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2}],
             ["A robber council or non-authoritative assembly (Sedevacantist, Sedeprivationist)", {"SEDE": 3, "SEDEPRIV": 2}],
@@ -2058,7 +2062,7 @@ const QUESTIONS = [
         "options": [
             ["Christ possessed the beatific vision from conception, giving comprehensive knowledge. (Thomist, Chalcedonian Maximalist)", {"THOM": 3, "THOMP": 2, "CHALMAX": 3, "TRIDSAC": 1, "NEOSCH": 2}],
             ["Christ's human knowledge was genuinely limited; He learned and grew authentically. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "PROG": 2, "PERSMOR": 1}],
-            ["Christ had infused knowledge sufficient for His mission, without unlimited knowledge. (Scotist, Franciscan School)", {"SCOT": 2, "FRANC": 2, "SCOTMETA": 1, "STD": 2}],
+            ["Christ had infused knowledge sufficient for His mission, without unlimited knowledge. (Scotist, Franciscan School)", {"SCOT": 3, "FRANC": 2, "SCOTMETA": 1, "STD": 2}],
             ["The mystery exceeds our categories; emphasize soteriological sufficiency. (Ressourcement, Neo-Augustinian)", {"RESS": 2, "NEOAUG": 2, "RESSCH": 2, "BENED": 1}],
         ],
         "axis_weights": {"JUST": 2}
@@ -2097,8 +2101,8 @@ const QUESTIONS = [
         "text": "How did Christ's death on the Cross achieve our salvation?",
         "options": [
             ["Christ stood under the full weight of the Father's forensic wrath as one legally counted a sinner; God treated Him as if He had committed all our sins, pouring out punitive hatred upon Him in our place. (Radical Penal Substitution)", {"REFORM": 5, "LUTHERAN": 4, "SUPRA": 3, "ANGLICAN": 2}],
-            ["Christ, as our innocent Surety and Guarantor, freely accepted a real abandonment by the Father—not as one hated, but as one bearing the just debt of our impieties. His sacrifice of infinite love satisfied divine justice while remaining an act of supreme charity. (Moderate PSA / Vicarious Satisfaction — Bossuet, Liguori)", {"AUG": 5, "CSSR": 5, "ORAT": 4, "THOM": 4, "THOMP": 3, "BANEZ": 3, "TRIDSAC": 2, "STD": 2}],
-            ["The Cross was primarily Christ's triumphant victory over the powers of sin, death, and the devil, liberating humanity from bondage and recapitulating Adam's fall through His obedience. (Christus Victor / Recapitulation)", {"RESS": 5, "PALAM": 5, "EASTECC": 4, "EORTHO": 4, "NEOAUG": 3, "BENED": 2}],
+            ["Christ, as our innocent Surety and Guarantor, freely accepted a real abandonment by the Father—not as one hated, but as one bearing the just debt of our impieties. His sacrifice of infinite love satisfied divine justice while remaining an act of supreme charity. (Anselmian Satisfaction / Vicarious Satisfaction — Bossuet, Liguori)", {"AUG": 5, "CSSR": 5, "ORAT": 4, "THOM": 4, "THOMP": 3, "BANEZ": 3, "TRIDSAC": 2, "STD": 2}],
+            ["The Cross was primarily Christ's triumphant victory over the powers of sin, death, and the devil, liberating humanity from bondage and recapitulating Adam's fall through His obedience. (Christus Victor / Recapitulation)", {"RESS": 4, "PALAM": 5, "EASTECC": 4, "EORTHO": 4, "NEOAUG": 3, "BENED": 2}],
             ["The Cross is supremely the revelation of God's boundless love, designed to move our hearts to repentance and kindle a response of love in return; juridical categories are secondary or metaphorical. (Moral Influence / Exemplarist)", {"PROG": 4, "LIBCATH": 4, "PERSMOR": 3, "SDB": 2, "KENOT": 2}],
             ["The Cross is the 'Primordial Sacrament' where Christ enters into the depths of human suffering and God-forsakenness, sanctifying all human anguish and opening the path to mystical union through co-suffering. (Passionist / Mystical Solidarity)", {"CP": 5, "CARM": 4, "CM": 3, "KENOT": 3, "OSM": 2, "EUCHMYST": 2}]
         ],
@@ -2109,7 +2113,7 @@ const QUESTIONS = [
         "options": [
             ["Triumphant proclamation and liberation of righteous — Harrowing of Hell. (Traditionalist, Eastern Sacramental)", {"TRAD": 3, "EASTSAC": 3, "BENED": 2, "CHALMAX": 1}],
             ["Christ truly experienced full human death, including darkness, before rising. (Kenotic)", {"KENOT": 4, "RESSCH": 2, "NEOAUG": 1, "FRANC": 1}],
-            ["Soteriological completion: saving work extends to those who died before. (Thomist, Mainstream)", {"THOM": 2, "STD": 2, "PAPMOD": 1, "INFRA": 1}],
+            ["Soteriological completion: saving work extends to those who died before. (Thomist, Mainstream)", {"THOM": 2, "STD": 2, "PAPMOD": 1}],
             ["Primarily creedal affirmation; avoid excessive speculation. (Mainstream)", {"STD": 2, "NEOSCH": 1, "MANUAL": 1}],
         ],
         "axis_weights": {"ESCH": 3}
@@ -2379,7 +2383,7 @@ const QUESTIONS = [
     {
         "text": "'Reformed and Lutheran views of justification, despite differences, are mostly compatible with some Catholic schools.' Your response:",
         "options": [
-            ["Agree - Augustinian and Bañezian positions share significant common ground. JDDJ was right.", {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "BANEZ": 2, "AUGP": 2, "NEOSCH": -4}],
+            ["Agree - Augustinian and Bañezian positions share significant common ground. JDDJ was right.", {"LUTHCAT": 6, "ECUMON": 5, "AUG": 3, "BANEZ": 1, "AUGP": 2, "NEOSCH": -4}],
             ["Partially - overlap on grace's priority exists, but merit and sacraments differ substantially. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "PAPMOD": 3, "DEVPROG": 2, "AUG": 2}],
             ["Disagree - Protestant soteriology is forensic and extrinsic. Catholic justification is real transformation. (Thomist, Tridentine)", {"THOM": 4, "TRIDSAC": 4, "NEOSCH": 4, "DOM": 3, "LUTHCAT": -4}],
             ["Strongly disagree - Trent definitively condemned sola fide as Protestants teach it. (Traditionalist, SSPX-leaning)", {"TRAD": 5, "SSPX": 5, "NEOSCH": 5, "ANTIMOD": 4, "LUTHCAT": -6, "ECUMON": -5}],
@@ -2389,9 +2393,9 @@ const QUESTIONS = [
     {
         "text": "'Historical Catholic soteriology (Augustine, Prosper, Isidore, Council of Orange) was essentially monergistic.' Your assessment:",
         "options": [
-            ["Correct. The Fathers and Orange taught even the beginning of faith is God's gift. (Augustinian, Strict Augustinian)", {"AUG": 5, "AUGP": 5, "NEOAUG": 4, "BANEZ": 4, "ECUMON": 3, "JANS": 3, "MOL": -4}],
+            ["Correct. The Fathers and Orange taught even the beginning of faith is God's gift. (Augustinian, Strict Augustinian)", {"AUG": 5, "AUGP": 3, "NEOAUG": 4, "BANEZ": 4, "ECUMON": 3, "JANS": 3, "MOL": -4}],
             ["Partially true, but 'monergism' is anachronistic. Fathers affirmed grace's priority AND cooperation. (Thomist, Mainstream)", {"THOM": 4, "STD": 3, "RESS": 3, "DEVPROG": 3, "NEOAUG": 2}],
-            ["Overstated. Orange affirmed free will's role. Catholic teaching has always been synergistic. (Molinist)", {"MOL": 5, "JES": 3, "CONG": 3, "SCOT": 2, "AUGP": -4, "BANEZ": -3}],
+            ["Overstated. Orange affirmed free will's role. Catholic teaching has always been synergistic. (Molinist)", {"MOL": 5, "JES": 3, "CONG": 3, "AUGP": -4, "BANEZ": -3}],
             ["Augustinian tradition was later balanced by Aquinas and Jesuits. Don't overcorrect.", {"THOM": 4, "MOL": 3, "JES": 2, "DOM": 2, "STD": 2}],
         ],
         "axis_weights": {"GRACE": 5}
@@ -2401,8 +2405,8 @@ const QUESTIONS = [
         "options": [
             ["Yes - it was a Western addition. The original Creed didn't have it. Remove it. (Orthophile, Eastern Catholic)", {"ORTHOPH": 6, "EASTECC": 5, "EASTSAC": 4, "PALAM": 4, "SYNOD": 2, "ULTRA": -4}],
             ["Possibly in Eastern liturgies, but the theology is true. A pastoral accommodation. (Moderate Papalist, Eastern Catholic)", {"PAPMOD": 4, "EASTECC": 4, "STD": 3, "DEVPROG": 3, "COMMUN": 2, "ORTHOPH": 2}],
-            ["No - Filioque is dogmatically defined and expresses important Trinitarian truth. (Thomist, Traditionalist)", {"THOM": 4, "TRAD": 4, "NEOSCH": 4, "ULTRA": 3, "ANTIMOD": 3, "ORTHOPH": -4}],
-            ["Florence's 'through the Son' shows reconciliation is possible without abandoning Western theology. (Thomist, Moderate Papalist)", {"THOM": 3, "PAPMOD": 3, "RESS": 3, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2}],
+            ["No - Filioque is dogmatically defined and expresses important Trinitarian truth. (Thomist, Traditionalist)", {"THOM": 3, "TRAD": 4, "NEOSCH": 4, "ULTRA": 4, "ANTIMOD": 3, "ORTHOPH": -4}],
+            ["Florence's 'through the Son' shows reconciliation is possible without abandoning Western theology. (Thomist, Moderate Papalist)", {"THOM": 3, "PAPMOD": 3, "RESS": 4, "DEVPROG": 3, "COMMUN": 3, "ORTHOPH": 2}],
             ["The controversy shows Orthodox are schismatics rejecting legitimate development. (Ultramontane)", {"ULTRA": 5, "ANTIMOD": 3, "NEOSCH": 3, "TRAD": 3, "ORTHOPH": -6}],
         ],
         "axis_weights": {"PAPAL": 2}
@@ -2463,7 +2467,7 @@ const QUESTIONS = [
     {
         "text": "How does the dogma of the Immaculate Conception relate to the Augustinian doctrine of original sin and the 'massa damnata'?",
         "options": [
-            ["The dogma magnificently vindicates Augustine: Mary's singular exemption proves how universal and inescapable original sin truly is—only an extraordinary divine intervention could preserve anyone from the massa damnata. (Strict Augustinian)", {"AUGP": 5, "AUG": 4, "JANS": 4, "BANEZ": 3, "TRAD": 3, "SCOT": -2, "FRANC": -2}],
+            ["The dogma magnificently vindicates Augustine: Mary's singular exemption proves how universal and inescapable original sin truly is—only an extraordinary divine intervention could preserve anyone from the massa damnata. (Strict Augustinian)", {"AUGP": 5, "AUG": 4, "JANS": 4, "BANEZ": 3, "TRAD": 3, "SCOT": -4, "FRANC": -4}],
             ["The Immaculate Conception represents a harmonious synthesis: Mary was preserved by grace applied in anticipation of Christ's merits, fully consistent with Augustinian hamartiology and Thomistic precision. (Thomist-Augustinian Synthesis)", {"THOM": 5, "AUG": 4, "DOM": 4, "TRIDSAC": 3, "NEOSCH": 3, "STD": 2}],
             ["Bl. Scotus rightly saw that God could, and therefore did, preserve Mary entirely from the stain of original sin from the first instant—a 'more perfect redemption' that requires softening Augustine's view of seminal transmission. (Scotist / Franciscan)", {"SCOT": 5, "FRANC": 5, "SCOTMETA": 3, "CARM": 3, "OSM": 2, "AUGP": -3, "JANS": -3}],
             ["The East honors Mary as the 'All-Holy' (Panagia) and 'Immaculate' without the Latin juridical framework of inherited guilt or 'original sin' in the Augustinian sense; both traditions affirm her supreme purity by different theological paths. (Eastern Catholic / Patristic)", {"EASTECC": 5, "PALAM": 4, "EASTSAC": 4, "ORTHOPH": 4, "EORTHO": 3, "RESS": 2, "NEOSCH": -2}],
@@ -2485,7 +2489,7 @@ const QUESTIONS = [
     {
         "text": "What is your view on the possibility of an 'empty hell' (Balthasar's hope)?",
         "options": [
-            ["Permissible - we may dare to hope all are saved. God's mercy is infinite. (Communio School, Progressive)", {"COMMUN": 5, "PROG": 4, "LIBCATH": 4, "TRAD": -4, "AUGP": -4, "JANS": -4}],
+            ["Permissible - we may dare to hope all are saved. God's mercy is infinite. (Communio School, Progressive)", {"COMMUN": 4, "PROG": 4, "LIBCATH": 4, "TRAD": -4, "AUGP": -4, "JANS": -4}],
             ["Heretical or temerarious. Scripture and Tradition attest many are damned. (Strict Augustinian, Jansenist)", {"AUGP": 5, "JANS": 4, "TRAD": 4, "NEOSCH": 3, "ANTIMOD": 3, "COMMUN": -4}],
             ["We can hope for individuals but the Church teaches hell is populated. (Mainstream, Thomist)", {"STD": 4, "THOM": 3, "PAPMOD": 2, "AUG": 2}],
             ["Speculative. Focus on your own salvation, not universal questions. (Carmelite, Carthusian)", {"CARM": 3, "CHART": 3, "STD": 2, "BENED": 2}],
@@ -2593,8 +2597,8 @@ const QUESTIONS = [
     {
         "text": "On the order of divine decrees (predestination), you hold:",
         "options": [
-            ["Infralapsarianism - God's decree of election logically follows the decree to permit the Fall.", {"INFRA": 6, "THOM": 3, "AUG": 2, "STD": 2}],
-            ["Supralapsarianism - God's decree of election logically precedes the Fall. Stronger sovereignty.", {"SUPRA": 6, "AUGP": 3, "BANEZ": 2, "SCOT": 2}],
+            ["Infralapsarianism - God's decree of election logically follows the decree to permit the Fall.", {"INFRA": 6, "THOM": 3, "AUG": 2, "BANEZ": 4, "STD": 2}],
+            ["Supralapsarianism - God's decree of election logically precedes the Fall. Stronger sovereignty.", {"SUPRA": 6, "AUGP": 3}],
             ["These distinctions are overly speculative. Focus on pastoral realities. (Mainstream, Personalist)", {"STD": 3, "PERSMOR": 2, "PROG": 2}],
             ["I affirm predestination but don't commit to the order of decrees. (Augustinian, Thomist)", {"AUG": 3, "THOM": 3, "STD": 3, "BANEZ": 2}],
         ],
@@ -2659,7 +2663,7 @@ const QUESTIONS = [
         "text": "How do you assess the nominalist tradition (Ockham, etc.)?",
         "options": [
             ["A disaster that led to voluntarism, fideism, and ultimately secularism. (Thomist, Thomist (Realist))", {"THOM": 4, "THOMMETA": 4, "RADORTH": 3, "INTELL": 3, "NOMIN": -5}],
-            ["Contains genuine insights about parsimony and the limits of metaphysical speculation. (Nominalist)", {"NOMIN": 5, "SCOT": 2, "VOLUNT": 2, "THOM": -2}],
+            ["Contains genuine insights about parsimony and the limits of metaphysical speculation. (Nominalist)", {"NOMIN": 5, "VOLUNT": 2, "THOM": -2}],
             ["An interesting historical episode with little relevance to contemporary theology. (Mainstream, Progressive)", {"STD": 3, "PROG": 2, "DEVPROG": 2}],
             ["Ockham was a faithful Catholic; his positions are defensible within tradition. (Nominalist, Voluntarist)", {"NOMIN": 4, "VOLUNT": 3, "SCOTMETA": 2}],
         ],
@@ -2803,7 +2807,7 @@ const QUESTIONS = [
     {
         "text": "What is the relationship between faith and works in salvation?",
         "options": [
-            ["Faith alone justifies, but justifying faith is never alone—works necessarily follow as fruit. (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3, "ANGLICAN": 2}],
+            ["Faith alone justifies, but justifying faith is never alone—works necessarily follow as fruit. (Reformed, Lutheran)", {"LUTHERAN": 4, "REFORM": 3, "ANGLICAN": 2}],
             ["Faith formed by charity (fides caritate formata) justifies; works are intrinsic to living faith. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "JANS": 2, "AUG": 2, "STD": 2}],
             ["We are justified by grace through faith, and works are the means of growth in sanctification. (Methodist)", {"METHOD": 4, "ANGLICAN": 2, "SEMIAUG": 2}],
             ["Initial justification by faith; final salvation involves judgment of works done in grace. (Neo-Augustinian, Ressourcement)", {"NEOAUG": 3, "RESS": 2, "PALAM": 2, "EASTECC": 2}]
@@ -2827,7 +2831,7 @@ const QUESTIONS = [
             ["Fully canonical Scripture, equal in authority to all other biblical books. (Tridentine, Thomist)", {"TRIDSAC": 4, "THOM": 3, "STD": 3, "JANS": 2, "BENED": 2}],
             ["Valuable for edification but not for establishing doctrine (apocrypha). (Reformed, Lutheran)", {"REFORM": 4, "LUTHERAN": 3}],
             ["Deuterocanonical: secondary canon, useful and often read liturgically. (Anglican, Methodist)", {"ANGLICAN": 3, "METHOD": 2}],
-            ["The question of the canon should be approached with more nuance than rigid categories. (Ressourcement, Progressive)", {"RESS": 2, "PROG": 2}]
+            ["The question of the canon should be approached with more nuance than rigid categories. (Progressive)", {"PROG": 3, "LIBCATH": 2}]
         ],
         "axis_weights": {"SCRIPT": 3}
     },
@@ -2846,7 +2850,7 @@ const QUESTIONS = [
         "options": [
             ["Episcopal: bishops in apostolic succession are essential to the Church's structure. (Ultramontane, Moderate Papalist)", {"ULTRA": 3, "PAPMOD": 3, "ANGLICAN": 3, "EASTECC": 3, "STD": 2}],
             ["Presbyterian: governance by elders in graded courts (session, presbytery, synod, assembly). (Reformed)", {"REFORM": 4}],
-            ["Congregational: each local congregation is autonomous under Christ. (Methodist)", {"METHOD": 2}],
+            ["Congregational: each local congregation is autonomous under Christ.", {"REFORM": 2}],
             ["The Pope holds supreme jurisdiction; episcopal authority derives from him. (Ultramontane, Integralist)", {"ULTRA": 4, "INTEG": 3}],
             ["Synodal/collegial: bishops govern together; Rome has primacy of honor, not jurisdiction. (Eastern Orthodox, Synodalist)", {"EORTHO": 4, "SYNOD": 3, "EASTECC": 2, "GALL": 2, "CONCIL": 2}]
         ],
@@ -2875,7 +2879,7 @@ const QUESTIONS = [
     {
         "text": "How should we understand the filioque clause ('and the Son') in the Nicene Creed?",
         "options": [
-            ["A legitimate and necessary doctrinal development clarifying the Trinity against Arianism. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "ULTRA": 2, "STD": 2}],
+            ["A legitimate and necessary doctrinal development clarifying Trinitarian relations. (Thomist, Tridentine)", {"THOM": 3, "TRIDSAC": 3, "ULTRA": 2, "STD": 2}],
             ["Theologically defensible but pastorally unwise to have added unilaterally; dialogue needed. (Ecumenical Monergist, Ressourcement)", {"ECUMON": 4, "RESS": 3, "COMMUN": 2, "PAPMOD": 2}],
             ["A Western addition that distorts Trinitarian theology; the Spirit proceeds from the Father alone. (Eastern Orthodox)", {"EORTHO": 5, "ORTHOPH": 4, "EASTECC": 2, "PALAM": 2}],
             ["The original Creed should be restored; Rome overstepped in adding to an ecumenical formula. (Conciliarist, Gallican)", {"CONCIL": 4, "GALL": 3, "PAPMIN": 2, "SYNOD": 2}]
@@ -2925,9 +2929,9 @@ const QUESTIONS = [
     {
         "text": "What is the proper understanding of original sin?",
         "options": [
-            ["Inherited guilt and corruption: all humanity sinned 'in Adam' and inherits both guilt and concupiscence. (Augustinian, Thomist)", {"AUG": 4, "THOM": 3, "JANS": 3, "TRIDSAC": 2}],
+            ["Inherited guilt and corruption: all humanity sinned 'in Adam' and inherits both guilt and concupiscence. (Augustinian, Thomist)", {"AUG": 4, "THOM": 2, "JANS": 3, "TRIDSAC": 2}],
             ["Inherited mortality and corruption but not personal guilt; we sin because we are mortal. (Eastern Orthodox)", {"EORTHO": 4, "ORTHOPH": 3, "EASTECC": 3, "PALAM": 2}],
-            ["Original sin is primarily privation: loss of original justice and sanctifying grace. (Thomist, Mainstream)", {"THOM": 3, "STD": 3, "TRIDSAC": 2}],
+            ["Original sin is primarily privation: loss of original justice and sanctifying grace. (Thomist, Mainstream)", {"THOM": 4, "STD": 3, "TRIDSAC": 2}],
             ["The doctrine needs restatement: evolutionary science changes how we understand human origins. (Progressive, Liberal Catholic)", {"PROG": 4, "LIBCATH": 3}]
         ],
         "axis_weights": {"GRACE": 4}
@@ -4488,7 +4492,7 @@ let answers = [];
 let scores = {};
 let axisScores = {};
 let selectedQuestions = [];
-let quizLength = 146;
+let quizLength = 154;
 let currentCategoryIndex = 0;
 let categoryQuestions = {}; // Maps category id to selected question indices
 let aiMessages = [];
@@ -5210,8 +5214,58 @@ async function testConnection() {
         }
     } catch (err) {
         statusEl.className = 'ai-test-status error';
-        statusEl.textContent = `✗ ${err.message || 'Failed'}`;
+        const msg = err.message || 'Failed';
+        if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed')) {
+            statusEl.textContent = '✗ CORS / connection blocked — see instructions below';
+        } else {
+            statusEl.textContent = `✗ ${msg}`;
+        }
     }
+}
+
+// Detect whether we're likely to hit CORS issues
+function getOriginInfo() {
+    const proto = window.location.protocol;
+    return {
+        isFile: proto === 'file:',
+        isLocalhost: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1',
+        protocol: proto
+    };
+}
+
+function getCORSInstructions(settings) {
+    const origin = getOriginInfo();
+    const lines = [];
+
+    lines.push(`⚠ CORS Error: Your browser blocked the request to ${settings.endpoint}.`);
+    lines.push('');
+
+    if (origin.isFile) {
+        lines.push('You are opening this file directly (file://). Browsers block requests from file:// to localhost for security.');
+        lines.push('');
+        lines.push('FIX — choose one:');
+        lines.push('');
+        lines.push('① Serve this file via a local web server (easiest):');
+        lines.push('   python3 -m http.server 8888');
+        lines.push('   Then open http://localhost:8888/index_FINAL_COMPLETE.html');
+        lines.push('');
+        lines.push('② Or set Ollama to allow all origins:');
+    } else {
+        lines.push('FIX — set your AI server to allow this origin:');
+    }
+
+    lines.push('');
+    if (settings.provider === 'ollama') {
+        lines.push('   macOS:    launchctl setenv OLLAMA_ORIGINS "*" && ollama serve');
+        lines.push('   Linux:    OLLAMA_ORIGINS="*" ollama serve');
+        lines.push('   Windows:  set OLLAMA_ORIGINS=* then start Ollama');
+        lines.push('   Docker:   -e OLLAMA_ORIGINS="*"');
+    } else {
+        lines.push('   Start your server with CORS headers allowing this origin.');
+        lines.push('   For LM Studio: enable "Allow Cross-Origin" in server settings.');
+    }
+
+    return lines.join('\n');
 }
 
 async function sendAIMessage() {
@@ -5301,19 +5355,13 @@ Keep responses concise (2-3 paragraphs max) but informative.`;
         if (typingDiv.parentNode) typingDiv.remove();
         console.error('AI Helper error:', error);
 
-        const isConnectionError = error.message?.includes('Failed to fetch') || error.message?.includes('NetworkError');
-        if (isConnectionError) {
-            addAIMessage(
-                `Unable to connect to ${settings.provider} at ${settings.endpoint}. ` +
-                `Make sure your local AI server is running.\n\n` +
-                `Quick start:\n` +
-                `• Ollama: install from ollama.com, then run "ollama run ${settings.model}"\n` +
-                `• LM Studio: download from lmstudio.ai, load a model, start the server\n\n` +
-                `Click ⚙ above to configure your connection.`,
-                'system'
-            );
+        const msg = error.message || '';
+        const isCORS = msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed') || msg.includes('TypeError');
+        
+        if (isCORS) {
+            addAIMessage(getCORSInstructions(settings), 'system');
         } else {
-            addAIMessage(`Error: ${error.message}. Check ⚙ settings or try a different model.`, 'system');
+            addAIMessage(`Error: ${msg}. Check ⚙ settings or try a different model.`, 'system');
         }
     }
     
@@ -5324,6 +5372,11 @@ function addAIMessage(content, role) {
     const messagesDiv = document.getElementById('ai-messages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `ai-message ${role}`;
+    if (role === 'system') {
+        // Preserve newlines and monospace formatting for instructions
+        messageDiv.style.whiteSpace = 'pre-wrap';
+        messageDiv.style.fontFamily = "'Crimson Pro', Georgia, serif";
+    }
     messageDiv.textContent = content;
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -5343,7 +5396,7 @@ function initAISettings() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initScores();
-    setQuizLength(146);
+    setQuizLength(154);
     initAISettings();
 });
     </script>
