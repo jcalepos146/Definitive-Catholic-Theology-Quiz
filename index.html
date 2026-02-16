@@ -972,46 +972,46 @@ const SCHOOL_NAME = Object.fromEntries(SCHOOLS);
 
 // Maximum possible score for each school (sum of highest weights across all questions)
 const MAX_POSSIBLE_SCORES = {
-  "STD": 293, "THOM": 220, "PROG": 214, "TRAD": 202, "PAPMOD": 159, "RESS": 144,
-  "LIBCATH": 128, "SSPX": 112, "NEOSCH": 111, "BENED": 107, "DOM": 101, "EASTECC": 100,
-  "AUG": 94, "DEVPROG": 83, "NEOAUG": 81, "TRIDSAC": 81, "ULTRA": 81, "JES": 79,
-  "INTEG": 79, "COMMUN": 79, "PALAM": 78, "ORTHOPH": 73, "CARM": 72, "ANTIMOD": 72,
-  "JANS": 66, "ROTR": 63, "REFORM": 62, "EASTSAC": 55, "SYNOD": 55, "PERSMOR": 55,
-  "SEDE": 54, "AUGP": 53, "EORTHO": 51, "THOMMETA": 45, "NEOPLAT": 42, "SCOT": 41,
-  "LUTHERAN": 40, "CHART": 39, "PAPMIN": 36, "DISTRIBUT": 36, "MOL": 35, "OPUS": 35,
-  "THOMMOR": 35, "ECUMON": 35, "FRAN": 33, "FRANC": 32, "CM": 32, "WORKERCATH": 32,
-  "MANUAL": 31, "TRADUM": 31, "INTEGSOFT": 30, "SOCDEM": 30, "TRADNAT": 30, "CONCIL": 29,
-  "BANEZ": 28, "EUCHMYST": 27, "EASTLIT": 27, "OCSO": 26, "INTEGHARD": 26, "ORDINAR": 26,
-  "GALL": 25, "ANGLICAN": 25, "NOMIN": 23, "CATHUNIV": 23, "SDB": 22, "VOLUNT": 22,
-  "INTELL": 22, "LUTHCAT": 22, "CP": 21, "KENOT": 21, "TUTIOR": 21, "CORPCATH": 21,
-  "LIBERTAR": 20, "THOMP": 19, "SCOTMETA": 19, "METHOD": 19, "SUPRA": 18, "THOMSAC": 18,
-  "SEDEPRIV": 18, "CONG": 17, "ORAT": 17, "VIRTUE": 17, "CSSR": 16, "CHALMAX": 16,
-  "INFRA": 15, "OSA": 15, "RESSCH": 15, "TRANSUB": 15, "PROBAB": 15, "RADORTH": 15,
-  "AGRAR": 14, "OSM": 13, "AUGMOR": 13, "CASUIST": 13, "SEMIAUG": 12, "PROP": 12,
-  "MERC": 11, "TRANSIG": 11, "COPTIC": 10, "ORIENTAL": 10, "OPRAEM": 9, "AUGSAC": 9,
+  "STD": 324, "PROG": 253, "THOM": 238, "TRAD": 229, "PAPMOD": 177, "RESS": 161,
+  "LIBCATH": 158, "BENED": 126, "SSPX": 124, "EASTECC": 124, "NEOSCH": 118, "DOM": 115,
+  "AUG": 110, "DEVPROG": 101, "PALAM": 99, "COMMUN": 97, "INTEG": 93, "TRIDSAC": 91,
+  "NEOAUG": 88, "JES": 88, "ULTRA": 85, "ORTHOPH": 85, "ROTR": 83, "ANTIMOD": 83,
+  "CARM": 81, "PERSMOR": 71, "JANS": 71, "SYNOD": 69, "EASTSAC": 67, "REFORM": 66,
+  "SEDE": 61, "EORTHO": 61, "AUGP": 58, "LUTHERAN": 50, "THOMMETA": 48, "NEOPLAT": 48,
+  "SCOT": 47, "FRANC": 46, "BANEZ": 44, "CHART": 42, "PAPMIN": 39, "MOL": 39,
+  "THOMMOR": 38, "FRAN": 38, "CM": 38, "ECUMON": 38, "OPUS": 37, "DISTRIBUT": 36,
+  "INTEGHARD": 35, "EASTLIT": 35, "WORKERCATH": 34, "ANGLICAN": 33, "MANUAL": 33, "CSSR": 33,
+  "TRADUM": 33, "CATHUNIV": 32, "SOCDEM": 30, "NOMIN": 30, "CONCIL": 30, "INTEGSOFT": 30,
+  "TRADNAT": 30, "OCSO": 30, "EUCHMYST": 29, "SCOTMETA": 27, "SDB": 27, "SUPRA": 26,
+  "INTELL": 26, "CP": 26, "ORDINAR": 26, "GALL": 25, "LUTHCAT": 25, "KENOT": 24,
+  "OSM": 24, "ORAT": 23, "THOMP": 23, "CONG": 23, "TUTIOR": 21, "VOLUNT": 21,
+  "CORPCATH": 21, "METHOD": 20, "LIBERTAR": 20, "THOMSAC": 18, "SEDEPRIV": 18, "INFRA": 17,
+  "VIRTUE": 16, "CHALMAX": 16, "RADORTH": 16, "TRANSUB": 15, "PROBAB": 15, "RESSCH": 15,
+  "OSA": 15, "AGRAR": 14, "MERC": 14, "CASUIST": 13, "SEMIAUG": 12, "PROP": 12,
+  "OPRAEM": 12, "TRANSIG": 11, "AUGMOR": 11, "COPTIC": 10, "ORIENTAL": 10, "AUGSAC": 9,
   "CSC": 6, "OSBCAM": 5, "MINSAC": 2
 };
 
 // Number of questions each school appears in (for flagging low-coverage schools)
 const SCHOOL_QUESTION_COUNTS = {
-  "AUG": 35, "AUGP": 19, "NEOAUG": 33, "SEMIAUG": 6, "JANS": 23, "THOM": 79,
-  "THOMP": 8, "BANEZ": 10, "MOL": 14, "CONG": 6, "SCOT": 17, "FRANC": 15,
-  "INFRA": 6, "SUPRA": 7, "DOM": 47, "JES": 33, "CARM": 28, "BENED": 48,
-  "OPUS": 13, "FRAN": 14, "ORAT": 10, "CHART": 13, "OSA": 5, "OCSO": 8,
-  "CSSR": 5, "SDB": 10, "CM": 13, "CP": 8, "OSM": 5, "OPRAEM": 6,
-  "MERC": 4, "CSC": 2, "OSBCAM": 3, "NEOPLAT": 21, "THOMMETA": 16, "SCOTMETA": 7,
-  "NOMIN": 8, "VOLUNT": 8, "INTELL": 8, "PALAM": 30, "RESSCH": 6, "CHALMAX": 5,
-  "KENOT": 7, "TRIDSAC": 30, "THOMSAC": 6, "AUGSAC": 3, "MINSAC": 1, "EASTSAC": 19,
-  "TRANSUB": 4, "TRANSIG": 5, "EUCHMYST": 13, "ULTRA": 22, "PAPMOD": 63, "PAPMIN": 14,
-  "GALL": 10, "CONCIL": 11, "EASTECC": 31, "SYNOD": 21, "THOMMOR": 15, "MANUAL": 17,
-  "VIRTUE": 8, "AUGMOR": 5, "PERSMOR": 31, "PROP": 4, "NEOSCH": 44, "CASUIST": 6,
-  "PROBAB": 4, "TUTIOR": 8, "INTEG": 33, "INTEGHARD": 8, "INTEGSOFT": 9, "LIBCATH": 45,
-  "DISTRIBUT": 12, "CORPCATH": 8, "SOCDEM": 14, "LIBERTAR": 7, "TRADNAT": 9, "CATHUNIV": 6,
-  "WORKERCATH": 13, "AGRAR": 5, "TRAD": 75, "ROTR": 22, "PROG": 81, "RESS": 64,
-  "STD": 113, "SSPX": 30, "SEDE": 15, "SEDEPRIV": 6, "ORDINAR": 5, "EASTLIT": 7,
-  "ORTHOPH": 18, "LUTHCAT": 5, "ECUMON": 9, "ANTIMOD": 22, "DEVPROG": 32, "COMMUN": 27,
-  "RADORTH": 5, "TRADUM": 9, "REFORM": 17, "LUTHERAN": 13, "ANGLICAN": 11, "METHOD": 8,
-  "EORTHO": 12, "COPTIC": 2, "ORIENTAL": 2
+  "AGRAR": 5, "ANGLICAN": 14, "ANTIMOD": 26, "AUG": 39, "AUGMOR": 4, "AUGP": 20,
+  "AUGSAC": 3, "BANEZ": 14, "BENED": 55, "CARM": 31, "CASUIST": 6, "CATHUNIV": 9,
+  "CHALMAX": 5, "CHART": 14, "CM": 15, "COMMUN": 32, "CONCIL": 12, "CONG": 8,
+  "COPTIC": 2, "CORPCATH": 8, "CP": 9, "CSC": 2, "CSSR": 9, "DEVPROG": 39,
+  "DISTRIBUT": 12, "DOM": 50, "EASTECC": 38, "EASTLIT": 9, "EASTSAC": 22, "ECUMON": 10,
+  "EORTHO": 15, "EUCHMYST": 14, "FRAN": 16, "FRANC": 18, "GALL": 10, "INFRA": 5,
+  "INTEG": 39, "INTEGHARD": 12, "INTEGSOFT": 9, "INTELL": 9, "JANS": 25, "JES": 35,
+  "KENOT": 8, "LIBCATH": 54, "LIBERTAR": 7, "LUTHCAT": 6, "LUTHERAN": 15, "MANUAL": 18,
+  "MERC": 5, "METHOD": 8, "MINSAC": 1, "MOL": 14, "NEOAUG": 35, "NEOPLAT": 20,
+  "NEOSCH": 47, "NOMIN": 8, "OCSO": 9, "OPRAEM": 7, "OPUS": 14, "ORAT": 12,
+  "ORDINAR": 5, "ORIENTAL": 2, "ORTHOPH": 21, "OSA": 5, "OSBCAM": 3, "OSM": 9,
+  "PALAM": 35, "PAPMIN": 16, "PAPMOD": 70, "PERSMOR": 37, "PROBAB": 4, "PROG": 92,
+  "PROP": 4, "RADORTH": 5, "REFORM": 18, "RESS": 68, "RESSCH": 6, "ROTR": 27,
+  "SCOT": 15, "SCOTMETA": 9, "SDB": 12, "SEDE": 18, "SEDEPRIV": 6, "SEMIAUG": 5,
+  "SOCDEM": 14, "SSPX": 33, "STD": 121, "SUPRA": 8, "SYNOD": 26, "THOM": 83,
+  "THOMMETA": 16, "THOMMOR": 16, "THOMP": 10, "THOMSAC": 6, "TRAD": 82, "TRADNAT": 9,
+  "TRADUM": 10, "TRANSIG": 5, "TRANSUB": 4, "TRIDSAC": 33, "TUTIOR": 8, "ULTRA": 23,
+  "VIRTUE": 7, "VOLUNT": 7, "WORKERCATH": 14
 };
 
 // Minimum questions threshold for reliable results
@@ -2692,7 +2692,7 @@ const QUESTIONS = [
     {
         "text": "Carmelite spirituality (Teresa of Ávila, John of the Cross) emphasizes:",
         "options": [
-            ["Interior prayer and mystical union - the soul's journey through mansions to divine marriage. (Carmelite)", {"CARM": 6, "EUCHMYST": 3, "CHART": 2, "PIETY": 3}],
+            ["Interior prayer and mystical union - the soul's journey through mansions to divine marriage. (Carmelite)", {"CARM": 6, "EUCHMYST": 3, "CHART": 2}],
             ["Valuable for contemplatives but most Catholics need active, engaged spirituality. (Jesuit, Dominican)", {"JES": 3, "DOM": 2, "SDB": 2, "OPUS": 2}],
             ["The 'dark night' teaches detachment from consolations - demanding but transformative. (Carmelite)", {"CARM": 5, "OCSO": 3, "CHART": 3, "CP": 2}],
             ["Mysticism is dangerous without strong doctrinal grounding and ecclesial oversight. (Neo-Scholastic, Traditionalist)", {"NEOSCH": 3, "TRAD": 2, "DOM": 2, "CARM": -2}],
@@ -5301,7 +5301,7 @@ Current question being asked in the quiz:
 Category: ${cat.name}
 
 Options:
-${q.options.map((opt, i) => `${i + 1}. ${opt[0]}`).join('\n')}
+${q.options.map((opt, i) => (i + 1) + '. ' + opt[0]).join('\n')}
 
 Be helpful, educational, and explain theological concepts in accessible language. If asked to explain the question, break down the theological terms and what each option represents. Do NOT tell the user which answer to pick - help them understand the concepts so they can decide for themselves based on their own beliefs.
 
