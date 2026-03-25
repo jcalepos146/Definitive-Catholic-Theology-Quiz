@@ -6,29 +6,29 @@
     <title>Catholic Theology Quiz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --bg: #0a0e0d;
-            --bg-raised: #111916;
-            --bg-card: #151d1a;
-            --bg-hover: #1a2420;
-            --verd: #4A9E7C;
-            --verd-light: #6BC4A0;
-            --verd-dim: #2d6b53;
-            --verd-faint: rgba(74, 158, 124, 0.08);
-            --verd-glow: rgba(74, 158, 124, 0.15);
-            --verd-border: rgba(74, 158, 124, 0.25);
-            --copper: #b87333;
-            --copper-faint: rgba(184, 115, 51, 0.1);
-            --text: #d4ddd8;
-            --text-mid: #8fa89a;
-            --text-dim: #5a7568;
-            --border: rgba(74, 158, 124, 0.15);
-            --border-strong: rgba(74, 158, 124, 0.3);
-            --shadow: 0 4px 20px rgba(0,0,0,0.4);
-            --shadow-glow: 0 0 30px rgba(74, 158, 124, 0.08);
+            --bg: #000000;
+            --bg-raised: #060d08;
+            --bg-card: #0a1209;
+            --bg-hover: #0e1a0d;
+            --verd: #39FF14;
+            --verd-light: #5fff3f;
+            --verd-dim: #1DB954;
+            --verd-faint: rgba(57, 255, 20, 0.06);
+            --verd-glow: rgba(57, 255, 20, 0.12);
+            --verd-border: rgba(57, 255, 20, 0.2);
+            --copper: #39FF14;
+            --copper-faint: rgba(57, 255, 20, 0.05);
+            --text: #b8e6b8;
+            --text-mid: #6aad6a;
+            --text-dim: #2d7a2d;
+            --border: rgba(57, 255, 20, 0.12);
+            --border-strong: rgba(57, 255, 20, 0.25);
+            --shadow: 0 4px 20px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 40px rgba(57, 255, 20, 0.08);
             --radius: 10px;
         }
         body {
@@ -39,29 +39,69 @@
             background: var(--bg);
             min-height: 100vh;
             background-image: 
-                radial-gradient(ellipse at 20% 50%, rgba(74, 158, 124, 0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(184, 115, 51, 0.02) 0%, transparent 50%);
+                radial-gradient(ellipse at 50% 0%, rgba(57, 255, 20, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 100%, rgba(57, 255, 20, 0.02) 0%, transparent 60%);
         }
         .main-container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
         .quiz-panel {
             background: var(--bg-card);
             border-radius: 14px;
             box-shadow: var(--shadow), var(--shadow-glow);
-            border: 1px solid var(--border);
-            border-top: 3px solid var(--verd-dim);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-top: 3px solid var(--verd);
             overflow: hidden;
         }
-        header { text-align: center; padding: 2.5rem 2rem 1.5rem; background: linear-gradient(180deg, var(--verd-faint) 0%, transparent 100%); }
-        h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; font-weight: 600; color: var(--verd-light); letter-spacing: 0.04em; }
-        .subtitle { font-size: 0.9rem; color: var(--text-dim); margin-top: 0.35rem; letter-spacing: 0.03em; }
+        header { text-align: center; padding: 2.5rem 2rem 1.5rem; background: linear-gradient(180deg, rgba(57, 255, 20, 0.04) 0%, transparent 100%); }
+        /* Header Image */
+        .header-image-container {
+            margin: -2.5rem -2rem 1.5rem;
+            overflow: hidden;
+            border-radius: 14px 14px 0 0;
+            position: relative;
+        }
+        .header-image {
+            width: 100%;
+            display: block;
+            filter: brightness(0.9);
+            border-bottom: 2px solid var(--verd);
+            box-shadow: 0 4px 30px rgba(57, 255, 20, 0.15);
+        }
+        .header-image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, var(--bg-card));
+        }
+        
+        /* CRT-style title */
+        h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--verd);
+            letter-spacing: 0.06em;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.4), 0 0 40px rgba(57, 255, 20, 0.15);
+            line-height: 1.3;
+        }
+        .subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--verd-dim);
+            margin-top: 0.5rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
         .divider { display: flex; align-items: center; justify-content: center; margin: 1rem 0; gap: 1rem; }
         .divider::before, .divider::after { content: ''; height: 1px; flex: 1; background: var(--border); }
         .divider span { color: var(--verd-dim); font-size: 1.2rem; }
         .hidden { display: none !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes crtFlicker { 0%, 100% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: 0.8; } 94% { opacity: 1; } 97% { opacity: 0.9; } 98% { opacity: 1; } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes portraitReveal { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: blur(0); } }
-        @keyframes glowPulse { 0%, 100% { filter: drop-shadow(0 0 8px rgba(74,158,124,0.3)); } 50% { filter: drop-shadow(0 0 16px rgba(74,158,124,0.5)); } }
+        @keyframes glowPulse { 0%, 100% { filter: drop-shadow(0 0 10px rgba(57,255,20,0.4)); } 50% { filter: drop-shadow(0 0 25px rgba(57,255,20,0.7)); } }
 
         /* Start Screen */
         .start-screen { padding: 2rem; text-align: center; animation: fadeIn 0.5s ease; }
@@ -69,8 +109,8 @@
         .start-screen p { color: var(--text-mid); max-width: 600px; margin: 0 auto 1.5rem; }
         .stats { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
         .stat { text-align: center; }
-        .stat-value { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; color: var(--verd); }
-        .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+        .stat-value { display: block; font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; font-weight: 400; color: var(--verd); text-shadow: 0 0 10px rgba(57,255,20,0.5); }
+        .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--verd-dim); text-transform: uppercase; letter-spacing: 0.1em; }
 
         .length-options { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin: 1rem 0; }
         .length-option { cursor: pointer; }
@@ -80,8 +120,8 @@
         .length-number { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--verd); display: block; }
         .length-label { font-size: 0.75rem; color: var(--text-dim); }
 
-        .start-btn { display: inline-block; margin-top: 1.5rem; padding: 0.8rem 2.5rem; background: var(--verd-dim); color: var(--text); border: 1px solid var(--verd); border-radius: 8px; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; letter-spacing: 0.04em; }
-        .start-btn:hover { background: var(--verd); color: var(--bg); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(74,158,124,0.3); }
+        .start-btn { display: inline-block; margin-top: 1.5rem; padding: 0.8rem 2.5rem; background: transparent; color: var(--verd); border: 2px solid var(--verd); border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; font-weight: 400; cursor: pointer; transition: all 0.3s; letter-spacing: 0.1em; text-transform: uppercase; }
+        .start-btn:hover { background: var(--verd); color: var(--bg); transform: translateY(-2px); box-shadow: 0 0 30px rgba(57,255,20,0.4), 0 0 60px rgba(57,255,20,0.15); }
 
         /* Category Nav */
         .category-nav { display: flex; gap: 0.3rem; padding: 0.75rem 1.5rem; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--verd-dim) transparent; border-bottom: 1px solid var(--border); background: var(--bg-raised); }
@@ -95,20 +135,20 @@
         .progress-section { padding: 0.75rem 1.5rem; }
         .progress-header { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.4rem; }
         .progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--verd-dim), var(--verd)); border-radius: 2px; transition: width 0.4s ease; box-shadow: 0 0 8px rgba(74,158,124,0.4); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--verd-dim), var(--verd)); border-radius: 2px; transition: width 0.4s ease; box-shadow: 0 0 12px rgba(57,255,20,0.5); }
 
         /* Question Card */
         .question-card { padding: 1.5rem 2rem; animation: slideIn 0.3s ease; }
         .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
         .question-number { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
-        .question-category-tag { font-size: 0.75rem; color: var(--verd); background: var(--verd-faint); padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid var(--border); }
+        .question-category-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--verd); background: var(--verd-faint); padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.06em; }
         .question-text { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; color: var(--text); line-height: 1.4; margin-bottom: 1.25rem; }
 
         /* Options */
         .options { display: flex; flex-direction: column; gap: 0.5rem; }
         .option { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s; background: var(--bg-raised); }
         .option:hover { border-color: var(--verd-dim); background: var(--bg-hover); }
-        .option.selected { border-color: var(--verd); border-left: 4px solid var(--verd); background: var(--verd-faint); box-shadow: 0 0 12px rgba(74,158,124,0.1); }
+        .option.selected { border-color: var(--verd); border-left: 4px solid var(--verd); background: var(--verd-faint); box-shadow: 0 0 15px rgba(57,255,20,0.12), inset 0 0 8px rgba(57,255,20,0.05); }
         .option input { display: none; }
         .option-radio { width: 18px; height: 18px; border: 2px solid var(--border-strong); border-radius: 50%; flex-shrink: 0; margin-top: 2px; transition: all 0.2s; position: relative; }
         .option.selected .option-radio { border-color: var(--verd); }
@@ -125,18 +165,18 @@
         .panel-toggle .arrow { transition: transform 0.2s; display: inline-block; font-size: 0.7rem; }
         .panel-toggle.open .arrow { transform: rotate(90deg); }
         .saints-toggle { color: var(--verd); margin-top: 0.75rem; }
-        .sources-toggle { color: var(--copper); }
+        .sources-toggle { color: var(--verd-dim); }
         .panel-content { display: none; margin-top: 0.4rem; padding: 0.75rem; border-radius: 8px; animation: fadeIn 0.3s ease; }
         .panel-content.open { display: block; }
         .saints-panel { background: var(--verd-faint); border-left: 2px solid var(--verd-dim); }
-        .sources-panel { background: var(--copper-faint); border-left: 2px solid var(--copper); }
+        .sources-panel { background: var(--verd-faint); border-left: 2px solid var(--verd-dim); }
         .saint-card { padding: 0.5rem 0.7rem; margin-bottom: 0.35rem; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .saint-card:hover { border-color: var(--verd); transform: translateX(3px); }
         .saint-card-name { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--verd-light); font-weight: 600; }
         .saint-card-era { font-size: 0.7rem; color: var(--text-dim); font-style: italic; }
         .saint-card-pos { font-size: 0.8rem; color: var(--text-mid); margin-top: 0.1rem; line-height: 1.4; }
         .saint-card-opt { font-size: 0.6rem; color: var(--verd-dim); text-transform: uppercase; letter-spacing: 0.05em; }
-        .source-topic { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--copper); margin-bottom: 0.3rem; font-weight: 600; }
+        .source-topic { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--verd-dim); margin-bottom: 0.3rem; font-weight: 600; }
         .source-desc { font-size: 0.85rem; color: var(--text-mid); margin-bottom: 0.4rem; line-height: 1.5; }
         .source-reading { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
 
@@ -145,7 +185,7 @@
         .nav-btn { padding: 0.6rem 1.5rem; border: 1px solid var(--border-strong); border-radius: 8px; font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; background: var(--bg-raised); color: var(--text-mid); }
         .nav-btn:hover { border-color: var(--verd); color: var(--verd-light); }
         .nav-btn.primary { background: var(--verd-dim); color: var(--text); border-color: var(--verd); }
-        .nav-btn.primary:hover { background: var(--verd); color: var(--bg); box-shadow: 0 0 15px rgba(74,158,124,0.3); }
+        .nav-btn.primary:hover { background: var(--verd); color: var(--bg); box-shadow: 0 0 20px rgba(57,255,20,0.4); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
         /* Question Nav Dots */
@@ -153,7 +193,7 @@
         .q-dot { width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.55rem; color: var(--text-dim); cursor: pointer; transition: all 0.15s; background: var(--bg-raised); }
         .q-dot:hover { border-color: var(--verd-dim); }
         .q-dot.answered { background: var(--verd-faint); border-color: var(--verd-dim); color: var(--verd); }
-        .q-dot.current { background: var(--verd); color: var(--bg); border-color: var(--verd); box-shadow: 0 0 8px rgba(74,158,124,0.4); }
+        .q-dot.current { background: var(--verd); color: var(--bg); border-color: var(--verd); box-shadow: 0 0 12px rgba(57,255,20,0.5); }
 
         /* Copy Prompt */
         .copy-prompt-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); color: var(--verd); border: 1px solid var(--verd-dim); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow); transition: all 0.3s; z-index: 999; display: flex; align-items: center; justify-content: center; }
@@ -175,18 +215,18 @@
         .portrait-frame {
             width: 160px;
             height: 220px;
-            border: 2px solid var(--verd-dim);
+            border: 2px solid var(--verd);
             border-radius: 8px;
             padding: 8px;
             background: var(--bg);
-            box-shadow: 0 0 30px rgba(74,158,124,0.15), inset 0 0 20px rgba(74,158,124,0.05);
+            box-shadow: 0 0 30px rgba(57,255,20,0.2), inset 0 0 20px rgba(57,255,20,0.05);
             animation: glowPulse 4s ease-in-out infinite;
         }
         .portrait-frame svg { width: 100%; height: 100%; }
         
         .top-match { text-align: center; padding: 1.5rem; background: var(--bg-raised); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 1.5rem; }
         .top-match-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); }
-        .top-match-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--verd-light); font-weight: 700; margin: 0.25rem 0; text-shadow: 0 0 20px rgba(74,158,124,0.2); }
+        .top-match-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--verd); font-weight: 700; margin: 0.25rem 0; text-shadow: 0 0 20px rgba(57,255,20,0.5), 0 0 40px rgba(57,255,20,0.2); }
         .top-match-score { font-size: 0.9rem; color: var(--text-mid); }
         .top-match-summary { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.75rem; line-height: 1.5; max-width: 600px; margin-left: auto; margin-right: auto; }
         .figure-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
@@ -207,28 +247,45 @@
         .rank-name { font-weight: 500; font-size: 0.9rem; color: var(--text); }
         .rank-detail { font-size: 0.75rem; color: var(--text-dim); }
         .rank-bar-bg { height: 5px; background: var(--border); border-radius: 3px; margin-top: 0.2rem; }
-        .rank-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--verd-dim), var(--verd)); box-shadow: 0 0 6px rgba(74,158,124,0.3); transition: width 0.6s ease; }
+        .rank-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--verd-dim), var(--verd)); box-shadow: 0 0 8px rgba(57,255,20,0.4); transition: width 0.6s ease; }
         .rank-score { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--verd); white-space: nowrap; }
 
         .axis-row { margin-bottom: 1rem; }
         .axis-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem; }
         .axis-name { font-weight: 600; color: var(--text); }
         .axis-bar { position: relative; height: 6px; background: var(--border); border-radius: 3px; }
-        .axis-marker { position: absolute; top: -6px; width: 18px; height: 18px; background: var(--verd); border: 2px solid var(--bg-card); border-radius: 50%; box-shadow: 0 0 10px rgba(74,158,124,0.5); transition: left 0.5s ease; }
+        .axis-marker { position: absolute; top: -6px; width: 18px; height: 18px; background: var(--verd); border: 2px solid var(--bg-card); border-radius: 50%; box-shadow: 0 0 12px rgba(57,255,20,0.6); transition: left 0.5s ease; }
         .axis-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); margin-top: 0.5rem; }
 
         .retake-section { text-align: center; margin-top: 2rem; }
         
-        /* Noise texture overlay */
+        /* CRT Scanline overlay */
         .quiz-panel::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 3px
+            );
             pointer-events: none;
             border-radius: 14px;
+            z-index: 1;
         }
-        .quiz-panel { position: relative; }
+        .quiz-panel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            border-radius: 14px;
+            z-index: 1;
+        }
+        .quiz-panel { position: relative; animation: crtFlicker 8s infinite; }
+        .quiz-panel > * { position: relative; z-index: 2; }
 
         @media (max-width: 600px) {
             .main-container { padding: 0.5rem; }
@@ -245,7 +302,10 @@
     <div class="main-container">
         <div class="quiz-panel" id="quiz-panel">
             <header>
-                <h1>Catholic Theology Quiz</h1>
+                <div class="header-image-container">
+                    <img id="header-img" src="https://github.com/jcalepos146/Definitive-Catholic-Theology-Quiz/blob/main/GOURGEOUS%20LOGO.png?raw=true" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
+                </div>
+                <h1>The Definitive Catholic<br>Theology Quiz</h1>
                 <p class="subtitle">119 Questions &middot; 10 Categories &middot; Hybrid Scoring</p>
                 <div class="divider"><span>&#10013;</span></div>
             </header>
@@ -1074,7 +1134,7 @@ const QUESTIONS = [
             ["Partially valid but insufficient. Some texts genuinely conflict with prior magisterium. (SSPX-leaning, Sedevacantist)", {"SSPX": 5, "SEDE": 4, "TRAD": 4, "ANTIMOD": 4, "COMMUN": -2}],
             ["A pastoral strategy more than theological argument. Useful for maintaining unity. (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 3, "JES": 2}],
         ],
-        "axis_weights": {}
+        "axis_weights": {"SCRIPT": 3}
     },
     {
         "text": "Regarding universals (like 'humanity' or 'justice'):",
@@ -1251,14 +1311,14 @@ const QUESTIONS = [
             ["Theosis/deification: participation in divine life as transformative communion. (Palamite/Eastern)", {"PALAM": 4, "EASTSAC": 2, "EUCHMYST": 2, "NEOPLAT": 1, "RESS": 1}],
             ["Renewal of the world and social holiness: the Church's mission in history. (Progressive)", {"PROG": 3, "SOCDEM": 1, "WORKERCATH": 1, "PERSMOR": 1}],
         ],
-        "axis_weights": {"ESCH": 4}
+        "axis_weights": {"ESCH": 4, "PIETY": 3}
     },
     {
         "text": "What is justification, and how does it relate to sanctification and growth in grace?",
         "options": [
             ["Justification is a real interior transformation (not just imputation) that increases through the sacraments and good works. Sanctification is its progressive deepening.", {"THOM": 3, "TRIDSAC": 3, "STD": 2, "DOM": 1}],            ["Justification and sanctification are formally distinct: justification removes guilt, sanctification heals and elevates. Both are gifts of grace, but analytically separable.", {"NEOSCH": 3, "THOM": 2, "MANUAL": 1}],            ["Justification is primarily God's gratuitous act — we receive, we don't achieve. Growth in grace is real but secondary to the sovereign gift.", {"AUG": 3, "JANS": 2, "NEOAUG": 2}],            ["Justification by faith alone, properly understood (fides caritate formata), is compatible with Catholic teaching. The Protestant insight was partially correct.", {"COMMUN": 3, "RESS": 2, "COMMUN": 2, "DEVPROG": 1}],            ["Theosis/divinization is a better framework than Western juridical categories. We are drawn into participation in divine life — that IS both justification and sanctification.", {"PALAM": 3, "EASTECC": 2, "ORTHOPH": 2, "NEOAUG": 2}]
         ],
-        "axis_weights": {"JUST": 4, "GRACE": 2}
+        "axis_weights": {"JUST": 5, "GRACE": 2}
     },
     {
         "text": "How are justification and sanctification related?",
@@ -1290,7 +1350,7 @@ const QUESTIONS = [
             ["The truly elect will certainly persevere; assurance is a gift of faith rooted in God's promises. (Reformed, Lutheran)", {"REFORM": 3, "LUTHERAN": 3, "COMMUN": 2}],
             ["Conditional assurance: We can know we are in grace now, but final perseverance remains uncertain and requires ongoing cooperation. (Molinist, Jesuit)", {"MOL": 2, "JES": 2, "STD": 2, "CONG": 1}]
         ],
-        "axis_weights": {"JUST": 2, "ESCH": 2, "GRACE": 2}
+        "axis_weights": {"JUST": 2, "ESCH": 5, "GRACE": 2}
     },
     {
         "text": "Final perseverance is best described as which of the following?",
@@ -1311,7 +1371,7 @@ const QUESTIONS = [
             ["Grace heals and elevates nature, enabling but not determining free response (Thomist)", {"THOM": 3, "DOM": 1}],
             ["Grace is offered universally; efficacy depends wholly on human cooperation (Semi-Augustinian)", {"AUG": 2, "PROG": 1}],
         ],
-        "axis_weights": {"GRACE": 2}
+        "axis_weights": {"GRACE": 5}
     },
     {
         "text": "How should we understand divine predestination, reprobation, and the logical order of God's decrees?",
@@ -1328,7 +1388,7 @@ const QUESTIONS = [
             ["The distinction between sufficient and efficacious grace is largely verbal (Reformed, Lutheran)", {"REFORM": 2, "LUTHERAN": 2}],
             ["Sufficient grace truly enables, and its becoming efficacious involves genuine synergy (Semi-Augustinian)", {"AUG": 2, "THOM": 1}],
         ],
-        "axis_weights": {"GRACE": 2}
+        "axis_weights": {"GRACE": 4}
     },
     {
         "text": "How compatible are Protestant and Catholic understandings of justification and the Eucharist, and what would reunion require?",
@@ -1388,7 +1448,7 @@ const QUESTIONS = [
             ["Western theology rightly emphasizes justification. Theosis language risks pantheism. (Neo-Scholastic, Tridentine)", {"NEOSCH": 3, "TRIDSAC": 3, "MANUAL": 2, "PALAM": -3}],
             ["A beautiful Eastern emphasis the West should recover through ressourcement. (Ressourcement, Neo-Augustinian)", {"RESS": 5, "NEOAUG": 4, "COMMUN": 3, "PALAM": 3, "BENED": 2}],
         ],
-        "axis_weights": {"JUST": 4}
+        "axis_weights": {"JUST": 4, "PIETY": 2}
     },
     {
         "text": "How should Latin Catholics regard the Byzantine and Eastern liturgical traditions?",
@@ -1486,7 +1546,7 @@ const QUESTIONS = [
             ["Often excessive in pre-conciliar liturgy; active participation is key (Progressive)", {"PROG": 2}],
             ["Deeply valued in Eastern liturgy as part of the mystery (Eastern Sacramental)", {"EASTSAC": 2, "PALAM": 1}],
         ],
-        "axis_weights": {"LIT": 2, }
+        "axis_weights": {"LIT": 2, "PIETY": 2}
     },
     {
         "text": "How important is rubrical exactness in liturgy?",
@@ -1496,7 +1556,7 @@ const QUESTIONS = [
             ["Secondary: The spirit of the liturgy matters more than exact rubrics (Progressive)", {"PROG": 2, "RESS": 1}],
             ["Rubrics serve the mystery and should be followed with understanding (Benedictine)", {"BENED": 2, "THOM": 1}],
         ],
-        "axis_weights": {"LIT": 2, "RIGOR": 1}
+        "axis_weights": {"LIT": 2, "RIGOR": 1, "PIETY": 1}
     },
     {
         "text": "How has papal authority developed historically, and is its current form legitimate?",
@@ -1539,7 +1599,7 @@ const QUESTIONS = [
             ["From Christ through consecration; Rome has primacy but not source of jurisdiction (Gallican, Conciliarist)", {"GALL": 2, "GALL": 2, "PAPMIN": 2}],
             ["Bishops are true ordinaries with proper authority; papal primacy is real but limited (Moderate Papalist, Mainstream)", {"PAPMOD": 3, "STD": 2}],
         ],
-        "axis_weights": {"PAPAL": 2}
+        "axis_weights": {"PAPAL": 3}
     },
     {
         "text": "What is the proper model of Church unity, and how should it be maintained?",
@@ -1581,7 +1641,7 @@ const QUESTIONS = [
             ["Material but not formal popes (Sedeprivationist thesis)", {"SEDE": 3}],
             ["Not true popes at all; the See has been vacant (Sedevacantist)", {"SEDE": 3}],
         ],
-        "axis_weights": {"PAPAL": -2, "LIT": 2}
+        "axis_weights": {"LIT": 2, "PAPAL": 2}
     },
     {
         "text": "Can a Catholic resist or disobey Roman directives?",
@@ -1633,7 +1693,7 @@ const QUESTIONS = [
             ["The Pope holds supreme jurisdiction; episcopal authority derives from him. (Ultramontane, Integralist)", {"ULTRA": 4, "INTEG": 3}],
             ["Synodal/collegial: bishops govern together; Rome has primacy of honor, not jurisdiction. (Eastern Orthodox, Synodalist)", {"EORTHO": 4, "SYNOD": 3, "EASTECC": 2, "GALL": 2, "GALL": 2}]
         ],
-        "axis_weights": {"PAPAL": 2}
+        "axis_weights": {"PAPAL": 3}
     },
     {
         "text": "How should we understand the filioque clause ('and the Son') in the Nicene Creed?",
@@ -1653,7 +1713,7 @@ const QUESTIONS = [
             ["Images are acceptable but not essential; the Word preached is primary. (Reformed, Lutheran)", {"REFORM": 2, "LUTHERAN": 3, "METHOD": 2}],
             ["Icons risk becoming idols; worship should focus on God alone. (Reformed)", {"REFORM": 4}]
         ],
-        "axis_weights": {"LIT": 3, }
+        "axis_weights": {"LIT": 3, "PIETY": 2}
     },
     {
         "text": "If a non-definitive magisterial teaching seems doubtful or imprudent, what is the Catholic posture?",
@@ -1664,7 +1724,7 @@ const QUESTIONS = [
             ["If it conflicts with Tradition, public resistance is justified. (SSPX-leaning, Traditionalist)", {"SSPX": 3, "TRAD": 2, "SEDE": 1, "SEDE": 1}],
             ["Conscience is supreme; dissent can be fully legitimate. (Progressive, Liberal Catholic)", {"PROG": 3, "LIBCATH": 2, "PERSMOR": 1}],
         ],
-        "axis_weights": {"PAPAL": 2, "SCRIPT": 1}
+        "axis_weights": {"PAPAL": 2, "SCRIPT": 1, "RIGOR": 2}
     },
     {
         "text": "What is the best approach to moral theology, and what is the value of the manualist tradition?",
@@ -1681,7 +1741,7 @@ const QUESTIONS = [
             ["Pastoral discernment may find that a norm doesn't apply in a particular case (Personalist, Progressive)", {"PERSMOR": 2, "PROG": 2}],
             ["Epikeia allows departure from law's letter to fulfill its spirit (Thomist)", {"THOM": 2, "VIRTUE": 1}],
         ],
-        "axis_weights": {"RIGOR": -2}
+        "axis_weights": {"RIGOR": 4}
     },
     {
         "text": "In moral theology, how should doubtful cases and uncertain laws be handled?",
@@ -1720,7 +1780,7 @@ const QUESTIONS = [
         "options": [
             ["Contemplative prayer (mental prayer, meditation) is essential for every Christian. The highest prayer is infused contemplation — mystical union with God.", {"CARM": 4, "CHART": 3, "OCSO": 2, "BENED": 2}],            ["Mental prayer is very important but the liturgy (especially the Mass) is objectively the highest form of prayer. Private devotion serves liturgical life.", {"BENED": 3, "DOM": 2, "STD": 2, "TRIDSAC": 1}],            ["Finding God in all things (Ignatian spirituality) — contemplation in action — is the ideal. The contemplative/active distinction is overdrawn.", {"JES": 4, "SDB": 2, "OPUS": 2}],            ["Prayer is important but secondary to charity and justice. Too much emphasis on contemplation risks navel-gazing and neglecting the poor.", {"PROG": 2, "WORKERCATH": 2, "CM": 2, "LIBCATH": 1}],            ["The Jesus Prayer and hesychasm represent the deepest tradition of unceasing prayer. Interior stillness and deification are the goal.", {"PALAM": 3, "EASTECC": 2, "EORTHO": 2, "ORTHOPH": 2}]
         ],
-        "axis_weights": {}
+        "axis_weights": {"PIETY": 4}
     },
     {
         "text": "What role do the saints play in the Christian life?",
@@ -1756,7 +1816,7 @@ const QUESTIONS = [
             ["Evangelical poverty and simplicity among the people (Franciscan ideal)", {"FRAN": 3, "FRANC": 2}],
             ["Sanctification in ordinary secular life (Opus Dei ideal)", {"OPUS": 3}],
         ],
-        "axis_weights": {}
+        "axis_weights": {"PIETY": 3}
     },
     {
         "text": "St. Augustine's spirituality emphasizes:",
@@ -1766,7 +1826,7 @@ const QUESTIONS = [
             ["Grace and predestination: absolute priority of God's initiative. (Augustinian, Strict Augustinian)", {"AUG": 3, "AUGP": 3, "BANEZ": 2, "JANS": 1}],
             ["Community life: 'One mind and one heart intent upon God.' (Augustinian Order)", {"OSA": 4, "BENED": 2, "OPRAEM": 1}],
         ],
-        "axis_weights": {"GRACE": 2, }
+        "axis_weights": {"GRACE": 2, "PIETY": 2}
     },
     {
         "text": "How do you view Passionist spirituality and its emphasis on the 'memoria passionis' (memory of Christ's suffering)?",
@@ -1777,7 +1837,7 @@ const QUESTIONS = [
             ["Reparation for sin through contemplation of the Passion is a powerful but demanding spiritual path. (Passionist, Traditionalist)", {"CP": 4, "TRAD": 2, "EUCHMYST": 2, "CSSR": 1}],
             ["Can become morbid or masochistic. Better to focus on Christ's victory and the joy of the Resurrection. (Progressive)", {"PROG": 3, "LIBCATH": 2, "CP": -2}]
         ],
-        "axis_weights": {}
+        "axis_weights": {"PIETY": 3}
     },
     {
         "text": "The Carthusian vocation represents:",
@@ -1787,7 +1847,7 @@ const QUESTIONS = [
             ["Important witness, but Church needs engaged presence. (Progressive)", {"PROG": 2, "LIBCATH": 1, "SOCDEM": 1}],
             ["Desert tradition: 'flee, be silent, pray' as perennial wisdom. (Carthusian, Eastern Catholic)", {"CHART": 3, "EASTECC": 2, "PALAM": 1, "ORAT": 1}],
         ],
-        "axis_weights": {}
+        "axis_weights": {"PIETY": 4}
     },
     {
         "text": "What is the proper relationship between Church and State, and is a confessional Catholic state still the ideal?",
@@ -1926,7 +1986,7 @@ const QUESTIONS = [
             ["An encounter with divine fire that heals and illumines (Eastern-leaning emphasis). (Palamite/Eastern, Eastern Sacramental)", {"PALAM": 3, "EASTSAC": 2, "EUCHMYST": 1, "NEOPLAT": 1}],
             ["A symbol pointing to God's mercy; details shouldn't be systematized. (Progressive)", {"PROG": 2, "PERSMOR": 1}],
         ],
-        "axis_weights": {"ESCH": 3, "RIGOR": 1}
+        "axis_weights": {"ESCH": 4, "RIGOR": 1}
     },
     {
         "text": "Theologians primarily serve the Church by…",
@@ -1976,7 +2036,7 @@ const QUESTIONS = [
             ["Suspect: Focus on ordinary virtue and sacraments instead (Manualist)", {"MANUAL": 2, "NEOSCH": 1}],
             ["Central to Eastern spirituality: Theosis/deification is the goal (Palamite/Eastern, Eastern Sacramental)", {"PALAM": 3, "EASTSAC": 2}],
         ],
-        "axis_weights": {}
+        "axis_weights": {"PIETY": 3}
     },
     {
         "text": "How often should a devout Catholic go to confession?",
@@ -1986,7 +2046,7 @@ const QUESTIONS = [
             ["Whenever conscious of serious sin; otherwise a few times a year (Progressive)", {"PROG": 2}],
             ["The Eastern tradition emphasizes spiritual direction over frequent confession (Eastern Sacramental)", {"EASTSAC": 2, "PALAM": 1}],
         ],
-        "axis_weights": {"RIGOR": 1}
+        "axis_weights": {"RIGOR": 2, "PIETY": 2}
     },
     {
         "text": "Why did the Son of God become incarnate?",
@@ -2006,7 +2066,7 @@ const QUESTIONS = [
             ["Simplicity and austerity: stripping away to find essential. (Cistercian/Trappist, Carthusian)", {"OCSO": 3, "CHART": 2, "FRAN": 2, "TRAD": 1}],
             ["Liturgical beauty in pure, unadorned Benedictine form.", {"OCSO": 3, "BENED": 3, "OPRAEM": 2, "TRAD": 1}],
         ],
-        "axis_weights": {"LIT": 1}
+        "axis_weights": {"LIT": 1, "PIETY": 3}
     },
     {
         "text": "How should the Catholic Church approach reunion with the Eastern Orthodox?",
@@ -2099,7 +2159,7 @@ const QUESTIONS = [
             ["We can hope for individuals but the Church teaches hell is populated. (Mainstream, Thomist)", {"STD": 4, "THOM": 3, "PAPMOD": 2, "AUG": 2}],
             ["Speculative. Focus on your own salvation, not universal questions. (Carmelite, Carthusian)", {"CARM": 3, "CHART": 3, "STD": 2, "BENED": 2}],
         ],
-        "axis_weights": {"ESCH": 4, "RIGOR": 3}
+        "axis_weights": {"ESCH": 5, "RIGOR": 3}
     },
     {
         "text": "What is your position on Humanae Vitae's teaching on contraception?",
@@ -2156,7 +2216,7 @@ const QUESTIONS = [
             ["Deuterocanonical: secondary canon, useful and often read liturgically. (Anglican, Methodist)", {"METHOD": 3, "METHOD": 2}],
             ["The question of the canon should be approached with more nuance than rigid categories. (Progressive)", {"PROG": 3, "LIBCATH": 2}]
         ],
-        "axis_weights": {"SCRIPT": 3}
+        "axis_weights": {"SCRIPT": 4}
     },
     {
         "text": "How many Ecumenical Councils are binding on the Church?",
@@ -2437,7 +2497,8 @@ const SAINT_VIEWS = {
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Historical-critical methods are useful and often necessary, but must be disciplined by dogma and the Church\'s rule of faith.", optionIndex: 2 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The text\'s meaning is best read through contemporary experience and community reception.", optionIndex: 3 },
         { saint: "St. John Paul II", era: "1920–2005", position: "The text\'s meaning is best read through contemporary experience and community reception.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Erasmus of Rotterdam", era: "c. 1466–1536", position: "Go back to the Greek and Hebrew! The Vulgate has errors. But read with the Fathers, not against them.", optionIndex: 2 }],
     1: [
         { saint: "St. Benedict of Nursia", era: "c. 480–547", position: "Liturgical stability and doctrinal continuity: a formal, traditional Catholic translation style.", optionIndex: 0 },
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Liturgical stability and doctrinal continuity: a formal, traditional Catholic translation style.", optionIndex: 0 },
@@ -2476,7 +2537,8 @@ const SAINT_VIEWS = {
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Platonic/Participatory: Universals exist primarily in the divine mind; things participate", optionIndex: 2 },
         { saint: "Charles Sanders Peirce", era: "1839–1914", position: "Scotist: Universals have a \'formal distinction\'—less than real but more than nominal", optionIndex: 3 },
         { saint: "Bl. John Duns Scotus", era: "c. 1266–1308", position: "Scotist: Universals have a \'formal distinction\'—less than real but more than nominal", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Marsilio Ficino", era: "1433–1499", position: "The Ideas in the Mind of God are the archetypes of all created things. Plato glimpsed what revelation confirms.", optionIndex: 2 }],
     5: [
         { saint: "Étienne Gilson", era: "1884–1978", position: "Analogy of being (Analogia Entis): Being is predicated analogically between God and creatures—neither univocally nor equivocally, but proportionally. (Thomis...", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Analogy of being (Analogia Entis): Being is predicated analogically between God and creatures—neither univocally nor equivocally, but proportionally. (Thomis...", optionIndex: 0 },
@@ -2486,7 +2548,10 @@ const SAINT_VIEWS = {
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Participatory/Emanation: Creatures participate in or emanate from divine being through a hierarchy of degrees; emphasis on return to the One.", optionIndex: 2 },
         { saint: "Bl. John Duns Scotus", era: "c. 1266–1308", position: "The question is too abstract and speculative; focus on God\'s revealed names and salvation history rather than metaphysical speculation.", optionIndex: 3 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The question is too abstract and speculative; focus on God\'s revealed names and salvation history rather than metaphysical speculation.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Cajetan (Tommaso de Vio), O.P.", era: "1469–1534", position: "The real distinction of essence and existence in creatures is the foundation of all sound philosophy.", optionIndex: 0 },
+        { saint: "St. Anselm of Canterbury", era: "1033–1109", position: "I do not seek to understand in order to believe; I believe in order to understand.", optionIndex: 0 },
+        { saint: "Marsilio Ficino", era: "1433–1499", position: "All things flow from and return to the One. The hierarchy of being is a hierarchy of participation.", optionIndex: 2 }],
     6: [
         { saint: "Domingo Báñez, O.P.", era: "1528–1604", position: "Bañez - physical premotion, intrinsically efficacious grace, predestination ante praevisa merita.", optionIndex: 0 },
         { saint: "Prosper of Aquitaine", era: "c. 390–455", position: "Bañez - physical premotion, intrinsically efficacious grace, predestination ante praevisa merita.", optionIndex: 0 },
@@ -2519,7 +2584,10 @@ const SAINT_VIEWS = {
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Theology must be done in dialogue with contemporary philosophy and science; its \'certainties\' are always culturally conditioned and revisable.", optionIndex: 3 },
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "The Eastern tradition emphasizes apophatic theology — God is known through what He is not. Western \'certainty\' can become rationalist presumption.", optionIndex: 4 },
         { saint: "St. Photios the Great", era: "c. 810–893", position: "The Eastern tradition emphasizes apophatic theology — God is known through what He is not. Western \'certainty\' can become rationalist presumption.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "St. John Damascene", era: "c. 675–749", position: "God transcends all categories. Our theology is truest when it acknowledges its own inadequacy before the divine mystery.", optionIndex: 4 },
+        { saint: "St. Anselm of Canterbury", era: "1033–1109", position: "Reason can prove what faith already holds — not replacing faith, but giving it intellectual form.", optionIndex: 0 },
+        { saint: "Nicholas of Cusa", era: "1401–1464", position: "The highest wisdom is to recognize that the Infinite exceeds every finite concept. This is learned ignorance.", optionIndex: 4 }],
     9: [
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "A disaster that led to voluntarism, fideism, and ultimately secularism. (Thomist, Thomist (Realist))", optionIndex: 0 },
         { saint: "Étienne Gilson", era: "1884–1978", position: "A disaster that led to voluntarism, fideism, and ultimately secularism. (Thomist, Thomist (Realist))", optionIndex: 0 },
@@ -2539,7 +2607,8 @@ const SAINT_VIEWS = {
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "A distinctly Eastern approach that enriches Catholic theology without replacing the Thomist framework. Both lungs can breathe.", optionIndex: 3 },
         { saint: "Bl. John Duns Scotus", era: "c. 1266–1308", position: "Scotist formal distinctions offer an orthodox Western interpretation: a real formal distinction in God between essence and operations, without Palamas\'s spec...", optionIndex: 4 },
         { saint: "Charles Sanders Peirce", era: "1839–1914", position: "Scotist formal distinctions offer an orthodox Western interpretation: a real formal distinction in God between essence and operations, without Palamas\'s spec...", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Nicholas of Cusa", era: "1401–1464", position: "The coincidence of opposites means distinctions contradictory at the finite level may coincide in the Infinite.", optionIndex: 1 }],
     11: [
         { saint: "Bl. John Duns Scotus", era: "c. 1266–1308", position: "Yes—Christ is the absolute primacy of creation, independent of sin", optionIndex: 0 },
         { saint: "St. Bonaventure", era: "1221–1274", position: "Yes—Christ is the absolute primacy of creation, independent of sin", optionIndex: 0 },
@@ -2566,7 +2635,8 @@ const SAINT_VIEWS = {
         { saint: "Hans Urs von Balthasar", era: "1905–1988", position: "Christ\'s human will genuinely struggled before conforming; soteriologically important.", optionIndex: 2 },
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "Maximus\'s synthesis: natural human will always good; gnomic willing absent.", optionIndex: 3 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "Maximus\'s synthesis: natural human will always good; gnomic willing absent.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Maximus the Confessor", era: "c. 580–662", position: "Christ\'s human will is truly free — He chose obedience not by compulsion but by the perfect orientation of created freedom toward God.", optionIndex: 0 }],
     14: [
         { saint: "St. Cyril of Alexandria", era: "c. 376–444", position: "Predicates of either nature attributed to the Person, carefully avoiding mixing natures.", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Predicates of either nature attributed to the Person, carefully avoiding mixing natures.", optionIndex: 0 },
@@ -2588,7 +2658,10 @@ const SAINT_VIEWS = {
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "The Cross is supremely the revelation of God\'s boundless love, designed to move our hearts to repentance and kindle a response of love in return; juridical c...", optionIndex: 3 },
         { saint: "St. Paul of the Cross", era: "1694–1775", position: "The Cross is the \'Primordial Sacrament\' where Christ enters into the depths of human suffering and God-forsakenness, sanctifying all human anguish and openin...", optionIndex: 4 },
         { saint: "St. Teresa of Ávila", era: "1515–1582", position: "The Cross is the \'Primordial Sacrament\' where Christ enters into the depths of human suffering and God-forsakenness, sanctifying all human anguish and openin...", optionIndex: 4 },
-    ],
+    ,
+        { saint: "St. Maximus the Confessor", era: "c. 580–662", position: "By assuming and healing human nature, the Logos conquered the corruption that held creation captive.", optionIndex: 2 },
+        { saint: "St. Irenaeus of Lyon", era: "c. 130–202", position: "What was lost in Adam is restored in Christ. He recapitulated every stage of human life, healing it from within.", optionIndex: 2 },
+        { saint: "St. Anselm of Canterbury", era: "1033–1109", position: "Sin is an offense against God\'s infinite honor. Only a God-man could offer the infinite satisfaction required.", optionIndex: 1 }],
     16: [
         { saint: "Joseph Ratzinger", era: "1927–2022", position: "Lutheran - if \'faith alone\' is properly understood and sacramental realism affirmed, we\'re close.", optionIndex: 0 },
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Lutheran - if \'faith alone\' is properly understood and sacramental realism affirmed, we\'re close.", optionIndex: 0 },
@@ -2619,7 +2692,8 @@ const SAINT_VIEWS = {
         { saint: "St. Cyril of Alexandria", era: "c. 376–444", position: "Chalcedon betrayed Cyril: \'one incarnate nature of God the Word\' is the authentic formula.", optionIndex: 2 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The terminology matters less than confessing Christ as truly God and truly man.", optionIndex: 3 },
         { saint: "Joseph Ratzinger", era: "1927–2022", position: "The terminology matters less than confessing Christ as truly God and truly man.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Maximus the Confessor", era: "c. 580–662", position: "Chalcedon\'s \'without confusion, without change\' must be pushed to its fullest expression, not softened.", optionIndex: 0 }],
     19: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Triumphant proclamation and liberation of righteous — Harrowing of Hell.", optionIndex: 0 },
         { saint: "St. John Chrysostom", era: "c. 349–407", position: "Triumphant proclamation and liberation of righteous — Harrowing of Hell.", optionIndex: 0 },
@@ -2639,7 +2713,8 @@ const SAINT_VIEWS = {
         { saint: "St. John Chrysostom", era: "c. 349–407", position: "Theosis/deification: participation in divine life as transformative communion.", optionIndex: 2 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Renewal of the world and social holiness: the Church\'s mission in history.", optionIndex: 3 },
         { saint: "Jacques Maritain", era: "1882–1973", position: "Renewal of the world and social holiness: the Church\'s mission in history.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Dom Columba Marmion, O.S.B.", era: "1858–1923", position: "The entire Christian life is participation in the mystery of Christ, actualized through the sacraments.", optionIndex: 0 }],
     21: [
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Justification is a real interior transformation (not just imputation) that increases through the sacraments and good works. Sanctification is its progressive...", optionIndex: 0 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Justification is a real interior transformation (not just imputation) that increases through the sacraments and good works. Sanctification is its progressive...", optionIndex: 0 },
@@ -2705,7 +2780,9 @@ const SAINT_VIEWS = {
         { saint: "St. Dominic de Guzmán", era: "1170–1221", position: "Grace heals and elevates nature, enabling but not determining free response", optionIndex: 3 },
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Grace is offered universally; efficacy depends wholly on human cooperation", optionIndex: 4 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Grace is offered universally; efficacy depends wholly on human cooperation", optionIndex: 4 },
-    ],
+    ,
+        { saint: "John of St. Thomas (Poinsot), O.P.", era: "1589–1644", position: "The will under divine premotion acts most freely precisely because it is moved by the First Cause.", optionIndex: 0 },
+        { saint: "Antoine Arnauld", era: "1612–1694", position: "Efficacious grace infallibly produces its effect — this is Augustine\'s teaching, not Calvin\'s.", optionIndex: 0 }],
     27: [
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Thomist praemotio physica: God\'s sovereign will infallibly moves the elect to salvation through efficacious grace. Reprobation follows from permission of sin...", optionIndex: 0 },
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Thomist praemotio physica: God\'s sovereign will infallibly moves the elect to salvation through efficacious grace. Reprobation follows from permission of sin...", optionIndex: 0 },
@@ -2726,7 +2803,8 @@ const SAINT_VIEWS = {
         { saint: "Martin Luther", era: "1483–1546", position: "The distinction between sufficient and efficacious grace is largely verbal", optionIndex: 2 },
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Sufficient grace truly enables, and its becoming efficacious involves genuine synergy", optionIndex: 3 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Sufficient grace truly enables, and its becoming efficacious involves genuine synergy", optionIndex: 3 },
-    ],
+    ,
+        { saint: "John of St. Thomas (Poinsot), O.P.", era: "1589–1644", position: "Sufficient grace gives real power but only efficacious grace produces the act — and this is God\'s sovereign gift.", optionIndex: 0 }],
     29: [
         { saint: "Joseph Ratzinger", era: "1927–2022", position: "Deep compatibility exists. If Lutherans affirmed ontological Eucharistic change and understood \'faith alone\' as Benedict XVI did, little would impede reunion.", optionIndex: 0 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Deep compatibility exists. If Lutherans affirmed ontological Eucharistic change and understood \'faith alone\' as Benedict XVI did, little would impede reunion.", optionIndex: 0 },
@@ -2737,7 +2815,9 @@ const SAINT_VIEWS = {
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Ecumenical dialogue is valuable but must prioritize truth over diplomacy. We can learn from each other without pretending we agree.", optionIndex: 3 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "The Orthodox are our closest partners for reunion. Protestant ecclesial communities lack valid orders and sacraments, making full reunion structurally differ...", optionIndex: 4 },
         { saint: "Sergei Bulgakov", era: "1871–1944", position: "The Orthodox are our closest partners for reunion. Protestant ecclesial communities lack valid orders and sacraments, making full reunion structurally differ...", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "The Variations of Protestantism prove they lack the Church\'s anchor — reunion requires conversion, not compromise.", optionIndex: 1 },
+        { saint: "Erasmus of Rotterdam", era: "c. 1466–1536", position: "I agree with Luther that abuses must be reformed, but his method destroys the unity reform requires.", optionIndex: 3 }],
     30: [
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "\'Grace does not destroy nature but perfects it.\' The Thomistic synthesis is perennially valid.", optionIndex: 0 },
         { saint: "St. Dominic de Guzmán", era: "1170–1221", position: "\'Grace does not destroy nature but perfects it.\' The Thomistic synthesis is perennially valid.", optionIndex: 0 },
@@ -2782,7 +2862,8 @@ const SAINT_VIEWS = {
         { saint: "Luis de Molina, S.J.", era: "1535–1600", position: "Rightly condemned. Its rigorism harmed souls and its ecclesiology was schismatic.", optionIndex: 2 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "A complex phenomenon. Some Jansenists were holy; the label was applied too broadly.", optionIndex: 3 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "A complex phenomenon. Some Jansenists were holy; the label was applied too broadly.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Cornelius Jansen", era: "1585–1638", position: "My Augustinus merely restates what Augustine himself taught. The condemnations attacked propositions I never held.", optionIndex: 0 }],
     34: [
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "Central - \'God became man that man might become God.\' This is the heart of soteriology.", optionIndex: 0 },
         { saint: "Sergei Bulgakov", era: "1871–1944", position: "Central - \'God became man that man might become God.\' This is the heart of soteriology.", optionIndex: 0 },
@@ -2791,7 +2872,10 @@ const SAINT_VIEWS = {
         { saint: "Cardinal Alfredo Ottaviani", era: "1890–1979", position: "Western theology rightly emphasizes justification. Theosis language risks pantheism.", optionIndex: 2 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Western theology rightly emphasizes justification. Theosis language risks pantheism.", optionIndex: 2 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "A beautiful Eastern emphasis the West should recover through ressourcement.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Maximus the Confessor", era: "c. 580–662", position: "The entire cosmic drama culminates in theosis: the creature\'s participation in uncreated divine life.", optionIndex: 0 },
+        { saint: "Meister Eckhart, O.P.", era: "c. 1260–1328", position: "The eye with which I see God is the same eye with which God sees me.", optionIndex: 0 },
+        { saint: "Pierre Teilhard de Chardin, S.J.", era: "1881–1955", position: "Everything that rises must converge. The universe itself is being drawn into participation in Christ.", optionIndex: 3 }],
     35: [
         { saint: "Alexander Schmemann", era: "1921–1983", position: "Eastern liturgies preserved ancient forms often lost in the West. Latin Catholics can learn much from their reverence, iconography, and theological depth.", optionIndex: 0 },
         { saint: "St. Photios the Great", era: "c. 810–893", position: "Eastern liturgies preserved ancient forms often lost in the West. Latin Catholics can learn much from their reverence, iconography, and theological depth.", optionIndex: 0 },
@@ -2838,7 +2922,9 @@ const SAINT_VIEWS = {
         { saint: "Luis de Molina, S.J.", era: "1535–1600", position: "Suárez/Bellarmine (Second Scholasticism): Christ is truly and substantially present, but not as a quantitative physical body in the mode of spatial extension...", optionIndex: 3 },
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Spiritual-Real Presence (Radbertus tradition): Christ is truly present — a hidden, veiled objective reality — but this presence is received and known through...", optionIndex: 4 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Spiritual-Real Presence (Radbertus tradition): Christ is truly present — a hidden, veiled objective reality — but this presence is received and known through...", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Cajetan (Tommaso de Vio), O.P.", era: "1469–1534", position: "The substance is wholly converted — I defended this against Luther at Augsburg and wrote the standard commentary on the Summa.", optionIndex: 0 },
+        { saint: "St. John Damascene", era: "c. 675–749", position: "The bread and wine truly become the Body and Blood — not by nature, but by the Holy Spirit\'s power. Do not ask how.", optionIndex: 2 }],
     39: [
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Strongly affirm: Grace is given by valid administration regardless of minister\'s holiness", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Affirm, but recipient\'s disposition significantly affects fruitfulness", optionIndex: 1 },
@@ -2876,7 +2962,8 @@ const SAINT_VIEWS = {
         { saint: "St. Benedict of Nursia", era: "c. 480–547", position: "Both forms have value. The Ordinary and Extraordinary Forms should coexist peacefully as mutual enrichment.", optionIndex: 3 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "The Eastern Catholic liturgies show what reverent vernacular worship looks like. The West should learn from them rather than fight over Latin vs. vernacular.", optionIndex: 4 },
         { saint: "Alexander Schmemann", era: "1921–1983", position: "The Eastern Catholic liturgies show what reverent vernacular worship looks like. The West should learn from them rather than fight over Latin vs. vernacular.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Romano Guardini", era: "1885–1968", position: "The liturgical movement sought to renew participation from within the tradition, not to replace it with novelties.", optionIndex: 1 }],
     43: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "The TLM should be freely available in every diocese as the extraordinary form. Traditionis Custodes was a mistake that should be reversed.", optionIndex: 0 },
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "The TLM should be freely available in every diocese as the extraordinary form. Traditionis Custodes was a mistake that should be reversed.", optionIndex: 0 },
@@ -2887,7 +2974,8 @@ const SAINT_VIEWS = {
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The reformed Mass is the Church\'s standard rite. The TLM should be available but not normalized as a competing form.", optionIndex: 3 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The liturgical reform was necessary and good. Excessive attachment to the old rite is nostalgic and divisive.", optionIndex: 4 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "The liturgical reform was necessary and good. Excessive attachment to the old rite is nostalgic and divisive.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Prosper Guéranger, O.S.B.", era: "1805–1875", position: "The Roman liturgy in its traditional form is the Church\'s greatest treasure. To restrict it is to impoverish the faithful.", optionIndex: 0 }],
     44: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Essential: Sacred silence enables contemplation and encounter with mystery", optionIndex: 0 },
         { saint: "St. Teresa of Ávila", era: "1515–1582", position: "Essential: Sacred silence enables contemplation and encounter with mystery", optionIndex: 0 },
@@ -2896,7 +2984,9 @@ const SAINT_VIEWS = {
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Often excessive in pre-conciliar liturgy; active participation is key", optionIndex: 2 },
         { saint: "St. John Chrysostom", era: "c. 349–407", position: "Deeply valued in Eastern liturgy as part of the mystery", optionIndex: 3 },
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "Deeply valued in Eastern liturgy as part of the mystery", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Romano Guardini", era: "1885–1968", position: "Sacred silence is not the absence of noise but the presence of the Holy. The liturgy breathes in its silences.", optionIndex: 0 },
+        { saint: "Prosper Guéranger, O.S.B.", era: "1805–1875", position: "The chant rises from silence and returns to it. Without silence, there is no prayer.", optionIndex: 0 }],
     45: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Very important: Rubrics protect the sacred and express theology", optionIndex: 0 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Very important: Rubrics protect the sacred and express theology", optionIndex: 0 },
@@ -2906,7 +2996,9 @@ const SAINT_VIEWS = {
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Secondary: The spirit of the liturgy matters more than exact rubrics", optionIndex: 2 },
         { saint: "St. Benedict of Nursia", era: "c. 480–547", position: "Rubrics serve the mystery and should be followed with understanding", optionIndex: 3 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Rubrics serve the mystery and should be followed with understanding", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Prosper Guéranger, O.S.B.", era: "1805–1875", position: "Every gesture of the liturgy has been refined by the Holy Spirit through centuries. Treat them with reverence.", optionIndex: 0 },
+        { saint: "St. Peter Damian", era: "1007–1072", position: "If we are careless with the sacred liturgy, we are careless with God Himself.", optionIndex: 0 }],
     46: [
         { saint: "Jean Gerson", era: "1363–1429", position: "Papal authority as exercised today is a late innovation. Haec Sancta (1415) and early conciliar practice show a more collegial original model.", optionIndex: 0 },
         { saint: "Johann Adam Möhler", era: "1796–1838", position: "Papal authority as exercised today is a late innovation. Haec Sancta (1415) and early conciliar practice show a more collegial original model.", optionIndex: 0 },
@@ -2917,7 +3009,8 @@ const SAINT_VIEWS = {
         { saint: "St. John Henry Newman", era: "1801–1890", position: "The charism is real but over-centralization is a legitimate concern. Subsidiarity should govern how papal authority is exercised in practice.", optionIndex: 3 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "Papal authority as currently practiced is a Western development the East never accepted. Its maximalist form is a major obstacle to reunion.", optionIndex: 4 },
         { saint: "Sergei Bulgakov", era: "1871–1944", position: "Papal authority as currently practiced is a Western development the East never accepted. Its maximalist form is a major obstacle to reunion.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "Papal authority grew organically, but Ultramontane excess distorts the ancient balance between Rome and the episcopate.", optionIndex: 1 }],
     47: [
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Scripture has the highest dignity and is the supreme norm, but only as read within apostolic Tradition and the Church\'s infallible teaching.", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Scripture and Tradition are co-equal fonts of revelation, while the Magisterium is their authoritative interpreter and guardian. (Thomist, Thomist (Realist))", optionIndex: 1 },
@@ -2926,7 +3019,9 @@ const SAINT_VIEWS = {
         { saint: "St. John Henry Newman", era: "1801–1890", position: "In practice, the Magisterium is the proximate rule of faith; Scripture and Tradition are received through that living authority.", optionIndex: 2 },
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "The hierarchy can err widely in non-definitive matters; Scripture and the Fathers supply the main corrective.", optionIndex: 3 },
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "The hierarchy can err widely in non-definitive matters; Scripture and the Fathers supply the main corrective.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "Scripture and Tradition form one deposit; the Church\'s living voice guards both against private interpretation.", optionIndex: 1 },
+        { saint: "St. Irenaeus of Lyon", era: "c. 130–202", position: "The Churches founded by the apostles, especially Rome, preserve the rule of faith against every novelty.", optionIndex: 1 }],
     48: [
         { saint: "Joseph de Maistre", era: "1753–1821", position: "Full, immediate, ordinary jurisdiction over the entire Church; the ordinary magisterium shares in a broad practical infallibility.", optionIndex: 0 },
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Full, immediate, ordinary jurisdiction over the entire Church; the ordinary magisterium shares in a broad practical infallibility.", optionIndex: 0 },
@@ -2937,7 +3032,10 @@ const SAINT_VIEWS = {
         { saint: "Johann Adam Möhler", era: "1796–1838", position: "Conciliar authority is supreme in emergencies; the pope is bound by councils and tradition, not above them.", optionIndex: 3 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "Communion ecclesiology: The pope is head of a communion of local churches, each with proper autonomy; patriarchal structures should be restored.", optionIndex: 4 },
         { saint: "Cardinal Walter Kasper", era: "1933–present", position: "Communion ecclesiology: The pope is head of a communion of local churches, each with proper autonomy; patriarchal structures should be restored.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "The Pope holds true primacy, but councils and the consent of the churches constrain its exercise — per the Gallican Articles of 1682.", optionIndex: 1 },
+        { saint: "Cajetan (Tommaso de Vio), O.P.", era: "1469–1534", position: "Papal authority is supreme in faith but the Pope is not above a council in every circumstance.", optionIndex: 1 },
+        { saint: "St. Catherine of Siena", era: "1347–1380", position: "The Pope is sweet Christ on earth — but I also called corrupt clergy flowers that stink.", optionIndex: 1 }],
     49: [
         { saint: "Joseph de Maistre", era: "1753–1821", position: "Directly from the Pope; bishops are essentially papal delegates", optionIndex: 0 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "From Christ through episcopal consecration, but exercised in communion with Rome", optionIndex: 1 },
@@ -2956,7 +3054,9 @@ const SAINT_VIEWS = {
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Through shared liturgical tradition, doctrinal fidelity, and resistance to modernist innovations that fracture the faith.", optionIndex: 3 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Through ongoing synodal dialogue, inculturation, and the sensus fidei of the whole people of God.", optionIndex: 4 },
         { saint: "Cardinal Walter Kasper", era: "1933–present", position: "Through ongoing synodal dialogue, inculturation, and the sensus fidei of the whole people of God.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Yves Congar, O.P.", era: "1904–1995", position: "The Church is not a monolithic juridical structure but a communion of local churches in mutual reception.", optionIndex: 1 },
+        { saint: "Charles Journet", era: "1891–1975", position: "The Church is sinless in her essence even as her members sin. Her mystery cannot be reduced to sociology.", optionIndex: 2 }],
     51: [
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Yes, always—temporal authority is subordinate to spiritual in these matters", optionIndex: 0 },
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Yes, always—temporal authority is subordinate to spiritual in these matters", optionIndex: 0 },
@@ -2978,7 +3078,10 @@ const SAINT_VIEWS = {
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "A robber council or invalid assembly that deviated from the Faith; its documents lack binding force.", optionIndex: 3 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The \'event\' of Vatican II — its spirit of dialogue, openness, and reform — matters more than its letter. The Council opened windows the Church should keep open.", optionIndex: 4 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "The \'event\' of Vatican II — its spirit of dialogue, openness, and reform — matters more than its letter. The Council opened windows the Church should keep open.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "A council\'s authority is real but pastoral novelties must be read in light of what the Church has always taught.", optionIndex: 1 },
+        { saint: "Yves Congar, O.P.", era: "1904–1995", position: "Vatican II was the greatest grace of the 20th century. Its ecclesiology of communion is the Church\'s future.", optionIndex: 0 },
+        { saint: "Charles Journet", era: "1891–1975", position: "The Council deepened our understanding without contradicting what was always believed.", optionIndex: 0 }],
     53: [
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Fully legitimate popes with ordinary magisterial authority", optionIndex: 0 },
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Legitimate but their prudential decisions can be resisted when conflicting with Tradition", optionIndex: 1 },
@@ -2994,7 +3097,8 @@ const SAINT_VIEWS = {
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Yes, when they conflict with Sacred Tradition and the sensus fidelium", optionIndex: 2 },
         { saint: "Bp. Guérard des Lauriers", era: "1898–1988", position: "Yes, when they conflict with Sacred Tradition and the sensus fidelium", optionIndex: 2 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Prudent disagreement is possible but public resistance is rarely justified", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Catherine of Siena", era: "1347–1380", position: "I told Pope Gregory XI to his face to return to Rome. Obedience to God sometimes requires bold speech to the Pope.", optionIndex: 1 }],
     55: [
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Nations may legitimately negotiate appointment rights and synodal authority with Rome, provided they don\'t strongarm the Holy See.", optionIndex: 0 },
         { saint: "Juan Donoso Cortés", era: "1809–1853", position: "Would make sense with stable Catholic monarchies, but impractical in modern liberal democracies.", optionIndex: 1 },
@@ -3003,7 +3107,8 @@ const SAINT_VIEWS = {
         { saint: "Pope St. Pius X", era: "1835–1914", position: "A dangerous affront to papal authority. The Pope\'s universal jurisdiction must not be compromised.", optionIndex: 2 },
         { saint: "Pope Francis", era: "1936–present", position: "Risks enabling nationalists to co-opt the Church and undermine her transnational mission.", optionIndex: 3 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Risks enabling nationalists to co-opt the Church and undermine her transnational mission.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "The Gallican Articles protect the rightful autonomy of national churches without denying Rome\'s spiritual primacy.", optionIndex: 0 }],
     56: [
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Reject it - Christendom should be restored. Christ must reign socially.", optionIndex: 0 },
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Reject it - Christendom should be restored. Christ must reign socially.", optionIndex: 0 },
@@ -3015,7 +3120,9 @@ const SAINT_VIEWS = {
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Fine but must be limited by natural law and subsidiarity.", optionIndex: 3 },
         { saint: "St. Teresa of Ávila", era: "1515–1582", position: "Church should focus on souls, not political arrangements.", optionIndex: 4 },
         { saint: "St. Romuald", era: "c. 951–1027", position: "Church should focus on souls, not political arrangements.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Antonio Rosmini", era: "1797–1855", position: "Human freedom before God is not a concession to modernity but a truth the Church always held implicitly.", optionIndex: 2 },
+        { saint: "Charles Journet", era: "1891–1975", position: "The common good of political society and of the Church are distinct but ordered to each other.", optionIndex: 1 }],
     57: [
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Yes: Patristic retrieval corrected neo-scholastic narrowness", optionIndex: 0 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Partially: Some good insights but also problematic tendencies", optionIndex: 1 },
@@ -3023,7 +3130,10 @@ const SAINT_VIEWS = {
         { saint: "Cardinal Alfredo Ottaviani", era: "1890–1979", position: "No: It undermined sound theology and paved way for modernism", optionIndex: 2 },
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "No: It undermined sound theology and paved way for modernism", optionIndex: 2 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "It\'s complicated: Need to distinguish various authors and claims", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Yves Congar, O.P.", era: "1904–1995", position: "We went back to the sources — not to innovate, but to recover what Baroque theology had narrowed.", optionIndex: 0 },
+        { saint: "Antonio Rosmini", era: "1797–1855", position: "My Five Wounds of the Church was condemned then vindicated. The Church sometimes needs time to hear her prophets.", optionIndex: 0 },
+        { saint: "Marie-Dominique Chenu, O.P.", era: "1895–1990", position: "Theology must return to its sources — not to be antiquarian, but to find the living water beneath the scholastic plumbing.", optionIndex: 0 }],
     58: [
         { saint: "Joseph de Maistre", era: "1753–1821", position: "Episcopal: bishops in apostolic succession are essential to the Church\'s structure.", optionIndex: 0 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Episcopal: bishops in apostolic succession are essential to the Church\'s structure.", optionIndex: 0 },
@@ -3033,7 +3143,9 @@ const SAINT_VIEWS = {
         { saint: "Pope St. Pius X", era: "1835–1914", position: "The Pope holds supreme jurisdiction; episcopal authority derives from him.", optionIndex: 3 },
         { saint: "St. Photios the Great", era: "c. 810–893", position: "Synodal/collegial: bishops govern together; Rome has primacy of honor, not jurisdiction.", optionIndex: 4 },
         { saint: "Cardinal Walter Kasper", era: "1933–present", position: "Synodal/collegial: bishops govern together; Rome has primacy of honor, not jurisdiction.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "The bishops govern their churches by divine right; the Pope is first among them, not above them in every respect.", optionIndex: 0 },
+        { saint: "Yves Congar, O.P.", era: "1904–1995", position: "The laity have a genuine role in the Church\'s life; clericalism is a deformation, not the tradition.", optionIndex: 4 }],
     59: [
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "A legitimate and necessary doctrinal development clarifying Trinitarian relations.", optionIndex: 0 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "A legitimate and necessary doctrinal development clarifying Trinitarian relations.", optionIndex: 0 },
@@ -3052,7 +3164,8 @@ const SAINT_VIEWS = {
         { saint: "Martin Luther", era: "1483–1546", position: "Images are acceptable but not essential; the Word preached is primary.", optionIndex: 2 },
         { saint: "John Calvin", era: "1509–1564", position: "Images are acceptable but not essential; the Word preached is primary.", optionIndex: 2 },
         { saint: "John Calvin", era: "1509–1564", position: "Icons risk becoming idols; worship should focus on God alone.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. John Damascene", era: "c. 675–749", position: "Because the invisible God became visible in Christ, we may and must depict Him. To reject icons is to reject the Incarnation.", optionIndex: 0 }],
     61: [
         { saint: "Joseph de Maistre", era: "1753–1821", position: "Interior assent is normally required; public disagreement risks scandal and disobedience.", optionIndex: 0 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Interior assent is normally required; public disagreement risks scandal and disobedience.", optionIndex: 0 },
@@ -3074,7 +3187,12 @@ const SAINT_VIEWS = {
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Moral theology must engage contemporary human sciences and experience. The manualist approach was legalistic and inadequate.", optionIndex: 3 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Proportionalism or consequentialism offers the most realistic framework for complex modern moral dilemmas.", optionIndex: 4 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Proportionalism or consequentialism offers the most realistic framework for complex modern moral dilemmas.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Cajetan (Tommaso de Vio), O.P.", era: "1469–1534", position: "Moral theology must begin from the virtues as Aquinas laid out, not from casuistic rule-counting.", optionIndex: 1 },
+        { saint: "John of St. Thomas (Poinsot), O.P.", era: "1589–1644", position: "The gifts of the Holy Spirit perfect the virtues; moral theology without the gifts is incomplete.", optionIndex: 1 },
+        { saint: "St. Francis de Sales", era: "1567–1622", position: "In counseling souls, always lean toward gentleness. You catch more flies with honey than with vinegar.", optionIndex: 2 },
+        { saint: "Antonio Rosmini", era: "1797–1855", position: "The human person is the fundamental moral datum. Ethics begins with the intuition of being in the human face.", optionIndex: 2 },
+        { saint: "St. Teresa Benedicta of the Cross (Edith Stein)", era: "1891–1942", position: "Empathy — entering into the other\'s experience — is the foundation of moral understanding.", optionIndex: 2 }],
     63: [
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Never for intrinsically evil acts; prudence applies norms, doesn\'t create exceptions (Thomist (Natural Law), Manualist)", optionIndex: 0 },
         { saint: "Henry Davis, S.J.", era: "1866–1952", position: "Never for intrinsically evil acts; prudence applies norms, doesn\'t create exceptions (Thomist (Natural Law), Manualist)", optionIndex: 0 },
@@ -3083,7 +3201,9 @@ const SAINT_VIEWS = {
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Pastoral discernment may find that a norm doesn\'t apply in a particular case", optionIndex: 2 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Epikeia allows departure from law\'s letter to fulfill its spirit", optionIndex: 3 },
         { saint: "Alasdair MacIntyre", era: "1929–present", position: "Epikeia allows departure from law\'s letter to fulfill its spirit", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Francisco de Vitoria, O.P.", era: "c. 1483–1546", position: "The natural law binds all nations and peoples. Even indigenous peoples have rights no prince may violate.", optionIndex: 0 },
+        { saint: "Bartolomé de Las Casas, O.P.", era: "1484–1566", position: "The natural law is written on every human heart. Those who violate it in the name of Christianity betray Christ.", optionIndex: 0 }],
     64: [
         { saint: "St. Alphonsus Liguori", era: "1696–1787", position: "Probabilism: A solidly probable opinion favoring liberty may be followed, even if the opinion for the law is more probable.", optionIndex: 0 },
         { saint: "Bartolomé de Medina, O.P.", era: "1527–1580", position: "Probabilism: A solidly probable opinion favoring liberty may be followed, even if the opinion for the law is more probable.", optionIndex: 0 },
@@ -3127,7 +3247,11 @@ const SAINT_VIEWS = {
         { saint: "Dorothy Day", era: "1897–1980", position: "Prayer is important but secondary to charity and justice. Too much emphasis on contemplation risks navel-gazing and neglecting the poor.", optionIndex: 3 },
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "The Jesus Prayer and hesychasm represent the deepest tradition of unceasing prayer. Interior stillness and deification are the goal.", optionIndex: 4 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "The Jesus Prayer and hesychasm represent the deepest tradition of unceasing prayer. Interior stillness and deification are the goal.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Meister Eckhart, O.P.", era: "c. 1260–1328", position: "The soul must become so detached that it finds God in all things — this is the ground of the soul.", optionIndex: 0 },
+        { saint: "St. Catherine of Siena", era: "1347–1380", position: "Contemplation overflows into action for the Church and the world — we must be channels, not cisterns.", optionIndex: 1 },
+        { saint: "St. Francis de Sales", era: "1567–1622", position: "The devout life is for everyone, not just monks. Every state of life can be a path of holiness.", optionIndex: 2 },
+        { saint: "Dom Columba Marmion, O.S.B.", era: "1858–1923", position: "Christ is the life of the soul. All prayer flows from and returns to the liturgical celebration of His mysteries.", optionIndex: 1 }],
     68: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Saints intercede for us; we may invoke their prayers and venerate relics and images.", optionIndex: 0 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Saints intercede for us; we may invoke their prayers and venerate relics and images.", optionIndex: 0 },
@@ -3136,7 +3260,9 @@ const SAINT_VIEWS = {
         { saint: "Martin Luther", era: "1483–1546", position: "Saints are honored as examples; limited invocation may be permissible.", optionIndex: 2 },
         { saint: "John Wesley", era: "1703–1791", position: "Saints are honored as examples; limited invocation may be permissible.", optionIndex: 2 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "The communion of saints includes mutual prayer; the details are mysterious.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Francis de Sales", era: "1567–1622", position: "Live Jesus! The saints show us that holiness is not one thing but a thousand forms of love.", optionIndex: 0 },
+        { saint: "Dom Columba Marmion, O.S.B.", era: "1858–1923", position: "Each saint is a particular revelation of some aspect of Christ\'s inexhaustible perfection.", optionIndex: 0 }],
     69: [
         { saint: "St. Dominic de Guzmán", era: "1170–1221", position: "Dominican: Contemplation for preaching; truth and intellectual apostolate", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Dominican: Contemplation for preaching; truth and intellectual apostolate", optionIndex: 0 },
@@ -3166,7 +3292,8 @@ const SAINT_VIEWS = {
         { saint: "St. Francis of Assisi", era: "1181–1226", position: "Evangelical poverty and simplicity among the people", optionIndex: 4 },
         { saint: "St. Bonaventure", era: "1221–1274", position: "Evangelical poverty and simplicity among the people", optionIndex: 4 },
         { saint: "St. Josemaría Escrivá", era: "1902–1975", position: "Sanctification in ordinary secular life", optionIndex: 5 },
-    ],
+    ,
+        { saint: "St. Peter Damian", era: "1007–1072", position: "The solitary life is the highest form — the world is a distraction from the one thing necessary.", optionIndex: 1 }],
     71: [
         { saint: "St. Monica", era: "c. 331–387", position: "Interior journey: \'Return to yourself; truth dwells in the inner man.\'", optionIndex: 0 },
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Interior journey: \'Return to yourself; truth dwells in the inner man.\'", optionIndex: 0 },
@@ -3209,7 +3336,9 @@ const SAINT_VIEWS = {
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Separation of Church and State best protects both. The Church is most prophetic when free from political entanglement.", optionIndex: 3 },
         { saint: "Pope Benedict XVI", era: "1927–2022", position: "A looser Christian cultural establishment — not theocracy, but public acknowledgment of the Christian heritage — strikes the right balance.", optionIndex: 4 },
         { saint: "Joseph Ratzinger", era: "1927–2022", position: "A looser Christian cultural establishment — not theocracy, but public acknowledgment of the Christian heritage — strikes the right balance.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "The throne and the altar support each other. A Catholic prince governs under God\'s law and defers to the Church on faith and morals.", optionIndex: 0 },
+        { saint: "Vladimir Solovyov", era: "1853–1900", position: "The kingdom of God is realized not by theocratic force but by the free transfiguration of all creation.", optionIndex: 4 }],
     75: [
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Christ is King of nations; states should formally acknowledge this", optionIndex: 0 },
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Christ is King of nations; states should formally acknowledge this", optionIndex: 0 },
@@ -3242,7 +3371,8 @@ const SAINT_VIEWS = {
         { saint: "Michael Novak", era: "1933–2017", position: "Market wages are just if freely agreed; charity handles insufficiency", optionIndex: 2 },
         { saint: "Jacques Maritain", era: "1882–1973", position: "Yes, and the state should enforce it when employers fail", optionIndex: 3 },
         { saint: "Dorothy Day", era: "1897–1980", position: "Yes, and the state should enforce it when employers fail", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Bartolomé de Las Casas, O.P.", era: "1484–1566", position: "Those who profit from the sweat of the poor while denying them justice cry out to heaven.", optionIndex: 0 }],
     78: [
         { saint: "Dorothy Day", era: "1897–1980", position: "Essential: Workers have a natural right to organize that must be respected", optionIndex: 0 },
         { saint: "G.K. Chesterton", era: "1874–1936", position: "Essential: Workers have a natural right to organize that must be respected", optionIndex: 0 },
@@ -3258,7 +3388,8 @@ const SAINT_VIEWS = {
         { saint: "Jacques Maritain", era: "1882–1973", position: "Property has a social mortgage; regulation for common good is justified", optionIndex: 2 },
         { saint: "Dorothy Day", era: "1897–1980", position: "Property has a social mortgage; regulation for common good is justified", optionIndex: 2 },
         { saint: "Heinrich Pesch, S.J.", era: "1854–1926", position: "Property should be organized through vocational/corporate bodies", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Francisco de Vitoria, O.P.", era: "c. 1483–1546", position: "Property rights are real but subordinate to the common good and the universal destination of goods.", optionIndex: 0 }],
     80: [
         { saint: "Juan Donoso Cortés", era: "1809–1853", position: "Nations are natural communities willed by God; Catholicism should be inculturated nationally and borders defended.", optionIndex: 0 },
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Nations are natural communities willed by God; Catholicism should be inculturated nationally and borders defended.", optionIndex: 0 },
@@ -3280,7 +3411,9 @@ const SAINT_VIEWS = {
         { saint: "Michael Novak", era: "1933–2017", position: "The hierarchy should focus on evangelization, not political lobbying on immigration policy.", optionIndex: 3 },
         { saint: "Dorothy Day", era: "1897–1980", position: "Solidarity with migrants is a Gospel imperative. The real problem is global economic injustice, not immigration itself.", optionIndex: 4 },
         { saint: "Pope Francis", era: "1936–present", position: "Solidarity with migrants is a Gospel imperative. The real problem is global economic injustice, not immigration itself.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Francisco de Vitoria, O.P.", era: "c. 1483–1546", position: "The right to travel and dwell among other peoples is a right of the ius gentium.", optionIndex: 2 },
+        { saint: "Bartolomé de Las Casas, O.P.", era: "1484–1566", position: "The indigenous peoples have natural rights. No Christian empire may enslave or exploit them under any pretext.", optionIndex: 4 }],
     82: [
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Yes, strongly—these institutions are hostile to natural law and faith", optionIndex: 0 },
         { saint: "Juan Donoso Cortés", era: "1809–1853", position: "Yes, strongly—these institutions are hostile to natural law and faith", optionIndex: 0 },
@@ -3311,7 +3444,8 @@ const SAINT_VIEWS = {
         { saint: "Pseudo-Dionysius", era: "c. 5th–6th century", position: "Essentially correct - all truth participates in divine truth. There is no \'neutral\' reason.", optionIndex: 3 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Dangerous flirtation with fideism. Reason has its own integrity under grace.", optionIndex: 4 },
         { saint: "St. Dominic de Guzmán", era: "1170–1221", position: "Dangerous flirtation with fideism. Reason has its own integrity under grace.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Marsilio Ficino", era: "1433–1499", position: "Philosophy without theology is a torso. Plato and Plotinus reach toward the truth Christ reveals.", optionIndex: 3 }],
     85: [
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Scripture (as received in the Church) judges theology; systems must be revised to fit Scripture\'s full witness.", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Dogma and metaphysics provide the framework that stabilizes interpretation; Scripture is read within that settled grammar. (Thomist, Thomist (Realist))", optionIndex: 1 },
@@ -3319,7 +3453,8 @@ const SAINT_VIEWS = {
         { saint: "Joseph de Maistre", era: "1753–1821", position: "The living Magisterium provides the proximate norm; speculative resolution is less important than obedience.", optionIndex: 2 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "The living Magisterium provides the proximate norm; speculative resolution is less important than obedience.", optionIndex: 2 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Multiple theologies can legitimately coexist; Scripture underdetermines systematic disputes.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "Theology begins with what God has spoken through Scripture and the Fathers, not with philosophical speculation.", optionIndex: 0 }],
     86: [
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Can incur guilt through culpable omission: failure to pursue virtue and remedies becomes morally weighty.", optionIndex: 0 },
         { saint: "Alasdair MacIntyre", era: "1929–present", position: "Can incur guilt through culpable omission: failure to pursue virtue and remedies becomes morally weighty.", optionIndex: 0 },
@@ -3347,7 +3482,8 @@ const SAINT_VIEWS = {
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Mediating doctrine pastorally for modern contexts while preserving essentials.", optionIndex: 2 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Testing boundaries and developing new paradigms to meet contemporary needs.", optionIndex: 3 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Testing boundaries and developing new paradigms to meet contemporary needs.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Marie-Dominique Chenu, O.P.", era: "1895–1990", position: "The theologian must read the signs of the times, not just the textbooks. The Holy Spirit works in history.", optionIndex: 3 }],
     89: [
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Fallen humans can do natural goods but absolutely cannot move toward salvation without prevenient grace", optionIndex: 0 },
         { saint: "Prosper of Aquitaine", era: "c. 390–455", position: "Fallen humans can do natural goods but absolutely cannot move toward salvation without prevenient grace", optionIndex: 0 },
@@ -3384,7 +3520,9 @@ const SAINT_VIEWS = {
         { saint: "Cardinal Alfredo Ottaviani", era: "1890–1979", position: "Suspect: Focus on ordinary virtue and sacraments instead", optionIndex: 2 },
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "Central to Eastern spirituality: Theosis/deification is the goal", optionIndex: 3 },
         { saint: "St. John Chrysostom", era: "c. 349–407", position: "Central to Eastern spirituality: Theosis/deification is the goal", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Meister Eckhart, O.P.", era: "c. 1260–1328", position: "The mystic goes beyond images to the desert of the Godhead — where all distinctions cease.", optionIndex: 1 },
+        { saint: "Adrienne von Speyr", era: "1902–1967", position: "Mystical experience is not private feeling but participation in the mysteries of Christ\'s own life.", optionIndex: 1 }],
     93: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Weekly or at least fortnightly, even without mortal sin", optionIndex: 0 },
         { saint: "St. Josemaría Escrivá", era: "1902–1975", position: "Weekly or at least fortnightly, even without mortal sin", optionIndex: 0 },
@@ -3393,7 +3531,10 @@ const SAINT_VIEWS = {
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Whenever conscious of serious sin; otherwise a few times a year", optionIndex: 2 },
         { saint: "St. John Chrysostom", era: "c. 349–407", position: "The Eastern tradition emphasizes spiritual direction over frequent confession", optionIndex: 3 },
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "The Eastern tradition emphasizes spiritual direction over frequent confession", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Francis de Sales", era: "1567–1622", position: "Frequent confession keeps the soul supple — but scrupulosity is the enemy of peace.", optionIndex: 1 },
+        { saint: "Antoine Arnauld", era: "1612–1694", position: "Frequent communion without proportionate interior disposition profanes the sacrament.", optionIndex: 0 },
+        { saint: "St. Peter Damian", era: "1007–1072", position: "The clergy must reform themselves before reforming others. Confession is the furnace that purifies.", optionIndex: 0 }],
     94: [
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Primarily to redeem from sin; without Fall, no Incarnation.", optionIndex: 0 },
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Primarily to redeem from sin; without Fall, no Incarnation.", optionIndex: 0 },
@@ -3402,7 +3543,8 @@ const SAINT_VIEWS = {
         { saint: "St. Gregory Palamas", era: "1296–1359", position: "Both redemption and divinization: save from sin AND unite to God in theosis.", optionIndex: 2 },
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "Both redemption and divinization: save from sin AND unite to God in theosis.", optionIndex: 2 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "The question is speculative; focus on actual economy revealed.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Pierre Teilhard de Chardin, S.J.", era: "1881–1955", position: "Christ is the Omega Point toward which all creation converges. The Incarnation is cosmic, not merely remedial.", optionIndex: 1 }],
     95: [
         { saint: "St. Bernard of Clairvaux", era: "1090–1153", position: "Strict silence and solitude as essential for encountering God.", optionIndex: 0 },
         { saint: "St. Romuald", era: "c. 951–1027", position: "Strict silence and solitude as essential for encountering God.", optionIndex: 0 },
@@ -3424,7 +3566,10 @@ const SAINT_VIEWS = {
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Ecumenism has gone too far. Maintain clear boundaries until they accept all Catholic dogma.", optionIndex: 3 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Practical cooperation first; doctrinal unity will follow organically.", optionIndex: 4 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Practical cooperation first; doctrinal unity will follow organically.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "Yves Congar, O.P.", era: "1904–1995", position: "East and West must learn to breathe with both lungs again — neither absorbing the other.", optionIndex: 1 },
+        { saint: "Nicholas of Cusa", era: "1401–1464", position: "I proposed reunion at Florence not through domination but through understanding — each tradition holds truths the other needs.", optionIndex: 1 },
+        { saint: "Vladimir Solovyov", era: "1853–1900", position: "Reunion is not a diplomatic problem but a spiritual one — both East and West are incomplete without the other.", optionIndex: 1 }],
     97: [
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Legitimate development - the state shouldn\'t coerce conscience, though truth remains objective.", optionIndex: 0 },
         { saint: "Thomas Pink", era: "Contemporary", position: "A prudential adaptation for pluralist societies, not reversal of prior teaching.", optionIndex: 1 },
@@ -3470,7 +3615,9 @@ const SAINT_VIEWS = {
         { saint: "Metropolitan Andrey Sheptytsky", era: "1865–1944", position: "Study historical evidence for deaconesses carefully; proceed with tradition.", optionIndex: 3 },
         { saint: "St. Teresa of Ávila", era: "1515–1582", position: "Religious sisters already exercise profound spiritual authority. This is the feminine genius.", optionIndex: 4 },
         { saint: "St. Benedict of Nursia", era: "c. 480–547", position: "Religious sisters already exercise profound spiritual authority. This is the feminine genius.", optionIndex: 4 },
-    ],
+    ,
+        { saint: "St. Catherine of Siena", era: "1347–1380", position: "I was an unlettered laywoman yet popes and princes sought my counsel — the Spirit gives gifts as He wills.", optionIndex: 4 },
+        { saint: "St. Teresa Benedicta of the Cross (Edith Stein)", era: "1891–1942", position: "Woman\'s soul is designed to be a shelter for other souls. This is not limitation but vocation.", optionIndex: 4 }],
     101: [
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The Old Covenant remains valid. Jews have a unique path not requiring explicit Christian faith.", optionIndex: 0 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "The Old Covenant remains valid. Jews have a unique path not requiring explicit Christian faith.", optionIndex: 0 },
@@ -3478,7 +3625,8 @@ const SAINT_VIEWS = {
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "The Church has overcorrected. Supersessionism is traditional and shouldn\'t be abandoned.", optionIndex: 2 },
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "The Church has overcorrected. Supersessionism is traditional and shouldn\'t be abandoned.", optionIndex: 2 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Complex - honor Jewish roots, condemn antisemitism, maintain missionary mandate to all.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Teresa Benedicta of the Cross (Edith Stein)", era: "1891–1942", position: "I am a daughter of Israel who became a daughter of the Church. My people and my faith are not enemies.", optionIndex: 3 }],
     102: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Robust Marian devotion (rosary, consecration, scapular, apparition messages) is essential. The saints unanimously commend deep Marian piety.", optionIndex: 0 },
         { saint: "St. Thomas Aquinas", era: "1225–1274", position: "Robust Marian devotion (rosary, consecration, scapular, apparition messages) is essential. The saints unanimously commend deep Marian piety.", optionIndex: 0 },
@@ -3509,7 +3657,8 @@ const SAINT_VIEWS = {
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "We can hope for individuals but the Church teaches hell is populated.", optionIndex: 2 },
         { saint: "St. Teresa of Ávila", era: "1515–1582", position: "Speculative. Focus on your own salvation, not universal questions.", optionIndex: 3 },
         { saint: "St. Romuald", era: "c. 951–1027", position: "Speculative. Focus on your own salvation, not universal questions.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Adrienne von Speyr", era: "1902–1967", position: "On Holy Saturday, Christ descends into the absolute abandonment — there is no place so far that His love does not reach.", optionIndex: 0 }],
     105: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Prophetic and absolutely binding. NFP is the only moral option.", optionIndex: 0 },
         { saint: "Cardinal Alfredo Ottaviani", era: "1890–1979", position: "Prophetic and absolutely binding. NFP is the only moral option.", optionIndex: 0 },
@@ -3528,7 +3677,8 @@ const SAINT_VIEWS = {
         { saint: "St. Bernard of Clairvaux", era: "1090–1153", position: "The \'dark night\' teaches detachment from consolations - demanding but transformative.", optionIndex: 2 },
         { saint: "Cardinal Alfredo Ottaviani", era: "1890–1979", position: "Mysticism is dangerous without strong doctrinal grounding and ecclesial oversight.", optionIndex: 3 },
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Mysticism is dangerous without strong doctrinal grounding and ecclesial oversight.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Teresa Benedicta of the Cross (Edith Stein)", era: "1891–1942", position: "The science of the Cross is not learned from books but from the Cross itself.", optionIndex: 2 }],
     107: [
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "Resist: Modern culture is largely hostile to faith and natural law", optionIndex: 0 },
         { saint: "Pope St. Pius X", era: "1835–1914", position: "Resist: Modern culture is largely hostile to faith and natural law", optionIndex: 0 },
@@ -3537,7 +3687,12 @@ const SAINT_VIEWS = {
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "Adapt: The Church must speak modern language to be heard", optionIndex: 2 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "Adapt: The Church must speak modern language to be heard", optionIndex: 2 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "Ressourcement: Return to sources to address modern questions freshly", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Romano Guardini", era: "1885–1968", position: "The Church must understand modernity in order to address it, but she must not lose herself in the process.", optionIndex: 1 },
+        { saint: "Vladimir Solovyov", era: "1853–1900", position: "All genuine truth, beauty, and goodness in human culture participates in the divine Sophia.", optionIndex: 3 },
+        { saint: "Pierre Teilhard de Chardin, S.J.", era: "1881–1955", position: "The world is charged with the grandeur of God. Science and faith converge on the same ultimate Reality.", optionIndex: 2 },
+        { saint: "Erasmus of Rotterdam", era: "c. 1466–1536", position: "Good learning is not the enemy of piety but its handmaid.", optionIndex: 1 },
+        { saint: "Marie-Dominique Chenu, O.P.", era: "1895–1990", position: "The incarnation of the Gospel in the working world is not a concession but a theological imperative.", optionIndex: 2 }],
     108: [
         { saint: "Étienne Gilson", era: "1884–1978", position: "Perennially valid: Thomistic philosophy and theology remain normative", optionIndex: 0 },
         { saint: "Francisco Suárez, S.J.", era: "1548–1617", position: "Perennially valid: Thomistic philosophy and theology remain normative", optionIndex: 0 },
@@ -3576,7 +3731,8 @@ const SAINT_VIEWS = {
         { saint: "St. Cyril of Alexandria", era: "c. 376–444", position: "Three, through Ephesus (431); Chalcedon introduced divisive innovations.", optionIndex: 2 },
         { saint: "Henri de Lubac, S.J.", era: "1896–1991", position: "The number is less important than continuity with apostolic tradition.", optionIndex: 3 },
         { saint: "St. John Henry Newman", era: "1801–1890", position: "The number is less important than continuity with apostolic tradition.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "Jacques-Bénigne Bossuet", era: "1627–1704", position: "The doctrinal decrees of ecumenical councils are irreformable; their disciplinary canons serve their age.", optionIndex: 0 }],
     112: [
         { saint: "St. Augustine of Hippo", era: "354–430", position: "Inherited guilt and corruption: all humanity sinned \'in Adam\' and inherits both guilt and concupiscence.", optionIndex: 0 },
         { saint: "Blaise Pascal", era: "1623–1662", position: "Inherited guilt and corruption: all humanity sinned \'in Adam\' and inherits both guilt and concupiscence.", optionIndex: 0 },
@@ -3586,7 +3742,8 @@ const SAINT_VIEWS = {
         { saint: "St. John Henry Newman", era: "1801–1890", position: "Original sin is primarily privation: loss of original justice and sanctifying grace.", optionIndex: 2 },
         { saint: "Karl Rahner, S.J.", era: "1904–1984", position: "The doctrine needs restatement: evolutionary science changes how we understand human origins.", optionIndex: 3 },
         { saint: "John Courtney Murray, S.J.", era: "1904–1967", position: "The doctrine needs restatement: evolutionary science changes how we understand human origins.", optionIndex: 3 },
-    ],
+    ,
+        { saint: "St. Irenaeus of Lyon", era: "c. 130–202", position: "Adam\'s sin disordered creation; Christ\'s obedience reordered it. The second is greater than the first.", optionIndex: 0 }],
     113: [
         { saint: "Blaise Pascal", era: "1623–1662", position: "Blaise Pascal - defender of Augustinian grace against Jesuit laxism.", optionIndex: 0 },
         { saint: "Prosper of Aquitaine", era: "c. 390–455", position: "Blaise Pascal - defender of Augustinian grace against Jesuit laxism.", optionIndex: 0 },
@@ -3653,6 +3810,12 @@ const SAINT_VIEWS = {
         { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "The institutional Church may collapse, but the Faith will endure in remnant communities maintaining Tradition until restoration comes.", optionIndex: 5 },
         { saint: "Dietrich von Hildebrand", era: "1889–1977", position: "The institutional Church may collapse, but the Faith will endure in remnant communities maintaining Tradition until restoration comes.", optionIndex: 5 },
     ],
+    118: [
+        { saint: "Archbishop Marcel Lefebvre", era: "1905–1991", position: "Vatican II\'s teachings on religious liberty and ecumenism contradict prior magisterium. The consecrations preserved Tradition.", optionIndex: 0 },
+        { saint: "Pope Benedict XVI", era: "1927–2022", position: "Sought reconciliation through dialogue; restored the TLM via Summorum Pontificum; lifted excommunications.", optionIndex: 2 },
+        { saint: "Pope Francis", era: "1936–present", position: "The reformed liturgy is the unique expression of the Roman Rite; restrictions serve ecclesial unity.", optionIndex: 4 },
+        { saint: "Bishop Bernard Fellay", era: "1958–present", position: "Without Lefebvre, the traditional communities would not exist. History will vindicate the Society.", optionIndex: 1 },
+    ],
 };
 
 const MIN_QUESTIONS_THRESHOLD = 3;
@@ -3666,6 +3829,8 @@ let currentQuestion = 0;
 let quizLength = QUESTIONS.length;
 let categoryQuestions = {};
 let matchCounts = {};
+let axisMaxPossible = {};
+let axisQuestionCount = {};
 
 // COPY PROMPT
 function copyPrompt() {
@@ -3716,8 +3881,9 @@ function selectQuestionsForQuiz(count) {
 
 function initScores() {
     scores = {}; axisScores = {}; matchCounts = {};
+    axisMaxPossible = {}; axisQuestionCount = {};
     SCHOOLS.forEach(function(s) { scores[s[0]] = 0; matchCounts[s[0]] = 0; });
-    AXES.forEach(function(a) { axisScores[a[0]] = 0; });
+    AXES.forEach(function(a) { axisScores[a[0]] = 0; axisMaxPossible[a[0]] = 0; axisQuestionCount[a[0]] = 0; });
 }
 
 function startQuiz() {
@@ -3922,7 +4088,11 @@ function calculateScores() {
             else if (ans >= Math.ceil(mid)) direction = 1;
             else direction = 0;
             for (var axis in q.axis_weights) {
-                if (axisScores[axis] !== undefined) axisScores[axis] += q.axis_weights[axis] * direction;
+                if (axisScores[axis] !== undefined) {
+                    axisScores[axis] += q.axis_weights[axis] * direction;
+                    axisMaxPossible[axis] = (axisMaxPossible[axis] || 0) + q.axis_weights[axis];
+                    axisQuestionCount[axis] = (axisQuestionCount[axis] || 0) + 1;
+                }
             }
         }
     }
@@ -3983,11 +4153,29 @@ function showResults() {
     AXES.forEach(function(a) {
         var code = a[0], name = a[1];
         var raw = axisScores[code] || 0;
-        var mult = AXIS_MULTIPLIER[code] || 3;
-        var max = Math.max(selectedQuestions.length * mult, 1);
-        var pct = Math.max(5, Math.min(95, 50 + (raw / max) * 50));
+        var maxP = axisMaxPossible[code] || 1;
+        var qCount = axisQuestionCount[code] || 0;
         var eps = AXIS_ENDPOINTS[code] || ['Left', 'Right'];
-        ac.innerHTML += '<div class="axis-row"><div class="axis-header"><span class="axis-name">' + name + '</span></div><div class="axis-bar"><div class="axis-marker" style="left:calc(' + pct + '% - 9px)"></div></div><div class="axis-labels"><span>' + eps[0] + '</span><span>' + eps[1] + '</span></div></div>';
+        
+        // Skip axes with no data
+        if (qCount < 2) return;
+        
+        // Normalize: raw / maxPossible gives -1 to +1 range
+        var normalized = raw / maxP;
+        
+        // Apply sigmoid-like curve to amplify decisive patterns
+        // tanh(x * 2) compresses the middle but stretches the extremes
+        var curved = Math.tanh(normalized * 2.2);
+        
+        // Map to percentage: -1 → 5%, 0 → 50%, +1 → 95%
+        var pct = 50 + curved * 45;
+        pct = Math.max(5, Math.min(95, pct));
+        
+        // Confidence indicator
+        var conf = qCount >= 8 ? 'high' : (qCount >= 4 ? 'med' : 'low');
+        var confLabel = qCount >= 8 ? '' : ' <span style="font-size:0.65rem;opacity:0.5;">(' + qCount + 'q)</span>';
+        
+        ac.innerHTML += '<div class="axis-row"><div class="axis-header"><span class="axis-name">' + name + confLabel + '</span></div><div class="axis-bar"><div class="axis-marker" style="left:calc(' + pct + '% - 9px)"></div></div><div class="axis-labels"><span>' + eps[0] + '</span><span>' + eps[1] + '</span></div></div>';
     });
     window.scrollTo(0, 0);
 }
