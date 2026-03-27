@@ -4,8 +4,6 @@
 
 A comprehensive theological assessment tool that maps your beliefs across 88 schools of Catholic thought, Protestant traditions, and Eastern Orthodoxy. CRT phosphor-green dark mode. 88 SVG engraving-style portraits. Shareable results cards. Save/resume. Challenge-a-friend mode.
 
-![The Definitive Catholic Theology Quiz](header.png)
-
 ---
 
 ## What's New in v5.0
