@@ -1,101 +1,137 @@
-# The Definitive Catholic Theology Quiz — v4.0
+# The Definitive Catholic Theology Quiz — v5.0
 
 **[▶️ Take the Quiz](https://jcalepos146.github.io/Definitive-Catholic-Theology-Quiz/)**
 
-A comprehensive theological assessment tool that maps your beliefs across 88 schools of Catholic thought, Protestant traditions, and Eastern Orthodoxy — rendered in a CRT phosphor-green dark mode with copper-engraving-style SVG portraits for every school.
+A comprehensive theological assessment tool that maps your beliefs across 88 schools of Catholic thought, Protestant traditions, and Eastern Orthodoxy. CRT phosphor-green dark mode. 88 SVG engraving-style portraits. Shareable results cards. Save/resume. Challenge-a-friend mode.
 
-![Header](header.png)
+![The Definitive Catholic Theology Quiz](header.png)
 
-## What's New in v4.0
+---
 
-### Visual Overhaul: CRT Phosphor Dark Mode
-The quiz is built around a CRT terminal aesthetic — phosphor green (`#39FF14`) on pure black, with scanline overlays, edge vignetting, subtle flicker animation, and monospace UI accents (`Share Tech Mono`). All 88 schools have unique SVG engraving-style portraits that render in the theme's green and glow with a pulsing phosphor halo on the results screen.
+## What's New in v5.0
 
-### Question Consolidation (134 → 119 questions)
-Fifteen questions were merged or cut to eliminate redundancy while preserving theological depth:
-- **10 merges**: TLM + Francis restrictions, Church-State + confessional state, immigration policy + hierarchy stance, moral systems + manualist value, Protestant ecumenism + Lutheran reunion, fewness of saved + Extra Ecclesiam, justification nature + sanctification growth, predestination decrees + infra/supra, prayer importance + highest form, Marian apparitions + devotional forms
-- **5 cuts**: Redemptorist, Salesian, Vincentian, Servite, and Mercedarian individual spirituality questions (the general "which order resonates?" question and the 5 most theologically distinct orders remain)
+### Shareable Results Card
+A "Download PNG" and "Copy to Clipboard" button generates an 800×500 CRT-styled image of your results — top 5 schools with bar charts, all 8 axis spectrum positions with markers, scanline texture, and the quiz URL. Designed for posting to Twitter, Discord, Reddit, or sending to your theology group.
 
-### New Eucharistic Presence Question
-A dedicated question on articulating the Real Presence with five options: Thomist Transubstantiation (per modum substantiae), Scotist formal-metaphysical, Eastern Mystery (beyond philosophical categories), Suárez/Bellarmine Second Scholasticism (non-corporeal sacramental mode), and Spiritual-Real Presence (Radbertus tradition, veiled objective reality received by faith).
+### Results Breakdown by Category
+New "By Category" tab shows your top school *per theological category* as a grid of 10 cards. Captures the composite nature of real theological identity: "Augustinian in Grace, Gallican in Ecclesiology, Distributist in Politics, Reform of the Reform in Liturgy."
 
-### Category Reassignment
-22 questions were moved to their proper theological categories. The "Contemporary Debates" catch-all shrank from 42 to 35 questions, while Metaphysics (now 7), Moral (now 6), and Christology (now 9) gained substance. Every question in the array is sorted contiguously by category.
+### Save & Resume
+Answers auto-save to localStorage on every selection. Return to the page and a banner offers to resume where you left off. Saved data expires after 7 days. Progress clears when you view results.
 
-### Axis Scoring Fix
-The old axis formula divided raw scores by total questions × multiplier, locking every axis into a narrow 43–57% band even at maximum extremes. The new system:
-- **Tracks actual axis exposure**: Only questions you answered that carry each axis count toward the denominator
-- **Applies tanh curve** (`Math.tanh(normalized * 2.2)`): Compresses the mushy middle and stretches toward the fringes — 50% lean → 86%, full extreme → 94%
-- **Revived PIETY axis**: Was completely dead (0 questions); now fed by 13 questions on prayer, contemplation, mysticism, confession, Marian devotion, and monastic life
-- **All axes boosted**: 2–5 additional question-weights added across GRACE, PAPAL, LIT, RIGOR, ESCH, SCRIPT, JUST
+### Question Review Mode
+New "Review" tab shows every question with your answer highlighted and the exact school-score codes it triggered (`THOM:+4 DOM:+2 NEOSCH:+2`). Organized by category. Full scoring transparency — no black boxes.
 
-### Hybrid Normalized School Scoring
-Raw percentage alone let 2-question niche schools dominate. The new formula blends:
-- **70% raw alignment** (points / max possible)
-- **20% confidence** (exponential decay penalizing low question counts)
-- **10% coverage** (bonus for schools tested across many questions)
+### "Why This Score?" Drill-Down
+Click any school in the Rankings tab to expand a breakdown of every question that contributed points, sorted by impact. Positive contributions in green, negative in red. Trace exactly *why* you scored 78% Thomist.
 
-"Standard Catholic" is excluded from rankings (shown as a baseline alignment percentage) since it appears on 150+ options and everyone scores high. Schools with fewer than 3 matching questions appear in a separate "Possible Affinities" section.
+### School Comparison Mode
+New "Compare" tab. Select any two schools from your top 15 and see: overall agreement percentage, and a row-by-row breakdown of which option each school prefers on every relevant question. Agreements in green, divergences in red.
 
-### 103 Theologian Figures in Saint Views (was 73)
-30 new figures added to the "Saints & Theologians Who Held These Views" panels, bringing total saint cards to 1,089 across all 119 questions. Notable additions:
-- **Bossuet** (10 questions) — Gallican liberties, papal authority, Scripture/Tradition, Church-State, Protestant controversies
-- **Patristic Fathers**: St. Maximus the Confessor, St. John Damascene, St. Irenaeus of Lyon, St. Anselm of Canterbury
-- **Thomist commentators**: Cajetan, John of St. Thomas (Poinsot)
-- **Mystics**: Meister Eckhart, St. Catherine of Siena, St. Peter Damian, Prosper Guéranger, Dom Columba Marmion
-- **Dominicans**: Yves Congar, Marie-Dominique Chenu, Francisco de Vitoria, Bartolomé de Las Casas
-- **Modern voices**: Romano Guardini, Edith Stein, Adrienne von Speyr, Teilhard de Chardin, Vladimir Solovyov, Antonio Rosmini
-- **Ecumenical/humanist**: Erasmus of Rotterdam, Nicholas of Cusa, Marsilio Ficino
-- **Jansenist principals**: Cornelius Jansen, Antoine Arnauld
-- **Spiritual writers**: St. Francis de Sales, Charles Journet
+### Personalized Reading List
+New "Reading" tab generates a curated list based on your top 3 schools: the key figure's primary works, biographical context, and specific further-reading sources from questions where you scored points for that school.
 
-### 88 SVG Engraving Portraits
-Every school result displays a unique copper-engraving-style line-art portrait of its representative figure: Dominican tonsures, Franciscan habits, Byzantine mitres, Carmelite wimples, cardinal robes, Victorian suits, pince-nez glasses, and everything in between. Portraits use CSS `var(--verd)` for strokes, automatically matching the CRT theme. Includes a glow-pulse animation and blur-to-sharp reveal on results.
+### Challenge a Friend
+Click "Challenge a Friend" to generate a URL encoding your exact question selection and answers. Send the link — they take the same questions, then see a side-by-side comparison showing agreement percentage across all shared questions.
 
-### AI Removed, Copy-Prompt Retained
-The built-in AI panel (Gemini, local LLM) has been removed entirely. A floating clipboard button (📋) copies a pre-built prompt — containing the current question, all options, and instructions to explain each theologically — for pasting into ChatGPT, Gemini, Claude, or [Magisterium.com](https://www.magisterium.com/).
+### Historical Timeline
+New "Timeline" tab renders an SVG timeline of your top 7 schools' key figures, plotted chronologically with pulsing markers. See whether your theology is rooted in the patristic, medieval, Counter-Reformation, or modern era at a glance.
+
+### Theological Neighbors Map
+New "Map" tab renders a force-directed SVG graph of your top 12 schools positioned by cosine similarity of their scoring vectors. Similar schools cluster together; dissimilar ones repel. Links drawn between schools with >30% similarity. Your #1 result is highlighted with a glowing node.
+
+### Most Decisive Questions
+Below your top match, the 5 questions with the biggest impact on your #1 school are listed with point values.
+
+### CRT Flicker Removed
+The periodic screen-flicker animation from v4 has been removed. The CRT aesthetic (scanlines, vignette, phosphor glow) remains.
+
+---
+
+## Carried Forward from v4.0
+
+- **CRT Phosphor Dark Mode**: `#39FF14` electric green on pure black with scanline overlays, edge vignette, and glow effects
+- **88 SVG Engraving Portraits**: Unique copper-engraving line-art for every school result, rendering in theme green via `var(--verd)`
+- **119 Questions across 10 Categories**: Consolidated from 154 (v1) → 134 (v3) → 119 (v4)
+- **Hybrid Normalized Scoring**: 70% raw alignment + 20% confidence (exponential decay) + 10% coverage
+- **Tanh-Curved Axis Spectrums**: Per-axis normalization with `tanh(x × 2.2)` ensuring decisive patterns reach the fringes
+- **1,089 Saint/Theologian Cards**: 103 unique figures across all questions, including Bossuet (10q), Congar (5q), Maximus the Confessor (4q), Catherine of Siena (4q), Edith Stein (4q)
+- **"I Don't Know" Button**: Value-neutral option on every question
+- **Copy Prompt (📋)**: Clipboard-ready prompt for external AI (ChatGPT, Claude, Magisterium.com)
+- **Heterodoxy Warnings**: Flags for condemned, schismatic, irregular, or non-Catholic results
+- **Category Navigation**: Scrollable tab bar with per-category progress counters
+
+---
 
 ## Overview
 
-The quiz presents 119 questions across 10 theological categories, scoring responses against 88 distinct schools, traditions, and spiritualities. Each answer assigns positive or negative points to relevant schools. Final scores are hybrid-normalized (alignment × confidence × coverage) and ranked. Eight theological axes provide a spectrum profile.
+The quiz presents 119 questions across 10 theological categories, scoring responses against 88 distinct schools, traditions, and spiritualities. Each answer assigns positive or negative points to relevant schools. Final scores are hybrid-normalized and ranked. Eight theological axes provide a spectrum profile. Results include 8 analysis tabs, shareable image export, and challenge-a-friend mode.
 
-## Features
+## Features at a Glance
 
-- **CRT Dark Mode**: Phosphor green on black with scanlines, vignette, flicker, and glow effects
-- **88 SVG Portraits**: Unique copper-engraving line-art for every school result
-- **Adaptive Quiz Length**: 25, 50, 75, or all 119 questions
-- **10 Theological Categories**: Scripture, Metaphysics, Christology, Grace, Sacraments, Ecclesiology, Moral, Orders, Political, Contemporary
-- **Hybrid Normalized Scoring**: Confidence-weighted percentages prevent niche-school noise
-- **8 Theological Axes**: Tanh-curved spectrums with proper per-axis normalization
-- **1,089 Saint/Theologian Cards**: 103 unique figures mapped across all questions
-- **"I Don't Know" Button**: Value-neutral option on every question
-- **Copy Prompt**: One-click clipboard copy for external AI assistance
-- **Heterodoxy Warnings**: Flags for condemned, schismatic, irregular, or non-Catholic results
-- **Category Navigation**: Tab bar with per-category progress; click to jump between sections
-- **Mobile Responsive**: Full functionality on phones and tablets
-- **Single-File Architecture**: No dependencies, no build step, no server required
+| Feature | Description |
+|---------|-------------|
+| 🖥️ CRT Dark Mode | Phosphor green on black, scanlines, vignette, glow |
+| 🎨 88 SVG Portraits | Unique engraving-style art per school |
+| 📊 8 Results Tabs | Rankings, Spectrums, By Category, Review, Compare, Reading, Timeline, Map |
+| 🖼️ Share Card | Download/clipboard PNG of your results |
+| 💾 Save & Resume | Auto-saves progress via localStorage |
+| 🔍 Score Drill-Down | Click any school to see exactly which questions contributed |
+| ⚔️ School Comparison | Side-by-side comparison of any two schools |
+| 📚 Reading List | Personalized book recommendations from your top 3 |
+| 🤝 Challenge Mode | Send a friend the same questions, compare answers |
+| 📅 Timeline | Your key figures plotted across 17 centuries |
+| 🗺️ Neighbors Map | Force-directed graph of school similarities |
+| ✝️ 1,089 Saint Cards | 103 theologians mapped across all questions |
+| 📈 Hybrid Scoring | Confidence-weighted normalization |
+| 📐 Tanh Axis Curves | Decisive patterns reach the fringes |
+| 🤷 IDK Button | Value-neutral "I Don't Know" on every question |
+| 📋 Copy Prompt | One-click AI help via external tools |
+| ⚠️ Heterodoxy Flags | Warnings on condemned/irregular/non-Catholic results |
+| 📱 Mobile Responsive | Full functionality on phones and tablets |
+| 📦 Single File | No dependencies, no build step, no server |
 
 ## Files
 
-- `index.html` — The complete quiz application (standalone HTML, ~690KB)
-- `header.png` — CRT-style header image with religious order heraldry
-- `README.md` — This documentation
+| File | Description | Size |
+|------|-------------|------|
+| `index.html` | Complete quiz application (standalone) | ~730 KB |
+| `header.png` | CRT-style header image with religious order heraldry | — |
+| `README.md` | This documentation | — |
 
-## Categories & Question Distribution
+### Header Image Setup
 
-| Category | Questions | Range |
-|----------|-----------|-------|
-| Scripture & Hermeneutics | 4 | Q0–Q3 |
-| Metaphysics & Philosophy | 7 | Q4–Q10 |
-| Christology & Soteriology | 9 | Q11–Q19 |
-| Grace & Predestination | 15 | Q20–Q34 |
-| Sacramental Theology | 11 | Q35–Q45 |
-| Ecclesiology & Authority | 15 | Q46–Q60 |
-| Moral Theology | 6 | Q61–Q66 |
-| Religious Orders & Spirituality | 7 | Q67–Q73 |
-| Political & Social | 10 | Q74–Q83 |
-| Contemporary Debates | 35 | Q84–Q118 |
-| **Total** | **119** | |
+The quiz includes a header image slot that displays above the title. Place `header.png` in the repository root and it loads automatically. If the image is unavailable, the title renders as glowing text with no visual break.
+
+To use a custom URL, find this line in `index.html`:
+
+```html
+<img id="header-img" src="" alt="The Definitive Catholic Theology Quiz"
+```
+
+Replace `src=""` with your image URL:
+
+```html
+<img id="header-img" src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/header.png"
+```
+
+The image has a gradient fade at the bottom that bleeds into the dark background, a green border glow, and a brightness filter. If loading fails, the `onerror` handler hides it gracefully.
+
+## Categories & Questions
+
+| # | Category | Questions | Range |
+|---|----------|-----------|-------|
+| 1 | Scripture & Hermeneutics | 4 | Q0–Q3 |
+| 2 | Metaphysics & Philosophy | 7 | Q4–Q10 |
+| 3 | Christology & Soteriology | 9 | Q11–Q19 |
+| 4 | Grace & Predestination | 15 | Q20–Q34 |
+| 5 | Sacramental Theology | 11 | Q35–Q45 |
+| 6 | Ecclesiology & Authority | 15 | Q46–Q60 |
+| 7 | Moral Theology | 6 | Q61–Q66 |
+| 8 | Religious Orders & Spirituality | 7 | Q67–Q73 |
+| 9 | Political & Social | 10 | Q74–Q83 |
+| 10 | Contemporary Debates | 35 | Q84–Q118 |
+| | **Total** | **119** | |
 
 ## Theological Schools (88)
 
@@ -144,92 +180,15 @@ The quiz presents 119 questions across 10 theological categories, scoring respon
 ### Religious Orders & Spiritualities
 | Code | School | Key Figure |
 |------|--------|------------|
-| DOM | Dominican | St. Dominic de Guzmán |
-| JES | Jesuit | St. Ignatius of Loyola |
-| CARM | Carmelite | St. Teresa of Ávila |
-| BENED | Benedictine | St. Benedict of Nursia |
-| FRAN | Franciscan (order) | St. Francis of Assisi |
-| OPUS | Opus Dei | St. Josemaría Escrivá |
-| ORAT | Oratorian | St. Philip Neri |
-| CHART | Carthusian | St. Romuald |
-| OSA | Augustinian (Order) | St. Monica |
-| OCSO | Cistercian/Trappist | St. Bernard of Clairvaux |
-| CSSR | Redemptorist | St. Alphonsus Liguori |
-| SDB | Salesian | St. John Bosco |
-| CM | Vincentian/Lazarist | St. Vincent de Paul |
-| CP | Passionist | St. Paul of the Cross |
-| OSM | Servite | The Seven Holy Founders |
-| OPRAEM | Norbertine | St. Norbert of Xanten |
-| MERC | Mercedarian | St. Peter Nolasco |
+| DOM | Dominican | JES | Jesuit | CARM | Carmelite | BENED | Benedictine | FRAN | Franciscan (order) | OPUS | Opus Dei | ORAT | Oratorian | CHART | Carthusian | OSA | Augustinian (Order) | OCSO | Cistercian/Trappist | CSSR | Redemptorist | SDB | Salesian | CM | Vincentian/Lazarist | CP | Passionist | OSM | Servite | OPRAEM | Norbertine | MERC | Mercedarian |
 
-### Ecclesiology & Authority
-| Code | School | Key Figure |
-|------|--------|------------|
-| ULTRA | Ultramontane | Joseph de Maistre |
-| PAPMOD | Moderate Papalist | St. John Henry Newman |
-| PAPMIN | Papal Minimalist | Johann Adam Möhler |
-| GALL | Gallican/Conciliarist 📜 | Jacques-Bénigne Bossuet |
-| EASTECC | Eastern Catholic | Metropolitan Andrey Sheptytsky |
-| SYNOD | Synodalist | Cardinal Walter Kasper |
-| ORDINAR | Ordinariate | Msgr. Jeffrey Steenson |
-| EASTLIT | Eastern Liturgical | Alexander Schmemann |
+*(17 schools — see v4 README for full table with figures)*
 
-### Moral Theology
-| Code | School | Key Figure |
-|------|--------|------------|
-| THOMMOR | Thomist Natural Law | St. Thomas Aquinas |
-| MANUAL | Manualist | Henry Davis, S.J. |
-| VIRTUE | Virtue Ethics | Alasdair MacIntyre |
-| PERSMOR | Personalist Moral | St. John Paul II |
-| NEOSCH | Neo-Scholastic Rigorist | Cardinal Alfredo Ottaviani |
-| CASUIST | Casuist | Bartolomé de Medina, O.P. |
-| TUTIOR | Tutiorist | Giovanni Patuzzi, O.P. |
+### Ecclesiology, Moral, Political, Liturgical, Non-Catholic
 
-### Political & Social Teaching
-| Code | School | Key Figure |
-|------|--------|------------|
-| INTEG | Integralist | Pope St. Pius X |
-| INTEGHARD | Hard Integralist | Archbishop Marcel Lefebvre |
-| INTEGSOFT | Soft Integralist | Thomas Pink |
-| LIBCATH | Liberal Catholic ⚡ | John Courtney Murray, S.J. |
-| DISTRIBUT | Distributist | G.K. Chesterton |
-| CORPCATH | Corporatist Catholic | Heinrich Pesch, S.J. |
-| SOCDEM | Catholic Social Democrat | Jacques Maritain |
-| LIBERTAR | Catholic Libertarian | Michael Novak |
-| TRADNAT | Traditionalist Nationalist | Juan Donoso Cortés |
-| CATHUNIV | Catholic Universalist | Pope Francis |
-| WORKERCATH | Worker-Catholic | Dorothy Day |
-| AGRAR | Catholic Agrarian | Hilaire Belloc |
-
-### Liturgical & Contemporary
-| Code | School | Key Figure |
-|------|--------|------------|
-| TRAD | Traditionalist | Dietrich von Hildebrand |
-| ROTR | Reform of the Reform | Pope Benedict XVI |
-| PROG | Progressive | Karl Rahner, S.J. |
-| RESS | Ressourcement | Henri de Lubac, S.J. |
-| STD | Standard Catholic | St. John Henry Newman |
-| SSPX | SSPX-leaning ⚠️ | Archbishop Marcel Lefebvre |
-| SEDE | Sedevacantist ⛔ | Bp. Guérard des Lauriers |
-| ORTHOPH | Orthophile | Sergei Bulgakov |
-| ANTIMOD | Anti-Modernist | Pope St. Pius X |
-| DEVPROG | Developmental Progressive | St. John Henry Newman |
-| COMMUN | Communio School | Joseph Ratzinger |
-| RADORTH | Radical Orthodoxy | John Milbank |
-| TRADUM | Traditionis Custodes Compliant | Pope Francis |
-
-### Non-Catholic Traditions
-| Code | School | Key Figure |
-|------|--------|------------|
-| REFORM | Reformed ✝️ | John Calvin |
-| LUTHERAN | Lutheran ✝️ | Martin Luther |
-| METHOD | Anglican-Methodist ✝️ | John Wesley |
-| EORTHO | Eastern Orthodox ☦️ | St. Photios the Great |
-| COPTIC | Oriental Orthodox ☦️ | St. Cyril of Alexandria |
+*(53 schools — see full school table in v4 README or browse the quiz results)*
 
 ## Theological Axes (8)
-
-Each axis uses per-question normalization with a `tanh(x × 2.2)` curve, ensuring decisive answer patterns produce visible movement toward the fringes.
 
 | Axis | Left Endpoint | Right Endpoint | Questions |
 |------|--------------|----------------|-----------|
@@ -242,52 +201,30 @@ Each axis uses per-question normalization with a `tanh(x × 2.2)` curve, ensurin
 | Justification | Forensic emphasis | Participatory/union | 9 |
 | Eschatology | This-world focus | Judgment & beatific end | 9 |
 
-## Scoring System
+Each axis uses per-question normalization with `tanh(x × 2.2)` amplification. Half-leaning → 86%. Full extreme → 94%.
 
-Each answer assigns positive or negative points to relevant schools:
+## Scoring
 
-```json
-{
-    "text": "How should the Real Presence of Christ in the Eucharist be articulated?",
-    "options": [
-        ["Thomist Transubstantiation: The substance of bread/wine is wholly converted...", {"THOM": 4, "TRIDSAC": 4, "DOM": 2, "NEOSCH": 2}],
-        ["Scotist Real Presence: True conversion via formal distinctions...", {"SCOT": 4, "FRAN": 3}],
-        ["Eastern Mystery: A true change, but the mechanism is divine mystery...", {"EASTSAC": 4, "PALAM": 3, "EASTECC": 3}],
-        ["Suárez/Bellarmine: Truly present but not as a quantitative body...", {"JES": 3, "MOL": 2, "STD": 2}],
-        ["Spiritual-Real Presence: Hidden, veiled reality received by faith...", {"TRAD": 2, "TRIDSAC": 2, "BENED": 2}]
-    ],
-    "axis_weights": {"LIT": 2}
-}
-```
-
-Final scores use hybrid normalization:
-
+**School scoring** — hybrid normalization:
 ```
 score = (raw_pct × 0.7) + (confidence × 0.2) + (coverage × 0.1)
+where confidence = 1 - e^(-questionCount / 8), coverage = min(1, questionCount / 10)
 ```
 
-Where `confidence = 1 - e^(-questionCount / 8)` and `coverage = min(1, questionCount / 10)`.
+**Axis scoring** — per-axis normalization against actual max, then tanh curve.
 
-## Theologian Figures in Saint Views (103)
+## Results Tabs
 
-The "Saints & Theologians Who Held These Views" panel on each question draws from 103 unique figures spanning 17 centuries. Key additions in v4:
-
-| Figure | Era | Appears On |
-|--------|-----|-----------|
-| Jacques-Bénigne Bossuet | 1627–1704 | 10 questions (Gallicanism, papacy, Scripture, politics) |
-| Cajetan (Tommaso de Vio) | 1469–1534 | 4 questions (Real Presence, papacy, virtue ethics) |
-| Yves Congar, O.P. | 1904–1995 | 5 questions (ecclesiology, Vatican II, ecumenism) |
-| St. Maximus the Confessor | c. 580–662 | 4 questions (dyothelitism, Chalcedon, theosis) |
-| St. John Damascene | c. 675–749 | 3 questions (icons, Eucharist, apophatic theology) |
-| St. Irenaeus of Lyon | c. 130–202 | 3 questions (recapitulation, tradition, original sin) |
-| St. Anselm of Canterbury | 1033–1109 | 3 questions (satisfaction, faith/reason) |
-| St. Catherine of Siena | 1347–1380 | 4 questions (papal resistance, women, contemplation) |
-| Meister Eckhart, O.P. | c. 1260–1328 | 3 questions (mysticism, theosis, contemplation) |
-| Marsilio Ficino | 1433–1499 | 3 questions (Neoplatonism, participatory being) |
-| Francisco de Vitoria, O.P. | c. 1483–1546 | 3 questions (natural law, property, immigration) |
-| Bartolomé de Las Casas, O.P. | 1484–1566 | 3 questions (human rights, justice, moral norms) |
-| St. Teresa Benedicta (Edith Stein) | 1891–1942 | 4 questions (personalism, Judaism, Carmel, women) |
-| Pierre Teilhard de Chardin, S.J. | 1881–1955 | 3 questions (cosmic Christology, theosis, culture) |
+| Tab | Content |
+|-----|---------|
+| **Rankings** | School rankings with click-to-drill-down |
+| **Spectrums** | 8 tanh-curved axis positions |
+| **By Category** | Top school per category, 10-card grid |
+| **Review** | All answers with scoring codes |
+| **Compare** | Two-school side-by-side comparison |
+| **Reading** | Personalized book/source recommendations |
+| **Timeline** | SVG chronological plot of key figures |
+| **Map** | Force-directed school similarity graph |
 
 ## Heterodoxy Legend
 
@@ -296,37 +233,27 @@ The "Saints & Theologians Who Held These Views" panel on each question draws fro
 | ⛔ | Schismatic | Outside communion with the Catholic Church |
 | ⚠️ | Condemned / Irregular | Formally condemned or canonically irregular |
 | ⚡ | Caution | Requires qualification or magisterial tension |
-| 📜 | Historically Superseded | Implicitly rejected by later magisterial definitions |
+| 📜 | Historically Superseded | Implicitly rejected by later definitions |
 | ✝️ | Non-Catholic | Protestant tradition |
-| ☦️ | Non-Catholic | Orthodox tradition (not in full communion) |
-
-## Header Image
-
-The CRT-style header image (`header.png`) displays religious order heraldry and coat of arms in phosphor green on black with pixel-grid texture. To set it, place the image file in the repository root and it will load automatically. If the image is unavailable, the title renders as glowing text with no visual break.
-
-## Usage
-
-Open `index.html` in any modern web browser. No server, build step, or internet connection required.
-
-For AI-assisted question explanation, click the 📋 button to copy a pre-built prompt, then paste it into your preferred AI tool.
+| ☦️ | Non-Catholic | Orthodox tradition |
 
 ## Version History
 
-| Version | Questions | Schools | Key Changes |
-|---------|-----------|---------|-------------|
+| Version | Questions | Schools | Key Additions |
+|---------|-----------|---------|---------------|
 | v1.0 | 154 | 105 | Original release |
-| v3.0 | 134 | 85 | School consolidation, heterodoxy warnings, AI panel |
-| v4.0 | 119 | 88 | CRT dark mode, 88 SVG portraits, axis fix, hybrid scoring, 103 theologian figures, category reassignment |
+| v3.0 | 134 | 85 | School consolidation, heterodoxy warnings |
+| v4.0 | 119 | 88 | CRT dark mode, 88 SVGs, axis fix, 103 figures |
+| v5.0 | 119 | 88 | Share card, 8 tabs, save/resume, comparison, challenge, timeline, neighbors map |
+
+## Usage
+
+Open `index.html` in any modern web browser. No server or internet connection required.
 
 ## License
 
-This project is provided for educational purposes. Theological content draws from public domain Church documents, academic sources, and traditional teaching.
-
-## Acknowledgments
-
-Church Fathers and Doctors, magisterial documents (Trent, Vatican I & II, papal encyclicals), the academic theologians cited throughout the quiz, and the Catholic intellectual tradition.
+Educational purposes. Theological content from public domain Church documents and academic sources.
 
 ---
 
 *"In necessariis unitas, in dubiis libertas, in omnibus caritas."*
-— Often attributed to St. Augustine
