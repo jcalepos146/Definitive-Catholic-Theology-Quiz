@@ -97,8 +97,7 @@
         .divider::before, .divider::after { content: ''; height: 1px; flex: 1; background: var(--border); }
         .divider span { color: var(--verd-dim); font-size: 1.2rem; }
         .hidden { display: none !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes crtFlicker { 0%, 100% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: 0.8; } 94% { opacity: 1; } 97% { opacity: 0.9; } 98% { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } } 93% { opacity: 0.8; } 94% { opacity: 1; } 97% { opacity: 0.9; } 98% { opacity: 1; } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes portraitReveal { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: blur(0); } }
         @keyframes glowPulse { 0%, 100% { filter: drop-shadow(0 0 10px rgba(57,255,20,0.4)); } 50% { filter: drop-shadow(0 0 25px rgba(57,255,20,0.7)); } }
@@ -284,7 +283,7 @@
             border-radius: 14px;
             z-index: 1;
         }
-        .quiz-panel { position: relative; animation: crtFlicker 8s infinite; }
+        .quiz-panel { position: relative; }
         .quiz-panel > * { position: relative; z-index: 2; }
 
         @media (max-width: 600px) {
@@ -296,6 +295,120 @@
             .question-text { font-size: 1.1rem; }
             .portrait-frame { width: 120px; height: 170px; }
         }
+
+        /* === FEATURE: Save/Resume Banner === */
+        .resume-banner {
+            background: var(--bg-raised);
+            border: 1px solid var(--verd-dim);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+        .resume-banner-text { font-size: 0.9rem; color: var(--text-mid); }
+        .resume-banner-text strong { color: var(--verd); }
+        .resume-banner-actions { display: flex; gap: 0.5rem; }
+        .resume-btn { padding: 0.4rem 1rem; border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; border: 1px solid var(--verd-dim); background: transparent; color: var(--verd-dim); transition: all 0.2s; }
+        .resume-btn.primary { border-color: var(--verd); color: var(--verd); }
+        .resume-btn:hover { background: var(--verd-faint); }
+
+        /* === FEATURE: Results Tabs (expanded) === */
+        .tabs { display: flex; gap: 0.3rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        
+        /* === FEATURE: Category Breakdown === */
+        .cat-breakdown { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+        .cat-result-card { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; transition: border-color 0.2s; }
+        .cat-result-card:hover { border-color: var(--verd-dim); }
+        .cat-result-icon { font-size: 1.2rem; }
+        .cat-result-name { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--text-mid); }
+        .cat-result-school { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--verd); font-weight: 600; margin-top: 0.15rem; }
+        .cat-result-pct { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--verd-dim); }
+
+        /* === FEATURE: Question Review === */
+        .review-question { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; }
+        .review-question-text { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--text); margin-bottom: 0.4rem; }
+        .review-answer { font-size: 0.8rem; color: var(--verd); padding: 0.3rem 0.5rem; background: var(--verd-faint); border-radius: 4px; display: inline-block; margin-bottom: 0.3rem; }
+        .review-answer.skipped { color: var(--text-dim); background: transparent; border: 1px dashed var(--border); }
+        .review-scores { font-size: 0.7rem; color: var(--text-dim); }
+        .review-scores span { color: var(--verd-dim); margin-right: 0.4rem; }
+        .review-cat-header { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--verd-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 1rem 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+
+        /* === FEATURE: Why This Score Drill-Down === */
+        .drill-down { display: none; margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-card); border-radius: 6px; border: 1px solid var(--border); animation: fadeIn 0.3s ease; }
+        .drill-down.open { display: block; }
+        .drill-item { display: flex; justify-content: space-between; padding: 0.2rem 0; font-size: 0.75rem; border-bottom: 1px solid rgba(57,255,20,0.05); }
+        .drill-item-q { color: var(--text-mid); flex: 1; }
+        .drill-item-pts { font-family: 'Share Tech Mono', monospace; color: var(--verd); white-space: nowrap; margin-left: 0.5rem; }
+        .drill-item-pts.neg { color: #ff4444; }
+        .school-rank { cursor: pointer; }
+        .school-rank:hover .rank-name { text-decoration: underline; text-decoration-color: var(--verd-dim); }
+
+        /* === FEATURE: School Comparison === */
+        .compare-container { padding: 0.5rem 0; }
+        .compare-select { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .compare-school-btn { padding: 0.3rem 0.6rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-raised); font-size: 0.75rem; color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+        .compare-school-btn:hover { border-color: var(--verd-dim); color: var(--text-mid); }
+        .compare-school-btn.selected { border-color: var(--verd); color: var(--verd); background: var(--verd-faint); }
+        .compare-results { display: none; }
+        .compare-results.active { display: block; }
+        .compare-header { display: flex; justify-content: space-between; margin-bottom: 0.75rem; }
+        .compare-col-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--verd); font-weight: 600; }
+        .compare-row { display: flex; gap: 0.5rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(57,255,20,0.05); font-size: 0.75rem; }
+        .compare-q { flex: 2; color: var(--text-mid); }
+        .compare-cell { flex: 1; text-align: center; font-family: 'Share Tech Mono', monospace; }
+        .compare-cell.agree { color: var(--verd); }
+        .compare-cell.disagree { color: #ff6b6b; }
+        .compare-stat { text-align: center; padding: 0.5rem; margin-bottom: 0.75rem; }
+        .compare-stat-num { font-family: 'Share Tech Mono', monospace; font-size: 1.5rem; color: var(--verd); }
+        .compare-stat-label { font-size: 0.7rem; color: var(--text-dim); }
+
+        /* === FEATURE: Reading List === */
+        .reading-list { }
+        .reading-school { margin-bottom: 1rem; }
+        .reading-school-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--verd); font-weight: 600; margin-bottom: 0.3rem; }
+        .reading-item { font-size: 0.85rem; color: var(--text-mid); padding: 0.2rem 0; padding-left: 0.75rem; border-left: 2px solid var(--border); margin-bottom: 0.2rem; }
+        .reading-item strong { color: var(--text); }
+
+        /* === FEATURE: Share Card === */
+        .share-section { text-align: center; margin: 1.5rem 0; padding: 1rem; background: var(--bg-raised); border-radius: 8px; border: 1px solid var(--border); }
+        .share-btn { padding: 0.5rem 1.5rem; border: 2px solid var(--verd); border-radius: 4px; background: transparent; color: var(--verd); font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0.3rem; }
+        .share-btn:hover { background: var(--verd); color: var(--bg); box-shadow: 0 0 20px rgba(57,255,20,0.3); }
+        .share-canvas { display: none; }
+        .share-preview { max-width: 100%; border: 1px solid var(--border); border-radius: 4px; margin-top: 0.75rem; display: none; }
+
+        /* === FEATURE: Challenge Mode === */
+        .challenge-section { text-align: center; margin: 1rem 0; padding: 1rem; background: var(--bg-raised); border-radius: 8px; border: 1px dashed var(--verd-dim); }
+        .challenge-link { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--verd-dim); word-break: break-all; padding: 0.5rem; background: var(--bg-card); border-radius: 4px; margin-top: 0.5rem; cursor: pointer; border: 1px solid var(--border); }
+        .challenge-link:hover { border-color: var(--verd); }
+        .challenge-comparison { margin-top: 1rem; }
+        .challenge-vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.5rem; align-items: start; }
+        .challenge-col { text-align: center; }
+        .challenge-col-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--verd-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .challenge-divider { color: var(--verd-dim); font-size: 1.2rem; padding-top: 1rem; }
+
+        /* === FEATURE: Timeline === */
+        .timeline-container { position: relative; padding: 1rem 0; overflow-x: auto; }
+        .timeline-svg { width: 100%; min-width: 500px; }
+
+        /* === FEATURE: Neighbors Map === */
+        .neighbors-container { padding: 0.5rem 0; }
+        .neighbors-svg { width: 100%; aspect-ratio: 16/10; }
+        .neighbor-node { cursor: pointer; transition: all 0.3s; }
+        .neighbor-node:hover text { fill: var(--verd); }
+        .neighbor-link { stroke: rgba(57,255,20,0.15); }
+        .neighbor-node.top-match circle { stroke: var(--verd); stroke-width: 2; filter: drop-shadow(0 0 6px rgba(57,255,20,0.4)); }
+
+        @media (max-width: 600px) {
+            .cat-breakdown { grid-template-columns: 1fr; }
+            .compare-select { flex-direction: column; }
+            .challenge-vs { grid-template-columns: 1fr; }
+            .challenge-divider { display: none; }
+            .resume-banner { flex-direction: column; gap: 0.5rem; text-align: center; }
+        }
+
     </style>
 </head>
 <body>
@@ -303,7 +416,7 @@
         <div class="quiz-panel" id="quiz-panel">
             <header>
                 <div class="header-image-container">
-                    <img id="header-img" src="https://github.com/jcalepos146/Definitive-Catholic-Theology-Quiz/blob/main/GOURGEOUS%20LOGO.png?raw=true" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
+                    <img id="header-img" src="" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
                 </div>
                 <h1>The Definitive Catholic<br>Theology Quiz</h1>
                 <p class="subtitle">119 Questions &middot; 10 Categories &middot; Hybrid Scoring</p>
@@ -347,9 +460,23 @@
             <div id="results-screen" class="results-screen">
                 <div class="results-header"><h2>Your Theological Profile</h2><div class="divider"><span>&#10013;</span></div></div>
                 <div id="top-match-container"></div>
-                <div class="tabs"><button class="tab-btn active" onclick="switchTab('rankings')">Rankings</button><button class="tab-btn" onclick="switchTab('axes')">Spectrums</button></div>
+                <div class="tabs"><button class="tab-btn active" onclick="switchTab('rankings')">Rankings</button><button class="tab-btn" onclick="switchTab('axes')">Spectrums</button><button class="tab-btn" onclick="switchTab('categories')">By Category</button><button class="tab-btn" onclick="switchTab('review')">Review</button><button class="tab-btn" onclick="switchTab('compare')">Compare</button><button class="tab-btn" onclick="switchTab('reading')">Reading</button><button class="tab-btn" onclick="switchTab('timeline')">Timeline</button><button class="tab-btn" onclick="switchTab('neighbors')">Map</button></div>
                 <div id="rankings-tab" class="tab-content active"><div id="rankings-content"></div></div>
                 <div id="axes-tab" class="tab-content"><div id="axes-content"></div></div>
+                <div id="categories-tab" class="tab-content"><div id="categories-content"></div></div>
+                <div id="review-tab" class="tab-content"><div id="review-content"></div></div>
+                <div id="compare-tab" class="tab-content"><div id="compare-content"></div></div>
+                <div id="reading-tab" class="tab-content"><div id="reading-content"></div></div>
+                <div id="timeline-tab" class="tab-content"><div id="timeline-content"></div></div>
+                <div id="neighbors-tab" class="tab-content"><div id="neighbors-content"></div></div>
+                <div id="share-section" class="share-section">
+                    <button class="share-btn" onclick="shareAsImage()">&#11015; DOWNLOAD PNG</button>
+                    <button class="share-btn" id="share-clipboard-btn" onclick="shareToClipboard()">COPY TO CLIPBOARD</button>
+                    <button class="share-btn" onclick="generateChallenge()">&#9876; CHALLENGE A FRIEND</button>
+                    <div id="challenge-link-container"></div>
+                    <img id="share-preview" class="share-preview">
+                </div>
+                <div id="challenge-comparison"></div>
                 <div class="retake-section"><button class="nav-btn" onclick="retakeQuiz()">Take Quiz Again</button></div>
             </div>
         </div>
@@ -3876,6 +4003,16 @@ function selectQuestionsForQuiz(count) {
     });
     var all = [];
     CATEGORIES.forEach(function(cat) { all = all.concat(categoryQuestions[cat.id] || []); });
+    // Challenge mode: use challenger's questions
+    if (window._challengeQuestions) {
+        all = window._challengeQuestions;
+        window._challengeQuestions = null;
+        // Rebuild categoryQuestions from the challenge set
+        categoryQuestions = {};
+        CATEGORIES.forEach(function(cat) {
+            categoryQuestions[cat.id] = all.filter(function(qi) { return cat.questions.indexOf(qi) >= 0; });
+        });
+    }
     return all;
 }
 
@@ -4137,7 +4274,7 @@ function showResults() {
     ranked.slice(0, 25).forEach(function(s, i) {
         var hetero = HETERODOXY_STATUS[s.code];
         var warn = hetero ? ' <span title="' + (hetero.title || '') + '" style="cursor:help;">⚠️</span>' : '';
-        rc.innerHTML += '<div class="school-rank"><div class="rank-num">' + (i+1) + '</div><div class="rank-info"><div class="rank-name">' + s.name + warn + '</div><div class="rank-detail">' + s.count + ' questions · ' + Math.round(s.raw / s.maxPoss * 100) + '% raw</div><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:' + s.normalized + '%"></div></div></div><div class="rank-score">' + s.normalized.toFixed(1) + '%</div></div>';
+        rc.innerHTML += '<div class="school-rank" onclick="toggleDrillDown(\'' + s.code + '\', this)"><div class="rank-num">' + (i+1) + '</div><div class="rank-info"><div class="rank-name">' + s.name + warn + '</div><div class="rank-detail">' + s.count + ' questions · ' + Math.round(s.raw / s.maxPoss * 100) + '% raw</div><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:' + s.normalized + '%"></div></div></div><div class="rank-score">' + s.normalized.toFixed(1) + '%</div></div>';
     });
 
     var affinities = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) { return { code: s[0], name: s[1], raw: scores[s[0]]||0, maxPoss: MAX_POSSIBLE_SCORES[s[0]]||1, count: matchCounts[s[0]]||0 }; }).filter(function(s) { return s.raw > 0 && s.count > 0 && s.count < MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return (b.raw/b.maxPoss) - (a.raw/a.maxPoss); }).slice(0, 10);
@@ -4177,7 +4314,51 @@ function showResults() {
         
         ac.innerHTML += '<div class="axis-row"><div class="axis-header"><span class="axis-name">' + name + confLabel + '</span></div><div class="axis-bar"><div class="axis-marker" style="left:calc(' + pct + '% - 9px)"></div></div><div class="axis-labels"><span>' + eps[0] + '</span><span>' + eps[1] + '</span></div></div>';
     });
+    // FEATURE 2: Category breakdown
+    document.getElementById('categories-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Top School by Category</h3>' + renderCategoryBreakdown();
+
+    // FEATURE 4: Question review
+    document.getElementById('review-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Your Answers</h3>' + renderQuestionReview();
+
+    // FEATURE 6: Comparison
+    compareSchools = [];
+    document.getElementById('compare-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">School Comparison</h3>' + renderComparisonTab();
+
+    // FEATURE 7: Reading list
+    document.getElementById('reading-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Personalized Reading List</h3>' + renderReadingList();
+
+    // FEATURE 11: Timeline
+    document.getElementById('timeline-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Your Theological Lineage</h3>' + renderTimeline();
+
+    // FEATURE 12: Neighbors map
+    document.getElementById('neighbors-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Theological Neighbors</h3>' + renderNeighborsMap();
+
+    // FEATURE 10: Challenge comparison if applicable
+    if (window._challengeData) {
+        document.getElementById('challenge-comparison').innerHTML = renderChallengeComparison(window._challengeData);
+    }
+
+    // FEATURE 8: Most decisive questions
+    var decisive = getMostDecisiveQuestions();
+    if (decisive.length > 0 && ranked.length > 0) {
+        var dhtml = '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);"><div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Most Decisive Answers for ' + ranked[0].name + '</div>';
+        decisive.forEach(function(d) {
+            dhtml += '<div style="font-size:0.8rem;color:var(--text-mid);padding:0.15rem 0;">' + d.text.substring(0,55) + '... <span style="font-family:Share Tech Mono,monospace;color:' + (d.pts > 0 ? 'var(--verd)' : '#ff4444') + ';">' + (d.pts > 0 ? '+' : '') + d.pts + '</span></div>';
+        });
+        dhtml += '</div>';
+        document.getElementById('top-match-container').innerHTML += dhtml;
+    }
+
+    // Clear saved progress
+    clearProgress();
+
     window.scrollTo(0, 0);
+}
+
+function generateChallenge() {
+    var link = generateChallengeLink();
+    var container = document.getElementById('challenge-link-container');
+    container.innerHTML = '<div class="challenge-link" onclick="navigator.clipboard.writeText(this.textContent).then(function(){alert(\'Link copied!\');})">' + link + '</div><div style="font-size:0.7rem;color:var(--text-dim);margin-top:0.3rem;">Click to copy. Send to a friend — they\'ll take the same questions and see a comparison.</div>';
 }
 
 function switchTab(name) {
@@ -4194,8 +4375,610 @@ function retakeQuiz() {
     document.getElementById('copy-prompt-btn').style.display = 'none';
 }
 
-document.addEventListener('DOMContentLoaded', function() { initScores(); setQuizLength(QUESTIONS.length); });
     
+
+// ============================================================
+// FEATURE 3: Save/Resume via localStorage
+// ============================================================
+function saveProgress() {
+    try {
+        localStorage.setItem('cq_answers', JSON.stringify(answers));
+        localStorage.setItem('cq_selected', JSON.stringify(selectedQuestions));
+        localStorage.setItem('cq_current', currentQuestion);
+        localStorage.setItem('cq_length', quizLength);
+        localStorage.setItem('cq_catqs', JSON.stringify(categoryQuestions));
+        localStorage.setItem('cq_time', Date.now());
+    } catch(e) {}
+}
+
+function loadProgress() {
+    try {
+        var saved = localStorage.getItem('cq_answers');
+        if (!saved) return null;
+        var age = Date.now() - parseInt(localStorage.getItem('cq_time') || '0');
+        if (age > 7 * 24 * 3600 * 1000) { clearProgress(); return null; }
+        return {
+            answers: JSON.parse(saved),
+            selected: JSON.parse(localStorage.getItem('cq_selected')),
+            current: parseInt(localStorage.getItem('cq_current')),
+            length: parseInt(localStorage.getItem('cq_length')),
+            catqs: JSON.parse(localStorage.getItem('cq_catqs'))
+        };
+    } catch(e) { return null; }
+}
+
+function clearProgress() {
+    try { ['cq_answers','cq_selected','cq_current','cq_length','cq_catqs','cq_time'].forEach(function(k) { localStorage.removeItem(k); }); } catch(e) {}
+}
+
+function checkResume() {
+    var data = loadProgress();
+    if (!data || !data.answers || !data.selected) return;
+    var answered = data.answers.filter(function(a) { return a !== null; }).length;
+    if (answered < 1) { clearProgress(); return; }
+    var banner = document.createElement('div');
+    banner.className = 'resume-banner';
+    banner.id = 'resume-banner';
+    banner.innerHTML = '<div class="resume-banner-text"><strong>' + answered + '/' + data.selected.length + '</strong> questions answered. Resume?</div><div class="resume-banner-actions"><button class="resume-btn primary" onclick="resumeQuiz()">Resume</button><button class="resume-btn" onclick="dismissResume()">Start Fresh</button></div>';
+    var startScreen = document.getElementById('start-screen');
+    startScreen.insertBefore(banner, startScreen.firstChild);
+}
+
+function resumeQuiz() {
+    var data = loadProgress();
+    if (!data) return;
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    document.getElementById('copy-prompt-btn').style.display = '';
+    initScores();
+    selectedQuestions = data.selected;
+    answers = data.answers;
+    currentQuestion = data.current;
+    quizLength = data.length;
+    categoryQuestions = data.catqs;
+    buildCategoryNav();
+    buildQuestionNav();
+    renderQuestion();
+}
+
+function dismissResume() {
+    clearProgress();
+    var b = document.getElementById('resume-banner');
+    if (b) b.remove();
+}
+
+// Hook into answer selection to auto-save
+var _origSelectOption = selectOption;
+selectOption = function(i) {
+    _origSelectOption(i);
+    saveProgress();
+};
+var _origSelectIDK = selectIDK;
+selectIDK = function() {
+    _origSelectIDK();
+    saveProgress();
+};
+var _origNext = nextQuestion;
+nextQuestion = function() {
+    _origNext();
+    saveProgress();
+};
+var _origPrev = prevQuestion;
+prevQuestion = function() {
+    _origPrev();
+    saveProgress();
+};
+
+// ============================================================
+// FEATURE 2: Results Breakdown by Category
+// ============================================================
+function renderCategoryBreakdown() {
+    var html = '<div class="cat-breakdown">';
+    CATEGORIES.forEach(function(cat) {
+        var catScores = {};
+        SCHOOLS.forEach(function(s) { catScores[s[0]] = 0; });
+        var catAnswered = 0;
+        cat.questions.forEach(function(qi) {
+            var si = selectedQuestions.indexOf(qi);
+            if (si === -1 || answers[si] === null || answers[si] === -1) return;
+            catAnswered++;
+            var opt = QUESTIONS[qi].options[answers[si]];
+            if (!opt) return;
+            for (var code in opt[1]) {
+                if (catScores[code] !== undefined && opt[1][code] > 0) catScores[code] += opt[1][code];
+            }
+        });
+        if (catAnswered === 0) return;
+        var topCode = '', topScore = 0;
+        for (var code in catScores) {
+            if (code !== 'STD' && catScores[code] > topScore) { topScore = catScores[code]; topCode = code; }
+        }
+        var name = SCHOOL_NAME[topCode] || topCode;
+        var maxP = MAX_POSSIBLE_SCORES[topCode] || 1;
+        html += '<div class="cat-result-card"><div class="cat-result-icon">' + cat.icon + '</div><div class="cat-result-name">' + cat.shortName + ' (' + catAnswered + 'q)</div><div class="cat-result-school">' + name + '</div><div class="cat-result-pct">' + topScore + ' pts</div></div>';
+    });
+    html += '</div>';
+    return html;
+}
+
+// ============================================================
+// FEATURE 4: Question Review Mode
+// ============================================================
+function renderQuestionReview() {
+    var html = '';
+    var currentCat = '';
+    for (var i = 0; i < selectedQuestions.length; i++) {
+        var qi = selectedQuestions[i];
+        var q = QUESTIONS[qi];
+        var cat = getCategoryForQuestion(qi);
+        if (cat.id !== currentCat) {
+            currentCat = cat.id;
+            html += '<div class="review-cat-header">' + cat.icon + ' ' + cat.name + '</div>';
+        }
+        var ans = answers[i];
+        var ansText = '', scoreHtml = '';
+        if (ans === null) {
+            ansText = '<span class="review-answer skipped">Skipped</span>';
+        } else if (ans === -1) {
+            ansText = '<span class="review-answer skipped">I Don\'t Know</span>';
+        } else {
+            var opt = q.options[ans];
+            ansText = '<span class="review-answer">' + opt[0].substring(0, 100) + (opt[0].length > 100 ? '...' : '') + '</span>';
+            var scores = opt[1];
+            var parts = [];
+            for (var code in scores) {
+                if (scores[code] !== 0) {
+                    parts.push('<span>' + code + ':' + (scores[code] > 0 ? '+' : '') + scores[code] + '</span>');
+                }
+            }
+            scoreHtml = '<div class="review-scores">' + parts.join('') + '</div>';
+        }
+        html += '<div class="review-question"><div class="review-question-text">Q' + (i+1) + '. ' + q.text + '</div>' + ansText + scoreHtml + '</div>';
+    }
+    return html;
+}
+
+// ============================================================
+// FEATURE 5: Why This Score Drill-Down
+// ============================================================
+function toggleDrillDown(code, element) {
+    var existing = element.parentNode.querySelector('.drill-down');
+    if (existing) {
+        if (existing.classList.contains('open')) { existing.classList.remove('open'); return; }
+        existing.classList.add('open'); return;
+    }
+    var html = '<div class="drill-down open">';
+    var items = [];
+    for (var i = 0; i < selectedQuestions.length; i++) {
+        var ans = answers[i];
+        if (ans === null || ans === -1) continue;
+        var qi = selectedQuestions[i];
+        var q = QUESTIONS[qi];
+        var opt = q.options[ans];
+        if (!opt) continue;
+        var pts = opt[1][code];
+        if (pts !== undefined && pts !== 0) {
+            items.push({ text: q.text.substring(0, 60) + (q.text.length > 60 ? '...' : ''), pts: pts });
+        }
+    }
+    items.sort(function(a,b) { return b.pts - a.pts; });
+    items.forEach(function(item) {
+        html += '<div class="drill-item"><span class="drill-item-q">' + item.text + '</span><span class="drill-item-pts' + (item.pts < 0 ? ' neg' : '') + '">' + (item.pts > 0 ? '+' : '') + item.pts + '</span></div>';
+    });
+    if (items.length === 0) html += '<div style="font-size:0.75rem;color:var(--text-dim);padding:0.3rem;">No questions contributed to this school.</div>';
+    html += '</div>';
+    element.insertAdjacentHTML('afterend', html);
+}
+
+// ============================================================
+// FEATURE 6: School Comparison Mode
+// ============================================================
+var compareSchools = [];
+function renderComparisonTab() {
+    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD' && (scores[s[0]] || 0) > 0; }).map(function(s) { return { code: s[0], name: s[1] }; });
+    var html = '<div class="compare-container"><p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:0.5rem;">Select two schools to compare:</p><div class="compare-select" id="compare-select">';
+    ranked.slice(0, 15).forEach(function(s) {
+        html += '<button class="compare-school-btn" data-code="' + s.code + '" onclick="toggleCompareSchool(\'' + s.code + '\', this)">' + s.name + '</button>';
+    });
+    html += '</div><div class="compare-results" id="compare-results"></div></div>';
+    return html;
+}
+
+function toggleCompareSchool(code, btn) {
+    var idx = compareSchools.indexOf(code);
+    if (idx >= 0) { compareSchools.splice(idx, 1); btn.classList.remove('selected'); }
+    else if (compareSchools.length < 2) { compareSchools.push(code); btn.classList.add('selected'); }
+    else { return; }
+    if (compareSchools.length === 2) runComparison();
+    else document.getElementById('compare-results').classList.remove('active');
+}
+
+function runComparison() {
+    var a = compareSchools[0], b = compareSchools[1];
+    var nameA = SCHOOL_NAME[a] || a, nameB = SCHOOL_NAME[b] || b;
+    var agree = 0, disagree = 0, rows = '';
+    for (var i = 0; i < selectedQuestions.length; i++) {
+        var qi = selectedQuestions[i];
+        var q = QUESTIONS[qi];
+        var bestA = -1, bestAScore = -99, bestB = -1, bestBScore = -99;
+        q.options.forEach(function(opt, oi) {
+            if ((opt[1][a] || 0) > bestAScore) { bestAScore = opt[1][a] || 0; bestA = oi; }
+            if ((opt[1][b] || 0) > bestBScore) { bestBScore = opt[1][b] || 0; bestB = oi; }
+        });
+        if (bestAScore <= 0 && bestBScore <= 0) { continue; }
+        var same = bestA === bestB;
+        if (same) agree++; else disagree++;
+        rows += '<div class="compare-row"><div class="compare-q">' + q.text.substring(0, 50) + '...</div><div class="compare-cell ' + (same ? 'agree' : 'disagree') + '">' + (bestAScore > 0 ? 'Opt ' + (bestA+1) : '—') + '</div><div class="compare-cell ' + (same ? 'agree' : 'disagree') + '">' + (bestBScore > 0 ? 'Opt ' + (bestB+1) : '—') + '</div></div>';
+    }
+    var total = agree + disagree;
+    var pct = total > 0 ? Math.round(agree / total * 100) : 0;
+    var div = document.getElementById('compare-results');
+    div.innerHTML = '<div class="compare-stat"><div class="compare-stat-num">' + pct + '%</div><div class="compare-stat-label">Agreement between ' + nameA + ' & ' + nameB + '</div></div><div class="compare-header"><div class="compare-q" style="flex:2;font-size:0.7rem;color:var(--text-dim);">Question</div><div style="flex:1;text-align:center;"><span class="compare-col-name">' + nameA + '</span></div><div style="flex:1;text-align:center;"><span class="compare-col-name">' + nameB + '</span></div></div>' + rows;
+    div.classList.add('active');
+}
+
+// ============================================================
+// FEATURE 7: Personalized Reading List
+// ============================================================
+function renderReadingList() {
+    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
+        return { code: s[0], name: s[1], norm: normalizedScore(scores[s[0]]||0, MAX_POSSIBLE_SCORES[s[0]]||1, matchCounts[s[0]]||0) };
+    }).filter(function(s) { return s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 3);
+
+    var html = '<div class="reading-list">';
+    ranked.forEach(function(s) {
+        var fig = SCHOOL_FIGURES[s.code] || {};
+        var desc = SCHOOL_DESC[s.code] || {};
+        html += '<div class="reading-school"><div class="reading-school-name">' + s.name + '</div>';
+        if (fig.works) html += '<div class="reading-item"><strong>Primary:</strong> ' + fig.works + '</div>';
+        if (fig.bio) html += '<div class="reading-item">' + fig.bio + '</div>';
+        // Gather readings from question topics for this school
+        var readings = {};
+        for (var i = 0; i < selectedQuestions.length; i++) {
+            var qi = selectedQuestions[i];
+            var ans = answers[i];
+            if (ans === null || ans === -1) continue;
+            var opt = QUESTIONS[qi].options[ans];
+            if (!opt || !opt[1][s.code] || opt[1][s.code] <= 0) continue;
+            var topic = QUESTION_TOPICS[qi];
+            if (topic && topic.reading) readings[topic.reading] = true;
+        }
+        var readingList = Object.keys(readings).slice(0, 4);
+        readingList.forEach(function(r) {
+            html += '<div class="reading-item">' + r + '</div>';
+        });
+        html += '</div>';
+    });
+    html += '</div>';
+    return html;
+}
+
+// ============================================================
+// FEATURE 1: Shareable Results Card (Canvas)
+// ============================================================
+function generateShareCard() {
+    var canvas = document.createElement('canvas');
+    canvas.width = 800; canvas.height = 500;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, 800, 500);
+
+    // Scanlines
+    ctx.strokeStyle = 'rgba(57, 255, 20, 0.03)';
+    for (var y = 0; y < 500; y += 3) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(800, y); ctx.stroke(); }
+
+    // Border
+    ctx.strokeStyle = '#39FF14';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(10, 10, 780, 480);
+
+    // Title
+    ctx.fillStyle = '#39FF14';
+    ctx.font = '600 28px Cormorant Garamond, Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.shadowColor = 'rgba(57,255,20,0.5)';
+    ctx.shadowBlur = 15;
+    ctx.fillText('THE DEFINITIVE CATHOLIC THEOLOGY QUIZ', 400, 50);
+    ctx.shadowBlur = 0;
+
+    // Top schools
+    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
+        return { code: s[0], name: s[1], norm: normalizedScore(scores[s[0]]||0, MAX_POSSIBLE_SCORES[s[0]]||1, matchCounts[s[0]]||0) };
+    }).filter(function(s) { return s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; });
+
+    ctx.font = '500 14px Share Tech Mono, monospace';
+    ctx.fillStyle = 'rgba(57,255,20,0.5)';
+    ctx.fillText('MY THEOLOGICAL PROFILE', 400, 80);
+
+    // Top 5 schools
+    var startY = 110;
+    ranked.slice(0, 5).forEach(function(s, i) {
+        var yy = startY + i * 50;
+        ctx.textAlign = 'left';
+        ctx.fillStyle = i === 0 ? '#39FF14' : 'rgba(57,255,20,0.7)';
+        ctx.font = (i === 0 ? '600 22px' : '500 16px') + ' Cormorant Garamond, Georgia, serif';
+        ctx.fillText((i+1) + '. ' + s.name, 40, yy);
+        ctx.textAlign = 'right';
+        ctx.font = '400 14px Share Tech Mono, monospace';
+        ctx.fillText(s.norm.toFixed(1) + '%', 450, yy);
+        // Bar
+        ctx.fillStyle = 'rgba(57,255,20,0.15)';
+        ctx.fillRect(40, yy + 5, 410, 6);
+        ctx.fillStyle = i === 0 ? '#39FF14' : 'rgba(57,255,20,0.6)';
+        ctx.fillRect(40, yy + 5, s.norm * 4.1, 6);
+    });
+
+    // Axes on right side
+    ctx.textAlign = 'left';
+    ctx.font = '400 11px Share Tech Mono, monospace';
+    var axY = 110;
+    AXES.forEach(function(a) {
+        var code = a[0], name = a[1];
+        var raw = axisScores[code] || 0;
+        var maxP = axisMaxPossible[code] || 1;
+        var qCount = axisQuestionCount[code] || 0;
+        if (qCount < 2) return;
+        var normalized = raw / maxP;
+        var curved = Math.tanh(normalized * 2.2);
+        var pct = 50 + curved * 45;
+        var eps = AXIS_ENDPOINTS[code] || ['L', 'R'];
+        ctx.fillStyle = 'rgba(57,255,20,0.5)';
+        ctx.fillText(name, 490, axY);
+        // Bar bg
+        ctx.fillStyle = 'rgba(57,255,20,0.1)';
+        ctx.fillRect(490, axY + 4, 270, 4);
+        // Marker
+        var markerX = 490 + (pct / 100) * 270;
+        ctx.fillStyle = '#39FF14';
+        ctx.beginPath(); ctx.arc(markerX, axY + 6, 5, 0, Math.PI * 2); ctx.fill();
+        // Labels
+        ctx.fillStyle = 'rgba(57,255,20,0.3)';
+        ctx.font = '400 8px Share Tech Mono, monospace';
+        ctx.fillText(eps[0].substring(0, 12), 490, axY + 18);
+        ctx.textAlign = 'right';
+        ctx.fillText(eps[1].substring(0, 12), 760, axY + 18);
+        ctx.textAlign = 'left';
+        ctx.font = '400 11px Share Tech Mono, monospace';
+        axY += 42;
+    });
+
+    // Footer
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(57,255,20,0.3)';
+    ctx.font = '400 10px Share Tech Mono, monospace';
+    ctx.fillText('jcalepos146.github.io/Definitive-Catholic-Theology-Quiz', 400, 480);
+
+    return canvas;
+}
+
+function shareAsImage() {
+    var canvas = generateShareCard();
+    canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'theology-quiz-results.png'; a.click();
+        URL.revokeObjectURL(url);
+    });
+}
+
+function shareToClipboard() {
+    var canvas = generateShareCard();
+    canvas.toBlob(function(blob) {
+        try {
+            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(function() {
+                var btn = document.getElementById('share-clipboard-btn');
+                if (btn) { btn.textContent = 'COPIED!'; setTimeout(function() { btn.textContent = 'COPY TO CLIPBOARD'; }, 2000); }
+            });
+        } catch(e) { shareAsImage(); }
+    });
+}
+
+// ============================================================
+// FEATURE 10: Challenge a Friend
+// ============================================================
+function generateChallengeLink() {
+    var data = { q: selectedQuestions, a: answers, l: quizLength };
+    var encoded = btoa(JSON.stringify(data));
+    return window.location.href.split('#')[0].split('?')[0] + '?challenge=' + encoded;
+}
+
+function checkForChallenge() {
+    var params = new URLSearchParams(window.location.search);
+    var challenge = params.get('challenge');
+    if (!challenge) return null;
+    try { return JSON.parse(atob(challenge)); } catch(e) { return null; }
+}
+
+function renderChallengeComparison(theirData) {
+    var html = '<div class="challenge-section"><h4 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:0.5rem;">Challenge Comparison</h4>';
+    var agree = 0, total = 0;
+    for (var i = 0; i < selectedQuestions.length; i++) {
+        if (answers[i] !== null && answers[i] !== -1 && theirData.a[i] !== null && theirData.a[i] !== -1) {
+            total++;
+            if (answers[i] === theirData.a[i]) agree++;
+        }
+    }
+    var pct = total > 0 ? Math.round(agree / total * 100) : 0;
+    html += '<div class="compare-stat"><div class="compare-stat-num">' + pct + '%</div><div class="compare-stat-label">Agreement on ' + total + ' shared questions</div></div>';
+    html += '</div>';
+    return html;
+}
+
+// ============================================================
+// FEATURE 11: Historical Timeline
+// ============================================================
+function renderTimeline() {
+    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
+        return { code: s[0], name: s[1], norm: normalizedScore(scores[s[0]]||0, MAX_POSSIBLE_SCORES[s[0]]||1, matchCounts[s[0]]||0) };
+    }).filter(function(s) { return s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 7);
+
+    var figures = ranked.map(function(s) {
+        var fig = SCHOOL_FIGURES[s.code] || {};
+        var era = fig.era || '';
+        var year = parseInt(era.replace(/c\.\s*/, '').replace(/–.*/, ''));
+        if (isNaN(year)) year = 1500;
+        return { name: fig.figure || s.name, year: year, school: s.name, era: era, norm: s.norm };
+    }).sort(function(a,b) { return a.year - b.year; });
+
+    var minY = Math.min.apply(null, figures.map(function(f) { return f.year; })) - 50;
+    var maxY = Math.max.apply(null, figures.map(function(f) { return f.year; })) + 50;
+    var range = maxY - minY;
+    var w = 700, h = 200;
+
+    var svg = '<svg viewBox="0 0 ' + w + ' ' + h + '" class="timeline-svg" xmlns="http://www.w3.org/2000/svg">';
+    // Timeline line
+    svg += '<line x1="40" y1="100" x2="' + (w-20) + '" y2="100" stroke="rgba(57,255,20,0.2)" stroke-width="1"/>';
+    // Era markers
+    for (var century = Math.ceil(minY/100)*100; century <= maxY; century += 200) {
+        var x = 40 + ((century - minY) / range) * (w - 80);
+        svg += '<line x1="' + x + '" y1="90" x2="' + x + '" y2="110" stroke="rgba(57,255,20,0.15)" stroke-width="1"/>';
+        svg += '<text x="' + x + '" y="125" fill="rgba(57,255,20,0.3)" font-size="9" font-family="Share Tech Mono,monospace" text-anchor="middle">' + century + '</text>';
+    }
+    // Figures
+    figures.forEach(function(f, i) {
+        var x = 40 + ((f.year - minY) / range) * (w - 80);
+        var yOff = (i % 2 === 0) ? -30 : 30;
+        var textY = (i % 2 === 0) ? 100 + yOff - 8 : 100 + yOff + 14;
+        svg += '<circle cx="' + x + '" cy="100" r="5" fill="var(--verd)" opacity="0.8"><animate attributeName="r" values="5;7;5" dur="3s" begin="' + (i*0.3) + 's" repeatCount="indefinite"/></circle>';
+        svg += '<line x1="' + x + '" y1="100" x2="' + x + '" y2="' + (100 + yOff) + '" stroke="rgba(57,255,20,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
+        svg += '<text x="' + x + '" y="' + textY + '" fill="var(--verd)" font-size="9" font-family="Cormorant Garamond,serif" text-anchor="middle" font-weight="600">' + f.name.substring(0, 25) + '</text>';
+        svg += '<text x="' + x + '" y="' + (textY + 11) + '" fill="rgba(57,255,20,0.4)" font-size="7" font-family="Share Tech Mono,monospace" text-anchor="middle">' + f.era + '</text>';
+    });
+    svg += '</svg>';
+    return '<div class="timeline-container">' + svg + '</div>';
+}
+
+// ============================================================
+// FEATURE 12: Theological Neighbors Map
+// ============================================================
+function renderNeighborsMap() {
+    // Get top 12 schools
+    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
+        return { code: s[0], name: s[1], score: scores[s[0]] || 0, norm: normalizedScore(scores[s[0]]||0, MAX_POSSIBLE_SCORES[s[0]]||1, matchCounts[s[0]]||0) };
+    }).filter(function(s) { return s.score > 0; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 12);
+
+    if (ranked.length < 3) return '<div style="color:var(--text-dim);font-size:0.85rem;">Not enough data for a map.</div>';
+
+    // Build scoring vectors and compute similarities
+    var vectors = {};
+    ranked.forEach(function(s) {
+        var vec = {};
+        for (var i = 0; i < QUESTIONS.length; i++) {
+            QUESTIONS[i].options.forEach(function(opt, oi) {
+                var w = opt[1][s.code] || 0;
+                if (w !== 0) vec[i + '_' + oi] = w;
+            });
+        }
+        vectors[s.code] = vec;
+    });
+
+    function cosine(v1, v2) {
+        var dot = 0, m1 = 0, m2 = 0;
+        var allKeys = {};
+        for (var k in v1) allKeys[k] = true;
+        for (var k in v2) allKeys[k] = true;
+        for (var k in allKeys) {
+            var a = v1[k] || 0, b = v2[k] || 0;
+            dot += a * b; m1 += a * a; m2 += b * b;
+        }
+        return (m1 > 0 && m2 > 0) ? dot / (Math.sqrt(m1) * Math.sqrt(m2)) : 0;
+    }
+
+    // Simple force layout: place nodes in a circle then adjust by similarity
+    var nodes = ranked.map(function(s, i) {
+        var angle = (i / ranked.length) * Math.PI * 2 - Math.PI / 2;
+        return { code: s.code, name: s.name, norm: s.norm, x: 350 + Math.cos(angle) * 140, y: 175 + Math.sin(angle) * 120, isTop: i === 0 };
+    });
+
+    // Simple spring iterations
+    for (var iter = 0; iter < 50; iter++) {
+        for (var i = 0; i < nodes.length; i++) {
+            for (var j = i + 1; j < nodes.length; j++) {
+                var sim = cosine(vectors[nodes[i].code], vectors[nodes[j].code]);
+                var dx = nodes[j].x - nodes[i].x;
+                var dy = nodes[j].y - nodes[i].y;
+                var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                var idealDist = 80 + (1 - sim) * 200;
+                var force = (dist - idealDist) * 0.01;
+                var fx = (dx / dist) * force;
+                var fy = (dy / dist) * force;
+                nodes[i].x += fx; nodes[i].y += fy;
+                nodes[j].x -= fx; nodes[j].y -= fy;
+            }
+            // Keep in bounds
+            nodes[i].x = Math.max(60, Math.min(640, nodes[i].x));
+            nodes[i].y = Math.max(30, Math.min(320, nodes[i].y));
+        }
+    }
+
+    // Render SVG
+    var svg = '<svg viewBox="0 0 700 350" class="neighbors-svg" xmlns="http://www.w3.org/2000/svg">';
+
+    // Links (only for high similarity)
+    for (var i = 0; i < nodes.length; i++) {
+        for (var j = i + 1; j < nodes.length; j++) {
+            var sim = cosine(vectors[nodes[i].code], vectors[nodes[j].code]);
+            if (sim > 0.3) {
+                var opacity = (sim - 0.3) / 0.7 * 0.3;
+                svg += '<line x1="' + nodes[i].x.toFixed(0) + '" y1="' + nodes[i].y.toFixed(0) + '" x2="' + nodes[j].x.toFixed(0) + '" y2="' + nodes[j].y.toFixed(0) + '" stroke="rgba(57,255,20,' + opacity.toFixed(2) + ')" stroke-width="1"/>';
+            }
+        }
+    }
+
+    // Nodes
+    nodes.forEach(function(n) {
+        var r = n.isTop ? 8 : 5;
+        var glow = n.isTop ? ' filter="url(#nodeGlow)"' : '';
+        svg += '<circle cx="' + n.x.toFixed(0) + '" cy="' + n.y.toFixed(0) + '" r="' + r + '" fill="var(--verd)" opacity="' + (0.4 + n.norm / 200) + '"' + (n.isTop ? ' stroke="var(--verd)" stroke-width="2"' : '') + '/>';
+        svg += '<text x="' + n.x.toFixed(0) + '" y="' + (n.y + r + 12).toFixed(0) + '" fill="' + (n.isTop ? 'var(--verd)' : 'rgba(57,255,20,0.6)') + '" font-size="' + (n.isTop ? '10' : '8') + '" font-family="Cormorant Garamond,serif" text-anchor="middle" font-weight="' + (n.isTop ? '700' : '500') + '">' + n.name.substring(0, 20) + '</text>';
+    });
+
+    svg += '</svg>';
+    return '<div class="neighbors-container">' + svg + '</div>';
+}
+
+// ============================================================
+// FEATURE 8 (Most Decisive) - bonus, quick to add
+// ============================================================
+function getMostDecisiveQuestions() {
+    var topSchool = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
+        return { code: s[0], norm: normalizedScore(scores[s[0]]||0, MAX_POSSIBLE_SCORES[s[0]]||1, matchCounts[s[0]]||0) };
+    }).sort(function(a,b) { return b.norm - a.norm; })[0];
+    if (!topSchool) return '';
+    var items = [];
+    for (var i = 0; i < selectedQuestions.length; i++) {
+        if (answers[i] === null || answers[i] === -1) continue;
+        var qi = selectedQuestions[i];
+        var opt = QUESTIONS[qi].options[answers[i]];
+        if (!opt) continue;
+        var pts = opt[1][topSchool.code] || 0;
+        if (pts !== 0) items.push({ text: QUESTIONS[qi].text, pts: pts });
+    }
+    items.sort(function(a,b) { return Math.abs(b.pts) - Math.abs(a.pts); });
+    return items.slice(0, 5);
+}
+
+
+// FEATURE 3 + 10: Check resume and challenge on load
+var _origDCL = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initScores();
+    setQuizLength(QUESTIONS.length);
+    
+    // Check for challenge mode
+    var challengeData = checkForChallenge();
+    if (challengeData) {
+        window._challengeData = challengeData;
+        // Use their question selection
+        window._challengeQuestions = challengeData.q;
+    }
+    
+    // Check for resume
+    checkResume();
+});
     </script>
 </body>
 </html>
