@@ -273,6 +273,28 @@
         .rank-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--verd-dim), var(--verd)); box-shadow: 0 0 8px rgba(57,255,20,0.4); transition: width 0.6s ease; }
         .rank-score { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--verd); white-space: nowrap; }
 
+        /* v6: Catholic-family results and school-marked approach spectra */
+        .family-intro { color: var(--text-mid); font-size: 0.9rem; line-height: 1.55; margin-bottom: 1rem; }
+        .family-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 0.75rem; }
+        .family-card { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem; }
+        .family-card.top { border-color: var(--verd); box-shadow: 0 0 18px rgba(57,255,20,0.10); }
+        .family-card-head { display: flex; justify-content: space-between; gap: 0.75rem; align-items: baseline; }
+        .family-name { font-family: 'Cormorant Garamond', serif; color: var(--verd-light); font-weight: 700; font-size: 1.05rem; }
+        .family-score { font-family: 'Share Tech Mono', monospace; color: var(--verd); font-size: 0.78rem; white-space: nowrap; }
+        .family-summary { color: var(--text-mid); font-size: 0.8rem; line-height: 1.45; margin: 0.4rem 0; }
+        .family-members { color: var(--text-dim); font-size: 0.7rem; }
+        .result-section-title { font-family: 'Cormorant Garamond', serif; color: var(--verd); margin: 1.25rem 0 0.55rem; }
+        .result-section-note { color: var(--text-dim); font-size: 0.78rem; margin-bottom: 0.65rem; }
+        .approach-summary { background: var(--bg-raised); border: 1px solid var(--border); border-left: 3px solid var(--verd); border-radius: 8px; padding: 0.85rem; color: var(--text-mid); margin-bottom: 1rem; line-height: 1.5; }
+        .approach-axis { margin: 0 0 1.5rem; padding: 0.75rem; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 8px; }
+        .approach-axis-title { font-family: 'Cormorant Garamond', serif; color: var(--text); font-weight: 600; margin-bottom: 0.55rem; }
+        .approach-track { position: relative; height: 8px; background: var(--border); border-radius: 4px; margin: 1.6rem 0 0.6rem; }
+        .approach-track::after { content: ''; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--text-dim); opacity: 0.7; }
+        .approach-user-marker { position: absolute; top: -7px; width: 22px; height: 22px; transform: translateX(-50%); border-radius: 50%; background: var(--verd); border: 3px solid var(--bg-card); box-shadow: 0 0 12px rgba(57,255,20,0.6); z-index: 3; }
+        .approach-school-marker { position: absolute; top: -19px; transform: translateX(-50%); font-family: 'Share Tech Mono', monospace; font-size: 0.52rem; color: var(--text-dim); white-space: nowrap; opacity: 0.85; }
+        .approach-endpoints { display: flex; justify-content: space-between; color: var(--text-dim); font-size: 0.7rem; }
+        .approach-confidence { color: var(--text-dim); font-size: 0.66rem; text-align: center; margin-top: 0.3rem; }
+
         .axis-row { margin-bottom: 1rem; }
         .axis-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem; }
         .axis-name { font-weight: 600; color: var(--text); }
@@ -443,7 +465,7 @@
                     <img id="header-img" src="https://github.com/jcalepos146/Definitive-Catholic-Theology-Quiz/blob/main/GOURGEOUS%20LOGO.png?raw=true" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
                 </div>
                 <h1>The Definitive Catholic<br>Theology Quiz</h1>
-                <p class="subtitle">122 Questions &middot; 10 Categories &middot; Hybrid Scoring</p>
+                <p class="subtitle">120 Questions &middot; 10 Categories &middot; Evidence-Adjusted Scoring</p>
                 <div class="divider"><span>&#10013;</span></div>
             </header>
             <div id="start-screen">
@@ -451,16 +473,16 @@
                     <h2>Discover Your Theological Position</h2>
                     <p>Map your convictions across the full spectrum of Catholic schools of thought.</p>
                     <div class="stats">
-                        <div class="stat"><span class="stat-value">122</span><span class="stat-label">Questions</span></div>
+                        <div class="stat"><span class="stat-value">120</span><span class="stat-label">Questions</span></div>
                         <div class="stat"><span class="stat-value">10</span><span class="stat-label">Categories</span></div>
-                        <div class="stat"><span class="stat-value">99</span><span class="stat-label">Schools</span></div>
+                        <div class="stat"><span class="stat-value">9</span><span class="stat-label">Catholic Families</span></div>
                     </div>
                     <h3 style="font-family:'Cormorant Garamond',serif;color:var(--verd-light);font-size:1.1rem;margin-top:1.5rem;">Quiz Length</h3>
                     <div class="length-options">
                         <label class="length-option" onclick="setQuizLength(25)"><input type="radio" name="ql" value="25"><div class="length-card"><span class="length-number">25</span><span class="length-label">Quick</span></div></label>
                         <label class="length-option" onclick="setQuizLength(50)"><input type="radio" name="ql" value="50"><div class="length-card"><span class="length-number">50</span><span class="length-label">Medium</span></div></label>
                         <label class="length-option" onclick="setQuizLength(75)"><input type="radio" name="ql" value="75"><div class="length-card"><span class="length-number">75</span><span class="length-label">Extended</span></div></label>
-                        <label class="length-option" onclick="setQuizLength(122)"><input type="radio" name="ql" value="122" checked><div class="length-card"><span class="length-number">122</span><span class="length-label">All</span></div></label>
+                        <label class="length-option" onclick="setQuizLength(120)"><input type="radio" name="ql" value="120" checked><div class="length-card"><span class="length-number">120</span><span class="length-label">All</span></div></label>
                     </div>
                     <h3 style="font-family:'Cormorant Garamond',serif;color:var(--verd-light);font-size:1.1rem;margin-top:1.5rem;">Focus Categories <span style="font-size:0.7rem;color:var(--text-dim);text-transform:none;letter-spacing:0;">(optional — gives these a bigger share of a shorter quiz)</span></h3>
                     <div class="focus-cats" id="focus-cats"></div>
@@ -495,8 +517,10 @@
             <div id="results-screen" class="results-screen">
                 <div class="results-header"><h2>Your Theological Profile</h2><div class="divider"><span>&#10013;</span></div></div>
                 <div id="top-match-container"></div>
-                <div class="tabs"><button class="tab-btn active" onclick="switchTab('rankings')">Rankings</button><button class="tab-btn" onclick="switchTab('axes')">Spectrums</button><button class="tab-btn" onclick="switchTab('categories')">By Category</button><button class="tab-btn" onclick="switchTab('review')">Review</button><button class="tab-btn" onclick="switchTab('compare')">Compare</button><button class="tab-btn" onclick="switchTab('reading')">Reading</button><button class="tab-btn" onclick="switchTab('timeline')">Timeline</button><button class="tab-btn" onclick="switchTab('neighbors')">Map</button></div>
-                <div id="rankings-tab" class="tab-content active"><div id="rankings-content"></div></div>
+                <div class="tabs"><button class="tab-btn active" onclick="switchTab('families')">Catholic Families</button><button class="tab-btn" onclick="switchTab('rankings')">Detailed Schools</button><button class="tab-btn" onclick="switchTab('approach')">Approach Map</button><button class="tab-btn" onclick="switchTab('axes')">Doctrine Axes</button><button class="tab-btn" onclick="switchTab('categories')">By Category</button><button class="tab-btn" onclick="switchTab('review')">Review</button><button class="tab-btn" onclick="switchTab('compare')">Compare</button><button class="tab-btn" onclick="switchTab('reading')">Reading</button><button class="tab-btn" onclick="switchTab('timeline')">Timeline</button><button class="tab-btn" onclick="switchTab('neighbors')">Map</button></div>
+                <div id="families-tab" class="tab-content active"><div id="families-content"></div></div>
+                <div id="rankings-tab" class="tab-content"><div id="rankings-content"></div></div>
+                <div id="approach-tab" class="tab-content"><div id="approach-content"></div></div>
                 <div id="axes-tab" class="tab-content"><div id="axes-content"></div></div>
                 <div id="categories-tab" class="tab-content"><div id="categories-content"></div></div>
                 <div id="review-tab" class="tab-content"><div id="review-content"></div></div>
@@ -2336,6 +2360,75 @@ const QUESTIONS = [
         "axis_weights": {"LIT": 4, "PAPAL": 3}
     },
 ];
+
+// ============================================================
+// v6 RESULT ARCHITECTURE
+// ============================================================
+// Two near-duplicate prompts were retired rather than renumbering the question bank:
+// Q7 repeated Q5's analogy/univocity distinction, and Q22 repeated Q21's
+// justification/sanctification distinction. Their source data remains in place for old links.
+const RETIRED_QUESTION_INDICES = [7, 22];
+const ACTIVE_QUESTION_INDICES = QUESTIONS.map(function(_, i) { return i; })
+    .filter(function(i) { return RETIRED_QUESTION_INDICES.indexOf(i) === -1; });
+CATEGORIES.forEach(function(cat) {
+    cat.questions = cat.questions.filter(function(qi) { return RETIRED_QUESTION_INDICES.indexOf(qi) === -1; });
+});
+
+// Core dogmatic and theological categories count more toward school alignment than lifestyle,
+// politics, order preference, or contemporary-prudential questions. This prevents the very large
+// Contemporary category from swamping older theological distinctions.
+const CATEGORY_SCORE_WEIGHTS = {
+    scripture: 1.15,
+    metaphysics: 1.25,
+    christology: 1.25,
+    grace: 1.25,
+    sacraments: 1.15,
+    ecclesiology: 1.20,
+    moral: 1.10,
+    orders: 0.65,
+    political: 0.70,
+    contemporary: 0.75
+};
+
+// Primary rankings are deliberately Catholic and theological. Narrow order, political,
+// liturgical, prudential, irregular, and non-Catholic identities remain visible as secondary
+// affinities rather than competing on equal footing for the headline result.
+const PRIMARY_CATHOLIC_CODES = [
+    'AUG','AUGP','NEOAUG','THOM','THOMP','BANEZ','MOL','CONG','SCOT','FRANC',
+    'NEOPLAT','THOMMETA','SCOTMETA','INTELL','PALAM','RESSCH','CHALMAX',
+    'TRIDSAC','EASTSAC','ULTRA','PAPMOD','PAPMIN','GALL','EASTECC','SYNOD',
+    'THOMMOR','MANUAL','PERSMOR','NEOSCH','RESS','DEVPROG','COMMUN','RADORTH','ANTIMOD'
+];
+const SEPARATED_BRETHREN_CODES = ['REFORM','LUTHERAN','METHOD','ANGLICAN','EORTHO','COPTIC'];
+
+// Higher-level Catholic families aggregate related sub-schools. Overlap is intentional: a user can
+// be, for example, both Augustinian and ressourcement-oriented, but one-question micro-schools can
+// no longer become the overall headline result by themselves.
+const CATHOLIC_FAMILIES = [
+    { code: 'FAM_THOM', name: 'Thomist–Dominican', portrait: 'THOM', summary: 'Analogical metaphysics, nature perfected by grace, intellectualist anthropology, and a systematic Dominican approach.', members: [['THOM',1.25],['THOMP',1.0],['BANEZ',1.0],['THOMMETA',0.9],['THOMSAC',0.65],['THOMMOR',0.75],['DOM',0.45],['MANUAL',0.45]] },
+    { code: 'FAM_AUG', name: 'Augustinian', portrait: 'AUG', summary: 'The priority of grace, the woundedness of fallen nature, ordered love, and salvation as God’s merciful initiative.', members: [['AUG',1.25],['AUGP',1.0],['NEOAUG',0.85],['AUGSAC',0.45],['AUGMORAL',0.45],['OSA',0.30]] },
+    { code: 'FAM_FRANC', name: 'Franciscan–Scotist', portrait: 'SCOT', summary: 'Christocentric exemplarism, the primacy of love and will, and the distinctive Scotist-Franciscan synthesis.', members: [['SCOT',1.2],['FRANC',1.1],['SCOTMETA',0.8],['FRAN',0.35]] },
+    { code: 'FAM_JES', name: 'Jesuit–Molinist', portrait: 'MOL', summary: 'Providence through middle knowledge or congruism, discernment, missionary adaptability, and casuistic moral reasoning.', members: [['MOL',1.2],['CONG',1.1],['JES',0.65],['CASUIST',0.35],['PROBABIL',0.35],['CSSR',0.25]] },
+    { code: 'FAM_RESS', name: 'Patristic–Ressourcement', portrait: 'RESS', summary: 'Recovery of Scripture and the Fathers, participatory theology, liturgical renewal, and Christ-centered synthesis.', members: [['RESS',1.2],['NEOAUG',0.75],['RESSCH',0.95],['CHALMAX',0.75],['COMMUN',0.8],['BENED',0.25]] },
+    { code: 'FAM_EAST', name: 'Eastern Catholic', portrait: 'EASTECC', summary: 'Theosis, liturgical and patristic mystagogy, legitimate Eastern discipline, and communion with Rome without Latinization.', members: [['EASTECC',1.25],['EASTSAC',1.0],['EASTLIT',0.85],['PALAM',0.8],['ORTHOPH',0.45]] },
+    { code: 'FAM_TRID', name: 'Tridentine–Neo-Scholastic', portrait: 'TRIDSAC', summary: 'Doctrinal precision, sacramental objectivity, manualist clarity, anti-modern continuity, and Counter-Reformation emphases.', members: [['TRIDSAC',1.1],['MANUAL',1.0],['NEOSCH',1.0],['ANTIMOD',0.85],['TRAD',0.45],['ULTRA',0.4]] },
+    { code: 'FAM_COMMUN', name: 'Communio–Personalist', portrait: 'COMMUN', summary: 'Christocentric communion, nuptial and personalist anthropology, ressourcement, and development in continuity.', members: [['COMMUN',1.2],['PERSMOR',1.0],['CATHUNIV',0.55],['RESS',0.55],['ROTR',0.35]] },
+    { code: 'FAM_RENEW', name: 'Conciliar–Pastoral Renewal', portrait: 'DEVPROG', summary: 'Synodality, pastoral development, dialogue with modernity, and reform shaped by Vatican II’s reception.', members: [['DEVPROG',1.1],['SYNOD',1.0],['PROG',0.85],['LIBCATH',0.5],['RESS',0.45]] }
+];
+
+// These spectra are inferred from the evidence-adjusted detailed-school scores. School labels on
+// each line are reference points, not claims that every adherent occupies exactly that coordinate.
+const APPROACH_SPECTRA = [
+    { name: 'Theological Method', left: 'Scholastic / systematic', right: 'Patristic / ressourcement', positions: { THOMP:-0.95, MANUAL:-0.82, THOM:-0.70, MOL:-0.50, SCOT:-0.30, FRANC:0.20, COMMUN:0.62, NEOAUG:0.72, RESS:0.90 } },
+    { name: 'Grace and Freedom', left: 'Synergistic / libertarian', right: 'Intrinsically efficacious grace', positions: { MOL:-0.90, CONG:-0.55, SCOT:-0.20, THOM:0.35, AUG:0.68, BANEZ:0.88, AUGP:0.98 } },
+    { name: 'Ecclesial Government', left: 'Conciliar / local', right: 'Centralized / papal', positions: { GALL:-0.90, SYNOD:-0.60, EASTECC:-0.38, PAPMIN:-0.18, PAPMOD:0.38, ULTRA:0.95 } },
+    { name: 'Liturgical Orientation', left: 'Reform / inculturation', right: 'Traditional / organic continuity', positions: { PROG:-0.92, DEVPROG:-0.62, RESS:-0.20, COMMUN:0.05, ROTR:0.52, TRAD:0.90, SSPX:1.0 } },
+    { name: 'Moral Method', left: 'Discernment / casuistry', right: 'Rule / rigor', positions: { PROBABIL:-0.88, CASUIST:-0.72, PERSMOR:-0.48, VIRTUE:-0.12, THOMMOR:0.30, MANUAL:0.62, NEOSCH:0.82, TUTIOR:1.0 } },
+    { name: 'Posture toward Modernity', left: 'Accommodation / development', right: 'Countermodern / continuity', positions: { LIBCATH:-0.92, PROG:-0.75, DEVPROG:-0.48, COMMUN:0.08, ROTR:0.52, TRAD:0.76, ANTIMOD:0.92 } },
+    { name: 'Ritual-Theological Center', left: 'Latin scholastic', right: 'Eastern patristic', positions: { TRIDSAC:-0.90, ULTRA:-0.72, THOM:-0.55, COMMUN:0.05, EASTECC:0.78, EASTSAC:0.92, PALAM:1.0 } },
+    { name: 'Catholic Social Order', left: 'Pluralist / liberal', right: 'Confessional / integralist', positions: { LIBCATH:-0.92, SOCDEM:-0.45, DISTRIBUT:0.08, CORPCATH:0.35, INTEGSOFT:0.55, INTEG:0.78, INTEGHARD:1.0 } }
+];
+
 // FIX #1: Max-possible scores are computed dynamically from the actual set of questions a
 // person was given, instead of a hand-maintained static table. A static table drifts out of
 // sync as questions change, and — more importantly — on a shorter quiz (25/50/75 questions)
@@ -2346,14 +2439,12 @@ const QUESTIONS = [
 // for that code (since only one option per question can be chosen).
 function computeMaxPossible(questionIndices) {
     var result = {};
-    // The true ceiling includes rating every answer at maximum intensity ("die on this hill"),
-    // since that's the highest a person could actually score. Without this, someone who genuinely
-    // holds every answer at maximum conviction could exceed 100%, and a plain "hold firmly" (1x)
-    // sweep of best answers would already look like a perfect match — collapsing the very
-    // distinction intensity capture exists to draw.
-    var maxIntensity = INTENSITY_LEVELS[INTENSITY_LEVELS.length - 1].mult;
+    // This precomputed ceiling is used only before final scoring (resume/setup). Final scoring
+    // rebuilds the denominator from answered questions at their actual intensity.
     questionIndices.forEach(function(qi) {
         var q = QUESTIONS[qi];
+        var cat = getCategoryForQuestion(qi);
+        var categoryWeight = CATEGORY_SCORE_WEIGHTS[cat.id] || 1;
         var perQ = {};
         q.options.forEach(function(opt) {
             var weights = opt[1];
@@ -2363,7 +2454,7 @@ function computeMaxPossible(questionIndices) {
             }
         });
         for (var code in perQ) {
-            result[code] = (result[code] || 0) + perQ[code] * maxIntensity;
+            result[code] = (result[code] || 0) + perQ[code] * DEFAULT_INTENSITY * categoryWeight;
         }
     });
     return result;
@@ -3825,11 +3916,10 @@ const SAINT_VIEWS = {
     ],
 };
 
-// FIX #2: was 3. Softer now because low-N results are labeled with an explicit confidence/margin
-// instead of being silently penalized or fully hidden — 2 real, positively-weighted questions is
-// enough to be worth showing (with its uncertainty visible), rather than forcing genuinely rare
-// schools into "Possible Affinities" purely because the quiz doesn't happen to probe them often.
-const MIN_QUESTIONS_THRESHOLD = 2;
+// v6: four evidence-bearing questions are required for the primary detailed-school ranking.
+// One-to-three-question matches remain visible as secondary affinities with reliability shrinkage.
+const MIN_QUESTIONS_THRESHOLD = 4;
+const MIN_SECONDARY_EVIDENCE = 1;
 
 // STATE
 let scores = {};
@@ -3837,7 +3927,7 @@ let axisScores = {};
 let answers = [];
 let selectedQuestions = [];
 let currentQuestion = 0;
-let quizLength = QUESTIONS.length;
+let quizLength = ACTIVE_QUESTION_INDICES.length;
 let categoryQuestions = {};
 let matchCounts = {};
 let axisMaxPossible = {};
@@ -3962,7 +4052,7 @@ function selectQuestionsForQuiz(count) {
     CATEGORIES.forEach(function(cat) { all = all.concat(categoryQuestions[cat.id] || []); });
     // Challenge mode: use challenger's questions
     if (window._challengeQuestions) {
-        all = window._challengeQuestions;
+        all = window._challengeQuestions.filter(function(qi) { return RETIRED_QUESTION_INDICES.indexOf(qi) === -1; });
         window._challengeQuestions = null;
         // Rebuild categoryQuestions from the challenge set
         categoryQuestions = {};
@@ -4268,6 +4358,10 @@ function prevQuestion() {
 // SCORING
 function calculateScores() {
     initScores();
+    // The denominator is built from the questions the user actually answered, at the same
+    // conviction intensity and category weight as the numerator. Intensity therefore changes the
+    // importance of an answer without making an ordinary 1.0 answer incapable of reaching 100%.
+    maxPossibleForQuiz = {};
     for (var i = 0; i < selectedQuestions.length; i++) {
         var ans = answers[i];
         if (ans === null || ans === -1) continue;
@@ -4275,24 +4369,40 @@ function calculateScores() {
         var q = QUESTIONS[qi];
         var opt = q.options[ans];
         if (!opt) continue;
-        var weights = opt[1];
-        // FIX #6: how strongly the person said they hold this position scales its contribution.
+        var cat = getCategoryForQuestion(qi);
+        var categoryWeight = CATEGORY_SCORE_WEIGHTS[cat.id] || 1;
         var intensity = (intensities[i] !== undefined && intensities[i] !== null) ? intensities[i] : DEFAULT_INTENSITY;
+
+        // Count every question capable of testing a school, not merely questions on which the user
+        // happened to select a positive-scoring option. This is the actual evidentiary sample size.
+        var perQuestionMax = {};
+        var relevantSchools = {};
+        q.options.forEach(function(candidate) {
+            var candidateWeights = candidate[1] || {};
+            for (var code in candidateWeights) {
+                if (scores[code] === undefined) continue;
+                relevantSchools[code] = true;
+                if (candidateWeights[code] > (perQuestionMax[code] || 0)) {
+                    perQuestionMax[code] = candidateWeights[code];
+                }
+            }
+        });
+        for (var relevantCode in relevantSchools) {
+            matchCounts[relevantCode]++;
+            if ((perQuestionMax[relevantCode] || 0) > 0) {
+                maxPossibleForQuiz[relevantCode] = (maxPossibleForQuiz[relevantCode] || 0) + perQuestionMax[relevantCode] * intensity * categoryWeight;
+            }
+        }
+
+        var weights = opt[1] || {};
         for (var school in weights) {
             if (scores[school] !== undefined) {
-                scores[school] += weights[school] * intensity;
-                // Match counts stay a plain count of questions (not intensity-scaled) — they measure
-                // evidentiary coverage, not conviction.
-                if (weights[school] > 0) matchCounts[school]++;
+                scores[school] += weights[school] * intensity * categoryWeight;
             }
         }
         if (q.axis_weights) {
             for (var axis in q.axis_weights) {
                 if (axisScores[axis] !== undefined) {
-                    // FIX #4: use the option's own content-derived polarity (precomputed from which
-                    // schools it awards points to and where those schools sit on this axis) instead
-                    // of inferring direction from the option's position in the list. Falls back to
-                    // the old position heuristic only if an option somehow lacks precomputed polarity.
                     var pol;
                     if (opt[2] && opt[2][axis] !== undefined) {
                         pol = opt[2][axis];
@@ -4300,8 +4410,8 @@ function calculateScores() {
                         var mid = q.options.length / 2;
                         pol = ans < Math.floor(mid) ? -1 : (ans >= Math.ceil(mid) ? 1 : 0);
                     }
-                    axisScores[axis] += q.axis_weights[axis] * pol * intensity;
-                    axisMaxPossible[axis] = (axisMaxPossible[axis] || 0) + q.axis_weights[axis];
+                    axisScores[axis] += q.axis_weights[axis] * pol * intensity * categoryWeight;
+                    axisMaxPossible[axis] = (axisMaxPossible[axis] || 0) + Math.abs(q.axis_weights[axis]) * intensity * categoryWeight;
                     axisQuestionCount[axis] = (axisQuestionCount[axis] || 0) + 1;
                 }
             }
@@ -4309,29 +4419,131 @@ function calculateScores() {
     }
 }
 
-// FIX #2: The old formula blended in "confidence" (1 - e^-n/8) and "coverage" (n/10) terms worth
-// 30% of the score, on top of raw percentage. That structurally rewarded schools that simply recur
-// in many questions (e.g. STD, PROG, THOM) over schools someone matches just as strongly but which
-// appear less often — the exact opposite of what a fair comparison needs. The score itself is now
-// just the plain percentage; sample-size uncertainty is surfaced explicitly instead (see
-// scoreMarginOfError/confidenceLabel below) so it's visible without silently distorting the ranking.
+// v6: a raw alignment percentage is still reported, but ranking uses an evidence adjustment.
+// A school tested by only one or two questions can appear as a secondary affinity, yet cannot tie a
+// school supported across a broad sample merely because both raw percentages happen to be 100%.
+function evidenceReliability(qCount) {
+    if (qCount <= 0) return 0;
+    return 0.55 + 0.45 * (1 - Math.exp(-qCount / 6));
+}
 function normalizedScore(raw, maxPoss, qCount) {
+    if (maxPoss <= 0 || qCount <= 0) return 0;
+    var rawPct = Math.max(0, Math.min(100, (raw / maxPoss) * 100));
+    return rawPct * evidenceReliability(qCount);
+}
+function rawAlignment(raw, maxPoss) {
     if (maxPoss <= 0) return 0;
     return Math.max(0, Math.min(100, (raw / maxPoss) * 100));
 }
-
-// Rough 90%-confidence half-width for a percentage estimated from qCount forced-choice questions,
-// via a normal approximation to a binomial proportion (worst-case variance at p=0.5). This is a
-// deliberately simple, legible estimate — not a rigorous psychometric model — used only to flag
-// "this score could plausibly move a lot with a few more questions," not to be exact.
 function scoreMarginOfError(qCount) {
     if (qCount <= 0) return 50;
     return Math.min(45, Math.round(100 * 1.645 * Math.sqrt(0.25 / qCount)));
 }
 function confidenceLabel(qCount) {
-    if (qCount >= 10) return 'high';
-    if (qCount >= 5) return 'medium';
+    if (qCount >= 12) return 'high';
+    if (qCount >= 6) return 'medium';
     return 'low';
+}
+function getSchoolResult(code) {
+    var raw = scores[code] || 0;
+    var maxPoss = maxPossibleForQuiz[code] || 0;
+    var evidence = matchCounts[code] || 0;
+    return {
+        code: code,
+        name: SCHOOL_NAME[code] || code,
+        raw: raw,
+        maxPoss: maxPoss,
+        evidence: evidence,
+        rawPct: rawAlignment(raw, maxPoss),
+        normalized: normalizedScore(raw, maxPoss, evidence),
+        reliability: evidenceReliability(evidence)
+    };
+}
+function getAllSchoolResults() {
+    return SCHOOLS.map(function(s) { return getSchoolResult(s[0]); });
+}
+function isSeparatedBrethren(code) {
+    return SEPARATED_BRETHREN_CODES.indexOf(code) !== -1;
+}
+function isPrimaryCatholic(code) {
+    return PRIMARY_CATHOLIC_CODES.indexOf(code) !== -1;
+}
+function isSecondaryCatholic(code) {
+    return code !== 'STD' && !isPrimaryCatholic(code) && !isSeparatedBrethren(code);
+}
+function getCatholicFamilyResults() {
+    return CATHOLIC_FAMILIES.map(function(family) {
+        var numerator = 0, denominator = 0, evidenceWeighted = 0, represented = 0;
+        family.members.forEach(function(member) {
+            var code = member[0], weight = member[1];
+            var result = getSchoolResult(code);
+            if (result.evidence <= 0) return;
+            represented++;
+            numerator += result.normalized * weight;
+            denominator += weight;
+            evidenceWeighted += Math.min(12, result.evidence) * weight;
+        });
+        var base = denominator > 0 ? numerator / denominator : 0;
+        var memberCoverage = represented / family.members.length;
+        var score = base * (0.88 + 0.12 * memberCoverage);
+        return Object.assign({}, family, {
+            score: score,
+            represented: represented,
+            memberCoverage: memberCoverage,
+            evidence: denominator > 0 ? evidenceWeighted / denominator : 0
+        });
+    }).filter(function(f) { return f.score > 0; }).sort(function(a, b) { return b.score - a.score; });
+}
+function renderFamilyResults(families) {
+    var html = '<div class="family-intro">Your headline result is now a broad Catholic theological family. Narrow schools, religious orders, political outlooks, and separated traditions remain available in the detailed results, but cannot outrank a family on only one or two questions.</div><div class="family-grid">';
+    families.forEach(function(f, i) {
+        var members = f.members.slice(0, 5).map(function(m) { return SCHOOL_NAME[m[0]] || m[0]; }).join(' · ');
+        html += '<div class="family-card' + (i === 0 ? ' top' : '') + '"><div class="family-card-head"><div class="family-name">' + (i === 0 ? '✦ ' : '') + f.name + '</div><div class="family-score">' + f.score.toFixed(1) + '%</div></div><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:' + Math.min(100, f.score) + '%"></div></div><div class="family-summary">' + f.summary + '</div><div class="family-members">Built from: ' + members + (f.members.length > 5 ? '…' : '') + ' · ' + confidenceLabel(Math.round(f.evidence)) + ' confidence</div></div>';
+    });
+    return html + '</div>';
+}
+function renderSchoolRows(items, limit) {
+    var html = '';
+    items.slice(0, limit || items.length).forEach(function(r, i) {
+        var hetero = HETERODOXY_STATUS[r.code];
+        var warn = hetero ? ' <span title="' + (hetero.title || '') + '" style="cursor:help;">⚠️</span>' : '';
+        html += '<div class="school-rank" onclick="toggleDrillDown(\'' + r.code + '\', this)"><div class="rank-num">' + (i + 1) + '</div><div class="rank-info"><div class="rank-name">' + r.name + warn + '</div><div class="rank-detail">' + r.rawPct.toFixed(0) + '% raw · ' + r.evidence + ' evidence questions · ' + confidenceLabel(r.evidence) + ' confidence</div><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:' + r.normalized + '%"></div></div></div><div class="rank-score">' + r.normalized.toFixed(1) + '%</div></div>';
+    });
+    return html;
+}
+function computeApproachSpectrum(spec) {
+    var numerator = 0, denominator = 0, evidence = 0;
+    Object.keys(spec.positions).forEach(function(code) {
+        var r = getSchoolResult(code);
+        if (r.raw <= 0 || r.evidence <= 0) return;
+        var w = Math.pow(r.normalized / 100, 2) * Math.min(1, r.evidence / 8);
+        numerator += spec.positions[code] * w;
+        denominator += w;
+        evidence += Math.min(8, r.evidence);
+    });
+    return { value: denominator > 0 ? numerator / denominator : 0, support: denominator, evidence: evidence };
+}
+function renderApproachMap() {
+    var computed = APPROACH_SPECTRA.map(function(spec) {
+        return { spec: spec, result: computeApproachSpectrum(spec) };
+    });
+    var strongest = computed.slice().sort(function(a, b) { return Math.abs(b.result.value) - Math.abs(a.result.value); }).slice(0, 3);
+    var phrases = strongest.map(function(item) {
+        return item.result.value < 0 ? item.spec.left.toLowerCase() : item.spec.right.toLowerCase();
+    });
+    var html = '<div class="approach-summary"><strong>Overall approach:</strong> ' + (phrases.length ? phrases.join('; ') : 'not enough evidence yet') + '. These lines synthesize your detailed Catholic-school scores; they are interpretive coordinates rather than denominational verdicts.</div>';
+    computed.forEach(function(item) {
+        var spec = item.spec, result = item.result;
+        var pct = Math.max(4, Math.min(96, 50 + result.value * 46));
+        var labels = Object.keys(spec.positions).sort(function(a,b) { return spec.positions[a] - spec.positions[b]; });
+        var markerHtml = labels.map(function(code, index) {
+            // Alternate label heights slightly by using opacity/title rather than adding extra rows.
+            var left = 50 + spec.positions[code] * 46;
+            return '<span class="approach-school-marker" style="left:' + left + '%;top:' + (index % 2 ? '-31px' : '-19px') + '" title="' + (SCHOOL_NAME[code] || code) + '">' + (SCHOOL_NAME[code] || code).replace(/\s*\(.+?\)/g,'').substring(0,13) + '</span>';
+        }).join('');
+        html += '<div class="approach-axis"><div class="approach-axis-title">' + spec.name + '</div><div class="approach-track">' + markerHtml + '<div class="approach-user-marker" style="left:' + pct + '%" title="Your position"></div></div><div class="approach-endpoints"><span>' + spec.left + '</span><span>' + spec.right + '</span></div><div class="approach-confidence">Based on ' + result.evidence + ' weighted school-evidence points</div></div>';
+    });
+    return html;
 }
 
 function showResults() {
@@ -4340,107 +4552,81 @@ function showResults() {
     document.getElementById('results-screen').style.display = 'block';
     document.getElementById('copy-prompt-btn').style.display = 'none';
 
-    var ranked = SCHOOLS
-        .filter(function(s) { return s[0] !== 'STD'; })
-        .map(function(s) {
-            return { code: s[0], name: s[1], raw: scores[s[0]] || 0, maxPoss: maxPossibleForQuiz[s[0]] || 1, count: matchCounts[s[0]] || 0, normalized: normalizedScore(scores[s[0]] || 0, maxPossibleForQuiz[s[0]] || 1, matchCounts[s[0]] || 0) };
-        })
-        .filter(function(s) { return s.raw > 0 && s.count >= MIN_QUESTIONS_THRESHOLD; })
-        .sort(function(a, b) { return b.normalized - a.normalized; });
+    var allResults = getAllSchoolResults();
+    var primaryRanked = allResults.filter(function(r) {
+        return isPrimaryCatholic(r.code) && r.raw > 0 && r.evidence >= MIN_QUESTIONS_THRESHOLD;
+    }).sort(function(a,b) { return b.normalized - a.normalized; });
+    var secondaryCatholic = allResults.filter(function(r) {
+        return isSecondaryCatholic(r.code) && r.raw > 0 && r.evidence >= MIN_SECONDARY_EVIDENCE;
+    }).sort(function(a,b) { return b.normalized - a.normalized; });
+    var separated = allResults.filter(function(r) {
+        return isSeparatedBrethren(r.code) && r.raw > 0 && r.evidence >= MIN_SECONDARY_EVIDENCE;
+    }).sort(function(a,b) { return b.normalized - a.normalized; });
+    var families = getCatholicFamilyResults();
 
-    if (!ranked.length) return;
-    var top = ranked[0];
-    var desc = SCHOOL_DESC[top.code] || { summary: '' };
-    var fig = SCHOOL_FIGURES[top.code] || { figure: '', era: '', bio: '' };
-    var stdPct = maxPossibleForQuiz['STD'] ? Math.round((scores['STD'] || 0) / maxPossibleForQuiz['STD'] * 100) : 0;
+    var topFamily = families[0];
+    var topSchool = primaryRanked[0] || allResults.filter(function(r) { return r.raw > 0; }).sort(function(a,b) { return b.normalized - a.normalized; })[0];
+    if (!topFamily && !topSchool) return;
 
-    
-    var portraitSvg = PORTRAITS[top.code] || PORTRAITS['_DEFAULT'] || '';
+    var portraitCode = topFamily ? topFamily.portrait : topSchool.code;
+    var portraitSvg = PORTRAITS[portraitCode] || PORTRAITS['_DEFAULT'] || '';
     var portraitHtml = portraitSvg ? '<div class="portrait-container"><div class="portrait-frame">' + portraitSvg + '</div></div>' : '';
-    
-    var topMoe = scoreMarginOfError(top.count);
-    var topConf = confidenceLabel(top.count);
-    document.getElementById('top-match-container').innerHTML = portraitHtml + '<div style="text-align:center;font-size:0.8rem;color:var(--ink-light);margin-bottom:0.75rem;">Mainstream Catholic alignment: ' + stdPct + '%</div><div class="top-match"><div class="top-match-label">Your Closest Match</div><div class="top-match-name">' + top.name + '</div><div class="top-match-score">' + top.normalized.toFixed(1) + '% alignment &plusmn;' + topMoe + '% (' + top.count + ' questions, ' + topConf + ' confidence)</div><div class="top-match-summary">' + (desc.summary || '') + '</div><div class="figure-section"><div class="figure-label">Key Figure</div><div class="figure-name">' + fig.figure + '</div><div class="figure-era">' + fig.era + '</div><div class="figure-bio">' + fig.bio + '</div></div></div>';
+    var stdResult = getSchoolResult('STD');
+    var familyConfidence = topFamily ? confidenceLabel(Math.round(topFamily.evidence)) : confidenceLabel(topSchool.evidence);
+    var headlineName = topFamily ? topFamily.name : topSchool.name;
+    var headlineScore = topFamily ? topFamily.score : topSchool.normalized;
+    var headlineSummary = topFamily ? topFamily.summary : ((SCHOOL_DESC[topSchool.code] || {}).summary || '');
+    var anchorResult = topSchool || getSchoolResult(portraitCode);
+    var anchorFigure = SCHOOL_FIGURES[anchorResult.code] || SCHOOL_FIGURES[portraitCode] || { figure:'', era:'', bio:'' };
+
+    document.getElementById('top-match-container').innerHTML = portraitHtml +
+        '<div style="text-align:center;font-size:0.8rem;color:var(--text-dim);margin-bottom:0.75rem;">Mainstream Catholic alignment: ' + stdResult.rawPct.toFixed(0) + '% raw</div>' +
+        '<div class="top-match"><div class="top-match-label">Primary Catholic Theological Family</div><div class="top-match-name">' + headlineName + '</div><div class="top-match-score">' + headlineScore.toFixed(1) + '% evidence-adjusted alignment · ' + familyConfidence + ' confidence</div><div class="top-match-summary">' + headlineSummary + '</div>' +
+        '<div class="figure-section"><div class="figure-label">Closest Detailed Catholic School</div><div class="figure-name">' + anchorResult.name + '</div><div class="figure-era">' + anchorResult.rawPct.toFixed(0) + '% raw · ' + anchorResult.evidence + ' evidence questions</div><div class="figure-bio">' + (anchorFigure.figure ? anchorFigure.figure + (anchorFigure.era ? ' (' + anchorFigure.era + ')' : '') + ' — ' + anchorFigure.bio : '') + '</div></div></div>';
+
+    document.getElementById('families-content').innerHTML = '<h3 class="result-section-title" style="margin-top:0;">Catholic Theological Families</h3>' + renderFamilyResults(families);
 
     var rc = document.getElementById('rankings-content');
-    rc.innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--wine);margin-bottom:1rem;">School Rankings</h3>';
-    ranked.slice(0, 25).forEach(function(s, i) {
-        var hetero = HETERODOXY_STATUS[s.code];
-        var warn = hetero ? ' <span title="' + (hetero.title || '') + '" style="cursor:help;">⚠️</span>' : '';
-        var moe = scoreMarginOfError(s.count);
-        rc.innerHTML += '<div class="school-rank" onclick="toggleDrillDown(\'' + s.code + '\', this)"><div class="rank-num">' + (i+1) + '</div><div class="rank-info"><div class="rank-name">' + s.name + warn + '</div><div class="rank-detail">' + s.count + ' questions · ' + Math.round(s.raw / s.maxPoss * 100) + '% raw &plusmn;' + moe + '%</div><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:' + s.normalized + '%"></div></div></div><div class="rank-score">' + s.normalized.toFixed(1) + '%</div></div>';
-    });
-
-    // FIX #2: schools with too little coverage for the main list still get shown here — with an
-    // explicit "few questions" framing and margin — rather than either vanishing entirely (the old
-    // behavior for anything under the count threshold) or being averaged into a broader code they
-    // don't actually belong to (the old collision bugs fixed elsewhere in this pass).
-    var affinities = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) { return { code: s[0], name: s[1], raw: scores[s[0]]||0, maxPoss: maxPossibleForQuiz[s[0]]||1, count: matchCounts[s[0]]||0 }; }).filter(function(s) { return s.raw > 0 && s.count > 0 && s.count < MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return (b.raw/b.maxPoss) - (a.raw/a.maxPoss); }).slice(0, 10);
-    if (affinities.length) {
-        rc.innerHTML += '<h4 style="font-family:Cormorant Garamond,serif;color:var(--brass);margin:1.5rem 0 0.75rem;">Possible Affinities (few questions — wide uncertainty)</h4>';
-        affinities.forEach(function(s) {
-            var moe = scoreMarginOfError(s.count);
-            rc.innerHTML += '<div style="font-size:0.85rem;color:var(--ink-mid);padding:0.25rem 0;">' + s.name + ' — ' + Math.round(s.raw / s.maxPoss * 100) + '% &plusmn;' + moe + '% (' + s.count + ' question' + (s.count>1?'s':'') + ')</div>';
-        });
+    rc.innerHTML = '<h3 class="result-section-title" style="margin-top:0;">Primary Catholic Schools</h3><div class="result-section-note">Only broad Catholic theological schools with at least ' + MIN_QUESTIONS_THRESHOLD + ' evidence-bearing questions can enter this ranking.</div>' + renderSchoolRows(primaryRanked, 25);
+    if (secondaryCatholic.length) {
+        rc.innerHTML += '<h3 class="result-section-title">Specialist Catholic Affinities</h3><div class="result-section-note">Narrow moral, liturgical, political, spiritual, or irregular profiles. These remain informative but are not eligible for the headline result.</div>' + renderSchoolRows(secondaryCatholic, 20);
+    }
+    if (separated.length) {
+        rc.innerHTML += '<h3 class="result-section-title">Separated Brethren Affinities</h3><div class="result-section-note">Analogies with Protestant or Orthodox traditions are shown secondarily and never replace the primary Catholic-family result.</div>' + renderSchoolRows(separated, 10);
     }
 
+    document.getElementById('approach-content').innerHTML = '<h3 class="result-section-title" style="margin-top:0;">Linear Theological Approach Map</h3>' + renderApproachMap();
+
     var ac = document.getElementById('axes-content');
-    ac.innerHTML = '';
+    ac.innerHTML = '<div class="result-section-note">These eight doctrine axes come directly from your answers. The Approach Map instead infers a broader methodological location from your school pattern.</div>';
     AXES.forEach(function(a) {
         var code = a[0], name = a[1];
         var raw = axisScores[code] || 0;
         var maxP = axisMaxPossible[code] || 1;
         var qCount = axisQuestionCount[code] || 0;
         var eps = AXIS_ENDPOINTS[code] || ['Left', 'Right'];
-        
-        // Skip axes with no data
         if (qCount < 2) return;
-        
-        // Normalize: raw / maxPossible gives -1 to +1 range
         var normalized = raw / maxP;
-        
-        // Apply sigmoid-like curve to amplify decisive patterns
-        // tanh(x * 2) compresses the middle but stretches the extremes
         var curved = Math.tanh(normalized * 2.2);
-        
-        // Map to percentage: -1 → 5%, 0 → 50%, +1 → 95%
-        var pct = 50 + curved * 45;
-        pct = Math.max(5, Math.min(95, pct));
-        
-        // Confidence indicator
-        var conf = qCount >= 8 ? 'high' : (qCount >= 4 ? 'med' : 'low');
+        var pct = Math.max(5, Math.min(95, 50 + curved * 45));
         var confLabel = qCount >= 8 ? '' : ' <span style="font-size:0.65rem;opacity:0.5;">(' + qCount + 'q)</span>';
-        
         ac.innerHTML += '<div class="axis-row"><div class="axis-header"><span class="axis-name">' + name + confLabel + '</span></div><div class="axis-bar"><div class="axis-marker" style="left:calc(' + pct + '% - 9px)"></div></div><div class="axis-labels"><span>' + eps[0] + '</span><span>' + eps[1] + '</span></div></div>';
     });
-    // FEATURE 2: Category breakdown
+
     document.getElementById('categories-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Top School by Category</h3>' + renderCategoryBreakdown();
-
-    // FEATURE 4: Question review
     document.getElementById('review-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Your Answers</h3>' + renderQuestionReview();
-
-    // FEATURE 6: Comparison
     compareSchools = [];
     document.getElementById('compare-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">School Comparison</h3>' + renderComparisonTab();
-
-    // FEATURE 7: Reading list
     document.getElementById('reading-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Personalized Reading List</h3>' + renderReadingList();
-
-    // FEATURE 11: Timeline
     document.getElementById('timeline-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Your Theological Lineage</h3>' + renderTimeline();
-
-    // FEATURE 12: Neighbors map
     document.getElementById('neighbors-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Theological Neighbors</h3>' + renderNeighborsMap();
 
-    // FEATURE 10: Challenge comparison if applicable
     if (window._challengeData) {
         document.getElementById('challenge-comparison').innerHTML = renderChallengeComparison(window._challengeData);
     }
-
-    // FEATURE 8: Most decisive questions
-    var decisive = getMostDecisiveQuestions();
-    if (decisive.length > 0 && ranked.length > 0) {
-        var dhtml = '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);"><div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Most Decisive Answers for ' + ranked[0].name + '</div>';
+    var decisive = getMostDecisiveQuestions(anchorResult.code);
+    if (decisive.length > 0) {
+        var dhtml = '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);"><div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Most decisive answers for ' + anchorResult.name + '</div>';
         decisive.forEach(function(d) {
             dhtml += '<div style="font-size:0.8rem;color:var(--text-mid);padding:0.15rem 0;">' + d.text.substring(0,55) + '... <span style="font-family:Share Tech Mono,monospace;color:' + (d.pts > 0 ? 'var(--verd)' : '#ff4444') + ';">' + (d.pts > 0 ? '+' : '') + d.pts + '</span></div>';
         });
@@ -4448,16 +4634,8 @@ function showResults() {
         document.getElementById('top-match-container').innerHTML += dhtml;
     }
 
-    // Clear saved progress
     clearProgress();
-
     window.scrollTo(0, 0);
-}
-
-function generateChallenge() {
-    var link = generateChallengeLink();
-    var container = document.getElementById('challenge-link-container');
-    container.innerHTML = '<div class="challenge-link" onclick="navigator.clipboard.writeText(this.textContent).then(function(){alert(\'Link copied!\');})">' + link + '</div><div style="font-size:0.7rem;color:var(--text-dim);margin-top:0.3rem;">Click to copy. Send to a friend — they\'ll take the same questions and see a comparison.</div>';
 }
 
 function switchTab(name) {
@@ -4601,7 +4779,7 @@ function renderCategoryBreakdown() {
         if (catAnswered === 0) return;
         var topCode = '', topScore = 0;
         for (var code in catScores) {
-            if (code !== 'STD' && catScores[code] > topScore) { topScore = catScores[code]; topCode = code; }
+            if (code !== 'STD' && !isSeparatedBrethren(code) && catScores[code] > topScore) { topScore = catScores[code]; topCode = code; }
         }
         var name = SCHOOL_NAME[topCode] || topCode;
         var maxP = maxPossibleForQuiz[topCode] || 1;
@@ -4685,9 +4863,13 @@ function toggleDrillDown(code, element) {
 // ============================================================
 var compareSchools = [];
 function renderComparisonTab() {
-    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD' && (scores[s[0]] || 0) > 0; }).map(function(s) { return { code: s[0], name: s[1] }; });
-    var html = '<div class="compare-container"><p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:0.5rem;">Select two schools to compare:</p><div class="compare-select" id="compare-select">';
-    ranked.slice(0, 15).forEach(function(s) {
+    var ranked = getAllSchoolResults().filter(function(r) { return r.raw > 0 && !isSeparatedBrethren(r.code) && r.code !== 'STD'; }).sort(function(a,b) {
+        var tierA = isPrimaryCatholic(a.code) ? 0 : 1;
+        var tierB = isPrimaryCatholic(b.code) ? 0 : 1;
+        return tierA !== tierB ? tierA - tierB : b.normalized - a.normalized;
+    });
+    var html = '<div class="compare-container"><p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:0.5rem;">Select two Catholic schools to compare:</p><div class="compare-select" id="compare-select">';
+    ranked.slice(0, 20).forEach(function(s) {
         html += '<button class="compare-school-btn" data-code="' + s.code + '" onclick="toggleCompareSchool(\'' + s.code + '\', this)">' + s.name + '</button>';
     });
     html += '</div><div class="compare-results" id="compare-results"></div></div>';
@@ -4733,7 +4915,7 @@ function runComparison() {
 function renderReadingList() {
     var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
         return { code: s[0], name: s[1], norm: normalizedScore(scores[s[0]]||0, maxPossibleForQuiz[s[0]]||1, matchCounts[s[0]]||0) };
-    }).filter(function(s) { return s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 3);
+    }).filter(function(s) { return isPrimaryCatholic(s.code) && s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 3);
 
     var html = '<div class="reading-list">';
     ranked.forEach(function(s) {
@@ -4793,16 +4975,16 @@ function generateShareCard() {
     ctx.fillText('THE DEFINITIVE CATHOLIC THEOLOGY QUIZ', 400, 50);
     ctx.shadowBlur = 0;
 
-    // Top schools
-    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
-        return { code: s[0], name: s[1], norm: normalizedScore(scores[s[0]]||0, maxPossibleForQuiz[s[0]]||1, matchCounts[s[0]]||0) };
-    }).filter(function(s) { return s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; });
+    // Top Catholic theological families
+    var ranked = getCatholicFamilyResults().map(function(f) {
+        return { code: f.code, name: f.name, norm: f.score };
+    });
 
     ctx.font = '500 14px Share Tech Mono, monospace';
     ctx.fillStyle = 'rgba(57,255,20,0.5)';
     ctx.fillText('MY THEOLOGICAL PROFILE', 400, 80);
 
-    // Top 5 schools
+    // Top 5 Catholic families
     var startY = 110;
     ranked.slice(0, 5).forEach(function(s, i) {
         var yy = startY + i * 50;
@@ -4922,7 +5104,7 @@ function renderChallengeComparison(theirData) {
 function renderTimeline() {
     var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
         return { code: s[0], name: s[1], norm: normalizedScore(scores[s[0]]||0, maxPossibleForQuiz[s[0]]||1, matchCounts[s[0]]||0) };
-    }).filter(function(s) { return s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 7);
+    }).filter(function(s) { return isPrimaryCatholic(s.code) && s.norm > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 7);
 
     var figures = ranked.map(function(s) {
         var fig = SCHOOL_FIGURES[s.code] || {};
@@ -4965,9 +5147,9 @@ function renderTimeline() {
 // ============================================================
 function renderNeighborsMap() {
     // Get top 12 schools
-    var ranked = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
+    var ranked = SCHOOLS.filter(function(s) { return isPrimaryCatholic(s[0]); }).map(function(s) {
         return { code: s[0], name: s[1], score: scores[s[0]] || 0, norm: normalizedScore(scores[s[0]]||0, maxPossibleForQuiz[s[0]]||1, matchCounts[s[0]]||0) };
-    }).filter(function(s) { return s.score > 0; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 12);
+    }).filter(function(s) { return s.score > 0 && (matchCounts[s.code]||0) >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.norm - a.norm; }).slice(0, 12);
 
     if (ranked.length < 3) return '<div style="color:var(--text-dim);font-size:0.85rem;">Not enough data for a map.</div>';
 
@@ -5052,18 +5234,20 @@ function renderNeighborsMap() {
 // ============================================================
 // FEATURE 8 (Most Decisive) - bonus, quick to add
 // ============================================================
-function getMostDecisiveQuestions() {
-    var topSchool = SCHOOLS.filter(function(s) { return s[0] !== 'STD'; }).map(function(s) {
-        return { code: s[0], norm: normalizedScore(scores[s[0]]||0, maxPossibleForQuiz[s[0]]||1, matchCounts[s[0]]||0) };
-    }).sort(function(a,b) { return b.norm - a.norm; })[0];
-    if (!topSchool) return '';
+function getMostDecisiveQuestions(preferredCode) {
+    var topCode = preferredCode;
+    if (!topCode) {
+        var fallback = getAllSchoolResults().filter(function(r) { return isPrimaryCatholic(r.code) && r.evidence >= MIN_QUESTIONS_THRESHOLD; }).sort(function(a,b) { return b.normalized - a.normalized; })[0];
+        topCode = fallback ? fallback.code : null;
+    }
+    if (!topCode) return [];
     var items = [];
     for (var i = 0; i < selectedQuestions.length; i++) {
         if (answers[i] === null || answers[i] === -1) continue;
         var qi = selectedQuestions[i];
         var opt = QUESTIONS[qi].options[answers[i]];
         if (!opt) continue;
-        var pts = opt[1][topSchool.code] || 0;
+        var pts = opt[1][topCode] || 0;
         if (pts !== 0) items.push({ text: QUESTIONS[qi].text, pts: pts });
     }
     items.sort(function(a,b) { return Math.abs(b.pts) - Math.abs(a.pts); });
@@ -5076,7 +5260,7 @@ var _origDCL = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     initScores();
-    setQuizLength(QUESTIONS.length);
+    setQuizLength(ACTIVE_QUESTION_INDICES.length);
     renderFocusCategories();
     
     // Check for challenge mode
