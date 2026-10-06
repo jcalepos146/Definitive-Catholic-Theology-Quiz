@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Definitive Catholic Theology Quiz — Historical Schools & Ecclesial Analogues</title>
+    <title>Definitive Catholic Theology Quiz — Modern Scholastic Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -582,7 +582,168 @@
             .dos-boot { transition-duration: 0.15s; }
         }
 
-    </style>
+    
+/* ============================================================
+   v10 MODERN SCHOLASTIC UI — 12Axes-inspired information hierarchy
+   ============================================================ */
+:root {
+    --bg:#f5f2eb; --bg-raised:#ffffff; --bg-card:#ffffff; --bg-hover:#fbf8f3;
+    --verd:#762f3b; --verd-light:#762f3b; --verd-dim:#8f4a55; --verd-faint:rgba(118,47,59,.06);
+    --verd-glow:rgba(118,47,59,.08); --verd-border:rgba(118,47,59,.18);
+    --copper:#9a7743; --copper-faint:rgba(154,119,67,.07);
+    --text:#23211e; --text-mid:#5d5851; --text-dim:#817a71;
+    --border:#ded8cf; --border-strong:#c9c1b6; --shadow:0 10px 35px rgba(42,34,28,.07);
+    --radius:14px;
+}
+html { scroll-behavior:smooth; }
+.quiz-panel::before,.quiz-panel::after { display:none!important; content:none!important; }
+body { font-family:'Inter',system-ui,sans-serif; font-size:16px; line-height:1.55; color:var(--text); background:var(--bg); background-image:none; }
+.main-container { max-width:1120px; padding:0 1.25rem 3rem; }
+.quiz-panel { background:transparent; border:0; border-top:0; box-shadow:none; border-radius:0; overflow:visible; }
+header { position:relative; display:flex; align-items:center; justify-content:space-between; text-align:left; padding:1.1rem .25rem; background:transparent; border-bottom:1px solid var(--border); }
+.header-image-container { display:none; }
+header h1 { font-family:'Cormorant Garamond',serif; font-size:1.18rem; line-height:1.05; letter-spacing:.015em; color:var(--text); text-shadow:none; font-weight:700; }
+.subtitle { font-family:'Inter',sans-serif; font-size:.67rem; letter-spacing:.08em; color:var(--text-dim); margin:0; text-transform:uppercase; }
+header .divider { display:none; }
+.hidden { display:none!important; }
+.eyebrow,.section-kicker { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--verd); font-weight:700; }
+
+/* Landing */
+.start-screen.modern-start { padding:3.5rem .25rem 1rem; text-align:left; }
+.hero-grid { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr); gap:4.5rem; align-items:center; min-height:480px; }
+.hero-copy h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.7rem,5vw,4.5rem); line-height:.98; color:var(--text); margin:.7rem 0 1.2rem; letter-spacing:-.025em; }
+.hero-copy p { font-family:'Crimson Pro',serif; font-size:1.28rem; line-height:1.48; color:var(--text-mid); max-width:680px; margin:0 0 1.5rem; }
+.start-btn { background:var(--verd); color:#fff; border:1px solid var(--verd); border-radius:10px; font-family:'Inter',sans-serif; font-size:.84rem; font-weight:700; letter-spacing:.02em; text-transform:none; padding:.82rem 1.2rem; box-shadow:none; }
+.start-btn:hover { background:#642631; color:#fff; transform:translateY(-1px); box-shadow:0 8px 20px rgba(118,47,59,.14); }
+.hero-cta { margin:0; }
+.privacy-note { margin-top:1rem; color:var(--text-dim); font-size:.77rem; }
+.sample-result-card { background:#fff; border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); padding:1.5rem; }
+.sample-label { color:var(--text-dim); font-size:.68rem; text-transform:uppercase; letter-spacing:.12em; font-weight:700; }
+.sample-school { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--text); font-weight:700; margin-top:.25rem; }
+.sample-match { color:var(--verd); font-weight:700; font-size:.86rem; }
+.sample-figure { border-top:1px solid var(--border); margin-top:1rem; padding-top:1rem; font-size:.82rem; color:var(--text-mid); }
+.sample-figure strong { display:block; color:var(--text); font-family:'Cormorant Garamond',serif; font-size:1.08rem; }
+.sample-axis { display:grid; grid-template-columns:88px 1fr 100px; align-items:center; gap:.55rem; margin-top:1rem; font-size:.68rem; color:var(--text-dim); }
+.sample-axis span:last-child { text-align:right; }
+.sample-axis div { height:5px; border-radius:999px; background:#e7e1d9; position:relative; }
+.sample-axis i { position:absolute; width:13px; height:13px; border-radius:50%; background:var(--verd); top:50%; transform:translate(-50%,-50%); }
+.discover-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:.85rem; margin:1rem 0 5rem; }
+.discover-grid > div { border-top:2px solid var(--border-strong); padding:1rem .2rem; }
+.discover-grid strong { font-family:'Cormorant Garamond',serif; font-size:1.1rem; display:block; }
+.discover-grid span { font-size:.8rem; color:var(--text-dim); display:block; margin-top:.3rem; }
+.depth-section { padding:3.2rem 0 1.5rem; border-top:1px solid var(--border); text-align:center; }
+.depth-section h3 { font-family:'Cormorant Garamond',serif; font-size:2.25rem; margin:.25rem 0 1.7rem; }
+.depth-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:.8rem; margin:0; align-items:stretch; }
+.length-option { display:block; }
+.length-card { height:100%; min-height:170px; padding:1.25rem; border:1px solid var(--border); border-radius:14px; background:#fff; text-align:left; position:relative; }
+.length-option input:checked + .length-card { border-color:var(--verd); background:#fff; box-shadow:0 0 0 2px rgba(118,47,59,.08), var(--shadow); }
+.depth-name { font-family:'Cormorant Garamond',serif; font-size:1.28rem; color:var(--text); font-weight:700; display:block; }
+.length-number { font-family:'Inter',sans-serif; font-size:2.1rem; color:var(--verd); margin:.7rem 0 .25rem; font-weight:700; }
+.length-label { font-size:.76rem; color:var(--text-dim); line-height:1.4; display:block; }
+.recommended-badge { position:absolute; top:-10px; right:12px; background:var(--verd); color:#fff; border-radius:999px; padding:.22rem .55rem; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+.advanced-settings { max-width:760px; margin:1.4rem auto 0; text-align:left; border:1px solid var(--border); border-radius:12px; background:#fff; }
+.advanced-settings summary,.results-explore summary { cursor:pointer; padding:1rem 1.1rem; font-weight:700; color:var(--text); list-style:none; }
+.advanced-settings summary::-webkit-details-marker,.results-explore summary::-webkit-details-marker { display:none; }
+.advanced-settings summary:after,.results-explore summary:after { content:'+'; float:right; color:var(--verd); }
+.advanced-settings[open] summary:after,.results-explore[open] summary:after { content:'−'; }
+.advanced-settings-body { border-top:1px solid var(--border); padding:1rem 1.1rem 1.2rem; }
+.advanced-settings-body h4 { font-size:.74rem; text-transform:uppercase; letter-spacing:.08em; margin:.7rem 0 .45rem; color:var(--text-mid); }
+.advanced-settings-body h4 span { font-weight:400; text-transform:none; letter-spacing:0; }
+.focus-cats { justify-content:flex-start; }
+.focus-chip { background:var(--bg); color:var(--text-mid); border-color:var(--border); }
+.focus-chip.active { color:var(--verd); border-color:var(--verd); background:var(--verd-faint); }
+.mode-toggle { justify-content:flex-start; }
+.mode-card { background:var(--bg); border-color:var(--border); max-width:300px; text-align:left; }
+.mode-card strong { font-family:'Inter',sans-serif; color:var(--text); font-size:.85rem; }
+.mode-card span { color:var(--text-dim); }
+.mode-option input:checked + .mode-card { border-color:var(--verd); background:var(--verd-faint); }
+.depth-section > .start-btn { margin-top:1.25rem; padding:.9rem 2rem; }
+
+/* Quiz */
+#quiz-screen { max-width:820px; margin:0 auto; padding-top:1.5rem; }
+.category-nav,.question-nav,.copy-prompt-btn { display:none!important; }
+.progress-section { padding:.9rem 0 1.15rem; }
+.progress-header { font-family:'Inter',sans-serif; font-size:.72rem; color:var(--text-dim); }
+.progress-bar { height:5px; background:#e4ded5; }
+.progress-fill { background:var(--verd); box-shadow:none; }
+.question-card { padding:2rem 0 1rem; animation:fadeIn .25s ease; }
+.question-header { margin-bottom:1rem; }
+.question-number { font-family:'Inter',sans-serif; font-size:.7rem; color:var(--text-dim); order:2; }
+.question-category-tag { font-family:'Inter',sans-serif; font-size:.68rem; color:var(--verd); border:0; background:transparent; padding:0; letter-spacing:.08em; font-weight:700; }
+.question-text { font-family:'Cormorant Garamond',serif; font-size:clamp(1.75rem,4vw,2.45rem); line-height:1.15; font-weight:600; color:var(--text); margin-bottom:1.65rem; }
+.options { gap:.65rem; }
+.option { padding:1rem 1.05rem; border:1px solid var(--border); border-radius:12px; background:#fff; gap:.85rem; box-shadow:0 1px 0 rgba(0,0,0,.015); }
+.option:hover { border-color:#bcaeb0; background:#fff; transform:translateY(-1px); }
+.option.selected { border:1px solid var(--verd); border-left:1px solid var(--verd); background:var(--verd-faint); box-shadow:0 0 0 2px rgba(118,47,59,.06); }
+.option-text { font-family:'Inter',sans-serif; font-size:.91rem; color:var(--text); line-height:1.5; }
+.option-radio { width:18px; height:18px; border-color:#aaa198; }
+.option.selected .option-radio { border-color:var(--verd); }
+.option.selected .option-radio::after { background:var(--verd); box-shadow:none; }
+.school-tag { display:none!important; }
+.idk-btn { background:transparent; border:0; color:var(--text-dim); font-family:'Inter',sans-serif; font-size:.79rem; margin:.75rem 0 0; padding:.55rem; }
+.idk-btn:hover,.idk-btn.selected { color:var(--verd); background:transparent; border:0; }
+.intensity-row { margin:1rem 0 .25rem; padding:.8rem; background:#f0ece6; border-radius:10px; }
+.intensity-label { text-align:left; font-family:'Inter',sans-serif; font-size:.66rem; color:var(--text-dim); }
+.intensity-label span { font-weight:400; text-transform:none; letter-spacing:0; }
+.intensity-btns { gap:.35rem; }
+.intensity-btn { background:#fff; font-family:'Inter',sans-serif; font-size:.72rem; border-color:var(--border); color:var(--text-mid); }
+.intensity-btn.active { color:var(--verd); border-color:var(--verd); background:var(--verd-faint); box-shadow:none; }
+.panel-toggle { font-family:'Inter',sans-serif; font-size:.77rem; color:var(--text-mid); }
+.saints-toggle { color:var(--verd); margin-top:1.1rem; }
+.panel-content { background:#fff; border:1px solid var(--border); border-left:1px solid var(--border); }
+.saint-card { background:var(--bg); border-color:var(--border); }
+.saint-card:hover { border-color:var(--verd); transform:none; }
+.saint-card-name,.source-topic { color:var(--text); }
+.navigation { padding:1rem 0 2rem; }
+.nav-btn { font-family:'Inter',sans-serif; background:transparent; color:var(--text-mid); border:1px solid var(--border); border-radius:10px; font-size:.8rem; }
+.nav-btn.primary { background:var(--verd); color:#fff; border-color:var(--verd); }
+.nav-btn.primary:hover { background:#642631; color:#fff; box-shadow:none; }
+
+/* Results */
+.results-screen { padding:2.5rem 0; }
+.results-header { text-align:left; max-width:760px; margin:0 0 1.5rem; }
+.results-header h2 { font-family:'Cormorant Garamond',serif; font-size:3rem; color:var(--text); margin:.2rem 0; }
+.results-header p { color:var(--text-dim); font-size:.86rem; }
+.top-match { background:#fff; border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); padding:1.65rem; }
+.top-match-label { color:var(--text-dim); font-family:'Inter',sans-serif; font-size:.68rem; }
+.top-match-name { color:var(--text); font-family:'Cormorant Garamond',serif; text-shadow:none; font-size:2.5rem; }
+.top-match-score { color:var(--verd); font-family:'Inter',sans-serif; }
+.top-match-summary { color:var(--text-mid); }
+.figure-name { color:var(--text); }
+.result-card { background:#fff; border:1px solid var(--border); border-radius:16px; box-shadow:0 5px 18px rgba(42,34,28,.04); padding:1.35rem; margin-top:1rem; }
+.result-card-heading span { color:var(--text-dim); text-transform:uppercase; letter-spacing:.1em; font-size:.65rem; font-weight:700; }
+.result-card-heading h3 { font-family:'Cormorant Garamond',serif; font-size:1.65rem; margin:.05rem 0 1rem; }
+.result-section-title { color:var(--text)!important; }
+.result-section-note { color:var(--text-dim); }
+.axis-row.doctrine-axis-card { margin:0; padding:1rem 0 1.15rem; border-bottom:1px solid var(--border); }
+.axis-row.doctrine-axis-card:last-child { border-bottom:0; }
+.axis-header { font-family:'Inter',sans-serif; font-size:.78rem; align-items:center; }
+.axis-name { color:var(--text); }
+.axis-position { color:var(--verd); font-size:.72rem; font-weight:700; }
+.axis-labels.axis-labels-top { font-family:'Inter',sans-serif; font-size:.68rem; margin:.5rem 0 .35rem; color:var(--text-dim); }
+.axis-bar { height:8px; background:#e5dfd7; overflow:visible; }
+.axis-midline { position:absolute; left:50%; top:-3px; width:1px; height:14px; background:#bbb2a8; }
+.axis-marker { top:-5px; width:18px; height:18px; background:var(--verd); border:3px solid #fff; box-shadow:0 0 0 1px var(--verd); }
+.axis-note { color:var(--text-dim); font-size:.72rem; line-height:1.45; margin-top:.55rem; max-width:830px; }
+.family-card,.ecclesial-card,.school-rank,.approach-axis,.cat-result-card,.reading-school { background:transparent!important; border-color:var(--border)!important; }
+.family-name,.cat-result-school,.reading-school-name,.compare-col-name { color:var(--text)!important; }
+.results-explore { margin-top:1rem; border:1px solid var(--border); border-radius:14px; background:#eee9e2; }
+.results-explore summary { padding:1.1rem 1.25rem; }
+.explore-sections { padding:0 1rem 1rem; }
+.share-section { border-top:1px solid var(--border); margin-top:2rem; padding-top:1.5rem; }
+.share-btn { background:#fff!important; border:1px solid var(--border)!important; color:var(--text-mid)!important; font-family:'Inter',sans-serif!important; }
+.share-btn:hover { border-color:var(--verd)!important; color:var(--verd)!important; }
+.tabs { display:none!important; }
+
+/* Mobile */
+@media(max-width:800px){
+    .main-container{padding:0 .9rem 2rem}.hero-grid{grid-template-columns:1fr;gap:2rem;min-height:auto}.hero-copy h2{font-size:3rem}.sample-result-card{max-width:520px}.discover-grid{grid-template-columns:1fr 1fr;margin-bottom:3rem}.depth-cards{grid-template-columns:1fr 1fr}.start-screen.modern-start{padding-top:2.4rem}.question-text{font-size:1.95rem}.results-header h2{font-size:2.5rem}
+}
+@media(max-width:520px){
+    header{padding:.9rem 0}.subtitle{display:none}.hero-copy h2{font-size:2.55rem}.hero-copy p{font-size:1.12rem}.sample-result-card{padding:1.15rem}.discover-grid{grid-template-columns:1fr}.depth-cards{grid-template-columns:1fr}.length-card{min-height:130px}.mode-toggle{flex-direction:column}.question-card{padding-top:1.3rem}.question-text{font-size:1.7rem}.option{padding:.9rem}.navigation{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 22%);padding-top:1.4rem}.sample-axis{grid-template-columns:72px 1fr 82px}.results-screen{padding-top:1.5rem}.top-match-name{font-size:2rem}
+}
+
+</style>
 </head>
 <body>
 
@@ -603,78 +764,121 @@
                     <img id="header-img" src="https://github.com/jcalepos146/Definitive-Catholic-Theology-Quiz/blob/main/GOURGEOUS%20LOGO.png?raw=true" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
                 </div>
                 <h1>The Definitive Catholic<br>Theology Quiz</h1>
-                <p class="subtitle">122 Questions &middot; 10 Categories &middot; Evidence-Adjusted Scoring</p>
+                <p class="subtitle">Theology · history · doctrine · spirituality</p>
                 <div class="divider"><span>&#10013;</span></div>
             </header>
             <div id="start-screen">
-                <div class="start-screen">
-                    <h2>Discover Your Theological Position</h2>
-                    <p>Map your convictions across the full spectrum of Catholic schools of thought.</p>
-                    <div class="stats">
-                        <div class="stat"><span class="stat-value">122</span><span class="stat-label">Questions</span></div>
-                        <div class="stat"><span class="stat-value">10</span><span class="stat-label">Categories</span></div>
-                        <div class="stat"><span class="stat-value">9</span><span class="stat-label">Catholic Families</span></div>
-                    </div>
-                    <h3 style="font-family:'Cormorant Garamond',serif;color:var(--verd-light);font-size:1.1rem;margin-top:1.5rem;">Quiz Length</h3>
-                    <div class="length-options">
-                        <label class="length-option" onclick="setQuizLength(25)"><input type="radio" name="ql" value="25"><div class="length-card"><span class="length-number">25</span><span class="length-label">Quick</span></div></label>
-                        <label class="length-option" onclick="setQuizLength(50)"><input type="radio" name="ql" value="50"><div class="length-card"><span class="length-number">50</span><span class="length-label">Medium</span></div></label>
-                        <label class="length-option" onclick="setQuizLength(75)"><input type="radio" name="ql" value="75"><div class="length-card"><span class="length-number">75</span><span class="length-label">Extended</span></div></label>
-                        <label class="length-option" onclick="setQuizLength(122)"><input type="radio" name="ql" value="122" checked><div class="length-card"><span class="length-number">122</span><span class="length-label">All</span></div></label>
-                    </div>
-                    <h3 style="font-family:'Cormorant Garamond',serif;color:var(--verd-light);font-size:1.1rem;margin-top:1.5rem;">Focus Categories <span style="font-size:0.7rem;color:var(--text-dim);text-transform:none;letter-spacing:0;">(optional — gives these a bigger share of a shorter quiz)</span></h3>
-                    <div class="focus-cats" id="focus-cats"></div>
-                    <h3 style="font-family:'Cormorant Garamond',serif;color:var(--verd-light);font-size:1.1rem;margin-top:1.5rem;">How much do you want to see as you go?</h3>
-                    <div class="mode-toggle">
-                        <label class="mode-option" onclick="setQuizMode('formation')"><input type="radio" name="qm" value="formation" checked><div class="mode-card"><strong>Formation</strong><span>Saints, sources, and school tags are visible any time you want them.</span></div></label>
-                        <label class="mode-option" onclick="setQuizMode('examination')"><input type="radio" name="qm" value="examination"><div class="mode-card"><strong>Examination</strong><span>Those panels stay locked on each question until you've answered it.</span></div></label>
-                    </div>
-                    <button class="start-btn" onclick="startQuiz()">Begin Quiz</button>
+                <div class="start-screen modern-start">
+                    <section class="hero-grid">
+                        <div class="hero-copy">
+                            <div class="eyebrow">Catholic theological assessment</div>
+                            <h2>Where do you fit in the Catholic theological tradition?</h2>
+                            <p>Map your convictions across grace, metaphysics, Scripture, ecclesiology, liturgy, moral theology, and the sacraments—then compare your profile with historical schools and theologians.</p>
+                            <button class="start-btn hero-cta" onclick="document.getElementById('depth-section').scrollIntoView({behavior:'smooth'})">Choose your depth</button>
+                            <div class="privacy-note">130-question bank · No account required · Results remain in your browser</div>
+                        </div>
+                        <div class="sample-result-card">
+                            <div class="sample-label">Example profile</div>
+                            <div class="sample-school">Augustinian Thomism</div>
+                            <div class="sample-match">Match 88 / 100</div>
+                            <div class="sample-figure">Closest theologian <strong>St. Thomas Aquinas</strong></div>
+                            <div class="sample-axis"><span>Synergism</span><div><i style="left:76%"></i></div><span>Monergism</span></div>
+                            <div class="sample-axis"><span>Conciliarism</span><div><i style="left:68%"></i></div><span>Ultramontanism</span></div>
+                            <div class="sample-axis"><span>Univocity</span><div><i style="left:81%"></i></div><span>Analogy</span></div>
+                        </div>
+                    </section>
+
+                    <section class="discover-grid">
+                        <div><strong>Theological tradition</strong><span>Your closest historical school and Catholic family.</span></div>
+                        <div><strong>Representative theologians</strong><span>Thinkers whose positions most resemble your answers.</span></div>
+                        <div><strong>12 doctrine axes</strong><span>Precise bipolar theological spectra scored directly from propositions.</span></div>
+                        <div><strong>Detailed analysis</strong><span>Category results, reading suggestions, comparisons, timeline, and answer review.</span></div>
+                    </section>
+
+                    <section id="depth-section" class="depth-section">
+                        <div class="section-kicker">Choose your depth</div>
+                        <h3>How detailed should your profile be?</h3>
+                        <div class="length-options depth-cards">
+                            <label class="length-option" onclick="setQuizLength(30)"><input type="radio" name="ql" value="30"><div class="length-card"><span class="depth-name">Essential</span><span class="length-number">30</span><span class="length-label">~6 minutes · broad orientation</span></div></label>
+                            <label class="length-option" onclick="setQuizLength(60)"><input type="radio" name="ql" value="60" checked><div class="length-card recommended"><span class="recommended-badge">Recommended</span><span class="depth-name">Standard</span><span class="length-number">60</span><span class="length-label">~12 minutes · major schools + axes</span></div></label>
+                            <label class="length-option" onclick="setQuizLength(90)"><input type="radio" name="ql" value="90"><div class="length-card"><span class="depth-name">Advanced</span><span class="length-number">90</span><span class="length-label">~18 minutes · finer distinctions</span></div></label>
+                            <label class="length-option" onclick="setQuizLength(130)"><input type="radio" name="ql" value="130"><div class="length-card"><span class="depth-name">Complete</span><span class="length-number">130</span><span class="length-label">Every active question</span></div></label>
+                        </div>
+                        <details class="advanced-settings">
+                            <summary>Customize quiz</summary>
+                            <div class="advanced-settings-body">
+                                <h4>Focus categories <span>(optional)</span></h4>
+                                <div class="focus-cats" id="focus-cats"></div>
+                                <h4>Learning mode</h4>
+                                <div class="mode-toggle">
+                                    <label class="mode-option" onclick="setQuizMode('examination')"><input type="radio" name="qm" value="examination" checked><div class="mode-card"><strong>Examination</strong><span>Representatives and sources unlock after you answer.</span></div></label>
+                                    <label class="mode-option" onclick="setQuizMode('formation')"><input type="radio" name="qm" value="formation"><div class="mode-card"><strong>Formation</strong><span>Definitions and representative theologians remain available as you go.</span></div></label>
+                                </div>
+                            </div>
+                        </details>
+                        <button class="start-btn" onclick="startQuiz()">Begin assessment</button>
+                    </section>
                 </div>
             </div>
             <div id="quiz-screen" class="hidden">
                 <div class="category-nav" id="category-nav"></div>
                 <div class="progress-section"><div class="progress-header"><span id="progress-text"></span><span id="answered-count"></span></div><div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div></div>
                 <div class="question-card" id="question-card">
-                    <div class="question-header"><span class="question-number" id="question-number"></span><span class="question-category-tag" id="question-category-tag"></span></div>
+                    <div class="question-header"><span class="question-category-tag" id="question-category-tag"></span><span class="question-number" id="question-number"></span></div>
                     <div class="question-text" id="question-text"></div>
                     <div class="options" id="options"></div>
+                    <button class="idk-btn" id="idk-btn" onclick="selectIDK()">I don’t know / no settled position</button>
                     <div class="intensity-row hidden" id="intensity-row">
-                        <div class="intensity-label">How strongly do you hold this?</div>
+                        <div class="intensity-label">Conviction <span>optional</span></div>
                         <div class="intensity-btns" id="intensity-btns"></div>
                     </div>
-                    <button class="idk-btn" id="idk-btn" onclick="selectIDK()">I Don't Know / No Strong Opinion</button>
-                    <button class="panel-toggle saints-toggle" id="saints-toggle" onclick="togglePanel('saints')"><span class="arrow">&#9654;</span> Representatives, Councils &amp; Confessions</button>
+                    <button class="panel-toggle saints-toggle" id="saints-toggle" onclick="togglePanel('saints')"><span class="arrow">&#9654;</span> Explore this question</button>
                     <div class="panel-content saints-panel" id="saints-panel"><div id="saints-list"></div></div>
-                    <button class="panel-toggle sources-toggle" id="sources-toggle" onclick="togglePanel('sources')"><span class="arrow">&#9654;</span> Further Reading &amp; Sources</button>
+                    <button class="panel-toggle sources-toggle" id="sources-toggle" onclick="togglePanel('sources')"><span class="arrow">&#9654;</span> Sources &amp; further reading</button>
                     <div class="panel-content sources-panel" id="sources-panel"><div id="sources-list"></div></div>
                 </div>
-                <div class="navigation"><button class="nav-btn" id="prev-btn" onclick="prevQuestion()">&larr; Previous</button><button class="nav-btn primary" id="next-btn" onclick="nextQuestion()">Next &rarr;</button><button class="nav-btn primary hidden" id="results-btn" onclick="showResults()">View Results</button></div>
+                <div class="navigation"><button class="nav-btn" id="prev-btn" onclick="prevQuestion()">&larr; Back</button><button class="nav-btn primary" id="next-btn" onclick="nextQuestion()">Next &rarr;</button><button class="nav-btn primary hidden" id="results-btn" onclick="showResults()">View profile</button></div>
                 <div class="question-nav" id="question-nav"></div>
             </div>
             <div id="results-screen" class="results-screen">
-                <div class="results-header"><h2>Your Theological Profile</h2><div class="divider"><span>&#10013;</span></div></div>
+                <div class="results-header"><div class="eyebrow">Assessment complete</div><h2>Your Theological Profile</h2><p>Your school match and doctrine axes are calculated separately: one compares historical patterns, the other scores the propositions themselves.</p></div>
                 <div id="top-match-container"></div>
-                <div class="tabs"><button class="tab-btn active" onclick="switchTab('families')">Catholic Families</button><button class="tab-btn" onclick="switchTab('rankings')">Detailed Schools</button><button class="tab-btn" onclick="switchTab('ecclesial')">Ecclesial Analogues</button><button class="tab-btn" onclick="switchTab('approach')">Approach Map</button><button class="tab-btn" onclick="switchTab('axes')">Doctrine Axes</button><button class="tab-btn" onclick="switchTab('categories')">By Category</button><button class="tab-btn" onclick="switchTab('review')">Review</button><button class="tab-btn" onclick="switchTab('compare')">Compare</button><button class="tab-btn" onclick="switchTab('reading')">Reading</button><button class="tab-btn" onclick="switchTab('timeline')">Timeline</button><button class="tab-btn" onclick="switchTab('neighbors')">Map</button></div>
-                <div id="families-tab" class="tab-content active"><div id="families-content"></div></div>
-                <div id="rankings-tab" class="tab-content"><div id="rankings-content"></div></div>
-                <div id="ecclesial-tab" class="tab-content"><div id="ecclesial-content"></div></div><div id="approach-tab" class="tab-content"><div id="approach-content"></div></div>
-                <div id="axes-tab" class="tab-content"><div id="axes-content"></div></div>
-                <div id="categories-tab" class="tab-content"><div id="categories-content"></div></div>
-                <div id="review-tab" class="tab-content"><div id="review-content"></div></div>
-                <div id="compare-tab" class="tab-content"><div id="compare-content"></div></div>
-                <div id="reading-tab" class="tab-content"><div id="reading-content"></div></div>
-                <div id="timeline-tab" class="tab-content"><div id="timeline-content"></div></div>
-                <div id="neighbors-tab" class="tab-content"><div id="neighbors-content"></div></div>
+                <section class="result-card result-axis-section"><div class="result-card-heading"><span>Doctrine profile</span><h3>12 Theological Axes</h3></div><div id="axes-content"></div></section>
+                <section class="result-card"><div id="families-content"></div></section>
+                <details class="results-explore">
+                    <summary>Explore detailed analysis</summary>
+                    <div class="explore-sections">
+                        <section class="result-card"><div id="rankings-content"></div></section>
+                        <section class="result-card"><div id="ecclesial-content"></div></section>
+                        <section class="result-card"><div id="approach-content"></div></section>
+                        <section class="result-card"><div id="categories-content"></div></section>
+                        <section class="result-card"><div id="review-content"></div></section>
+                        <section class="result-card"><div id="compare-content"></div></section>
+                        <section class="result-card"><div id="reading-content"></div></section>
+                        <section class="result-card"><div id="timeline-content"></div></section>
+                        <section class="result-card"><div id="neighbors-content"></div></section>
+                    </div>
+                </details>
+                <div id="families-tab" class="tab-content active hidden"></div>
+                <div id="rankings-tab" class="tab-content hidden"></div>
+                <div id="ecclesial-tab" class="tab-content hidden"></div>
+                <div id="approach-tab" class="tab-content hidden"></div>
+                <div id="axes-tab" class="tab-content hidden"></div>
+                <div id="categories-tab" class="tab-content hidden"></div>
+                <div id="review-tab" class="tab-content hidden"></div>
+                <div id="compare-tab" class="tab-content hidden"></div>
+                <div id="reading-tab" class="tab-content hidden"></div>
+                <div id="timeline-tab" class="tab-content hidden"></div>
+                <div id="neighbors-tab" class="tab-content hidden"></div>
                 <div id="share-section" class="share-section">
-                    <button class="share-btn" onclick="shareAsImage()">&#11015; DOWNLOAD PNG</button>
-                    <button class="share-btn" id="share-clipboard-btn" onclick="shareToClipboard()">COPY TO CLIPBOARD</button>
-                    <button class="share-btn" onclick="generateChallenge()">&#9876; CHALLENGE A FRIEND</button>
+                    <button class="share-btn" onclick="shareAsImage()">Download profile image</button>
+                    <button class="share-btn" id="share-clipboard-btn" onclick="shareToClipboard()">Copy result</button>
+                    <button class="share-btn" onclick="generateChallenge()">Challenge a friend</button>
                     <div id="challenge-link-container"></div>
                     <img id="share-preview" class="share-preview">
                 </div>
                 <div id="challenge-comparison"></div>
-                <div class="retake-section"><button class="nav-btn" onclick="retakeQuiz()">Take Quiz Again</button></div>
+                <div class="retake-section"><button class="nav-btn" onclick="retakeQuiz()">Take the quiz again</button></div>
             </div>
         </div>
     </div>
@@ -691,6 +895,7 @@
     var commandLine = document.getElementById('dos-command-line');
     var command = document.getElementById('dos-command');
     if (!overlay || !output || !commandLine || !command) return;
+    if (localStorage.getItem('ctq-terminal-theme') !== '1') { overlay.style.display = 'none'; return; }
 
     document.body.classList.add('booting');
 
@@ -701,7 +906,7 @@
         ['Memory Test: 640K OK', 190],
         ['Extended Memory: 15360K OK', 145],
         ['', 100],
-        ['Detecting Primary Master ... CATHOLICA-122', 190],
+        ['Detecting Primary Master ... CATHOLICA-130', 190],
         ['Detecting Primary Slave  ... None', 120],
         ['Keyboard ................. Detected', 105],
         ['Mouse .................... Not Required', 105],
@@ -786,7 +991,7 @@
         commandLine.classList.remove('visible');
         addLine('');
         addLine('THE DEFINITIVE CATHOLIC THEOLOGY QUIZ v8.0');
-        addLine('Initializing 122-question doctrinal matrix...');
+        addLine('Initializing 130-question doctrinal matrix...');
 
         var steps = [8, 19, 31, 46, 62, 77, 89, 100];
         for (var j = 0; j < steps.length; j++) {
@@ -1341,32 +1546,133 @@ const HETERODOXY_STATUS = {
     }
 };
 const AXES = [
-    ["GRACE", "Grace Theology"],
-    ["PAPAL", "Papal Authority"],
-    ["LIT", "Liturgical Traditionalism"],
-    ["RIGOR", "Moral Rigorism"],
-    ["PIETY", "Personal Piety"],
-    ["SCRIPT", "Scripture Authority & Hermeneutics"],
-    ["JUST", "Justification & Union"],
-    ["ESCH", "Eschatology & Final Judgment"]
+    ["GRACE", "Grace & Freedom"],
+    ["PROV", "Providence & Efficacy"],
+    ["META", "Metaphysics of Being"],
+    ["WILL", "Primacy of Faculty"],
+    ["INCARN", "Motive of the Incarnation"],
+    ["JUST", "Justification"],
+    ["SACR", "Sacramental Ontology"],
+    ["PAPAL", "Ecclesial Polity"],
+    ["SCRIPT", "Biblical Hermeneutic"],
+    ["LIT", "Liturgical Hermeneutic"],
+    ["MORAL", "Moral Systems"],
+    ["ESCH", "Eschatological Hope"]
 ];
-const AXIS_ENDPOINTS = {"GRACE": ["Synergistic", "Monergistic"], "PAPAL": ["Conciliar/Local", "Ultramontane"], "LIT": ["Reformist", "Traditional"], "RIGOR": ["Pastoral/Lenient", "Rigorist"], "PIETY": ["Lower Intensity", "High Contemplative"], "SCRIPT": ["Magisterium-first", "Scripture-first"], "JUST": ["Forensic emphasis", "Participatory/union"], "ESCH": ["This-world focus", "Judgment & beatific end"]};
-const AXIS_MULTIPLIER = {"GRACE": 3, "PAPAL": 3, "LIT": 3, "RIGOR": 3, "PIETY": 3, "SCRIPT": 4, "JUST": 4, "ESCH": 4};
+const AXIS_ENDPOINTS = {
+    "GRACE": ["Synergism", "Monergism"],
+    "PROV": ["Molinism", "Physical Premotion"],
+    "META": ["Univocity of Being", "Analogy of Being"],
+    "WILL": ["Voluntarism", "Intellectualism"],
+    "INCARN": ["Fall-Contingent Incarnation", "Absolute Primacy of Christ"],
+    "JUST": ["Forensic Justification", "Transformative Justification"],
+    "SACR": ["Memorialism", "Sacramental Realism"],
+    "PAPAL": ["Conciliarism", "Ultramontanism"],
+    "SCRIPT": ["Historical-Critical", "Patristic-Figural"],
+    "LIT": ["Liturgical Reformism", "Liturgical Traditionalism"],
+    "MORAL": ["Probabilism", "Tutiorism"],
+    "ESCH": ["Universalist Hope", "Restrictivism"]
+};
+const AXIS_NOTES = {
+    "GRACE": "Whether the decisive saving act is best described through resistible human cooperation or through grace that infallibly produces the salutary consent while preserving freedom.",
+    "PROV": "The De Auxiliis spectrum between scientia media / conditioned providence and intrinsically efficacious premotion.",
+    "META": "Whether being is predicated through a common univocal concept or analogically across Creator and creatures.",
+    "WILL": "Whether will has explanatory primacy or intellect/wisdom has explanatory primacy in divine and human action.",
+    "INCARN": "Whether the Incarnation is principally contingent on the Fall or belongs to God’s first intention for creation in Christ.",
+    "JUST": "Whether justification is principally forensic declaration/imputation or an intrinsic transformation and participation in divine life.",
+    "SACR": "Whether sacramental rites are principally memorial signs or objective efficacious realities that communicate what they signify.",
+    "PAPAL": "The constitutional spectrum from conciliar/local-church priority to maximal papal universal jurisdiction and centralization.",
+    "SCRIPT": "The interpretive spectrum from historical-critical priority to ecclesial, typological, and patristic-figural interpretation.",
+    "LIT": "The spectrum from broad liturgical adaptation and reform to inherited ritual continuity and traditional Roman forms.",
+    "MORAL": "Classic systems for acting under genuine moral doubt, from liberty where a solidly probable opinion exists to the safer course favoring law.",
+    "ESCH": "The range of permitted theological expectation from strong hope for universal salvation to restrictive readings emphasizing the fewness of the saved."
+};
+
+// Axes are now scored independently of school matching. Only questions that directly test the
+// stated theological opposition contribute, and direct questions carry more weight than indirect
+// indicators. Positions run from -1 (left endpoint) to +1 (right endpoint).
+const DOCTRINE_AXES = {
+    GRACE: [
+        {q:26,w:5,p:[0.85,0.75,-0.85,-0.65,1.0,-0.85,-0.75]},
+        {q:27,w:3,p:[0.80,-0.65,0.95,1.0,0.70,-0.85,-0.65]},
+        {q:28,w:4,p:[0.95,-0.90,-0.65,0.70,0.90,-0.55]},
+        {q:92,w:3,p:[0.25,0.80,0.90,1.0,0.45,-0.85,-0.70]}
+    ],
+    PROV: [
+        {q:26,w:5,p:[1.0,0.55,-1.0,-0.70,0.10,-0.55,-0.35]},
+        {q:28,w:5,p:[1.0,-1.0,-0.70,0.55,0.10,-0.30]},
+        {q:27,w:2,p:[0.65,-0.90,0.15,0.20,0.10,-0.55,-0.35]}
+    ],
+    META: [
+        {q:5,w:6,p:[1.0,-1.0,0.70,0.20,0.0]},
+        {q:9,w:2,p:[0.65,-0.45,-0.20,0.80]}
+    ],
+    WILL: [
+        {q:93,w:7,p:[1.0,-0.80,-1.0,0.30,0.20]}
+    ],
+    INCARN: [
+        {q:11,w:7,p:[-1.0,1.0,0.65,0.0,0.75]}
+    ],
+    JUST: [
+        {q:21,w:6,p:[0.85,0.95,0.65,-1.0,-1.0,-0.45,1.0]},
+        {q:34,w:3,p:[1.0,1.0,1.0,0.45,0.25]},
+        {q:139,w:3,p:[0.65,0.75,0.50,-0.85,-1.0,0.65]}
+    ],
+    SACR: [
+        {q:40,w:6,p:[1.0,0.85,0.50,0.65,-0.55,0.80]},
+        {q:41,w:4,p:[1.0,0.95,0.75,0.15,0.60,0.35,0.85]},
+        {q:129,w:5,p:[1.0,0.90,0.85,1.0,-0.85,-1.0]}
+    ],
+    PAPAL: [
+        {q:51,w:6,p:[0.65,1.0,0.15,-0.90,-1.0,-0.55,0.80,0.55]},
+        {q:52,w:4,p:[0.45,1.0,-0.15,-0.85,-0.55,-0.80]},
+        {q:53,w:4,p:[0.85,0.05,-0.95,-0.60,-0.95,-0.35]},
+        {q:61,w:5,p:[0.70,1.0,-0.90,-0.50,-0.90,-0.65,-0.70,-1.0]},
+        {q:133,w:4,p:[0.20,0.25,-0.55,-0.80,0.95]}
+    ],
+    SCRIPT: [
+        {q:0,w:5,p:[1.0,0.65,-0.35,-0.20,-0.05,-0.75]},
+        {q:123,w:4,p:[0.55,-0.35,0.35,0.10,-0.95]},
+        {q:124,w:3,p:[0.45,0.70,-0.65,0.55,-1.0]},
+        {q:125,w:3,p:[0.35,0.55,0.50,-0.45,-0.20]}
+    ],
+    LIT: [
+        {q:43,w:3,p:[1.0,-1.0,0.45,0.0]},
+        {q:44,w:2,p:[1.0,0.70,-0.75,0.0]},
+        {q:45,w:4,p:[1.0,0.65,-1.0,0.45,0.0]},
+        {q:46,w:3,p:[1.0,0.55,-0.80,-1.0,-1.0]},
+        {q:122,w:3,p:[0.65,0.0,0.90,-0.80,0.15]},
+        {q:134,w:5,p:[1.0,0.70,0.15,-0.60,-1.0]},
+        {q:135,w:4,p:[0.95,0.60,0.0,-0.90,0.20]},
+        {q:136,w:4,p:[1.0,0.75,0.15,-0.70,0.10]}
+    ],
+    MORAL: [
+        {q:65,w:6,p:[0.10,0.30,-1.0,1.0,0.0,0.15,-0.15]},
+        {q:67,w:5,p:[0.45,-1.0,1.0,0.70,-0.20]},
+        {q:137,w:2,p:[0.20,0.55,0.0,-0.70,-0.15]}
+    ],
+    ESCH: [
+        {q:107,w:6,p:[-0.55,0.0,0.85,0.95,-1.0,-0.35]},
+        {q:112,w:3,p:[-0.15,0.45,0.30,0.0,0.45,-0.60,-0.10]},
+        {q:130,w:3,p:[-0.10,0.45,-0.55,0.70,0.10,0.0]},
+        {q:131,w:4,p:[0.45,-0.35,-0.80,0.95,-0.15]}
+    ]
+};
 const CATEGORIES = [
-    { id: "scripture", name: "Scripture & Hermeneutics", shortName: "Scripture", icon: "📖", questions: [0, 1, 2, 3] },
-    { id: "metaphysics", name: "Metaphysics & Philosophy", shortName: "Metaphysics", icon: "🔮", questions: [4, 5, 6, 7, 8, 9, 10] },
+    { id: "scripture", name: "Scripture & Hermeneutics", shortName: "Scripture", icon: "📖", questions: [0, 1, 2, 3, 122, 123, 124, 125, 128] },
+    { id: "metaphysics", name: "Metaphysics & Philosophy", shortName: "Metaphysics", icon: "🔮", questions: [4, 5, 6, 7, 8, 9, 10, 127] },
     { id: "christology", name: "Christology & Soteriology", shortName: "Christology", icon: "✝️", questions: [11, 12, 13, 14, 15, 16, 17, 18, 19] },
-    { id: "grace", name: "Grace & Predestination", shortName: "Grace", icon: "✨", questions: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37] },
-    { id: "sacraments", name: "Sacramental Theology", shortName: "Sacraments", icon: "🍷", questions: [38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48] },
-    { id: "ecclesiology", name: "Ecclesiology & Authority", shortName: "Ecclesiology", icon: "⛪", questions: [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63] },
-    { id: "moral", name: "Moral Theology", shortName: "Moral", icon: "⚖️", questions: [64, 65, 66, 67, 68, 69] },
+    { id: "grace", name: "Grace & Predestination", shortName: "Grace", icon: "✨", questions: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 131] },
+    { id: "sacraments", name: "Sacramental Theology", shortName: "Sacraments", icon: "🍷", questions: [38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 129, 130, 134, 135, 136, 139] },
+    { id: "ecclesiology", name: "Ecclesiology & Authority", shortName: "Ecclesiology", icon: "⛪", questions: [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 126, 132, 133, 138] },
+    { id: "moral", name: "Moral Theology", shortName: "Moral", icon: "⚖️", questions: [64, 65, 66, 67, 68, 69, 137] },
     { id: "orders", name: "Religious Orders & Spirituality", shortName: "Orders", icon: "🕯️", questions: [70, 71, 72, 73, 74, 75, 76] },
     { id: "political", name: "Political & Social", shortName: "Political", icon: "🏛️", questions: [77, 78, 79, 80, 81, 82, 83, 84, 85, 86] },
     { id: "contemporary", name: "Contemporary Debates", shortName: "Contemporary", icon: "📰", questions: [87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121] },
 ];
 const QUESTIONS = [
     {
-        "text": "Which approach best describes how Scripture should normally be interpreted in theology and preaching?",
+        "text": "Which approach best describes how Scripture’s literal and spiritual senses should normally be interpreted in theology and preaching?",
         "options": [
             [
                 "Patristic and figural exegesis should govern within the rule of faith; historical criticism serves but does not master theology.",
@@ -1446,70 +1752,82 @@ const QUESTIONS = [
         }
     },
     {
-        "text": "Which Bible translation posture best serves the Church?",
+        "text": "For serious Catholic theological study in English, which Bible-translation approach should normally be preferred?",
         "options": [
             [
-                "Use a formal, sacral register that preserves liturgical memory and doctrinal continuity.",
+                "Use a formal modern Catholic translation such as the RSV-2CE as the primary study text, consulting other translations where useful.",
                 {
-                    "TRAD": 3,
-                    "BENED": 3,
-                    "TRIDSAC": 2,
+                    "STD": 4,
+                    "COMMUN": 3,
                     "ROTR": 2,
-                    "ANGLICAN": 1,
-                    "ANGLOCATH": 2,
-                    "LUTHERAN": 1
+                    "THOM": 2,
+                    "BENED": 2
                 },
                 {
-                    "LIT": 0.7
+                    "SCRIPT": 0.15
                 }
             ],
             [
-                "Use the best critical text and precise modern language, with dogma governing interpretation.",
+                "Give strong preference to the Douay-Rheims and the Vulgate-derived English tradition because of its continuity with historic Catholic theological vocabulary.",
                 {
-                    "THOM": 2,
-                    "DOM": 2,
-                    "JES": 2,
+                    "TRAD": 5,
+                    "ANTIMOD": 3,
+                    "NEOSCH": 3,
+                    "TRIDSAC": 2
+                },
+                {
+                    "SCRIPT": 0.3,
+                    "LIT": 0.5
+                }
+            ],
+            [
+                "Use a modern critical Catholic edition such as the NRSV-CE/NRSVue tradition, with contemporary textual scholarship serving ecclesial interpretation.",
+                {
+                    "RESS": 3,
+                    "JES": 3,
+                    "PAPMOD": 3,
+                    "DEVPROG": 2,
+                    "PROG": 1
+                },
+                {
+                    "SCRIPT": 0.05
+                }
+            ],
+            [
+                "Use the NABRE or another translation with extensive contemporary Catholic scholarly notes and critical apparatus.",
+                {
                     "STD": 3,
-                    "PAPMOD": 2
+                    "JES": 3,
+                    "PAPMOD": 2,
+                    "DEVPROG": 1
+                },
+                {
+                    "SCRIPT": 0.05
+                }
+            ],
+            [
+                "Prefer a literary translation in the Jerusalem Bible family, especially where literary form, imagery, and readability matter for study.",
+                {
+                    "RESS": 3,
+                    "COMMUN": 2,
+                    "BENED": 1,
+                    "STD": 1
                 },
                 {
                     "SCRIPT": 0.1
                 }
             ],
             [
-                "Use different translations for liturgy, close study, public reading, and private devotion.",
+                "No single English translation should dominate serious study; compare several translations and consult Hebrew, Aramaic, Greek, and Latin where the issue warrants it.",
                 {
-                    "STD": 4,
-                    "RESS": 2,
-                    "PAPMOD": 2,
-                    "ANGLICAN": 1,
-                    "METHOD": 1
+                    "RESS": 4,
+                    "THOM": 3,
+                    "JES": 3,
+                    "STD": 3,
+                    "COMMUN": 2
                 },
                 {
-                    "SCRIPT": 0.3
-                }
-            ],
-            [
-                "Prioritize immediate accessibility and ordinary contemporary speech.",
-                {
-                    "PROG": 3,
-                    "PERSMOR": 2,
-                    "LIBCATH": 2
-                },
-                {
-                    "LIT": -0.8
-                }
-            ],
-            [
-                "Preserve a received confessional text tradition even where newer critical editions differ.",
-                {
-                    "LUTHERAN": 3,
-                    "REFORM": 3,
-                    "ANGLICAN": 2,
-                    "TRAD": 1
-                },
-                {
-                    "SCRIPT": 0.8
+                    "SCRIPT": 0.2
                 }
             ]
         ],
@@ -2004,44 +2322,79 @@ const QUESTIONS = [
         ]
     },
     {
-        "text": "Would the Incarnation have occurred if Adam had never sinned?",
+        "text": "Why did the Son of God become incarnate, and would the Incarnation have occurred if humanity had never fallen?",
         "options": [
             [
-                "Yes. Christ is the first in God’s creative intention and would have become incarnate even without sin.",
+                "The Incarnation is principally ordered to redemption from sin; absent the Fall, there is no revealed reason to affirm that the Word would have become incarnate.",
                 {
-                    "SCOT": 6,
+                    "THOM": 6,
+                    "DOM": 4,
+                    "AUG": 2,
+                    "THOMP": 2,
+                    "STD": 2
+                },
+                {
+                    "GRACE": 0.5,
+                    "JUST": 0.5
+                }
+            ],
+            [
+                "Christ is first in God’s creative intention; the Word would have become incarnate even without sin, because creation itself is ordered to Christ.",
+                {
+                    "SCOT": 7,
                     "FRANC": 5,
                     "FRAN": 2
+                },
+                {
+                    "GRACE": -0.15,
+                    "JUST": 0.1
                 }
             ],
             [
-                "Probably not: Scripture presents the Incarnation as remedy for sin, though God could have ordained otherwise.",
+                "The Incarnation serves both redemption and the divinization of creation; even without sin, a glorious rather than passible Incarnation is theologically plausible.",
                 {
-                    "THOM": 5,
-                    "DOM": 3,
-                    "STD": 2
+                    "RESS": 4,
+                    "COMMUN": 4,
+                    "NEOAUG": 3,
+                    "SCOT": 2,
+                    "EASTECC": 2
+                },
+                {
+                    "GRACE": 0.2,
+                    "JUST": 0.7
                 }
             ],
             [
-                "Yes, but the mode would have been glorious rather than passible and redemptive.",
+                "Revelation clearly teaches the actual redemptive Incarnation but does not settle the counterfactual; the question should remain open.",
                 {
-                    "FRANC": 3,
-                    "SCOT": 3,
-                    "RESS": 2,
-                    "COMMUN": 2
-                }
-            ],
-            [
-                "The question is speculative; revelation does not permit certainty.",
-                {
-                    "STD": 4,
-                    "PAPMOD": 2,
+                    "STD": 5,
+                    "PAPMOD": 3,
+                    "COMMUN": 2,
                     "ANGLICAN": 1
+                },
+                {
+                    "GRACE": 0,
+                    "JUST": 0
+                }
+            ],
+            [
+                "The Incarnation is best understood primarily as recapitulation and theosis: the Word assumes humanity to unite creation to God, with redemption from sin inside that larger mystery.",
+                {
+                    "EASTECC": 5,
+                    "RESS": 4,
+                    "NEOAUG": 3,
+                    "PALAM": 3,
+                    "EORTHO": 3
+                },
+                {
+                    "GRACE": 0.25,
+                    "JUST": 1
                 }
             ]
         ],
         "axis_weights": {
-            "GRACE": -1
+            "GRACE": 2,
+            "JUST": 2
         }
     },
     {
@@ -3827,53 +4180,63 @@ const QUESTIONS = [
         ]
     },
     {
-        "text": "How do the sacraments cause grace?",
+        "text": "How do the sacraments objectively communicate grace, and what does ex opere operato mean?",
         "options": [
             [
-                "Thomist instrumental causality: Christ uses the sacramental sign as an instrumental cause of grace.",
+                "Christ uses the sacramental sign as an instrumental cause of grace; when the sacrament is validly celebrated, its efficacy comes from Christ rather than the minister’s holiness, though the recipient can obstruct its fruit.",
                 {
-                    "THOMSAC": 6,
-                    "THOM": 4,
-                    "DOM": 2
-                }
+                    "THOMSAC": 7,
+                    "THOM": 5,
+                    "TRIDSAC": 4,
+                    "DOM": 2,
+                    "STD": 2
+                },
+                {}
             ],
             [
-                "Augustinian sign-and-word account: the Word joined to the element constitutes an efficacious ecclesial sign, with interior grace completing its fruit.",
+                "The word joined to the element constitutes an efficacious ecclesial sign; the sacrament is objectively Christ’s action, while fruitful reception involves interior conversion and faith.",
                 {
-                    "AUGSAC": 5,
-                    "AUG": 3,
-                    "LUTHERAN": 2
-                }
+                    "AUGSAC": 6,
+                    "AUG": 4,
+                    "STD": 2,
+                    "LUTHERAN": 1
+                },
+                {}
             ],
             [
-                "Scotist or moral causality: God infallibly grants grace on the occasion of the valid sacramental action by covenant and promise.",
+                "God has covenanted to grant grace on the occasion of the valid sacramental action; objective efficacy need not require the Thomistic account of instrumental causality.",
                 {
-                    "SCOT": 4,
-                    "SCOTMETA": 2,
-                    "TRIDSAC": 2
-                }
+                    "SCOT": 5,
+                    "SCOTMETA": 3,
+                    "TRIDSAC": 3,
+                    "STD": 1
+                },
+                {}
             ],
             [
-                "Lutheran: efficacy rests in Christ’s institution and promise, received through faith but not created by faith.",
+                "Efficacy rests in Christ’s institution and promise rather than ministerial worthiness; faith receives what the sacrament objectively gives.",
                 {
-                    "LUTHERAN": 6
-                }
+                    "LUTHERAN": 7
+                },
+                {}
             ],
             [
-                "Reformed: the Spirit makes the sacrament efficacious in the elect according to the covenant, not by the external rite considered alone.",
+                "The outward rite does not confer grace simply by being performed; the Spirit makes it efficacious according to God’s promise and saving action.",
                 {
-                    "REFORM": 6
-                }
+                    "REFORM": 7
+                },
+                {}
             ],
             [
-                "Eastern/Oriental: the mysteries communicate uncreated divine life through epiclesis, ecclesial prayer, and participation rather than one scholastic causal model.",
+                "The mysteries objectively communicate divine life through the Church’s epiclesis and sacramental action; juridical or mechanical accounts of ex opere operato should be avoided.",
                 {
-                    "EASTSAC": 5,
+                    "EASTSAC": 6,
+                    "EASTECC": 4,
+                    "PALAM": 3,
                     "EORTHO": 5,
-                    "OORTHO": 5,
-                    "COPTIC": 4,
-                    "PALAM": 3
-                }
+                    "COPTIC": 4
+                },
+                {}
             ]
         ]
     },
@@ -4514,7 +4877,7 @@ const QUESTIONS = [
         }
     },
     {
-        "text": "What is the proper understanding of papal authority, primacy, and infallibility?",
+        "text": "How should papal primacy and infallibility be understood, and how should their historical development be evaluated?",
         "options": [
             [
                 "Vatican I/Vatican II: the pope has supreme, full, immediate, and universal jurisdiction, while bishops are true successors of the apostles in a college with and under him.",
@@ -4800,7 +5163,7 @@ const QUESTIONS = [
         }
     },
     {
-        "text": "How should we assess Vatican II — both its doctrinal authority and its pastoral-practical effects?",
+        "text": "How should Vatican II be assessed and interpreted in relation to the Church’s prior doctrinal tradition?",
         "options": [
             [
                 "A fully authoritative ecumenical council whose teachings are binding; its pastoral fruits, while imperfect, represent genuine renewal.",
@@ -5351,7 +5714,7 @@ const QUESTIONS = [
         }
     },
     {
-        "text": "If a non-definitive magisterial teaching seems doubtful or imprudent, what is the Catholic posture?",
+        "text": "If a non-definitive Roman teaching or directive seems doubtful, imprudent, or in tension with prior tradition, what is the proper Catholic posture?",
         "options": [
             [
                 "Interior assent is normally required; public disagreement risks scandal and disobedience. (Ultramontane)",
@@ -7750,7 +8113,7 @@ const QUESTIONS = [
         }
     },
     {
-        "text": "What is your view on the possibility of an 'empty hell' (Balthasar's hope)?",
+        "text": "How hopeful may Christians be about the salvation of all, and what weight should be given to the traditional ‘fewness of the saved’ theme?",
         "options": [
             [
                 "One may hope and pray that all are saved without claiming knowledge that hell is empty or denying the real possibility of damnation.",
@@ -8007,14 +8370,15 @@ const QUESTIONS = [
         ]
     },
     {
-        "text": "How broadly does God's salvific will extend? What do 'fewness of the saved' and 'Outside the Church no salvation' mean today?",
+        "text": "How should ‘Outside the Church there is no salvation’ be understood together with God’s universal salvific will?",
         "options": [
             [
-                "God truly wills the salvation of all; invincible ignorance and implicit desire can unite a person to the Church, while all salvation remains through Christ and His Body.",
+                "All salvation comes through Christ and His Church; invincible ignorance and an implicit desire shaped by grace can unite a person to the Church without visible membership.",
                 {
-                    "STD": 5,
-                    "PAPMOD": 4,
-                    "THOM": 2,
+                    "STD": 6,
+                    "PAPMOD": 5,
+                    "THOM": 3,
+                    "COMMUN": 2,
                     "MOL": 2
                 },
                 {
@@ -8022,70 +8386,63 @@ const QUESTIONS = [
                 }
             ],
             [
-                "Augustinian: God’s revealed call is universal, but efficacious grace and final perseverance are infallibly granted to the elect; “fewness” remains a serious possibility.",
+                "Explicit Catholic faith and sacramental incorporation are ordinarily necessary, and exceptions should be understood narrowly rather than treated as a parallel path to salvation.",
+                {
+                    "TRAD": 5,
+                    "NEOSCH": 4,
+                    "ANTIMOD": 3
+                },
+                {
+                    "ESCH": 0.55
+                }
+            ],
+            [
+                "God’s revealed call is universal, while efficacious grace and final perseverance are granted according to divine election; no one is saved apart from Christ and His Body.",
                 {
                     "AUG": 6,
                     "AUGP": 4,
                     "BANEZ": 3
                 },
                 {
-                    "ESCH": 0.5
+                    "ESCH": 0.35,
+                    "GRACE": 0.7
                 }
             ],
             [
-                "Balthasarian hope: Christians may hope for universal salvation while never converting that hope into knowledge or doctrine.",
+                "Salvation is through faith in Christ’s promise rather than visible Roman incorporation; baptism and the Church are divine gifts but not conditions of communion with Rome.",
                 {
-                    "COMMUN": 5,
-                    "RESS": 3
-                },
-                {
-                    "ESCH": -0.5
-                }
-            ],
-            [
-                "Strict extra Ecclesiam: explicit Catholic faith and sacramental incorporation are ordinarily necessary, with only narrowly understood exceptions.",
-                {
-                    "TRAD": 5,
-                    "NEOSCH": 3,
-                    "SEDE": 2
-                },
-                {
-                    "ESCH": 0.8
-                }
-            ],
-            [
-                "Lutheran: Christ died for all and grace can be resisted; salvation is through faith in the promise rather than visible Roman membership.",
-                {
-                    "LUTHERAN": 6
+                    "LUTHERAN": 7
                 },
                 {
                     "ESCH": 0
                 }
             ],
             [
-                "Reformed: God’s saving decree and effectual calling are particular, though the Gospel is preached indiscriminately.",
+                "God effectually calls the elect through the Gospel; visible membership in Rome is not the boundary of the invisible Church of the saved.",
                 {
-                    "REFORM": 6
+                    "REFORM": 7
                 },
                 {
-                    "ESCH": 0.7
+                    "ESCH": 0.45
                 }
             ],
             [
-                "Methodist: universal atonement and prevenient grace provide every person a genuine possibility of salvation.",
+                "Christ died for all and prevenient grace gives every person a genuine possibility of responding; visible Catholic membership is not required for salvation.",
                 {
-                    "METHOD": 6
+                    "METHOD": 7
                 },
                 {
-                    "ESCH": -0.4
+                    "ESCH": -0.35,
+                    "GRACE": -0.6
                 }
             ],
             [
-                "Eastern/Oriental: affirm the uniqueness of Christ and the Church while entrusting the boundaries of divine mercy to God’s judgment.",
+                "The uniqueness of Christ and the Church must be confessed, while the precise boundaries of divine mercy should be entrusted to God rather than systematized too narrowly.",
                 {
+                    "EASTECC": 4,
                     "EORTHO": 5,
-                    "OORTHO": 5,
-                    "COPTIC": 4
+                    "COPTIC": 4,
+                    "RESS": 2
                 },
                 {
                     "ESCH": -0.1
@@ -8093,7 +8450,8 @@ const QUESTIONS = [
             ]
         ],
         "axis_weights": {
-            "ESCH": 5
+            "ESCH": 4,
+            "GRACE": 2
         }
     },
     {
@@ -8719,16 +9077,1268 @@ const QUESTIONS = [
             "LIT": 4,
             "PAPAL": 3
         }
+    },
+    {
+        "text": "What principle should govern the English biblical text proclaimed in the Roman liturgy?",
+        "options": [
+            [
+                "Use an elevated, formal English register—such as an RSV-2CE-like style—that preserves stable theological vocabulary and sounds distinct from ordinary speech.",
+                {
+                    "ROTR": 5,
+                    "TRAD": 4,
+                    "BENED": 3,
+                    "COMMUN": 2,
+                    "TRIDSAC": 2
+                },
+                {
+                    "LIT": 0.65,
+                    "SCRIPT": 0.1
+                }
+            ],
+            [
+                "Use the translation lawfully approved for the local Church, prioritizing formal accuracy and ecclesial uniformity over private translation preferences.",
+                {
+                    "STD": 5,
+                    "PAPMOD": 4,
+                    "COMMUN": 2
+                },
+                {
+                    "LIT": 0,
+                    "SCRIPT": -0.1
+                }
+            ],
+            [
+                "Keep the lectionary closely aligned with the Latin liturgical and biblical tradition even when that produces less colloquial English.",
+                {
+                    "TRAD": 5,
+                    "ANTIMOD": 3,
+                    "TRIDSAC": 3,
+                    "ROTR": 2
+                },
+                {
+                    "LIT": 0.9,
+                    "SCRIPT": 0.15
+                }
+            ],
+            [
+                "Use clear contemporary English so the congregation can understand the reading immediately without specialized vocabulary.",
+                {
+                    "PROG": 4,
+                    "PERSMOR": 3,
+                    "LIBCATH": 2,
+                    "SYNOD": 2
+                },
+                {
+                    "LIT": -0.8,
+                    "SCRIPT": -0.1
+                }
+            ],
+            [
+                "It is appropriate for liturgical proclamation and private study to use different translations because those settings have different rhetorical and pastoral needs.",
+                {
+                    "COMMUN": 4,
+                    "RESS": 3,
+                    "STD": 3,
+                    "ANGLICAN": 2
+                },
+                {
+                    "LIT": 0.15,
+                    "SCRIPT": 0.2
+                }
+            ]
+        ],
+        "axis_weights": {
+            "LIT": 3,
+            "SCRIPT": 2
+        }
+    },
+    {
+        "text": "What does biblical inerrancy require Catholics to affirm?",
+        "options": [
+            [
+                "Everything Scripture truly asserts, as intended by the inspired human authors and God, is taught without error when interpreted according to literary form and the rule of faith.",
+                {
+                    "STD": 6,
+                    "THOM": 4,
+                    "RESS": 3,
+                    "COMMUN": 2,
+                    "TRAD": 2
+                },
+                {
+                    "SCRIPT": 0.15
+                }
+            ],
+            [
+                "Inerrancy should be framed primarily around the saving truth God intended Scripture to communicate; incidental historical or scientific formulations may reflect ordinary human limitations.",
+                {
+                    "DEVPROG": 4,
+                    "RESS": 3,
+                    "PAPMOD": 3,
+                    "JES": 2
+                },
+                {
+                    "SCRIPT": -0.1
+                }
+            ],
+            [
+                "Every factual detail of the biblical text is inerrant in a strong sense, and apparent historical or scientific discrepancies should normally be harmonized rather than conceded as error.",
+                {
+                    "TRAD": 5,
+                    "ANTIMOD": 4,
+                    "NEOSCH": 3,
+                    "REFORM": 2
+                },
+                {
+                    "SCRIPT": 0.75
+                }
+            ],
+            [
+                "The canonical Scriptures are the only infallible rule of doctrine, and their assertions are wholly trustworthy because God cannot err.",
+                {
+                    "REFORM": 6,
+                    "LUTHERAN": 4
+                },
+                {
+                    "SCRIPT": 1
+                }
+            ],
+            [
+                "Inspiration guarantees the enduring religious witness of Scripture, but the text can contain genuine historical, scientific, and theological mistakes that the Church must critically reassess.",
+                {
+                    "PROG": 5,
+                    "LIBCATH": 4
+                },
+                {
+                    "SCRIPT": -0.7
+                }
+            ]
+        ],
+        "axis_weights": {
+            "SCRIPT": 4
+        }
+    },
+    {
+        "text": "What theological role should the Latin Vulgate retain in Catholic biblical interpretation?",
+        "options": [
+            [
+                "It is a privileged and authentic ecclesial witness for doctrine and liturgy, while Hebrew and Greek critical texts remain necessary for textual and exegetical questions.",
+                {
+                    "STD": 5,
+                    "THOM": 3,
+                    "TRIDSAC": 3,
+                    "COMMUN": 2
+                },
+                {
+                    "SCRIPT": 0.1,
+                    "LIT": 0.3
+                }
+            ],
+            [
+                "The Vulgate should normally control Catholic translation and theological vocabulary where later critical editions would destabilize received doctrinal usage.",
+                {
+                    "TRAD": 5,
+                    "ANTIMOD": 4,
+                    "NEOSCH": 3,
+                    "TRIDSAC": 3
+                },
+                {
+                    "SCRIPT": 0.35,
+                    "LIT": 0.55
+                }
+            ],
+            [
+                "Original-language textual criticism should normally govern textual questions; the Vulgate remains a major historical and liturgical witness but not the default critical base text.",
+                {
+                    "RESS": 4,
+                    "JES": 4,
+                    "PAPMOD": 3,
+                    "STD": 2
+                },
+                {
+                    "SCRIPT": 0
+                }
+            ],
+            [
+                "The Septuagint, Vulgate, Hebrew, and Greek textual traditions should be read together as complementary witnesses within the Church’s canonical and liturgical reception.",
+                {
+                    "RESS": 5,
+                    "EASTECC": 4,
+                    "NEOAUG": 3,
+                    "COMMUN": 2
+                },
+                {
+                    "SCRIPT": 0.2
+                }
+            ],
+            [
+                "The Vulgate has no special theological status beyond its historical influence; contemporary critical editions should simply replace it where they are better supported.",
+                {
+                    "PROG": 4,
+                    "LIBCATH": 3
+                },
+                {
+                    "SCRIPT": -0.4,
+                    "LIT": -0.3
+                }
+            ]
+        ],
+        "axis_weights": {
+            "SCRIPT": 3,
+            "LIT": 1
+        }
+    },
+    {
+        "text": "How should Scripture and apostolic Tradition be related as sources or modes of transmitting revelation?",
+        "options": [
+            [
+                "Scripture materially contains the revealed deposit, while apostolic Tradition authoritatively transmits, interprets, and identifies that deposit within the Church.",
+                {
+                    "RESS": 5,
+                    "COMMUN": 4,
+                    "STD": 4,
+                    "PAPMOD": 2
+                },
+                {
+                    "SCRIPT": 0.15
+                }
+            ],
+            [
+                "Revelation is transmitted in Scripture and in genuinely unwritten apostolic traditions; not every revealed truth must be materially demonstrable from Scripture alone.",
+                {
+                    "TRAD": 5,
+                    "TRIDSAC": 4,
+                    "NEOSCH": 3,
+                    "STD": 3
+                },
+                {
+                    "SCRIPT": -0.2
+                }
+            ],
+            [
+                "The living Tradition and Magisterium can authoritatively articulate revealed truths whose content is only implicit or difficult to locate materially in Scripture.",
+                {
+                    "PAPMOD": 5,
+                    "DEVPROG": 4,
+                    "ULTRA": 3,
+                    "COMMUN": 2
+                },
+                {
+                    "SCRIPT": -0.5,
+                    "PAPAL": 0.4
+                }
+            ],
+            [
+                "Scripture is the only infallible rule; tradition is authoritative only insofar as it faithfully witnesses to Scripture.",
+                {
+                    "REFORM": 7,
+                    "LUTHERAN": 5
+                },
+                {
+                    "SCRIPT": 1
+                }
+            ],
+            [
+                "Scripture is primary but is read through tradition, reason, and the lived experience of the Church in an ongoing process of reception.",
+                {
+                    "METHOD": 5,
+                    "ANGLICAN": 3,
+                    "PROG": 2
+                },
+                {
+                    "SCRIPT": 0.55
+                }
+            ]
+        ],
+        "axis_weights": {
+            "SCRIPT": 4,
+            "PAPAL": 1
+        }
+    },
+    {
+        "text": "What distinguishes an authentic development of doctrine from a corruption or reversal of doctrine?",
+        "options": [
+            [
+                "Development is organic: later formulations can make implicit content explicit, but they must preserve the same revealed reality and remain intelligibly continuous with Scripture and prior dogma.",
+                {
+                    "COMMUN": 6,
+                    "RESS": 5,
+                    "DEVPROG": 4,
+                    "STD": 3
+                },
+                {
+                    "PAPAL": 0.15,
+                    "SCRIPT": 0.2
+                }
+            ],
+            [
+                "A development is authentic only when it can be shown to preserve the determinate meaning of earlier dogma; apparent reversals should be resolved by interpreting the later statement narrowly.",
+                {
+                    "TRAD": 5,
+                    "NEOSCH": 4,
+                    "ANTIMOD": 4,
+                    "ROTR": 2
+                },
+                {
+                    "PAPAL": 0.1,
+                    "SCRIPT": 0.25
+                }
+            ],
+            [
+                "The living Magisterium is the decisive judge of authentic development and may reformulate inherited teaching substantially so long as the Church does not formally contradict revealed dogma.",
+                {
+                    "PAPMOD": 5,
+                    "DEVPROG": 5,
+                    "ULTRA": 2,
+                    "STD": 2
+                },
+                {
+                    "PAPAL": 0.65
+                }
+            ],
+            [
+                "Reception by the whole Church, especially through bishops, liturgy, and the sensus fidelium, is an essential test of whether a proposed development is authentic.",
+                {
+                    "SYNOD": 5,
+                    "RESS": 4,
+                    "COMMUN": 3,
+                    "EASTECC": 2
+                },
+                {
+                    "PAPAL": -0.35
+                }
+            ],
+            [
+                "Christian doctrine can undergo genuine paradigm shifts in which earlier formulations are corrected or superseded as historical consciousness deepens.",
+                {
+                    "PROG": 5,
+                    "LIBCATH": 4
+                },
+                {
+                    "PAPAL": -0.45,
+                    "SCRIPT": -0.35
+                }
+            ],
+            [
+                "Binding doctrine should be demonstrable from Scripture; later doctrinal developments have authority only insofar as they faithfully restate the biblical rule of faith.",
+                {
+                    "REFORM": 6,
+                    "LUTHERAN": 4,
+                    "ANGLICAN": 2
+                },
+                {
+                    "SCRIPT": 0.9,
+                    "PAPAL": -0.5
+                }
+            ]
+        ],
+        "axis_weights": {
+            "PAPAL": 3,
+            "SCRIPT": 2
+        }
+    },
+    {
+        "text": "How should theology understand the relationship between human nature and the supernatural desire for the beatific vision?",
+        "options": [
+            [
+                "A complete natural order is intelligible in itself; the beatific vision is a wholly gratuitous supernatural elevation beyond any proportionate natural end.",
+                {
+                    "THOM": 5,
+                    "THOMMETA": 5,
+                    "NEOSCH": 4,
+                    "THOMP": 3
+                },
+                {
+                    "GRACE": 0.25
+                }
+            ],
+            [
+                "Human intellect naturally desires to see the first cause, but this desire does not create a natural claim on the beatific vision, which remains absolutely gratuitous.",
+                {
+                    "THOM": 6,
+                    "COMMUN": 3,
+                    "RESS": 2
+                },
+                {
+                    "GRACE": 0.1
+                }
+            ],
+            [
+                "A self-enclosed ‘pure nature’ is an inadequate abstraction: concrete humanity is created with a profound orientation toward supernatural communion with God, without making grace owed.",
+                {
+                    "NEOAUG": 6,
+                    "RESS": 6,
+                    "COMMUN": 4
+                },
+                {
+                    "GRACE": 0.35
+                }
+            ],
+            [
+                "Creation is intrinsically Christocentric; humanity’s final ordering is best understood through the primacy of Christ and supernatural beatitude rather than through a hypothetical purely natural end.",
+                {
+                    "SCOT": 5,
+                    "FRANC": 5,
+                    "RESS": 2
+                },
+                {
+                    "GRACE": 0.2
+                }
+            ],
+            [
+                "Humanity is created for theosis; nature finds its true fulfillment in participation in divine life, while the gift remains entirely grace.",
+                {
+                    "EASTECC": 5,
+                    "PALAM": 5,
+                    "EORTHO": 4,
+                    "RESS": 2
+                },
+                {
+                    "GRACE": 0.35
+                }
+            ],
+            [
+                "The natural/supernatural distinction should be reframed primarily in personalist terms of freedom, self-transcendence, and encounter rather than scholastic orders of nature and grace.",
+                {
+                    "PERSMOR": 4,
+                    "PROG": 3,
+                    "LIBCATH": 2
+                },
+                {
+                    "GRACE": -0.15
+                }
+            ]
+        ],
+        "axis_weights": {
+            "GRACE": 3
+        }
+    },
+    {
+        "text": "How should Catholic theology understand Adam, original human unity, and evolutionary human origins?",
+        "options": [
+            [
+                "A historical first pair and real descent of humanity from them are the safest reading because original sin requires a concrete historical fall transmitted to their descendants.",
+                {
+                    "TRAD": 5,
+                    "NEOSCH": 4,
+                    "AUG": 3,
+                    "THOM": 3
+                },
+                {
+                    "SCRIPT": 0.45
+                }
+            ],
+            [
+                "Evolution is compatible with a historical Adam and Eve who stand at the real origin of the human family and whose sin grounds the doctrine of original sin.",
+                {
+                    "STD": 5,
+                    "THOM": 4,
+                    "PAPMOD": 3,
+                    "COMMUN": 2
+                },
+                {
+                    "SCRIPT": 0.1
+                }
+            ],
+            [
+                "The doctrine requires a real primordial human fall and unity of the human race, but theology need not commit itself to a simplistic biological bottleneck or one scientific model of monogenism.",
+                {
+                    "RESS": 5,
+                    "COMMUN": 5,
+                    "DEVPROG": 3,
+                    "JES": 2
+                },
+                {
+                    "SCRIPT": 0
+                }
+            ],
+            [
+                "Adam can function primarily as a corporate or archetypal representation of humanity; the truth of original sin does not depend on one identifiable historical first couple.",
+                {
+                    "PROG": 5,
+                    "LIBCATH": 4
+                },
+                {
+                    "SCRIPT": -0.45
+                }
+            ],
+            [
+                "Genesis should be received as straightforward sacred history regarding the first humans unless compelling evidence requires a more figurative reading.",
+                {
+                    "REFORM": 4,
+                    "LUTHERAN": 3,
+                    "TRAD": 2
+                },
+                {
+                    "SCRIPT": 0.8
+                }
+            ]
+        ],
+        "axis_weights": {
+            "SCRIPT": 3
+        }
+    },
+    {
+        "text": "In what sense is the Mass a sacrifice?",
+        "options": [
+            [
+                "The one sacrifice of Calvary is sacramentally made present in an unbloody manner; Christ is the principal priest and victim, and the Church offers Him sacramentally.",
+                {
+                    "TRIDSAC": 7,
+                    "THOMSAC": 5,
+                    "STD": 4,
+                    "THOM": 2
+                },
+                {
+                    "JUST": 0.5
+                }
+            ],
+            [
+                "The Eucharist is the Church’s anamnesis of the Paschal Mystery: by the Spirit, the once-for-all sacrifice becomes liturgically present and the faithful participate in the heavenly offering.",
+                {
+                    "EASTSAC": 6,
+                    "EASTECC": 5,
+                    "RESS": 4,
+                    "COMMUN": 3
+                },
+                {
+                    "JUST": 0.6
+                }
+            ],
+            [
+                "The Church is united to Christ’s eternal self-offering to the Father; the sacrificial character is best expressed through ecclesial participation rather than repeated-sacrifice language.",
+                {
+                    "COMMUN": 6,
+                    "RESS": 5,
+                    "BENED": 3,
+                    "STD": 2
+                },
+                {
+                    "JUST": 0.6
+                }
+            ],
+            [
+                "The propitiatory character of the Mass should be stated as strongly as the Council of Trent did: it is truly offered for the living and the dead for sins, punishments, satisfactions, and other needs.",
+                {
+                    "TRAD": 6,
+                    "TRIDSAC": 6,
+                    "NEOSCH": 4,
+                    "ANTIMOD": 2
+                },
+                {
+                    "JUST": 0.5
+                }
+            ],
+            [
+                "The Eucharist is principally the communal memorial meal of Jesus; sacrificial language is symbolic and should not imply a distinct priestly offering.",
+                {
+                    "SACMIN": 6,
+                    "PROG": 4,
+                    "LIBCATH": 3
+                },
+                {
+                    "JUST": -0.3
+                }
+            ],
+            [
+                "Christ’s sacrifice is once for all; the Eucharist is His testament and gift to be received, not a propitiatory sacrifice offered by a sacrificing priesthood.",
+                {
+                    "LUTHERAN": 6,
+                    "REFORM": 4
+                },
+                {
+                    "JUST": -0.65
+                }
+            ]
+        ],
+        "axis_weights": {
+            "JUST": 3
+        }
+    },
+    {
+        "text": "How should the necessity of sacramental Baptism be understood when a person dies without receiving it?",
+        "options": [
+            [
+                "Baptism is necessary, but explicit or implicit desire joined to grace can supply sacramentally in voto when the sacrament cannot actually be received; martyrdom can likewise unite a person to Christ.",
+                {
+                    "STD": 6,
+                    "THOM": 5,
+                    "PAPMOD": 3,
+                    "TRIDSAC": 2
+                },
+                {
+                    "ESCH": -0.05
+                }
+            ],
+            [
+                "Baptism of desire and blood are real, but implicit desire should be construed cautiously and exceptions should not obscure the ordinary necessity of explicit faith and sacramental initiation.",
+                {
+                    "TRAD": 5,
+                    "NEOSCH": 4,
+                    "ANTIMOD": 2
+                },
+                {
+                    "ESCH": 0.3
+                }
+            ],
+            [
+                "God may save extraordinarily outside visible sacramental reception in ways not reducible to a consciously formulated desire, while every such salvation still comes through Christ and the grace signified by Baptism.",
+                {
+                    "RESS": 5,
+                    "COMMUN": 4,
+                    "PAPMOD": 3,
+                    "STD": 2
+                },
+                {
+                    "ESCH": -0.25
+                }
+            ],
+            [
+                "The safest position is to speak of sacramental Baptism as the ordinary objective boundary and avoid confident theories of salvation without it beyond martyrdom and explicit desire.",
+                {
+                    "TRAD": 4,
+                    "NEOSCH": 3
+                },
+                {
+                    "ESCH": 0.5
+                }
+            ],
+            [
+                "Saving faith is decisive; Baptism is commanded and ordinarily important but is not itself an absolute condition for justification.",
+                {
+                    "REFORM": 6,
+                    "ANGLICAN": 3
+                },
+                {
+                    "ESCH": 0
+                }
+            ],
+            [
+                "Baptism is an objective means of regeneration and should never be treated as optional, but God is not bound by the sacrament where its reception is impossible.",
+                {
+                    "LUTHERAN": 6
+                },
+                {
+                    "ESCH": 0
+                }
+            ]
+        ],
+        "axis_weights": {
+            "ESCH": 3
+        }
+    },
+    {
+        "text": "What may Catholics reasonably hope concerning infants who die without Baptism?",
+        "options": [
+            [
+                "They do not suffer the pain of sense but enjoy a state of natural happiness without the beatific vision—the traditional limbo hypothesis remains the most coherent solution.",
+                {
+                    "THOM": 6,
+                    "THOMP": 4,
+                    "NEOSCH": 4
+                },
+                {
+                    "ESCH": 0.45
+                }
+            ],
+            [
+                "The Church can hope that God provides an unknown saving means; this is genuine hope, not a revealed certainty about their supernatural destiny.",
+                {
+                    "STD": 6,
+                    "PAPMOD": 5,
+                    "COMMUN": 3
+                },
+                {
+                    "ESCH": -0.2
+                }
+            ],
+            [
+                "God’s universal salvific will and Christ’s love for children justify a strong, confident hope that such infants are brought to the beatific vision, while the mechanism remains unrevealed.",
+                {
+                    "RESS": 5,
+                    "COMMUN": 5,
+                    "DEVPROG": 3
+                },
+                {
+                    "ESCH": -0.55
+                }
+            ],
+            [
+                "The Augustinian tradition’s severe account should be taken seriously: without regeneration, original sin excludes the beatific vision and the destiny of such infants cannot simply be presumed happy.",
+                {
+                    "AUGP": 6,
+                    "AUG": 4,
+                    "JANS": 2
+                },
+                {
+                    "ESCH": 0.8
+                }
+            ],
+            [
+                "Avoid Latin speculation about limbo and entrust unbaptized infants to the mercy of God within the mystery of ancestral sin, resurrection, and divine judgment.",
+                {
+                    "EASTECC": 5,
+                    "EORTHO": 5,
+                    "COPTIC": 4
+                },
+                {
+                    "ESCH": -0.15
+                }
+            ]
+        ],
+        "axis_weights": {
+            "ESCH": 4
+        }
+    },
+    {
+        "text": "What does Vatican II mean by saying that the Church of Christ ‘subsists in’ the Catholic Church?",
+        "options": [
+            [
+                "The Church of Christ is concretely and fully realized in the Catholic Church, while real elements of sanctification and truth exist outside her visible boundaries.",
+                {
+                    "STD": 6,
+                    "PAPMOD": 5,
+                    "COMMUN": 4
+                },
+                {
+                    "PAPAL": 0.45
+                }
+            ],
+            [
+                "The formula expresses full identity together with degrees of communion: separated Christians and even separated apostolic Churches participate really, though imperfectly, in ecclesial communion.",
+                {
+                    "RESS": 5,
+                    "COMMUN": 6,
+                    "EASTECC": 3,
+                    "SYNOD": 2
+                },
+                {
+                    "PAPAL": 0.15
+                }
+            ],
+            [
+                "The Church of Christ is a broader ecclesial reality that cannot be identified exclusively with the institutional Catholic Church, which is its fullest but not exhaustive realization.",
+                {
+                    "PROG": 5,
+                    "LIBCATH": 4,
+                    "SYNOD": 2
+                },
+                {
+                    "PAPAL": -0.45
+                }
+            ],
+            [
+                "‘Subsists in’ should be read as equivalent in substance to the older claim that the Church of Christ is the Catholic Church; interpretations suggesting a broader Church are misleading.",
+                {
+                    "TRAD": 5,
+                    "ANTIMOD": 4,
+                    "NEOSCH": 3,
+                    "ROTR": 2
+                },
+                {
+                    "PAPAL": 0.5
+                }
+            ],
+            [
+                "The true Church is fundamentally the communion of believers known to God; visible denominational boundaries, including Rome, do not exhaust its identity.",
+                {
+                    "REFORM": 6,
+                    "LUTHERAN": 3
+                },
+                {
+                    "PAPAL": -0.8,
+                    "SCRIPT": 0.7
+                }
+            ]
+        ],
+        "axis_weights": {
+            "PAPAL": 4,
+            "SCRIPT": 1
+        }
+    },
+    {
+        "text": "What theological authority should a national or regional episcopal conference possess?",
+        "options": [
+            [
+                "Its role is principally coordinated and pastoral; each diocesan bishop possesses ordinary authority in his own Church, and a conference should not function as a superior layer of government.",
+                {
+                    "PAPMOD": 4,
+                    "TRAD": 3,
+                    "PAPMIN": 2,
+                    "STD": 2
+                },
+                {
+                    "PAPAL": 0.2
+                }
+            ],
+            [
+                "A conference can exercise genuine teaching authority under defined conditions, especially when its bishops teach with moral unanimity and in communion with the universal Magisterium.",
+                {
+                    "STD": 6,
+                    "PAPMOD": 5,
+                    "COMMUN": 3
+                },
+                {
+                    "PAPAL": 0.25
+                }
+            ],
+            [
+                "Regional episcopal bodies should possess substantial synodal authority according to subsidiarity, including real scope to adapt discipline and pastoral policy to local conditions.",
+                {
+                    "SYNOD": 6,
+                    "EASTECC": 4,
+                    "RESS": 3,
+                    "PROG": 2
+                },
+                {
+                    "PAPAL": -0.45
+                }
+            ],
+            [
+                "Historic national or regional churches may legitimately claim broad constitutional autonomy so long as they remain within the Catholic communion.",
+                {
+                    "GALL": 6,
+                    "PAPMIN": 4,
+                    "CONCIL": 3
+                },
+                {
+                    "PAPAL": -0.7
+                }
+            ],
+            [
+                "Rome should supervise episcopal conferences closely because strong national bodies can fragment universal doctrine and discipline.",
+                {
+                    "ULTRA": 6,
+                    "TRAD": 4,
+                    "ANTIMOD": 2
+                },
+                {
+                    "PAPAL": 0.9
+                }
+            ]
+        ],
+        "axis_weights": {
+            "PAPAL": 4
+        }
+    },
+    {
+        "text": "What should be the ordinary relationship between Latin and the vernacular in the Roman Rite?",
+        "options": [
+            [
+                "Latin should normally predominate in the public liturgy, with vernacular used selectively for readings, preaching, and pastoral necessity.",
+                {
+                    "TRAD": 6,
+                    "TRIDSAC": 4,
+                    "ANTIMOD": 2
+                },
+                {
+                    "LIT": 1
+                }
+            ],
+            [
+                "Latin should remain the normative liturgical language and a substantial living component of ordinary parish worship, while significant vernacular use is legitimate.",
+                {
+                    "ROTR": 6,
+                    "BENED": 4,
+                    "COMMUN": 3,
+                    "TRAD": 2
+                },
+                {
+                    "LIT": 0.65
+                }
+            ],
+            [
+                "The vernacular should ordinarily predominate, but Latin chant, ordinary texts, and major liturgical elements should be intentionally preserved so Catholics retain a common Roman inheritance.",
+                {
+                    "STD": 5,
+                    "PAPMOD": 4,
+                    "ROTR": 2
+                },
+                {
+                    "LIT": 0.15
+                }
+            ],
+            [
+                "The vernacular should normally be sufficient; Latin is valuable historically and ceremonially but need not be a regular feature of parish worship.",
+                {
+                    "PROG": 4,
+                    "LIBCATH": 3,
+                    "STD": 1
+                },
+                {
+                    "LIT": -0.55
+                }
+            ],
+            [
+                "Local language and inculturation should be maximized so the liturgy speaks directly from within each culture rather than preserving a universal Latin norm.",
+                {
+                    "PROG": 5,
+                    "SYNOD": 4,
+                    "PERSMOR": 2
+                },
+                {
+                    "LIT": -1
+                }
+            ]
+        ],
+        "axis_weights": {
+            "LIT": 5
+        }
+    },
+    {
+        "text": "What forms of sacred music should ordinarily have pride of place in the Roman liturgy?",
+        "options": [
+            [
+                "Gregorian chant is the normative musical form of the Roman Rite, with sacred polyphony occupying a privileged secondary place.",
+                {
+                    "TRAD": 6,
+                    "ROTR": 5,
+                    "BENED": 4,
+                    "TRIDSAC": 2
+                },
+                {
+                    "LIT": 0.9
+                }
+            ],
+            [
+                "Gregorian chant should retain pride of place, but strong traditional vernacular hymnody and other inherited sacred forms should be used regularly alongside it.",
+                {
+                    "ROTR": 6,
+                    "STD": 4,
+                    "BENED": 3,
+                    "COMMUN": 2
+                },
+                {
+                    "LIT": 0.55
+                }
+            ],
+            [
+                "A broad historical repertoire can be genuinely sacred if it serves the texts, ritual action, and prayer of the assembly; no single musical idiom should dominate everywhere.",
+                {
+                    "STD": 5,
+                    "PAPMOD": 4,
+                    "COMMUN": 3,
+                    "RESS": 2
+                },
+                {
+                    "LIT": 0
+                }
+            ],
+            [
+                "Contemporary and inculturated music should receive broad latitude when it enables active participation and expresses the faith of the local community.",
+                {
+                    "PROG": 5,
+                    "SYNOD": 4,
+                    "PERSMOR": 2
+                },
+                {
+                    "LIT": -0.85
+                }
+            ],
+            [
+                "Eastern Catholics should preserve their own chant traditions rather than adopting Latin musical norms; authentic diversity of rites is itself part of Catholic tradition.",
+                {
+                    "EASTLIT": 6,
+                    "EASTECC": 6,
+                    "ORTHOPH": 2
+                },
+                {
+                    "LIT": 0.25
+                }
+            ]
+        ],
+        "axis_weights": {
+            "LIT": 4
+        }
+    },
+    {
+        "text": "What place should the Roman Canon (Eucharistic Prayer I) have in the Roman Rite?",
+        "options": [
+            [
+                "It should be the sole or overwhelmingly normative Eucharistic Prayer of the Roman Rite, with alternatives exceptional at most.",
+                {
+                    "TRAD": 6,
+                    "TRIDSAC": 5,
+                    "ANTIMOD": 2
+                },
+                {
+                    "LIT": 1
+                }
+            ],
+            [
+                "It should be restored as the normal or default Eucharistic Prayer while retaining a limited set of legitimate alternatives.",
+                {
+                    "ROTR": 6,
+                    "BENED": 4,
+                    "COMMUN": 3
+                },
+                {
+                    "LIT": 0.7
+                }
+            ],
+            [
+                "It is the ancient Roman prayer and deserves frequent use, but it can remain one legitimate option among several approved Eucharistic Prayers.",
+                {
+                    "STD": 6,
+                    "PAPMOD": 4,
+                    "ROTR": 2
+                },
+                {
+                    "LIT": 0.15
+                }
+            ],
+            [
+                "The postconciliar multiplicity of Eucharistic Prayers is a legitimate pastoral enrichment, and no single prayer needs practical primacy.",
+                {
+                    "PROG": 5,
+                    "SYNOD": 3,
+                    "STD": 1
+                },
+                {
+                    "LIT": -0.65
+                }
+            ],
+            [
+                "This is principally a Latin-Rite question; Eastern Catholic Churches should preserve their own anaphoras and should not be measured by Roman uniformity.",
+                {
+                    "EASTLIT": 6,
+                    "EASTECC": 6
+                },
+                {
+                    "LIT": 0.1
+                }
+            ]
+        ],
+        "axis_weights": {
+            "LIT": 4
+        }
+    },
+    {
+        "text": "How does an erroneous conscience bind, and what obligation does a person have to form conscience?",
+        "options": [
+            [
+                "A sincere invincibly erroneous conscience binds subjectively, but conscience is a judgment about objective moral truth and must be formed through reason, revelation, and authoritative moral teaching.",
+                {
+                    "THOMMOR": 6,
+                    "THOM": 4,
+                    "MANUAL": 4,
+                    "STD": 4
+                },
+                {
+                    "RIGOR": 0.15
+                }
+            ],
+            [
+                "The decisive distinction is vincible versus invincible error: culpable neglect in forming conscience can itself be sinful, so sincerity alone does not excuse.",
+                {
+                    "MANUAL": 6,
+                    "NEOSCH": 5,
+                    "THOMMOR": 4
+                },
+                {
+                    "RIGOR": 0.6
+                }
+            ],
+            [
+                "Conscience is the personal appropriation of objective moral truth in concrete circumstances; formation requires law and virtue but also mature prudential discernment.",
+                {
+                    "PERSMOR": 6,
+                    "COMMUN": 4,
+                    "PAPMOD": 3,
+                    "VIRTUE": 3
+                },
+                {
+                    "RIGOR": -0.1
+                }
+            ],
+            [
+                "A well-considered personal conscience may legitimately reach a conclusion contrary to a general moral norm or non-infallible ecclesial teaching when concrete circumstances justify it.",
+                {
+                    "PROG": 5,
+                    "LIBCATH": 4,
+                    "PROPORT": 3
+                },
+                {
+                    "RIGOR": -0.75
+                }
+            ],
+            [
+                "Conscience is bound by the Word of God; ecclesial authority can instruct it but may not bind it against a clear judgment formed from Scripture.",
+                {
+                    "LUTHERAN": 5,
+                    "REFORM": 5
+                },
+                {
+                    "SCRIPT": 0.8,
+                    "RIGOR": 0
+                }
+            ]
+        ],
+        "axis_weights": {
+            "RIGOR": 4,
+            "SCRIPT": 1
+        }
+    },
+    {
+        "text": "What is the ecclesial status of the Eastern Orthodox Churches and of Protestant communities separated from Rome?",
+        "options": [
+            [
+                "The Orthodox are true particular Churches with apostolic succession and a valid Eucharist; most Protestant bodies are more properly called ecclesial communities because they lack the full sacramental structure of the Church.",
+                {
+                    "STD": 6,
+                    "PAPMOD": 5,
+                    "COMMUN": 4,
+                    "EASTECC": 2
+                },
+                {
+                    "PAPAL": 0.35
+                }
+            ],
+            [
+                "All baptized Christian communities participate in the one Church to differing degrees; the Orthodox possess a particularly full ecclesial reality, while categorical terminology should serve rather than obstruct reunion.",
+                {
+                    "RESS": 5,
+                    "COMMUN": 5,
+                    "ECUM": 4,
+                    "SYNOD": 2
+                },
+                {
+                    "PAPAL": 0
+                }
+            ],
+            [
+                "The term ‘Church’ should be used broadly for separated Christian bodies wherever the Gospel, baptism, worship, and Christian community endure, even without apostolic succession.",
+                {
+                    "PROG": 5,
+                    "LIBCATH": 4,
+                    "ECUM": 2
+                },
+                {
+                    "PAPAL": -0.3
+                }
+            ],
+            [
+                "Only the Catholic Church possesses the full proper reality of Christ’s Church; separated bodies may contain valid sacraments or Christian elements but should not be described in ways that obscure the necessity of conversion to Catholic unity.",
+                {
+                    "TRAD": 5,
+                    "NEOSCH": 4,
+                    "ANTIMOD": 3
+                },
+                {
+                    "PAPAL": 0.65
+                }
+            ],
+            [
+                "The historic episcopal Churches of Rome, Orthodoxy, and Anglicanism are branches of the one Catholic Church despite impaired communion with one another.",
+                {
+                    "ANGLICAN": 6
+                },
+                {
+                    "PAPAL": -0.55
+                }
+            ],
+            [
+                "Rome is one ancient apostolic Church among others, but its later claims prevent full communion; ecclesial fullness does not require submission to universal Roman jurisdiction.",
+                {
+                    "EORTHO": 6,
+                    "COPTIC": 4
+                },
+                {
+                    "PAPAL": -0.9
+                }
+            ]
+        ],
+        "axis_weights": {
+            "PAPAL": 4
+        }
+    },
+    {
+        "text": "Can perfect contrition reconcile a person with God before sacramental confession, and how is it related to the sacrament of Penance?",
+        "options": [
+            [
+                "Yes. Perfect contrition arising from charity remits mortal sin before absolution when it includes the firm intention to confess sacramentally as soon as possible; the sacrament remains objectively necessary.",
+                {
+                    "THOM": 6,
+                    "TRIDSAC": 6,
+                    "MANUAL": 4,
+                    "STD": 4
+                },
+                {
+                    "JUST": 0.6,
+                    "RIGOR": 0.15
+                }
+            ],
+            [
+                "Yes. The charity that turns the sinner back to God already reconciles the person by grace, while desire for sacramental confession orders that reconciliation to the Church’s sacramental economy.",
+                {
+                    "AUG": 5,
+                    "RESS": 4,
+                    "COMMUN": 3,
+                    "PAPMOD": 2
+                },
+                {
+                    "JUST": 0.75,
+                    "RIGOR": -0.05
+                }
+            ],
+            [
+                "One should affirm the doctrine of perfect contrition but pastorally avoid treating it as a substitute for absolution; certainty of reconciliation belongs especially to sacramental confession.",
+                {
+                    "TRAD": 5,
+                    "NEOSCH": 4,
+                    "TRIDSAC": 3
+                },
+                {
+                    "JUST": 0.45,
+                    "RIGOR": 0.55
+                }
+            ],
+            [
+                "Contrition and faith receive the Gospel’s promise of forgiveness; sacramental absolution gives objective assurance but is not the cause of a new infused state of grace.",
+                {
+                    "LUTHERAN": 6
+                },
+                {
+                    "JUST": -0.8
+                }
+            ],
+            [
+                "Repentance accompanies saving faith but does not merit or cause justification; forgiveness rests on Christ’s righteousness received by faith.",
+                {
+                    "REFORM": 6
+                },
+                {
+                    "JUST": -1
+                }
+            ],
+            [
+                "Repentance, tears, spiritual direction, and sacramental confession belong to one therapeutic return to communion; rigid sequencing of the exact instant of reconciliation is less important than the mystery of conversion.",
+                {
+                    "EASTSAC": 5,
+                    "EASTECC": 4,
+                    "EORTHO": 5
+                },
+                {
+                    "JUST": 0.6,
+                    "RIGOR": -0.15
+                }
+            ]
+        ],
+        "axis_weights": {
+            "JUST": 4,
+            "RIGOR": 2
+        }
     }
 ];
 
 // ============================================================
 // v6 RESULT ARCHITECTURE
 // ============================================================
-// Two near-duplicate prompts were retired rather than renumbering the question bank:
-// Q7 repeated Q5's analogy/univocity distinction, and Q22 repeated Q21's
-// justification/sanctification distinction. Their source data remains in place for old links.
-const RETIRED_QUESTION_INDICES = [7, 22];
+// Redundant or identity-priming prompts are retired rather than renumbering the historical bank.
+// The retained questions absorb their useful distinctions; source data remains for old links.
+// Retired: Q2 (folded into Q0), Q3 (folded into Q55), Q6 (folded into Q26), Q7 (Q5 overlap),
+// Q22 (Q21 overlap), Q30 (self-identification prompt), Q42 (folded into Q40), Q49 (folded into Q51),
+// Q57 (folded into Q64), and Q97 (folded into Q11).
+const RETIRED_QUESTION_INDICES = [2, 3, 6, 7, 22, 30, 42, 49, 57, 97];
 const ACTIVE_QUESTION_INDICES = QUESTIONS.map(function(_, i) { return i; })
     .filter(function(i) { return RETIRED_QUESTION_INDICES.indexOf(i) === -1; });
 CATEGORIES.forEach(function(cat) {
@@ -8739,17 +10349,29 @@ CATEGORIES.forEach(function(cat) {
 // politics, order preference, or contemporary-prudential questions. This prevents the very large
 // Contemporary category from swamping older theological distinctions.
 const CATEGORY_SCORE_WEIGHTS = {
-    scripture: 1.15,
-    metaphysics: 1.25,
-    christology: 1.25,
-    grace: 1.25,
+    scripture: 1.10,
+    metaphysics: 1.15,
+    christology: 1.15,
+    grace: 1.20,
     sacraments: 1.15,
-    ecclesiology: 1.20,
-    moral: 1.10,
+    ecclesiology: 1.15,
+    moral: 1.05,
     orders: 0.65,
     political: 0.70,
-    contemporary: 0.75
+    contemporary: 0.78
 };
+
+// Question-level reliability prevents preference and current-affairs items from moving the school
+// match as much as questions that directly discriminate doctrines or theological methods.
+const HIGH_DISCRIMINATION_QUESTIONS = new Set([0,5,11,15,21,25,26,27,28,31,34,40,41,49,51,52,53,61,65,66,92,93,107,108,112,115,123,125,126,127,129,130,132,133,137,138,139]);
+const LOW_WEIGHT_PREFERENCE_QUESTIONS = new Set([70,71,73,74,75,76,95,96,98,103,111,116,119,120]);
+const PRUDENTIAL_APPLICATION_QUESTIONS = new Set([46,54,56,57,64,68,77,78,80,81,82,83,84,85,86,94,99,101,110,117,118,121]);
+function questionScoreWeight(qi) {
+    if (HIGH_DISCRIMINATION_QUESTIONS.has(qi)) return 1.15;
+    if (LOW_WEIGHT_PREFERENCE_QUESTIONS.has(qi)) return 0.55;
+    if (PRUDENTIAL_APPLICATION_QUESTIONS.has(qi)) return 0.72;
+    return 1.0;
+}
 
 // Primary rankings are deliberately Catholic and theological. Narrow order, political,
 // liturgical, prudential, irregular, and non-Catholic identities remain visible as secondary
@@ -8806,6 +10428,8 @@ function computeMaxPossible(questionIndices) {
         var q = QUESTIONS[qi];
         var cat = getCategoryForQuestion(qi);
         var categoryWeight = CATEGORY_SCORE_WEIGHTS[cat.id] || 1;
+        var questionWeight = questionScoreWeight(qi);
+        var effectiveWeight = categoryWeight * questionWeight;
         var perQ = {};
         q.options.forEach(function(opt) {
             var weights = opt[1];
@@ -8815,7 +10439,7 @@ function computeMaxPossible(questionIndices) {
             }
         });
         for (var code in perQ) {
-            result[code] = (result[code] || 0) + perQ[code] * DEFAULT_INTENSITY * categoryWeight;
+            result[code] = (result[code] || 0) + perQ[code] * DEFAULT_INTENSITY * effectiveWeight;
         }
     });
     return result;
@@ -8946,6 +10570,35 @@ const QUESTION_TOPICS = {
     119: { topic: "Which post-conciliar Pope do you most admire?", description: "This question explores which post-conciliar pope do you most admire.", reading: "Catechism of the Catholic Church, relevant conciliar documents" },
     120: { topic: "What is your personal outlook for the future of the Catholic Church?", description: "This question explores what is your personal outlook for the future of the catholic church.", reading: "Catechism of the Catholic Church, relevant conciliar documents" },
     121: { topic: "How do you view the SSPX\\\'s irregular canonical status and their announced intention to consecrate bishops again?", description: "This question explores how do you view the sspx\\\'s irregular canonical status and their announced intention to consecrate bishops again.", reading: "Catechism of the Catholic Church, relevant conciliar documents" },
+
+    // v9 content rationalization and high-value additions
+    1: { topic: "English Bible Translation for Study", description: "Choosing an English translation for close Catholic study: formal equivalence, Vulgate continuity, modern critical editions, literary translation, or comparative use.", reading: "Dei Verbum §§11–13; Pontifical Biblical Commission, The Interpretation of the Bible in the Church; prefaces to RSV-2CE, Douay-Rheims, NRSV-CE/NRSVue, NABRE, and Jerusalem Bible editions" },
+    11: { topic: "Motive and Absolute Primacy of the Incarnation", description: "Whether the Incarnation is principally a remedy for sin or the primordial Christocentric purpose of creation, and how redemption and divinization relate.", reading: "Aquinas, ST III q.1 a.3; Scotus, Ordinatio III; Colossians 1:15–20; Athanasius, On the Incarnation" },
+    26: { topic: "Grace, Freedom, and De Auxiliis", description: "Competing accounts of efficacious grace, free consent, middle knowledge, congruism, and Augustinian priority of grace.", reading: "Council of Orange II; Council of Trent, Session VI; Molina, Concordia; Báñez and the De Auxiliis controversy; Augustine, De dono perseverantiae" },
+    40: { topic: "Sacramental Causality and Ex Opere Operato", description: "How sacraments objectively communicate grace and how their efficacy relates to Christ’s action, the minister, the recipient, and competing causal accounts.", reading: "Council of Trent, Session VII; Catechism §§1127–1129; Aquinas, ST III q.62; Augustine on sacramental signs" },
+    51: { topic: "Papal Primacy, Infallibility, and Development", description: "The scope of Roman primacy, Vatican I, episcopal authority, and whether later papal centralization is doctrinal development or reformable historical accretion.", reading: "Pastor Aeternus; Lumen Gentium ch. 3; Ut Unum Sint; first-millennium primacy studies" },
+    55: { topic: "Vatican II and the Hermeneutic of Reform", description: "How Vatican II’s authority, ambiguities, pastoral effects, and continuity with previous councils should be assessed.", reading: "Vatican II documents; Benedict XVI, 2005 Christmas Address to the Roman Curia; relevant postconciliar magisterial interpretations" },
+    64: { topic: "Non-Definitive Magisterium, Conscience, and Resistance", description: "Religious submission, prudent withholding of assent, obedience to disciplinary directives, and the limits of public theological disagreement.", reading: "Lumen Gentium §25; Donum Veritatis; Code of Canon Law; traditional discussions of obedience and fraternal correction" },
+    107: { topic: "Hope, Hell, and the Fewness of the Saved", description: "The legitimate range of Catholic hope regarding universal salvation, the reality of hell, and traditional warnings that many may be lost.", reading: "Catechism §§1033–1037; Hans Urs von Balthasar, Dare We Hope; Augustine and Aquinas on final judgment; relevant patristic homilies" },
+    112: { topic: "Extra Ecclesiam Nulla Salus and the Universal Salvific Will", description: "How salvation through Christ and the Church relates to visible membership, invincible ignorance, implicit desire, election, and separated Christian traditions.", reading: "Lumen Gentium §§14–16; Dominus Iesus; Pius IX on invincible ignorance; Council of Florence; Catechism §§846–848" },
+    122: { topic: "Bible Translation for the Liturgy", description: "The principles that should govern English biblical proclamation in worship: sacral register, formal equivalence, ecclesial approval, clarity, and continuity with the Latin liturgical tradition.", reading: "Sacrosanctum Concilium §§24, 36, 54; Liturgiam Authenticam; Magnum Principium; approved lectionary norms" },
+    123: { topic: "Biblical Inerrancy", description: "What inspiration and inerrancy require Catholics to affirm about the truth of Scripture and the role of literary form and historical-critical interpretation.", reading: "Dei Verbum §11; Providentissimus Deus; Divino Afflante Spiritu; Benedict XV, Spiritus Paraclitus" },
+    124: { topic: "The Vulgate in Catholic Theology", description: "The continuing doctrinal, liturgical, and textual role of the Vulgate alongside Hebrew, Aramaic, Greek, and Septuagint traditions.", reading: "Council of Trent, Session IV; Divino Afflante Spiritu; Nova Vulgata; Jerome’s biblical prologues" },
+    125: { topic: "Scripture and Apostolic Tradition", description: "Material sufficiency of Scripture, unwritten apostolic traditions, and the relationship of Scripture, Tradition, and Magisterium.", reading: "Dei Verbum §§7–10; Council of Trent, Session IV; Congar, Tradition and Traditions; ecumenical discussions of material sufficiency" },
+    126: { topic: "Development of Doctrine", description: "Criteria for distinguishing organic doctrinal development from corruption, reversal, or merely historical change.", reading: "John Henry Newman, Essay on the Development of Christian Doctrine; Dei Verbum; International Theological Commission on sensus fidei" },
+    127: { topic: "Nature, Grace, and the Natural Desire for God", description: "The natural/supernatural distinction, pure nature, the natural desire to see God, and twentieth-century debates surrounding de Lubac and Thomism.", reading: "Aquinas, ST I-II; Henri de Lubac, Surnaturel; Humani Generis; later Thomist and ressourcement scholarship" },
+    128: { topic: "Historical Adam and Human Origins", description: "The relation of original sin, human unity, monogenism/polygenism, Genesis, and evolutionary accounts of human origins.", reading: "Genesis 2–3; Romans 5; Humani Generis §§36–37; Catechism §§355–421; contemporary Catholic discussions of evolution" },
+    129: { topic: "The Sacrificial Nature of the Mass", description: "How the Eucharist makes present Christ’s once-for-all sacrifice and how sacrifice, anamnesis, propitiation, and ecclesial offering relate.", reading: "Council of Trent, Session XXII; Catechism §§1362–1372; Sacrosanctum Concilium §47; patristic Eucharistic anaphoras" },
+    130: { topic: "Baptism of Desire and the Necessity of Baptism", description: "The ordinary necessity of Baptism, baptism of desire, baptism of blood, implicit desire, and extraordinary salvation when the sacrament cannot be received.", reading: "Council of Trent, Session VI ch. 4; Catechism §§1257–1261; Holy Office, Suprema Haec Sacra (1949)" },
+    131: { topic: "Unbaptized Infants and Limbo", description: "Theological opinions concerning infants who die without Baptism: limbo, hope for salvation, Augustinian severity, and Eastern reticence.", reading: "Catechism §1261; International Theological Commission, The Hope of Salvation for Infants Who Die Without Being Baptised (2007); Augustine; Aquinas" },
+    132: { topic: "Subsistit In and the Church of Christ", description: "The meaning of Lumen Gentium §8 and the relationship between the Catholic Church, separated Churches, and ecclesial elements outside visible Catholic communion.", reading: "Lumen Gentium §8; Dominus Iesus; CDF Responses to Some Questions Regarding Certain Aspects of the Doctrine on the Church (2007)" },
+    133: { topic: "Authority of Episcopal Conferences", description: "The theological and canonical authority of episcopal conferences relative to diocesan bishops, Rome, synodality, and subsidiarity.", reading: "Lumen Gentium; Apostolos Suos (1998); Code of Canon Law canons 447–459" },
+    134: { topic: "Latin and the Vernacular in the Roman Rite", description: "The normative role of Latin and legitimate use of vernacular languages in Roman liturgical worship.", reading: "Sacrosanctum Concilium §§36, 54; Veterum Sapientia; General Instruction of the Roman Missal" },
+    135: { topic: "Sacred Music in the Roman Liturgy", description: "The relative place of Gregorian chant, polyphony, vernacular hymnody, contemporary music, and legitimate ritual diversity.", reading: "Sacrosanctum Concilium §§112–121; Musicam Sacram; Tra le Sollecitudini; General Instruction of the Roman Missal" },
+    136: { topic: "The Roman Canon and Eucharistic Prayers", description: "Whether Eucharistic Prayer I should be normative, preferred, or one option among several in the modern Roman Rite.", reading: "Roman Missal; General Instruction of the Roman Missal; historical studies of the Roman Canon and postconciliar Eucharistic Prayers" },
+    137: { topic: "Conscience and Moral Formation", description: "How erroneous conscience binds, the distinction between vincible and invincible error, and the obligation to form conscience toward objective moral truth.", reading: "Catechism §§1776–1802; Veritatis Splendor; Aquinas, ST I-II q.19; Gaudium et Spes §16" },
+    138: { topic: "Ecclesial Status of Separated Christians", description: "Why Catholic theology distinguishes Eastern Churches with apostolic succession from many Protestant ecclesial communities, and what degrees of communion mean.", reading: "Unitatis Redintegratio; Dominus Iesus; CDF 2007 Responses on the Doctrine of the Church; ecumenical dialogues" },
+    139: { topic: "Perfect Contrition and Sacramental Penance", description: "Whether perfect contrition reconciles before sacramental absolution and how desire for confession relates to the sacrament.", reading: "Council of Trent, Session XIV ch. 4; Catechism §§1451–1453; Aquinas on penance and charity" },
 };
 const SAINT_VIEWS = {
     0: [
@@ -10496,24 +12149,24 @@ let axisScores = {};
 let answers = [];
 let selectedQuestions = [];
 let currentQuestion = 0;
-let quizLength = ACTIVE_QUESTION_INDICES.length;
+let quizLength = Math.min(60, ACTIVE_QUESTION_INDICES.length);
 let categoryQuestions = {};
 let matchCounts = {};
 let axisMaxPossible = {};
 let axisQuestionCount = {};
 // FIX #6: how strongly the person holds each answered position, parallel to `answers`.
-// 0.55 = "hold loosely", 1.0 = "hold firmly" (default), 1.45 = "would die on this hill".
+// Conviction is intentionally a modest modifier so intensity cannot overpower theological content.
 let intensities = [];
 const INTENSITY_LEVELS = [
-    { key: 'loose', mult: 0.55, label: 'Hold loosely' },
-    { key: 'firm', mult: 1.0, label: 'Hold firmly' },
-    { key: 'hill', mult: 1.45, label: "Die on this hill" }
+    { key: 'tentative', mult: 0.80, label: 'Tentative' },
+    { key: 'considered', mult: 1.0, label: 'Considered' },
+    { key: 'strong', mult: 1.20, label: 'Strong conviction' }
 ];
 const DEFAULT_INTENSITY = 1.0;
 // FIX #11: Formation mode shows saints/sources panels freely as you go (original behavior).
 // Examination mode locks those panels until the current question is answered, so the priming
 // they offer can't influence the answer itself.
-let quizMode = 'formation';
+let quizMode = 'examination';
 // FIX #15: categories the person asked to see more of; boosts their share of a shorter quiz
 // instead of always taking a strictly proportional (and therefore sometimes very thin) slice.
 let focusCategories = [];
@@ -10524,7 +12177,7 @@ function copyPrompt() {
     const q = QUESTIONS[qi];
     let prompt = "I'm taking a Catholic theology quiz and need help understanding this question.\n\n";
     prompt += 'Question: "' + q.text + '"\n\nOptions:\n';
-    q.options.forEach(function(opt, i) { prompt += (i+1) + ". " + opt[0] + "\n"; });
+    q.options.forEach(function(opt, i) { prompt += (i+1) + ". " + displayOptionText(opt[0]) + "\n"; });
     prompt += "\nPlease explain what each option means theologically, which saints or theologians held each view, and what the key distinctions are. Do NOT tell me which to pick.";
     navigator.clipboard.writeText(prompt).then(function() {
         var tt = document.getElementById('copy-tooltip');
@@ -10536,17 +12189,10 @@ function copyPrompt() {
 // QUIZ SETUP
 function setQuizLength(n) {
     quizLength = n;
+    // Let the radio state drive the visual treatment through CSS. This keeps
+    // theme changes and responsive styles from being overridden inline.
     document.querySelectorAll('.length-option input').forEach(function(input) {
-        var card = input.nextElementSibling;
-        if (parseInt(input.value) === n) {
-            input.checked = true;
-            card.style.borderColor = 'var(--wine)';
-            card.style.background = 'var(--wine-faint)';
-        } else {
-            input.checked = false;
-            card.style.borderColor = 'var(--border)';
-            card.style.background = 'transparent';
-        }
+        input.checked = parseInt(input.value) === n;
     });
 }
 
@@ -10619,6 +12265,33 @@ function selectQuestionsForQuiz(count) {
 
     var all = [];
     CATEGORIES.forEach(function(cat) { all = all.concat(categoryQuestions[cat.id] || []); });
+
+    // v10: Every ordinary quiz depth is designed to produce a meaningful 12-axis profile.
+    // One direct anchor question per axis is guaranteed; remaining slots are still sampled by
+    // category. This prevents a short quiz from reporting an axis based on accidental indirect evidence.
+    var axisAnchors = [26, 28, 5, 93, 11, 21, 40, 51, 0, 134, 65, 107]
+        .filter(function(qi) { return RETIRED_QUESTION_INDICES.indexOf(qi) === -1; });
+    if (count >= axisAnchors.length) {
+        axisAnchors.forEach(function(qi) {
+            if (all.indexOf(qi) === -1) all.push(qi);
+        });
+        // Trim non-anchor questions if forcing anchors pushed the sample over the requested depth.
+        while (all.length > count) {
+            var removable = -1;
+            for (var r = all.length - 1; r >= 0; r--) {
+                if (axisAnchors.indexOf(all[r]) === -1) { removable = r; break; }
+            }
+            if (removable === -1) break;
+            all.splice(removable, 1);
+        }
+        // Rebuild category lists so navigation/progress always reflects the actual selected set.
+        categoryQuestions = {};
+        CATEGORIES.forEach(function(cat) {
+            categoryQuestions[cat.id] = all.filter(function(qi) { return cat.questions.indexOf(qi) >= 0; }).sort(function(a,b){return a-b;});
+        });
+        all = [];
+        CATEGORIES.forEach(function(cat) { all = all.concat(categoryQuestions[cat.id] || []); });
+    }
     // Challenge mode: use challenger's questions
     if (window._challengeQuestions) {
         all = window._challengeQuestions.filter(function(qi) { return RETIRED_QUESTION_INDICES.indexOf(qi) === -1; });
@@ -10728,29 +12401,38 @@ function updateQuestionNav() {
     updateCategoryNav();
 }
 
-// HELPER: Strip trailing parenthetical school label from option text
-// Returns { clean: "text without label", label: "School Name" or null }
-function splitSchoolLabel(text) {
+// HELPER: remove explicit school/tradition labels from answer text before it is shown.
+// The scoring anchors remain internal; users choose propositions rather than self-identifications.
+// Personal names (Aquinas, Scotus, Augustine, etc.) are left intact because representative
+// theologians are pedagogically useful and do not state the scored school outright.
+function displayOptionText(text) {
     var trimmed = text.replace(/\s+$/, '');
-    if (trimmed.charAt(trimmed.length - 1) !== ')') return { clean: text, label: null };
-    // Walk backwards counting parens to find matching open paren
-    var depth = 0;
-    var openIdx = -1;
-    for (var i = trimmed.length - 1; i >= 0; i--) {
-        if (trimmed.charAt(i) === ')') depth++;
-        else if (trimmed.charAt(i) === '(') {
-            depth--;
-            if (depth === 0) { openIdx = i; break; }
+
+    // Strip trailing parenthetical identity tags such as "(Sedevacantist)" or "(Ultramontane)".
+    if (trimmed.charAt(trimmed.length - 1) === ')') {
+        var depth = 0, openIdx = -1;
+        for (var i = trimmed.length - 1; i >= 0; i--) {
+            if (trimmed.charAt(i) === ')') depth++;
+            else if (trimmed.charAt(i) === '(') {
+                depth--;
+                if (depth === 0) { openIdx = i; break; }
+            }
+        }
+        if (openIdx > 0) {
+            var candidate = trimmed.substring(openIdx + 1, trimmed.length - 1);
+            var identityCue = /(Thom|Scot|Augustin|Molin|Bañez|Congru|Luther|Reform|Method|Wesley|Catholic|Anglican|Orthodox|Palamit|Jansen|Sede|Ultramont|Gallican|Conciliar|Integral|Traditional|Progressive|Manual|Ressourcement|Franciscan|Dominican|Jesuit|Benedictine|Carmelite|SSPX)/i;
+            if (identityCue.test(candidate) && candidate.length < 80) trimmed = trimmed.substring(0, openIdx).replace(/\s+$/, '');
         }
     }
-    if (openIdx <= 0) return { clean: text, label: null };
-    var candidate = trimmed.substring(openIdx + 1, trimmed.length - 1);
-    if (!/^[A-Z]/.test(candidate)) return { clean: text, label: null };
-    if (candidate.length > 80) return { clean: text, label: null };
-    if (/^\d{3,4}/.test(candidate) || /^Vatican|^Article|^Council|^Not in Full/.test(candidate)) return { clean: text, label: null };
-    var clean = trimmed.substring(0, openIdx).replace(/\s+$/, '');
-    if (clean.length < 10) return { clean: text, label: null };
-    return { clean: clean, label: candidate };
+
+    // Strip leading labels only when the prefix itself is a school/tradition identity cue.
+    var colon = trimmed.indexOf(':');
+    if (colon > 0 && colon < 58) {
+        var prefix = trimmed.substring(0, colon);
+        var cue = /(Thom|Scot|Augustin|Molin|Bañez|Congru|Luther|Reform|Method|Wesley|Eastern\/Oriental|Eastern Orthodox|Oriental Orthodox|Catholic|Anglican|Old Catholic|Palamit|Jansen|Sede|Ultramont|Gallican|Conciliar|Integral|Traditionalist|Liberal Catholic|Manualist|Ressourcement|Franciscan|Dominican|Jesuit|Benedictine|Carmelite|SSPX|Confessional Lutheran)/i;
+        if (cue.test(prefix)) trimmed = trimmed.substring(colon + 1).replace(/^\s+/, '');
+    }
+    return trimmed;
 }
 
 // RENDER
@@ -10772,7 +12454,7 @@ function renderQuestion() {
     var optDiv = document.getElementById('options');
     optDiv.innerHTML = '';
     q.options.forEach(function(opt, i) {
-        var parsed = splitSchoolLabel(opt[0]);
+        var displayed = displayOptionText(opt[0]);
         var label = document.createElement('label');
         label.className = 'option' + (answers[currentQuestion] === i ? ' selected' : '');
         var tagHtml = '';
@@ -10780,12 +12462,12 @@ function renderQuestion() {
         if (hasAnswer) {
             var meta = v7OptionMetadata(qi, i);
             var reps = meta.figures.map(function(f){ return f.name; }).join('; ');
-            tagHtml = '<div class="school-tag"><div class="school-tag-row"><strong>Best represented by:</strong> ' + (meta.schools.join(', ') || 'No single historical school') + '</div>' +
-                (reps ? '<div class="school-tag-row"><strong>Representative witnesses:</strong> ' + reps + '</div>' : '') +
+            tagHtml = '<div class="school-tag">' +
+                (reps ? '<div class="school-tag-row"><strong>Representative theologians / witnesses:</strong> ' + reps + '</div>' : '<div class="school-tag-row">No single representative witness is assigned.</div>') +
                 '<div class="school-tag-row school-tag-status"><strong>Status:</strong> ' + meta.status + '</div>' +
                 '<div class="school-tag-row school-tag-confidence">' + meta.confidence + '</div></div>';
         }
-        label.innerHTML = '<input type="radio" name="answer" value="' + i + '"><div class="option-radio"></div><div class="option-text">' + parsed.clean + tagHtml + '</div>';
+        label.innerHTML = '<input type="radio" name="answer" value="' + i + '"><div class="option-radio"></div><div class="option-text">' + displayed + '</div>';
         label.onclick = function() { selectOption(i); };
         optDiv.appendChild(label);
     });
@@ -10860,7 +12542,7 @@ function renderSaints(qi) {
         meta.figures.forEach(function(f) {
             var card = document.createElement('div');
             card.className = 'saint-card';
-            card.innerHTML = '<div class="saint-card-opt">Aligns with Option ' + (oi + 1) + '</div><div class="saint-card-name">' + f.name + '<span class="figure-type">' + f.type + '</span></div><div class="saint-card-pos">Associated with: ' + (meta.schools.join(', ') || 'qualified historical affinity') + '. ' + meta.status + '</div>';
+            card.innerHTML = '<div class="saint-card-opt">Representative for Option ' + (oi + 1) + '</div><div class="saint-card-name">' + f.name + '<span class="figure-type">' + f.type + '</span></div><div class="saint-card-pos">' + meta.status + '</div>';
             card.onclick = function() { selectOption(oi); renderQuestion(); };
             list.appendChild(card);
         });
@@ -10947,10 +12629,13 @@ function calculateScores() {
         if (!opt) continue;
         var cat = getCategoryForQuestion(qi);
         var categoryWeight = CATEGORY_SCORE_WEIGHTS[cat.id] || 1;
+        var questionWeight = questionScoreWeight(qi);
+        var effectiveWeight = categoryWeight * questionWeight;
         var intensity = (intensities[i] !== undefined && intensities[i] !== null) ? intensities[i] : DEFAULT_INTENSITY;
 
         // Count every question capable of testing a school, not merely questions on which the user
-        // happened to select a positive-scoring option. This is the actual evidentiary sample size.
+        // happened to select a positive-scoring option. Question reliability affects numerator and
+        // denominator equally, so preference items cannot overwhelm direct doctrinal evidence.
         var perQuestionMax = {};
         var relevantSchools = {};
         q.options.forEach(function(candidate) {
@@ -10966,32 +12651,31 @@ function calculateScores() {
         for (var relevantCode in relevantSchools) {
             matchCounts[relevantCode]++;
             if ((perQuestionMax[relevantCode] || 0) > 0) {
-                maxPossibleForQuiz[relevantCode] = (maxPossibleForQuiz[relevantCode] || 0) + perQuestionMax[relevantCode] * intensity * categoryWeight;
+                maxPossibleForQuiz[relevantCode] = (maxPossibleForQuiz[relevantCode] || 0) + perQuestionMax[relevantCode] * intensity * effectiveWeight;
             }
         }
 
         var weights = opt[1] || {};
         for (var school in weights) {
             if (scores[school] !== undefined) {
-                scores[school] += weights[school] * intensity * categoryWeight;
+                scores[school] += weights[school] * intensity * effectiveWeight;
             }
         }
-        if (q.axis_weights) {
-            for (var axis in q.axis_weights) {
-                if (axisScores[axis] !== undefined) {
-                    var pol;
-                    if (opt[2] && opt[2][axis] !== undefined) {
-                        pol = opt[2][axis];
-                    } else {
-                        var mid = q.options.length / 2;
-                        pol = ans < Math.floor(mid) ? -1 : (ans >= Math.ceil(mid) ? 1 : 0);
-                    }
-                    axisScores[axis] += q.axis_weights[axis] * pol * intensity * categoryWeight;
-                    axisMaxPossible[axis] = (axisMaxPossible[axis] || 0) + Math.abs(q.axis_weights[axis]) * intensity * categoryWeight;
-                    axisQuestionCount[axis] = (axisQuestionCount[axis] || 0) + 1;
-                }
+
+        // Doctrine axes are proposition-level measurements, not school-score derivatives.
+        AXES.forEach(function(a) {
+            var axisCode = a[0];
+            var rules = DOCTRINE_AXES[axisCode] || [];
+            for (var ri = 0; ri < rules.length; ri++) {
+                var rule = rules[ri];
+                if (rule.q !== qi) continue;
+                var pos = (rule.p && rule.p[ans] !== undefined) ? rule.p[ans] : 0;
+                axisScores[axisCode] += rule.w * pos * intensity;
+                axisMaxPossible[axisCode] += Math.abs(rule.w) * intensity;
+                axisQuestionCount[axisCode] += 1;
+                break;
             }
-        }
+        });
     }
 }
 
@@ -11156,8 +12840,7 @@ function showResults() {
     var anchorFigure = SCHOOL_FIGURES[anchorResult.code] || SCHOOL_FIGURES[portraitCode] || { figure:'', era:'', bio:'' };
 
     document.getElementById('top-match-container').innerHTML = portraitHtml +
-        '<div style="text-align:center;font-size:0.8rem;color:var(--text-dim);margin-bottom:0.75rem;">Mainstream Catholic alignment: ' + stdResult.rawPct.toFixed(0) + '% raw</div>' +
-        '<div class="top-match"><div class="top-match-label">Primary Catholic Theological Family</div><div class="top-match-name">' + headlineName + '</div><div class="top-match-score">' + headlineScore.toFixed(1) + '% evidence-adjusted alignment · ' + familyConfidence + ' confidence</div><div class="top-match-summary">' + headlineSummary + '</div>' +
+        '<div class="top-match"><div class="top-match-label">Primary Catholic Theological Family</div><div class="top-match-name">' + headlineName + '</div><div class="top-match-score">Match ' + headlineScore.toFixed(0) + ' / 100 · ' + familyConfidence + ' confidence</div><div class="top-match-summary">' + headlineSummary + '</div>' +
         '<div class="figure-section"><div class="figure-label">Closest Detailed Catholic School</div><div class="figure-name">' + anchorResult.name + '</div><div class="figure-era">' + anchorResult.rawPct.toFixed(0) + '% raw · ' + anchorResult.evidence + ' evidence questions</div><div class="figure-bio">' + (anchorFigure.figure ? anchorFigure.figure + (anchorFigure.era ? ' (' + anchorFigure.era + ')' : '') + ' — ' + anchorFigure.bio : '') + '</div></div></div>';
 
     document.getElementById('families-content').innerHTML = '<h3 class="result-section-title" style="margin-top:0;">Catholic Theological Families</h3>' + renderFamilyResults(families);
@@ -11176,19 +12859,18 @@ function showResults() {
     document.getElementById('approach-content').innerHTML = '<h3 class="result-section-title" style="margin-top:0;">Linear Theological Approach Map</h3>' + renderApproachMap();
 
     var ac = document.getElementById('axes-content');
-    ac.innerHTML = '<div class="result-section-note">These eight doctrine axes come directly from your answers. The Approach Map instead infers a broader methodological location from your school pattern.</div>';
+    ac.innerHTML = '<div class="result-section-note">These 12 doctrine axes come directly from your answers. Each axis uses only questions that directly test its named theological opposition; school matching is calculated separately.</div>';
     AXES.forEach(function(a) {
         var code = a[0], name = a[1];
         var raw = axisScores[code] || 0;
         var maxP = axisMaxPossible[code] || 1;
         var qCount = axisQuestionCount[code] || 0;
         var eps = AXIS_ENDPOINTS[code] || ['Left', 'Right'];
-        if (qCount < 2) return;
-        var normalized = raw / maxP;
-        var curved = Math.tanh(normalized * 2.2);
-        var pct = Math.max(5, Math.min(95, 50 + curved * 45));
+        if (qCount < 1) return;
+        var normalized = Math.max(-1, Math.min(1, raw / maxP));
+        var pct = Math.max(5, Math.min(95, 50 + normalized * 45));
         var confLabel = qCount >= 8 ? '' : ' <span style="font-size:0.65rem;opacity:0.5;">(' + qCount + 'q)</span>';
-        ac.innerHTML += '<div class="axis-row"><div class="axis-header"><span class="axis-name">' + name + confLabel + '</span></div><div class="axis-bar"><div class="axis-marker" style="left:calc(' + pct + '% - 9px)"></div></div><div class="axis-labels"><span>' + eps[0] + '</span><span>' + eps[1] + '</span></div></div>';
+        ac.innerHTML += '<div class="axis-row doctrine-axis-card"><div class="axis-header"><span class="axis-name">' + name + confLabel + '</span><span class="axis-position">' + (normalized < -0.12 ? eps[0] : (normalized > 0.12 ? eps[1] : 'Mediating')) + '</span></div><div class="axis-labels axis-labels-top"><span>' + eps[0] + '</span><span>' + eps[1] + '</span></div><div class="axis-bar"><div class="axis-midline"></div><div class="axis-marker" style="left:calc(' + pct + '% - 9px)"></div></div><div class="axis-note">' + (AXIS_NOTES[code] || '') + '</div></div>';
     });
 
     document.getElementById('categories-content').innerHTML = '<h3 style="font-family:Cormorant Garamond,serif;color:var(--verd);margin-bottom:1rem;">Top School by Category</h3>' + renderCategoryBreakdown();
@@ -11391,7 +13073,8 @@ function renderQuestionReview() {
             ansText = '<span class="review-answer skipped">I Don\'t Know</span>';
         } else {
             var opt = q.options[ans];
-            ansText = '<span class="review-answer">' + opt[0].substring(0, 100) + (opt[0].length > 100 ? '...' : '') + '</span>';
+            var reviewText = displayOptionText(opt[0]);
+            ansText = '<span class="review-answer">' + reviewText.substring(0, 100) + (reviewText.length > 100 ? '...' : '') + '</span>';
             var scores = opt[1];
             var parts = [];
             for (var code in scores) {
@@ -11530,98 +13213,78 @@ function renderReadingList() {
 // ============================================================
 function generateShareCard() {
     var canvas = document.createElement('canvas');
-    canvas.width = 800; canvas.height = 500;
+    canvas.width = 1080; canvas.height = 1350;
     var ctx = canvas.getContext('2d');
 
-    // Background
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, 800, 500);
-
-    // Scanlines
-    ctx.strokeStyle = 'rgba(57, 255, 20, 0.03)';
-    for (var y = 0; y < 500; y += 3) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(800, y); ctx.stroke(); }
-
-    // Border
-    ctx.strokeStyle = '#39FF14';
+    ctx.fillStyle = '#f5f2eb';
+    ctx.fillRect(0, 0, 1080, 1350);
+    ctx.strokeStyle = '#d8d1c7';
     ctx.lineWidth = 2;
-    ctx.strokeRect(10, 10, 780, 480);
+    ctx.strokeRect(36, 36, 1008, 1278);
 
-    // Title
-    ctx.fillStyle = '#39FF14';
-    ctx.font = '600 28px Cormorant Garamond, Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.shadowColor = 'rgba(57,255,20,0.5)';
-    ctx.shadowBlur = 15;
-    ctx.fillText('THE DEFINITIVE CATHOLIC THEOLOGY QUIZ', 400, 50);
-    ctx.shadowBlur = 0;
-
-    // Top Catholic theological families
     var ranked = getCatholicFamilyResults().map(function(f) {
-        return { code: f.code, name: f.name, norm: f.score };
+        return { code:f.code, name:f.name, norm:f.score };
     });
+    var top = ranked[0] || {name:'Catholic theological profile',norm:0};
 
-    ctx.font = '500 14px Share Tech Mono, monospace';
-    ctx.fillStyle = 'rgba(57,255,20,0.5)';
-    ctx.fillText('MY THEOLOGICAL PROFILE', 400, 80);
-
-    // Top 5 Catholic families
-    var startY = 110;
-    ranked.slice(0, 5).forEach(function(s, i) {
-        var yy = startY + i * 50;
-        ctx.textAlign = 'left';
-        ctx.fillStyle = i === 0 ? '#39FF14' : 'rgba(57,255,20,0.7)';
-        ctx.font = (i === 0 ? '600 22px' : '500 16px') + ' Cormorant Garamond, Georgia, serif';
-        ctx.fillText((i+1) + '. ' + s.name, 40, yy);
-        ctx.textAlign = 'right';
-        ctx.font = '400 14px Share Tech Mono, monospace';
-        ctx.fillText(s.norm.toFixed(1) + '%', 450, yy);
-        // Bar
-        ctx.fillStyle = 'rgba(57,255,20,0.15)';
-        ctx.fillRect(40, yy + 5, 410, 6);
-        ctx.fillStyle = i === 0 ? '#39FF14' : 'rgba(57,255,20,0.6)';
-        ctx.fillRect(40, yy + 5, s.norm * 4.1, 6);
-    });
-
-    // Axes on right side
     ctx.textAlign = 'left';
-    ctx.font = '400 11px Share Tech Mono, monospace';
-    var axY = 110;
-    AXES.forEach(function(a) {
-        var code = a[0], name = a[1];
-        var raw = axisScores[code] || 0;
-        var maxP = axisMaxPossible[code] || 1;
-        var qCount = axisQuestionCount[code] || 0;
-        if (qCount < 2) return;
-        var normalized = raw / maxP;
-        var curved = Math.tanh(normalized * 2.2);
-        var pct = 50 + curved * 45;
-        var eps = AXIS_ENDPOINTS[code] || ['L', 'R'];
-        ctx.fillStyle = 'rgba(57,255,20,0.5)';
-        ctx.fillText(name, 490, axY);
-        // Bar bg
-        ctx.fillStyle = 'rgba(57,255,20,0.1)';
-        ctx.fillRect(490, axY + 4, 270, 4);
-        // Marker
-        var markerX = 490 + (pct / 100) * 270;
-        ctx.fillStyle = '#39FF14';
-        ctx.beginPath(); ctx.arc(markerX, axY + 6, 5, 0, Math.PI * 2); ctx.fill();
-        // Labels
-        ctx.fillStyle = 'rgba(57,255,20,0.3)';
-        ctx.font = '400 8px Share Tech Mono, monospace';
-        ctx.fillText(eps[0].substring(0, 12), 490, axY + 18);
-        ctx.textAlign = 'right';
-        ctx.fillText(eps[1].substring(0, 12), 760, axY + 18);
-        ctx.textAlign = 'left';
-        ctx.font = '400 11px Share Tech Mono, monospace';
-        axY += 42;
+    ctx.fillStyle = '#762f3b';
+    ctx.font = '700 20px Inter, Arial, sans-serif';
+    ctx.fillText('THE DEFINITIVE CATHOLIC THEOLOGY QUIZ', 76, 100);
+
+    ctx.fillStyle = '#24211e';
+    ctx.font = '700 62px Cormorant Garamond, Georgia, serif';
+    ctx.fillText(top.name, 76, 175);
+    ctx.fillStyle = '#762f3b';
+    ctx.font = '700 23px Inter, Arial, sans-serif';
+    ctx.fillText('Match ' + top.norm.toFixed(0) + ' / 100', 78, 215);
+
+    ctx.strokeStyle = '#ded8cf';
+    ctx.beginPath(); ctx.moveTo(76,245); ctx.lineTo(1004,245); ctx.stroke();
+
+    ctx.fillStyle = '#817a71';
+    ctx.font = '700 15px Inter, Arial, sans-serif';
+    ctx.fillText('CLOSEST CATHOLIC FAMILIES', 76, 290);
+    ranked.slice(0,4).forEach(function(item,i){
+        var y=330+i*56;
+        ctx.fillStyle = i===0 ? '#24211e' : '#5d5851';
+        ctx.font = (i===0?'700 24px':'600 20px') + ' Cormorant Garamond, Georgia, serif';
+        ctx.fillText((i+1)+'. '+item.name, 78, y);
+        ctx.textAlign='right';
+        ctx.font='600 15px Inter, Arial, sans-serif';
+        ctx.fillStyle='#762f3b'; ctx.fillText(item.norm.toFixed(0), 1000, y);
+        ctx.textAlign='left';
     });
 
-    // Footer
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(57,255,20,0.3)';
-    ctx.font = '400 10px Share Tech Mono, monospace';
-    ctx.fillText('jcalepos146.github.io/Definitive-Catholic-Theology-Quiz', 400, 480);
+    ctx.strokeStyle = '#ded8cf';
+    ctx.beginPath(); ctx.moveTo(76,555); ctx.lineTo(1004,555); ctx.stroke();
+    ctx.fillStyle = '#817a71';
+    ctx.font = '700 15px Inter, Arial, sans-serif';
+    ctx.fillText('12 DOCTRINE AXES', 76, 598);
 
+    var y=635;
+    AXES.forEach(function(a){
+        var code=a[0], name=a[1], maxP=axisMaxPossible[code]||0, qCount=axisQuestionCount[code]||0;
+        if(qCount<1 || maxP<=0) return;
+        var normalized=Math.max(-1,Math.min(1,(axisScores[code]||0)/maxP));
+        var pct=50+normalized*45;
+        var eps=AXIS_ENDPOINTS[code]||['Left','Right'];
+
+        ctx.fillStyle='#24211e'; ctx.font='600 16px Inter, Arial, sans-serif';
+        ctx.fillText(name,76,y);
+        ctx.fillStyle='#817a71'; ctx.font='500 12px Inter, Arial, sans-serif';
+        ctx.fillText(eps[0],76,y+24);
+        ctx.textAlign='right'; ctx.fillText(eps[1],1004,y+24); ctx.textAlign='left';
+        ctx.fillStyle='#ded8cf'; ctx.fillRect(76,y+36,928,7);
+        ctx.fillStyle='#b9b0a5'; ctx.fillRect(539,y+31,2,17);
+        var mx=76+(pct/100)*928;
+        ctx.fillStyle='#762f3b'; ctx.beginPath(); ctx.arc(mx,y+39.5,9,0,Math.PI*2); ctx.fill();
+        y+=59;
+    });
+
+    ctx.fillStyle='#817a71'; ctx.font='500 14px Inter, Arial, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('School matches compare historical patterns; axes score propositions directly.',540,1290);
     return canvas;
 }
 
@@ -11840,7 +13503,7 @@ var _origDCL = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     initScores();
-    setQuizLength(ACTIVE_QUESTION_INDICES.length);
+    setQuizLength(Math.min(60, ACTIVE_QUESTION_INDICES.length));
     renderFocusCategories();
     
     // Check for challenge mode
