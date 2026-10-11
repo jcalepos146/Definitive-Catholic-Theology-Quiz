@@ -744,6 +744,7 @@ header .divider { display:none; }
 }
 
 </style>
+    <script src="portraits.js" defer></script>
 </head>
 <body>
 
@@ -761,7 +762,7 @@ header .divider { display:none; }
         <div class="quiz-panel" id="quiz-panel">
             <header>
                 <div class="header-image-container">
-                    <img id="header-img" src="https://github.com/jcalepos146/Definitive-Catholic-Theology-Quiz/blob/main/GOURGEOUS%20LOGO.png?raw=true" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
+                    <img id="header-img" src="GOURGEOUS%20LOGO.png" alt="The Definitive Catholic Theology Quiz" class="header-image" onerror="this.style.display='none'">
                 </div>
                 <h1>The Definitive Catholic<br>Theology Quiz</h1>
                 <p class="subtitle">Theology · history · doctrine · spirituality</p>
@@ -775,7 +776,7 @@ header .divider { display:none; }
                             <h2>Where do you fit in the Catholic theological tradition?</h2>
                             <p>Map your convictions across grace, metaphysics, Scripture, ecclesiology, liturgy, moral theology, and the sacraments—then compare your profile with historical schools and theologians.</p>
                             <button class="start-btn hero-cta" onclick="document.getElementById('depth-section').scrollIntoView({behavior:'smooth'})">Choose your depth</button>
-                            <div class="privacy-note">130-question bank · No account required · Results remain in your browser</div>
+                            <div class="privacy-note">105-question bank · No account required · Results remain in your browser</div>
                         </div>
                         <div class="sample-result-card">
                             <div class="sample-label">Example profile</div>
@@ -801,8 +802,8 @@ header .divider { display:none; }
                         <div class="length-options depth-cards">
                             <label class="length-option" onclick="setQuizLength(30)"><input type="radio" name="ql" value="30"><div class="length-card"><span class="depth-name">Essential</span><span class="length-number">30</span><span class="length-label">~6 minutes · broad orientation</span></div></label>
                             <label class="length-option" onclick="setQuizLength(60)"><input type="radio" name="ql" value="60" checked><div class="length-card recommended"><span class="recommended-badge">Recommended</span><span class="depth-name">Standard</span><span class="length-number">60</span><span class="length-label">~12 minutes · major schools + axes</span></div></label>
-                            <label class="length-option" onclick="setQuizLength(90)"><input type="radio" name="ql" value="90"><div class="length-card"><span class="depth-name">Advanced</span><span class="length-number">90</span><span class="length-label">~18 minutes · finer distinctions</span></div></label>
-                            <label class="length-option" onclick="setQuizLength(130)"><input type="radio" name="ql" value="130"><div class="length-card"><span class="depth-name">Complete</span><span class="length-number">130</span><span class="length-label">Every active question</span></div></label>
+                            <label class="length-option" onclick="setQuizLength(75)"><input type="radio" name="ql" value="75"><div class="length-card"><span class="depth-name">Advanced</span><span class="length-number">75</span><span class="length-label">~18 minutes · finer distinctions</span></div></label>
+                            <label class="length-option" onclick="setQuizLength(105)"><input type="radio" name="ql" value="105"><div class="length-card"><span class="depth-name">Complete</span><span class="length-number">105</span><span class="length-label">Every active question</span></div></label>
                         </div>
                         <details class="advanced-settings">
                             <summary>Customize quiz</summary>
@@ -12143,6 +12144,2115 @@ function renderEcclesialAnalogues() {
 const MIN_QUESTIONS_THRESHOLD = 4;
 const MIN_SECONDARY_EVIDENCE = 1;
 
+
+// =====================================================================================
+// v11 PATCH — one real person per result, question cuts, plain-language rewrites,
+// scoring fixes. Paste this block after all data definitions (directly above "// STATE").
+// Option order is unchanged for every rewritten question, so weights, DOCTRINE_AXES
+// p-arrays and SAINT_VIEWS optionIndex values all remain valid.
+// =====================================================================================
+const V11_FIGURES = {
+ "AUG": {
+  "figure": "St. Augustine of Hippo",
+  "era": "354–430",
+  "bio": "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.",
+  "works": "Confessions, City of God, On Grace and Free Will",
+  "wiki": "Augustine_of_Hippo",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "AUGP": {
+  "figure": "St. Prosper of Aquitaine",
+  "era": "c. 390–455",
+  "bio": "Lay theologian and defender of Augustine's strict predestinarian views against Semi-Pelagians.",
+  "works": "The Call of All Nations, Grace and Free Will",
+  "wiki": "Prosper_of_Aquitaine",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "NEOAUG": {
+  "figure": "Romano Guardini",
+  "era": "1885–1968",
+  "bio": "Italian-German priest whose Augustinian, liturgical, and Christ-centred theology shaped the ressourcement generation and Joseph Ratzinger.",
+  "works": "The Spirit of the Liturgy; The Lord; The Conversion of Augustine",
+  "wiki": "Romano_Guardini",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "JANS": {
+  "figure": "Cornelius Jansen",
+  "era": "1585–1638",
+  "bio": "Bishop of Ypres whose posthumous Augustinus launched the Jansenist controversy over grace and freedom.",
+  "works": "Augustinus (1640)",
+  "wiki": "Cornelius_Jansen",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "THOM": {
+  "figure": "St. Thomas Aquinas",
+  "era": "1225–1274",
+  "bio": "The Angelic Doctor whose synthesis of Aristotelian philosophy and Christian theology became the Church's preferred framework.",
+  "works": "Summa Theologiae, Summa Contra Gentiles",
+  "wiki": "Thomas_Aquinas",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "THOMP": {
+  "figure": "Réginald Garrigou-Lagrange, O.P.",
+  "era": "1877–1964",
+  "bio": "Dominican theologian and strict Thomist who defended classical metaphysics.",
+  "works": "The Three Ages of the Interior Life, Reality: A Synthesis of Thomistic Thought",
+  "wiki": "Réginald_Garrigou-Lagrange",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "BANEZ": {
+  "figure": "Domingo Báñez, O.P.",
+  "era": "1528–1604",
+  "bio": "Spanish Dominican who developed the theory of physical premotion.",
+  "works": "Scholastic Commentaries on the Summa",
+  "wiki": "Domingo_Báñez",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "MOL": {
+  "figure": "Luis de Molina, S.J.",
+  "era": "1535–1600",
+  "bio": "Spanish Jesuit who developed middle knowledge (scientia media) to reconcile divine sovereignty with human freedom.",
+  "works": "Concordia",
+  "wiki": "Luis_de_Molina",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CONG": {
+  "figure": "St. Robert Bellarmine, S.J.",
+  "era": "1542–1621",
+  "bio": "Jesuit Cardinal and Doctor who defended a modified Molinist position (Congruism).",
+  "works": "De Controversiis",
+  "wiki": "Robert_Bellarmine",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "SCOT": {
+  "figure": "Bl. John Duns Scotus",
+  "era": "c. 1266–1308",
+  "bio": "The Subtle Doctor who championed univocity of being, primacy of will, and absolute primacy of Christ.",
+  "works": "Ordinatio, Quodlibetal Questions",
+  "wiki": "Duns_Scotus",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "FRANC": {
+  "figure": "St. Bonaventure",
+  "era": "1221–1274",
+  "bio": "Seraphic Doctor whose mystical-affective theology emphasized Christ as the center of all knowledge.",
+  "works": "The Soul's Journey into God, Breviloquium",
+  "wiki": "Bonaventure",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "SUPRA": {
+  "figure": "Gottschalk of Orbais",
+  "era": "c. 808–867",
+  "bio": "Medieval monk whose strict double predestination was condemned but influenced later debates.",
+  "works": "Confessio Prolixior (fragments)",
+  "wiki": "Gottschalk_of_Orbais",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "INFRA": {
+  "figure": "Francisco Suárez, S.J.",
+  "era": "1548–1617",
+  "bio": "Spanish Jesuit whose infralapsarian scheme influenced Catholic and Reformed discussions.",
+  "works": "Disputationes Metaphysicae",
+  "wiki": "Francisco_Suárez",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "DOM": {
+  "figure": "St. Dominic",
+  "era": "1170–1221",
+  "bio": "Founder of the Order of Preachers dedicated to contemplation, study, and preaching.",
+  "works": "Dominican Constitutions",
+  "wiki": "Saint_Dominic",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "JES": {
+  "figure": "St. Ignatius of Loyola",
+  "era": "1491–1556",
+  "bio": "Founder of the Society of Jesus emphasizing discernment and finding God in all things.",
+  "works": "Spiritual Exercises, Autobiography",
+  "wiki": "Ignatius_of_Loyola",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CARM": {
+  "figure": "St. Teresa of Ávila",
+  "era": "1515–1582",
+  "bio": "Doctor of the Church and Carmelite reformer whose writings on contemplative prayer remain unsurpassed.",
+  "works": "Interior Castle, The Way of Perfection",
+  "wiki": "Teresa_of_Ávila",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "BENED": {
+  "figure": "St. Benedict of Nursia",
+  "era": "c. 480–547",
+  "bio": "Father of Western Monasticism whose Rule established ora et labora.",
+  "works": "Rule of St. Benedict",
+  "wiki": "Benedict_of_Nursia",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "OPUS": {
+  "figure": "St. Josemaría Escrivá",
+  "era": "1902–1975",
+  "bio": "Founder of Opus Dei emphasizing sanctification of ordinary work.",
+  "works": "The Way, Christ Is Passing By",
+  "wiki": "Josemaría_Escrivá",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "FRAN": {
+  "figure": "St. Francis of Assisi",
+  "era": "1181–1226",
+  "bio": "Founder of the Franciscan Order whose radical poverty renewed the medieval Church.",
+  "works": "Canticle of the Sun, Testament",
+  "wiki": "Francis_of_Assisi",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "ORAT": {
+  "figure": "St. Philip Neri",
+  "era": "1515–1595",
+  "bio": "Apostle of Rome and founder of the Oratory known for joyful spirituality.",
+  "works": "Maxims and Sayings",
+  "wiki": "Philip_Neri",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CHART": {
+  "figure": "St. Bruno of Cologne",
+  "era": "c. 1030–1101",
+  "bio": "Founder of the Carthusian Order dedicated to eremitical contemplation.",
+  "works": "Letters",
+  "wiki": "Bruno_of_Cologne",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "OSA": {
+  "figure": "St. Thomas of Villanova",
+  "era": "1488–1555",
+  "bio": "Augustinian friar, preacher, and Archbishop of Valencia, famed for his charity and his Augustinian spiritual teaching.",
+  "works": "Sermons; Opera omnia",
+  "wiki": "Thomas_of_Villanova",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "OCSO": {
+  "figure": "St. Bernard of Clairvaux",
+  "era": "1090–1153",
+  "bio": "Doctor of the Church and Cistercian abbot whose mystical writings shaped medieval spirituality.",
+  "works": "Sermons on Song of Songs, On Loving God",
+  "wiki": "Bernard_of_Clairvaux",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CSSR": {
+  "figure": "St. Alphonsus Liguori",
+  "era": "1696–1787",
+  "bio": "Founder of Redemptorists and Doctor of Moral Theology who developed equiprobabilism.",
+  "works": "Moral Theology, The Glories of Mary",
+  "wiki": "Alphonsus_Liguori",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "SDB": {
+  "figure": "St. John Bosco",
+  "era": "1815–1888",
+  "bio": "Founder of the Salesians dedicated to youth education through the Preventive System.",
+  "works": "Memoirs of the Oratory",
+  "wiki": "John_Bosco",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CM": {
+  "figure": "St. Vincent de Paul",
+  "era": "1581–1660",
+  "bio": "Founder of the Vincentians dedicated to serving the poor and forming clergy.",
+  "works": "Correspondence, Conferences",
+  "wiki": "Vincent_de_Paul",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CP": {
+  "figure": "St. Paul of the Cross",
+  "era": "1694–1775",
+  "bio": "Founder of the Passionists dedicated to preaching the Passion of Christ.",
+  "works": "Letters, Spiritual Diary",
+  "wiki": "Paul_of_the_Cross",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "OSM": {
+  "figure": "St. Philip Benizi",
+  "era": "1233–1285",
+  "bio": "Servite friar and Prior General who reformed and spread the Order of the Servants of Mary.",
+  "works": "—",
+  "wiki": "Philip_Benizi_de_Damiani",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "OPRAEM": {
+  "figure": "St. Norbert of Xanten",
+  "era": "c. 1080–1134",
+  "bio": "Founder of the Premonstratensian Canons combining contemplative life with active ministry.",
+  "works": "Known through hagiography",
+  "wiki": "Norbert_of_Xanten",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "MERC": {
+  "figure": "St. Peter Nolasco",
+  "era": "c. 1189–1256",
+  "bio": "Founder of the Mercedarians dedicated to ransoming Christian captives.",
+  "works": "Mercedarian Constitutions",
+  "wiki": "Peter_Nolasco",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "NEOPLAT": {
+  "figure": "Pseudo-Dionysius the Areopagite",
+  "era": "late 5th–early 6th c.",
+  "bio": "Anonymous author whose mystical theology profoundly influenced Eastern and Western Christianity.",
+  "works": "Divine Names, Mystical Theology",
+  "wiki": "Pseudo-Dionysius_the_Areopagite",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "THOMMETA": {
+  "figure": "Étienne Gilson",
+  "era": "1884–1978",
+  "bio": "French philosopher who championed Thomistic realism and the philosophy of being.",
+  "works": "The Spirit of Medieval Philosophy",
+  "wiki": "Étienne_Gilson",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "SCOTMETA": {
+  "figure": "Gerard Manley Hopkins, S.J.",
+  "era": "1844–1889",
+  "bio": "Jesuit poet whose idea of 'inscape' drew directly on Scotus's haecceity and the univocity of being.",
+  "works": "'Duns Scotus's Oxford'; 'As Kingfishers Catch Fire'; Journals",
+  "wiki": "Gerard_Manley_Hopkins",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "VOLUNT": {
+  "figure": "Gabriel Biel",
+  "era": "c. 1420–1495",
+  "bio": "Tübingen nominalist for whom God's free will grounds the moral order; he was the late-scholastic author Luther studied.",
+  "works": "Collectorium; Canonis Missae expositio",
+  "wiki": "Gabriel_Biel",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "INTELL": {
+  "figure": "Pierre Rousselot, S.J.",
+  "era": "1878–1915",
+  "bio": "French Jesuit whose thesis argued that for Aquinas the intellect, the grasp of being, is the highest human act and the key to beatitude.",
+  "works": "The Intellectualism of Saint Thomas (1908); The Eyes of Faith",
+  "wiki": "Pierre_Rousselot",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "PALAM": {
+  "figure": "St. Gregory Palamas",
+  "era": "1296–1359",
+  "bio": "Byzantine theologian who defended the essence-energies distinction and theosis.",
+  "works": "The Triads",
+  "wiki": "Gregory_Palamas",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "NOMINAL": {
+  "figure": "William of Ockham",
+  "era": "c. 1287–1347",
+  "bio": "Franciscan friar whose nominalism challenged realist metaphysics.",
+  "works": "Summa Logicae",
+  "wiki": "William_of_Ockham",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "RESSCH": {
+  "figure": "Hans Urs von Balthasar",
+  "era": "1905–1988",
+  "bio": "Swiss theologian whose dramatic Christology emphasized Christ as the concrete universal.",
+  "works": "The Glory of the Lord, Theo-Drama",
+  "wiki": "Hans_Urs_von_Balthasar",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "CHALMAX": {
+  "figure": "St. Maximus the Confessor",
+  "era": "c. 580–662",
+  "bio": "Monk and theologian who defended Christ's two natural wills and operations against Monothelitism and was mutilated and exiled for it.",
+  "works": "Ambigua; Disputation with Pyrrhus; Opuscula",
+  "wiki": "Maximus_the_Confessor",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "KENOT": {
+  "figure": "Sergei Bulgakov",
+  "era": "1871–1944",
+  "bio": "Russian Orthodox theologian whose kenotic Sophiology explored divine self-emptying.",
+  "works": "The Lamb of God",
+  "wiki": "Sergei_Bulgakov",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "TRIDSAC": {
+  "figure": "Pope St. Pius V",
+  "era": "1504–1572",
+  "bio": "Dominican pope who carried out the Council of Trent by promulgating the Roman Catechism, Breviary, and Missal.",
+  "works": "Catechism of the Council of Trent (1566); Quo Primum (1570)",
+  "wiki": "Pope_Pius_V",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "THOMSAC": {
+  "figure": "Thomas Cajetan, O.P.",
+  "era": "1469–1534",
+  "bio": "Dominican cardinal and master general whose commentary on the Summa became the standard Thomist reading, including on sacramental causality.",
+  "works": "Commentary on the Summa Theologiae",
+  "wiki": "Thomas_Cajetan",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "EASTSAC": {
+  "figure": "St. John Chrysostom",
+  "era": "c. 349–407",
+  "bio": "Doctor whose liturgy and sacramental theology shaped Eastern practice.",
+  "works": "On the Priesthood, Divine Liturgy",
+  "wiki": "John_Chrysostom",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "TRANSIG": {
+  "figure": "Edward Schillebeeckx, O.P.",
+  "era": "1914–2009",
+  "bio": "Belgian Dominican who explored transignification as a complement to transubstantiation.",
+  "works": "The Eucharist",
+  "wiki": "Edward_Schillebeeckx",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "EUCHMYST": {
+  "figure": "St. Peter Julian Eymard",
+  "era": "1811–1868",
+  "bio": "French priest, called the 'Apostle of the Eucharist', who founded the Congregation of the Blessed Sacrament for perpetual adoration.",
+  "works": "The Real Presence; Holy Communion",
+  "wiki": "Peter_Julian_Eymard",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "AUGSAC": {
+  "figure": "Hugh of St. Victor",
+  "era": "c. 1096–1141",
+  "bio": "Augustinian canon of Paris whose systematic theology of the sacraments developed Augustine's doctrine of sign and grace.",
+  "works": "De sacramentis christianae fidei",
+  "wiki": "Hugh_of_Saint_Victor",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "SACMIN": {
+  "figure": "Huldrych Zwingli",
+  "era": "1484–1531",
+  "bio": "Swiss Reformer who taught that the Lord's Supper is a memorial of Christ's once-for-all sacrifice, not a change in the elements.",
+  "works": "On the Lord's Supper (1526); Marburg Colloquy (1529)",
+  "wiki": "Huldrych_Zwingli",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "ULTRA": {
+  "figure": "Joseph de Maistre",
+  "era": "1753–1821",
+  "bio": "Counter-revolutionary thinker who championed absolute papal authority.",
+  "works": "The Pope",
+  "wiki": "Joseph_de_Maistre",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "PAPMOD": {
+  "figure": "Pope St. Paul VI",
+  "era": "1897–1978",
+  "bio": "Pope who brought Vatican II to a close and promulgated Lumen Gentium, holding papal primacy together with episcopal collegiality.",
+  "works": "Lumen Gentium (with the Nota praevia); Humanae Vitae; Evangelii Nuntiandi",
+  "wiki": "Pope_Paul_VI",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "PAPMIN": {
+  "figure": "Bp. Josef Fessler",
+  "era": "1813–1872",
+  "bio": "Bishop of St. Pölten and secretary of Vatican I, whose short book argued that very few papal acts meet the conditions for infallibility.",
+  "works": "True and False Infallibility of the Popes (1871)",
+  "wiki": "Josef_Fessler",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "GALL": {
+  "figure": "Jacques-Bénigne Bossuet",
+  "era": "1627–1704",
+  "bio": "French bishop who defended Gallican liberties while remaining Catholic.",
+  "works": "Declaration of the Gallican Clergy",
+  "wiki": "Jacques-Bénigne_Bossuet",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CONCIL": {
+  "figure": "Jean Gerson",
+  "era": "1363–1429",
+  "bio": "Chancellor of Paris who advocated conciliar authority during the Western Schism.",
+  "works": "On Ecclesiastical Power",
+  "wiki": "Jean_Gerson",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "EASTECC": {
+  "figure": "Met. Andrey Sheptytsky",
+  "era": "1865–1944",
+  "bio": "Ukrainian Greek Catholic leader who preserved Eastern traditions within Catholic communion.",
+  "works": "Pastoral Letters",
+  "wiki": "Andrey_Sheptytsky",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "SYNOD": {
+  "figure": "Cardinal Walter Kasper",
+  "era": "b. 1933",
+  "bio": "German Cardinal whose ecclesiology emphasizes synodality and local church.",
+  "works": "The Catholic Church",
+  "wiki": "Walter_Kasper",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "SEDE": {
+  "figure": "Fr. Joaquín Sáenz y Arriaga, S.J.",
+  "era": "1899–1976",
+  "bio": "Mexican Jesuit theologian, later excommunicated, regarded as a pioneering theorist of sedevacantism.",
+  "works": "La nueva iglesia montiniana; Sede vacante",
+  "wiki": "Joaquín_Sáenz_y_Arriaga",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "SEDEPRIV": {
+  "figure": "Bp. M.-L. Guérard des Lauriers, O.P.",
+  "era": "1898–1988",
+  "bio": "Dominican bishop who developed the thesis that post-conciliar popes hold office materially but not formally.",
+  "works": "The Cassiciacum Thesis",
+  "wiki": "Michel-Louis_Guérard_des_Lauriers",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "ORDINAR": {
+  "figure": "Msgr. Jeffrey N. Steenson",
+  "era": "b. 1952",
+  "bio": "First Ordinary of the Personal Ordinariate for former Anglicans.",
+  "works": "Various addresses",
+  "wiki": "Jeffrey_Steenson",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "THOMMOR": {
+  "figure": "Francisco de Vitoria, O.P.",
+  "era": "c. 1483–1546",
+  "bio": "Dominican founder of the School of Salamanca who applied Thomist natural law to conquest, war, and the law of nations.",
+  "works": "Relectiones (De Indis; De iure belli)",
+  "wiki": "Francisco_de_Vitoria",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "MANUAL": {
+  "figure": "Jean-Pierre Gury, S.J.",
+  "era": "1801–1866",
+  "bio": "French Jesuit whose compendium became the most widely used manual of moral theology in 19th-century seminaries.",
+  "works": "Compendium theologiae moralis (1850)",
+  "wiki": "Jean-Pierre_Gury",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "VIRTUE": {
+  "figure": "Alasdair MacIntyre",
+  "era": "1929–2025",
+  "bio": "Philosopher whose recovery of virtue ethics influenced Catholic moral theology.",
+  "works": "After Virtue",
+  "wiki": "Alasdair_MacIntyre",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "PERSMOR": {
+  "figure": "Pope St. John Paul II",
+  "era": "1920–2005",
+  "bio": "Philosopher-pope whose personalist ethics grounded moral norms in human dignity.",
+  "works": "Love and Responsibility, Veritatis Splendor",
+  "wiki": "Pope_John_Paul_II",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "NEOSCH": {
+  "figure": "Cardinal Alfredo Ottaviani",
+  "era": "1890–1979",
+  "bio": "Prefect of the Holy Office who defended neo-scholastic theology.",
+  "works": "Various curial documents",
+  "wiki": "Alfredo_Ottaviani",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "CASUIST": {
+  "figure": "Martín de Azpilcueta",
+  "era": "1491–1586",
+  "bio": "Spanish canonist, 'Doctor Navarrus', whose manual for confessors set the pattern of early-modern case-based moral reasoning.",
+  "works": "Manual de confesores y penitentes (Enchiridion confessariorum)",
+  "wiki": "Martín_de_Azpilcueta",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "PROBABIL": {
+  "figure": "Bartolomé de Medina, O.P.",
+  "era": "1527–1580",
+  "bio": "Dominican who first systematically defended probabilism.",
+  "works": "Commentary on Prima Secundae",
+  "wiki": "Bartolomé_de_Medina_(theologian)",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "TUTIOR": {
+  "figure": "Daniele Concina, O.P.",
+  "era": "1687–1756",
+  "bio": "Venetian Dominican preacher who led the 18th-century rigorist campaign against probabilism.",
+  "works": "Storia del probabilismo e del rigorismo (1743)",
+  "wiki": "Daniello_Concina",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "PROPORT": {
+  "figure": "Richard A. McCormick, S.J.",
+  "era": "1922–2000",
+  "bio": "American moral theologian who developed proportionalist approaches.",
+  "works": "Notes on Moral Theology",
+  "wiki": "Richard_A._McCormick",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "AUGMORAL": {
+  "figure": "Blaise Pascal",
+  "era": "1623–1662",
+  "bio": "French mathematician and apologist whose 'order of charity' recast Augustine's ordo amoris for modern readers.",
+  "works": "Pensées; Provincial Letters",
+  "wiki": "Blaise_Pascal",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "INTEG": {
+  "figure": "Bl. Pope Pius IX",
+  "era": "1792–1878",
+  "bio": "Longest-reigning pope, who condemned liberal separation of Church and state and called Vatican I.",
+  "works": "Quanta Cura and the Syllabus of Errors (1864)",
+  "wiki": "Pope_Pius_IX",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "INTEGHARD": {
+  "figure": "Pope Boniface VIII",
+  "era": "c. 1230–1303",
+  "bio": "Pope whose bull Unam Sanctam taught that the temporal sword is to be wielded for the Church and under spiritual authority.",
+  "works": "Unam Sanctam (1302)",
+  "wiki": "Pope_Boniface_VIII",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "INTEGSOFT": {
+  "figure": "Pope Leo XIII",
+  "era": "1810–1903",
+  "bio": "Pope who set out the Christian constitution of states and allowed prudential toleration of other cults for the common good.",
+  "works": "Immortale Dei (1885); Libertas (1888); Rerum Novarum (1891)",
+  "wiki": "Pope_Leo_XIII",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "LIBCATH": {
+  "figure": "John Courtney Murray, S.J.",
+  "era": "1904–1967",
+  "bio": "American Jesuit whose work on religious liberty influenced Dignitatis Humanae.",
+  "works": "We Hold These Truths",
+  "wiki": "John_Courtney_Murray",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "DISTRIBUT": {
+  "figure": "G. K. Chesterton",
+  "era": "1874–1936",
+  "bio": "English writer who championed Distributism as a third way.",
+  "works": "What's Wrong with the World",
+  "wiki": "G._K._Chesterton",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CORPCATH": {
+  "figure": "Heinrich Pesch, S.J.",
+  "era": "1854–1926",
+  "bio": "German Jesuit economist who developed Catholic corporatism.",
+  "works": "Lehrbuch der Nationalökonomie",
+  "wiki": "Heinrich_Pesch",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "SOCDEM": {
+  "figure": "Jacques Maritain",
+  "era": "1882–1973",
+  "bio": "French Thomist whose political philosophy supported Christian democracy.",
+  "works": "Integral Humanism, Man and the State",
+  "wiki": "Jacques_Maritain",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "LIBERTAR": {
+  "figure": "Michael Novak",
+  "era": "1933–2017",
+  "bio": "American theologian who argued for compatibility between Catholicism and democratic capitalism.",
+  "works": "The Spirit of Democratic Capitalism",
+  "wiki": "Michael_Novak",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "TRADNAT": {
+  "figure": "Juan Donoso Cortés",
+  "era": "1809–1853",
+  "bio": "Spanish Catholic political theorist who defended traditional order.",
+  "works": "Essay on Catholicism, Liberalism, and Socialism",
+  "wiki": "Juan_Donoso_Cortés",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "CATHUNIV": {
+  "figure": "Pope Francis",
+  "era": "1936–2025",
+  "bio": "Pope whose emphasis on mercy and global solidarity represents Catholic universalism.",
+  "works": "Evangelii Gaudium, Laudato Si'",
+  "wiki": "Pope_Francis",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "WORKERCATH": {
+  "figure": "Servant of God Dorothy Day",
+  "era": "1897–1980",
+  "bio": "Co-founder of the Catholic Worker Movement combining radical Catholicism with service to the poor.",
+  "works": "The Long Loneliness",
+  "wiki": "Dorothy_Day",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "AGRAR": {
+  "figure": "Hilaire Belloc",
+  "era": "1870–1953",
+  "bio": "Anglo-French writer who promoted agrarian distributism.",
+  "works": "The Servile State",
+  "wiki": "Hilaire_Belloc",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "TRAD": {
+  "figure": "Dietrich von Hildebrand",
+  "era": "1889–1977",
+  "bio": "Philosopher who defended traditional Catholic teaching against liturgical reform.",
+  "works": "Trojan Horse in the City of God",
+  "wiki": "Dietrich_von_Hildebrand",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "ROTR": {
+  "figure": "Cardinal Robert Sarah",
+  "era": "b. 1945",
+  "bio": "Guinean cardinal and Prefect for Divine Worship who championed a 'reform of the reform', including Mass celebrated ad orientem.",
+  "works": "The Power of Silence; God or Nothing",
+  "wiki": "Robert_Sarah",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "PROG": {
+  "figure": "Karl Rahner, S.J.",
+  "era": "1904–1984",
+  "bio": "German Jesuit whose transcendental Thomism shaped progressive Catholic theology.",
+  "works": "Foundations of Christian Faith",
+  "wiki": "Karl_Rahner",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "RESS": {
+  "figure": "Henri de Lubac, S.J.",
+  "era": "1896–1991",
+  "bio": "Leader of the ressourcement movement returning to patristic sources.",
+  "works": "Catholicism, The Splendor of the Church",
+  "wiki": "Henri_de_Lubac",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "STD": {
+  "figure": "Ven. Fulton J. Sheen",
+  "era": "1895–1979",
+  "bio": "Archbishop, broadcaster, and apologist whose television and radio work made mainstream Catholic teaching familiar to millions.",
+  "works": "Life Is Worth Living; Life of Christ",
+  "wiki": "Fulton_J._Sheen",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "SSPX": {
+  "figure": "Abp. Marcel Lefebvre",
+  "era": "1905–1991",
+  "bio": "Founder of the Society of St. Pius X who rejected aspects of Vatican II.",
+  "works": "I Accuse the Council",
+  "wiki": "Marcel_Lefebvre",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "EASTLIT": {
+  "figure": "Alexander Schmemann",
+  "era": "1921–1983",
+  "bio": "Orthodox liturgical theologian whose work influenced Eastern Catholic renewal.",
+  "works": "For the Life of the World",
+  "wiki": "Alexander_Schmemann",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "ORTHOPH": {
+  "figure": "Vladimir Solovyov",
+  "era": "1853–1900",
+  "bio": "Russian philosopher and poet who worked for the reunion of Orthodoxy and Rome and defended the Petrine primacy.",
+  "works": "Russia and the Universal Church (1889)",
+  "wiki": "Vladimir_Solovyov_(philosopher)",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "ANTIMOD": {
+  "figure": "Pope St. Pius X",
+  "era": "1835–1914",
+  "bio": "Pope who issued Pascendi and the Oath Against Modernism.",
+  "works": "Pascendi Dominici Gregis",
+  "wiki": "Pope_Pius_X",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "DEVPROG": {
+  "figure": "St. John Henry Newman",
+  "era": "1801–1890",
+  "bio": "His Essay on Development established criteria for distinguishing true from false development.",
+  "works": "Essay on Development of Christian Doctrine",
+  "wiki": "John_Henry_Newman",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "COMMUN": {
+  "figure": "Joseph Ratzinger",
+  "era": "1927–2022",
+  "bio": "Co-founder of Communio journal advocating ressourcement over Rahnerian progressivism.",
+  "works": "Introduction to Christianity",
+  "wiki": "Pope_Benedict_XVI",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "RADORTH": {
+  "figure": "John Milbank",
+  "era": "b. 1952",
+  "bio": "Anglican theologian whose Radical Orthodoxy retrieves patristic-medieval thought.",
+  "works": "Theology and Social Theory",
+  "wiki": "John_Milbank",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "TRADUM": {
+  "figure": "Dom Gérard Calvet, O.S.B.",
+  "era": "1927–2008",
+  "bio": "Benedictine founder of Le Barroux who, in 1988, chose communion with Rome over Lefebvre's consecrations while keeping the traditional liturgy.",
+  "works": "Benedictine sermons and letters",
+  "wiki": "Gérard_Calvet",
+  "image": null,
+  "imageAvailability": "scarce"
+ },
+ "ECUM": {
+  "figure": "Yves Congar, O.P.",
+  "era": "1904–1995",
+  "bio": "Dominican pioneer of Catholic ecumenism whose work shaped Vatican II's Unitatis Redintegratio.",
+  "works": "Chrétiens désunis (1937); True and False Reform in the Church",
+  "wiki": "Yves_Congar",
+  "image": null,
+  "imageAvailability": "cc"
+ },
+ "REFORM": {
+  "figure": "John Calvin",
+  "era": "1509–1564",
+  "bio": "French Reformer whose Institutes systematized Reformed theology.",
+  "works": "Institutes of the Christian Religion",
+  "wiki": "John_Calvin",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "LUTHERAN": {
+  "figure": "Martin Luther",
+  "era": "1483–1546",
+  "bio": "German Reformer whose theology emphasized justification by faith alone.",
+  "works": "Small Catechism, Bondage of the Will",
+  "wiki": "Martin_Luther",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "METHOD": {
+  "figure": "John Wesley",
+  "era": "1703–1791",
+  "bio": "Founder of Methodism emphasizing sanctification and practical holiness.",
+  "works": "Sermons, Plain Account of Christian Perfection",
+  "wiki": "John_Wesley",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "ANGLICAN": {
+  "figure": "Thomas Cranmer",
+  "era": "1489–1556",
+  "bio": "Archbishop of Canterbury who shaped Anglican liturgy and theology.",
+  "works": "Book of Common Prayer",
+  "wiki": "Thomas_Cranmer",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "ANGLOCATH": {
+  "figure": "Edward Bouverie Pusey",
+  "era": "1800–1882",
+  "bio": "Oxford Movement theologian associated with patristic retrieval, sacramental realism, and the catholic revival in Anglicanism.",
+  "works": "Tracts for the Times; Eirenicon",
+  "wiki": "Edward_Bouverie_Pusey",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "OLDCATH": {
+  "figure": "Ignaz von Döllinger",
+  "era": "1799–1890",
+  "bio": "Catholic historian whose opposition to Vatican I helped shape the Old Catholic movement, though his own relation to later Old Catholic institutions was complex.",
+  "works": "The Pope and the Council",
+  "wiki": "Ignaz_von_Döllinger",
+  "image": null,
+  "imageAvailability": "pd"
+ },
+ "EORTHO": {
+  "figure": "St. Photios the Great",
+  "era": "c. 810–893",
+  "bio": "Patriarch of Constantinople and defender of Eastern Orthodoxy.",
+  "works": "Mystagogy of the Holy Spirit",
+  "wiki": "Photios_I_of_Constantinople",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "OORTHO": {
+  "figure": "St. Severus of Antioch",
+  "era": "c. 465–538",
+  "bio": "Patriarch of Antioch and the leading theologian of miaphysite Christology for the Syriac and Coptic churches.",
+  "works": "Contra impium Grammaticum; Cathedral Homilies",
+  "wiki": "Severus_of_Antioch",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "COPTIC": {
+  "figure": "St. Cyril of Alexandria",
+  "era": "c. 376–444",
+  "bio": "Patriarch of Alexandria whose 'one incarnate nature of God the Word' remains the touchstone of Coptic and Oriental Orthodox Christology.",
+  "works": "Third Letter to Nestorius; Twelve Anathemas; On the Unity of Christ",
+  "wiki": "Cyril_of_Alexandria",
+  "image": null,
+  "imageAvailability": "icon"
+ },
+ "BAIUS": {
+  "figure": "Michael Baius",
+  "era": "1513–1589",
+  "bio": "Louvain theologian whose severe Augustinian propositions on nature, grace, and concupiscence were subjected to papal censure.",
+  "works": "De meritis operum; De prima hominis iustitia",
+  "wiki": "Michael_Baius",
+  "image": null,
+  "imageAvailability": "scarce"
+ }
+};
+const V11_FAMILY_FIGURES = {
+ "FAM_THOM": {
+  "figure": "St. Thomas Aquinas",
+  "era": "1225–1274",
+  "wiki": "Thomas_Aquinas",
+  "image": null,
+  "imageAvailability": "pd",
+  "bio": "The Angelic Doctor whose synthesis of Aristotelian philosophy and Christian theology became the Church's preferred framework.",
+  "works": "Summa Theologiae, Summa Contra Gentiles",
+  "fromSchool": "THOM"
+ },
+ "FAM_AUG": {
+  "figure": "St. Augustine of Hippo",
+  "era": "354–430",
+  "wiki": "Augustine_of_Hippo",
+  "image": null,
+  "imageAvailability": "pd",
+  "bio": "Bishop, Doctor of Grace, and philosophical theologian. Born in North Africa to St. Monica, his dramatic conversion (Confessions VIII) from Manichaeism transformed Western Christianity. His anti-Pelagian works (De Gratia et Libero Arbitrio, De Praedestinatione Sanctorum) defined Catholic teaching on grace, original sin, and predestination. Influence spans Catholic, Orthodox, and Protestant traditions.",
+  "works": "Confessions, City of God, On Grace and Free Will",
+  "fromSchool": "AUG"
+ },
+ "FAM_FRANC": {
+  "figure": "Bl. John Duns Scotus",
+  "era": "c. 1266–1308",
+  "wiki": "Duns_Scotus",
+  "image": null,
+  "imageAvailability": "pd",
+  "bio": "The Subtle Doctor who championed univocity of being, primacy of will, and absolute primacy of Christ.",
+  "works": "Ordinatio, Quodlibetal Questions",
+  "fromSchool": "SCOT"
+ },
+ "FAM_JES": {
+  "figure": "Luis de Molina, S.J.",
+  "era": "1535–1600",
+  "wiki": "Luis_de_Molina",
+  "image": null,
+  "imageAvailability": "pd",
+  "bio": "Spanish Jesuit who developed middle knowledge (scientia media) to reconcile divine sovereignty with human freedom.",
+  "works": "Concordia",
+  "fromSchool": "MOL"
+ },
+ "FAM_RESS": {
+  "figure": "Henri de Lubac, S.J.",
+  "era": "1896–1991",
+  "wiki": "Henri_de_Lubac",
+  "image": null,
+  "imageAvailability": "cc",
+  "bio": "Leader of the ressourcement movement returning to patristic sources.",
+  "works": "Catholicism, The Splendor of the Church",
+  "fromSchool": "RESS"
+ },
+ "FAM_EAST": {
+  "figure": "Met. Andrey Sheptytsky",
+  "era": "1865–1944",
+  "wiki": "Andrey_Sheptytsky",
+  "image": null,
+  "imageAvailability": "pd",
+  "bio": "Ukrainian Greek Catholic leader who preserved Eastern traditions within Catholic communion.",
+  "works": "Pastoral Letters",
+  "fromSchool": "EASTECC"
+ },
+ "FAM_TRID": {
+  "figure": "Pope St. Pius V",
+  "era": "1504–1572",
+  "wiki": "Pope_Pius_V",
+  "image": null,
+  "imageAvailability": "pd",
+  "bio": "Dominican pope who carried out the Council of Trent by promulgating the Roman Catechism, Breviary, and Missal.",
+  "works": "Catechism of the Council of Trent (1566); Quo Primum (1570)",
+  "fromSchool": "TRIDSAC"
+ },
+ "FAM_COMMUN": {
+  "figure": "Joseph Ratzinger",
+  "era": "1927–2022",
+  "wiki": "Pope_Benedict_XVI",
+  "image": null,
+  "imageAvailability": "cc",
+  "bio": "Co-founder of Communio journal advocating ressourcement over Rahnerian progressivism.",
+  "works": "Introduction to Christianity",
+  "fromSchool": "COMMUN"
+ },
+ "FAM_RENEW": {
+  "figure": "Pope St. John XXIII",
+  "era": "1881–1963",
+  "wiki": "Pope_John_XXIII",
+  "image": null,
+  "imageAvailability": "cc",
+  "bio": "Pope who convoked the Second Vatican Council and gave the Church the watchword of aggiornamento (updating).",
+  "works": "Mater et Magistra (1961); Pacem in Terris (1963)"
+ }
+};
+const V11_RETIRE = [9, 13, 14, 17, 25, 29, 33, 35, 36, 37, 39, 47, 48, 50, 60, 63, 71, 73, 78, 86, 89, 98, 102, 109, 114];
+const V11_REWRITES = {
+ "0": {
+  "text": "How should the Bible be read in theology and preaching?",
+  "options": [
+   "Read it the way the Church Fathers did, finding Christ and the sacraments throughout; historical criticism is a useful servant, not the master.",
+   "Start from the literal, historical meaning; the deeper spiritual senses are real because God shapes history as well as the text.",
+   "Use modern historical-critical methods, then bring the results into line with doctrine, liturgy, and the Church's rule of faith.",
+   "The plain grammatical-historical sense comes first, and Scripture interprets Scripture under a confessional standard.",
+   "Scripture comes first, read with the help of tradition, reason, and lived Christian experience.",
+   "Meaning grows mainly through today's communities and experience, even when that revises older readings."
+  ]
+ },
+ "4": {
+  "text": "Do general terms like 'humanity' or 'justice' name something real?",
+  "options": [
+   "Yes. A real common nature exists in individual things, and the mind abstracts the universal from it",
+   "Yes. Things share in patterns eternally known in God's mind, the divine ideas",
+   "Yes, but differently. A real common nature is in things and is formally distinct from what makes each one this individual",
+   "No. Only individual things exist outside the mind; 'universals' are just concepts or words",
+   "Dogma doesn't settle this. Several accounts can be Catholic if they protect creation and our natural knowledge of God."
+  ]
+ },
+ "5": {
+  "text": "When we say 'God exists' and 'a tree exists', does 'exists' mean the same thing in both?",
+  "options": [
+   "Not exactly. It is used by analogy: creatures have being by sharing in it, while God simply is Being itself.",
+   "Yes, at the level of the bare concept. 'Being' has one shared meaning, though God and creatures differ infinitely in how they are",
+   "All perfections flow out from God and return to Him in an ordered hierarchy; what God is lies beyond all our concepts",
+   "God's essence is wholly beyond reach, but we truly share in His uncreated energies",
+   "Theology shouldn't hang on one metaphysical system; the names God reveals in salvation history come first."
+  ]
+ },
+ "8": {
+  "text": "How certain can theology be, and what kind of knowledge is it?",
+  "options": [
+   "A true science: it reasons rigorously from principles given by faith, and it is also the highest wisdom.",
+   "Mainly wisdom: a sharing in God's wisdom through Scripture, prayer, contemplation, and rightly ordered love.",
+   "A faithful explanation of Scripture: certainty rests on God's promise, and speculative systems are only aids.",
+   "It knows God truly while admitting that no human concept can grasp what God is.",
+   "Apart from defined dogma, most theological conclusions are shaped by history and remain open to revision."
+  ]
+ },
+ "10": {
+  "text": "Eastern theology (Gregory Palamas) distinguishes God's unknowable essence from His 'energies', which we really share in. Is this distinction sound?",
+  "options": [
+   "Yes. It is real and indispensable: we are deified by sharing in God's uncreated energies.",
+   "Eastern Catholics can rightly use it, and it can fit Latin theology as long as it doesn't imply parts in God.",
+   "Aquinas's distinctions between God's essence, His acts, and their created effects already explain deification without Palamas's 'real' distinction.",
+   "Scotus's 'formal distinction' offers a Western parallel, allowing distinct perfections in God without separate things in Him.",
+   "It's mostly a problem of translating between two vocabularies, not a simple orthodox-versus-heretical question."
+  ]
+ },
+ "11": {
+  "text": "Would the Son of God have become man if humanity had never sinned?",
+  "options": [
+   "Probably not, as far as revelation tells us: the Incarnation is ordered mainly to redeeming us from sin.",
+   "Yes. Christ was first in God's plan and all creation is ordered to Him; sin was not the reason for the Incarnation.",
+   "Possibly. He came both to redeem and to divinize creation, so a glorious, non-suffering Incarnation without sin is plausible.",
+   "Revelation tells us why He actually came but doesn't answer the 'what if'; the question should stay open.",
+   "The Incarnation is above all about uniting creation to God; redemption from sin happens inside that larger purpose."
+  ]
+ },
+ "12": {
+  "text": "What did Christ know, as a man, during His earthly life?",
+  "options": [
+   "He had the beatific vision and infused knowledge as well as real learned knowledge; He grew in experience but never erred.",
+   "He had the knowledge His mission needed, above all of the Father, while genuinely growing through human experience.",
+   "His human mind had real limits, even not knowing some things, but He never erred in what He revealed.",
+   "He chose not to draw on His divine knowledge in ordinary human life, while remaining fully God.",
+   "Denying that He had the beatific vision on earth undermines the traditional teaching on His human perfection."
+  ]
+ },
+ "15": {
+  "text": "How does Christ's death on the Cross save us?",
+  "options": [
+   "Satisfaction: His loving obedience offered more than enough to repair the damage of sin and reconcile us to God.",
+   "Penal substitution: He bore the legal punishment due to sinners, and His righteousness is credited to believers.",
+   "Victory: through His incarnation, death, and resurrection He defeated sin, death, and the devil and restored humanity.",
+   "Covenant sacrifice: the Cross is the true Passover, the priestly offering that seals the new covenant.",
+   "Moral influence: the Cross reveals God's love, moves us to repent, and reshapes our desires, though that isn't the whole story.",
+   "Healing: the Word takes on mortal human nature, passes through death, and fills it with incorruptible divine life."
+  ]
+ },
+ "16": {
+  "text": "Which non-Catholic tradition's account of salvation do you find closest to Catholic faith?",
+  "options": [
+   "Lutheran: God declares us righteous; baptism gives new birth; Christ is really present in the Supper; a believer can fall away.",
+   "Reformed: Christ's righteousness is credited to us; covenant theology; union with Christ; a spiritual real presence; the saints persevere.",
+   "Classical Anglican: Reformation teaching joined to bishops, a continuous liturgy, and room for different views of the Eucharist.",
+   "Anglo-Catholic: apostolic succession, a sacrificing priesthood, Christ objectively present in the Eucharist, and devotion to the saints.",
+   "Methodist: grace that goes before us, justification by faith, salvation that can be lost, and growth toward perfect love.",
+   "Eastern Orthodox: deification, the sacraments as mysteries, government by councils, and the first seven councils.",
+   "Oriental Orthodox: Cyril's 'one incarnate nature' Christology, the first three councils, ascetic life, and ancient liturgy.",
+   "Old Catholic: Catholic sacraments and bishops governing together, without Vatican I's teaching on the pope."
+  ]
+ },
+ "18": {
+  "text": "The Council of Chalcedon (451) taught that Christ is one person in two natures. How should we read that?",
+  "options": [
+   "Exactly as Chalcedon says: one Person in two complete natures, without mixing, change, division, or separation.",
+   "Chalcedon is right, but only when read through Cyril of Alexandria: the one subject is always the divine Word made flesh.",
+   "Christ has 'one incarnate nature of the Word', divine and human united without mixture; modern dialogue shows this agrees in substance with Chalcedon.",
+   "The Church of the East's 'two natures' language shouldn't be confused with the heresy of Nestorianism, though it needs care.",
+   "Chalcedon's formula belongs to its time and should be substantially rethought by modern Christology."
+  ]
+ },
+ "19": {
+  "text": "What happened when Christ 'descended into hell'?",
+  "options": [
+   "He went to the realm of the righteous dead, announced His victory, and opened heaven to the holy people of the Old Testament.",
+   "He smashed the gates of death in a cosmic victory and set its captives free (the 'harrowing of hell').",
+   "He proclaimed His triumph to the imprisoned spirits; the descent is real, but exactly who benefited is debated.",
+   "It names what He suffered on the Cross: God's judgment on sin and the experience of abandonment.",
+   "It's a symbolic way of saying He truly died and that His victory is universal, not a literal journey."
+  ]
+ },
+ "20": {
+  "text": "What is the Christian life chiefly aimed at?",
+  "options": [
+   "Seeing God face to face: loving contemplation of God as our final end.",
+   "Being saved at the final judgment: watchfulness, repentance, and holy fear.",
+   "Deification: sharing in God's own life and being transformed by it.",
+   "Renewing the world and building social holiness through the Church's mission in history."
+  ]
+ },
+ "21": {
+  "text": "What is justification, and how does it relate to growing in holiness?",
+  "options": [
+   "God both forgives our sins and truly renews us within by grace and charity; these happen together as one event.",
+   "The grace God pours into the soul is what makes us just; faith, sorrow, and forgiveness all belong to this one divine movement",
+   "Forgiveness (God no longer counting sin) and the gift of grace are distinct aspects of one justification that always go together",
+   "God declares us righteous by crediting Christ's righteousness to us; the inner renewal that follows is a separate thing.",
+   "Being declared righteous and being made holy are distinct gifts that both flow from union with Christ; His righteousness is credited, not infused, as the basis of our acceptance.",
+   "Justification pardons us and makes us God's children; growth in holiness begins at once and can reach perfect love in this life.",
+   "Salvation is better described as forgiveness, healing, enlightenment, and sharing in God's life than through one legal category."
+  ]
+ },
+ "23": {
+  "text": "After baptism, Christians still feel inclinations toward sin ('concupiscence'). What is it?",
+  "options": [
+   "Not itself a sin unless we consent; it comes from sin and leans toward sin, and remains a wound.",
+   "It can loosely be called 'sin' because it is disordered and comes from sin, but baptism removes its guilt; it becomes our fault only when we consent.",
+   "It is truly sin even in the baptized, but God does not count it against those who cling to Christ by faith.",
+   "It is truly sin and must be fought, but believers are pardoned and cannot be condemned for it in Christ.",
+   "It belongs to our old, corrupt nature; after new birth its power and guilt are broken, though involuntary disorder remains and becomes guilt only through consent.",
+   "What we inherit is mainly mortality, corruption, and bondage, not personal guilt.",
+   "It keeps the full character of sin after baptism, in a stronger sense than the Council of Trent allows."
+  ]
+ },
+ "24": {
+  "text": "How sure can a Christian be of being in God's grace and of being saved?",
+  "options": [
+   "We can have real confidence and firm hope in God's promises, but not normally infallible certainty about our present state or final perseverance.",
+   "The elect will certainly persevere, but I can't normally know for sure that I'm one of them, so humility and prayer remain.",
+   "Assurance rests on Christ's promise in baptism and absolution, not on looking inward, although a believer can later fall away.",
+   "True faith can carry assurance, and every truly reborn person will persevere.",
+   "The Spirit can witness that I am God's child now, but staying saved depends on continuing in faith.",
+   "Live in confident hope, repentance, and watchfulness without trying to work out whether you are one of the elect."
+  ]
+ },
+ "26": {
+  "text": "How does God's grace relate to human freedom when someone turns to God?",
+  "options": [
+   "Grace itself moves the will, unfailingly, to freely say yes; God's action and our freedom don't compete",
+   "Grace wins the heart with a delight stronger than sin's, so the elect freely consent without being forced",
+   "God knows how each person would freely respond in any situation, and arranges His providence around those free responses",
+   "God chooses to give grace in circumstances where He knows the person will freely accept it.",
+   "God alone brings about new birth; the human will contributes nothing to it.",
+   "Grace given to everyone frees the will enough to accept or reject God, and it can be resisted.",
+   "Every saving act is enabled by grace and freely done by the healed person: God and the person work together."
+  ]
+ },
+ "27": {
+  "text": "Why are some saved and not others? How does God's choice (predestination) work?",
+  "options": [
+   "God freely chooses some from fallen humanity, not because of foreseen merits; others He permits to fall, but He never predestines anyone to sin.",
+   "God predestines through His knowledge of how people would freely cooperate with grace, though election never rests on unaided merit.",
+   "God chose some out of fallen humanity for salvation and passed over the rest; the chosen receive effective grace and will persevere.",
+   "God's choice of the saved and the lost comes logically before His decision to permit the Fall.",
+   "God's choice to save is taught for our comfort; there is no matching decree to damn anyone.",
+   "God chooses those who believe in Christ; grace makes a real, resistible response possible for everyone.",
+   "Affirm God's providence and foreknowledge, but don't build a system of decrees that seems to deny that God wants all to be saved."
+  ]
+ },
+ "28": {
+  "text": "Two people receive grace. One accepts and the other refuses. What explains the difference?",
+  "options": [
+   "The one who accepted got a further grace that unfailingly moved them to say yes; the other had real power to accept but not that further help.",
+   "Nothing in the grace itself: both got the same help, and the difference lies in their free response, which God foreknew.",
+   "God gave the one who accepted grace at a moment and in circumstances He knew would win their free consent.",
+   "The one who accepted was given a grace that truly delighted and healed the heart; for the other, the help was offered but never took hold.",
+   "The question assumes a Catholic 'sufficient vs. effective grace' framework that Protestant theology rejects.",
+   "This scholastic framework is less helpful than speaking of cooperation with God and of mystery."
+  ]
+ },
+ "31": {
+  "text": "Can someone who is truly in God's grace still end up lost?",
+  "options": [
+   "Yes. Mortal sin destroys grace and charity, which can be restored by repentance and confession; final perseverance is a gift we must pray for.",
+   "A justified person can fall, but those God has chosen and given final perseverance will not finally be lost.",
+   "No truly reborn person finally falls away; apparent apostasy shows the faith was never real.",
+   "Yes. A real believer can reject faith and fall from grace, though God's promise and sacraments give real assurance.",
+   "Yes. Salvation is truly possessed now but kept only by continuing faith.",
+   "Yes. The baptized must persevere in repentance, the sacraments, and cooperation with God, and judgment belongs to Him."
+  ]
+ },
+ "32": {
+  "text": "How does Mary's Immaculate Conception fit with the teaching that all humanity inherits original sin?",
+  "options": [
+   "Mary was redeemed in a more perfect way: preserved from original sin in advance, through Christ's merits",
+   "The dogma is fully true; Aquinas's hesitations are resolved by a clearer account of when and how she was preserved.",
+   "Her unique exemption actually highlights how universal original sin is and how completely grace comes first.",
+   "Mary is all-holy, but the Latin dogma assumes a Western idea of inherited guilt that the East doesn't share.",
+   "The belief may be pious and traditional without needing to have been defined infallibly by a pope."
+  ]
+ },
+ "34": {
+  "text": "How central to salvation is 'theosis', becoming a sharer in God's nature (2 Pet 1:4)?",
+  "options": [
+   "Very: it is the biblical and patristic name for sanctifying grace, a real sharing in God's nature without becoming God.",
+   "It should organise everything: we share in God's uncreated energies, as Gregory Palamas taught.",
+   "The same goal appears as incorruption, sacramental life, and union with the Word made flesh.",
+   "Protestant themes of union with Christ can recover deification language, as long as the Creator–creature line and justification by faith are protected.",
+   "It's orthodox but secondary; sanctifying grace, adoption, merit, and the beatific vision are the clearer Western framework."
+  ]
+ },
+ "38": {
+  "text": "How should Latin (Roman) Catholics regard the Byzantine and other Eastern liturgies?",
+  "options": [
+   "They preserve ancient forms the West has often lost; Latin Catholics can learn much from their reverence, icons, and theology.",
+   "The Roman Rite is the Church's foremost liturgy; Eastern rites are legitimate, but the Latin tradition is the norm.",
+   "Both are apostolic and complement each other; the Church must 'breathe with both lungs', as John Paul II put it.",
+   "Eastern Catholics should be fully Eastern, not Latinized; Melkites and Ukrainians have suffered from Roman centralization.",
+   "Rite differences are secondary; what matters is a valid Mass, the Real Presence, and the sacrifice."
+  ]
+ },
+ "40": {
+  "text": "Sacraments are said to work 'ex opere operato' (by the very performing of the rite). What does that mean?",
+  "options": [
+   "Christ uses the sacramental sign as His instrument to cause grace; it works because of Christ, not the minister's holiness, though the recipient can block its fruit.",
+   "When the word is joined to the element it becomes a sign that truly gives grace; it is Christ's act, but fruitful reception needs faith and conversion.",
+   "God has promised to give grace whenever the rite is validly done; we don't need Aquinas's theory that the sign itself is an instrument",
+   "It works because Christ instituted it and promised it, not because the minister is worthy; faith receives what the sacrament gives.",
+   "The rite doesn't give grace just by being performed; the Spirit makes it effective according to God's promise.",
+   "The sacraments truly give divine life through the Spirit the Church calls down; mechanical or legalistic explanations should be avoided."
+  ]
+ },
+ "41": {
+  "text": "How should we describe Christ's Real Presence in the Eucharist?",
+  "options": [
+   "Transubstantiation: the whole substance of bread and wine becomes Christ's Body and Blood, while the appearances remain.",
+   "Christ is wholly present in His substance, but not in the way a body takes up space.",
+   "Christ's true Body and Blood are received with the bread and wine by everyone who receives, worthy or not.",
+   "By the Spirit, believers truly feed on Christ in heaven, while the bread and wine stay bread and wine.",
+   "Christ is truly given in the sacrament, but how it happens is left undefined.",
+   "Christ truly gives Himself in the Supper as a means of grace that converts and sanctifies.",
+   "Through the whole Eucharistic prayer and the calling down of the Spirit, the gifts truly become Christ's Body and Blood, without needing one Latin philosophical explanation."
+  ]
+ },
+ "45": {
+  "text": "How should we judge the liturgical reforms after Vatican II?",
+  "options": [
+   "Largely a mistake: the new Mass broke with tradition, and the Traditional Latin Mass should become the norm again.",
+   "Good intentions, poor execution: we need a 'reform of the reform' that recovers what Vatican II actually asked for, drawing on the older rite and the East.",
+   "Mostly positive: the reforms made worship more accessible and participatory, and adaptation to local cultures should continue.",
+   "Both forms of the Mass have value and should coexist and enrich each other.",
+   "Eastern Catholic liturgies show what reverent worship in the people's language looks like; the West should learn from them instead of fighting over Latin."
+  ]
+ },
+ "46": {
+  "text": "What place should the Traditional Latin Mass have today, given recent papal restrictions?",
+  "options": [
+   "It should be freely available in every diocese; Traditionis Custodes (2021) was a mistake and should be reversed.",
+   "Both forms should coexist, as Benedict XVI allowed in 2007; restrictions harm unity.",
+   "It has value but should stay under the bishop's oversight; some limits are prudent to avoid parallel churches.",
+   "The reformed Mass is the Church's standard rite; the old Mass may be available but shouldn't be a rival.",
+   "The reform was necessary and good; strong attachment to the old rite is nostalgic and divisive."
+  ]
+ },
+ "51": {
+  "text": "How should the pope's primacy and infallibility be understood?",
+  "options": [
+   "As Vatican I and II teach: the pope has full, supreme, universal authority, and the bishops are true successors of the apostles, governing with him and under him.",
+   "Papal teaching and decisions deserve the broadest possible presumption and practical obedience.",
+   "Primacy and narrowly defined 'ex cathedra' infallibility are binding, but most centralization could be reformed.",
+   "Vatican I's definitions go beyond how the Church was governed in the first millennium and shouldn't bind everyone.",
+   "Rome may have a primacy of honour and appeal, but not supreme authority over other churches or infallibility.",
+   "A pope could be good for unity, but being truly catholic doesn't depend on accepting Vatican I.",
+   "Vatican I is true, and the contradictions since Vatican II prove the papal see is vacant.",
+   "Recent popes were validly chosen in a legal sense but lack real papal authority until the obstacle is removed."
+  ]
+ },
+ "52": {
+  "text": "Where does a bishop's authority come from?",
+  "options": [
+   "From Christ, through ordination and communion with the hierarchy; the pope assigns or confirms how it is exercised.",
+   "Directly from the pope, who is the legal source of every bishop's jurisdiction.",
+   "Directly from Christ through ordination; communion with the pope is needed for lawful Catholic ministry but doesn't create the authority.",
+   "From the college of apostles, expressed through councils of local churches and patriarchs.",
+   "From historic apostolic succession, without any papal jurisdiction.",
+   "From the Gospel and the church's call to ministry; no worldwide chain of episcopal authority is needed."
+  ]
+ },
+ "53": {
+  "text": "What makes the Church one?",
+  "options": [
+   "Visible communion with the pope and the bishops united to him.",
+   "Communion among local churches, each gathered around its bishop and the Eucharist, with Rome serving unity rather than absorbing local authority.",
+   "Councils and the shared Eucharist among apostolic local churches, without a universal monarch.",
+   "The one Catholic Church exists in Roman, Eastern, and Anglican 'branches' that share the creeds, sacraments, and bishops.",
+   "Pure preaching of the Gospel and right administration of the sacraments, not one worldwide jurisdiction.",
+   "Ecumenism should seek 'reconciled diversity' rather than absorbing other churches into one structure."
+  ]
+ },
+ "54": {
+  "text": "Should Catholic rulers defer to bishops on questions of faith and morals?",
+  "options": null
+ },
+ "55": {
+  "text": "How should Vatican II be interpreted in relation to earlier Church teaching?",
+  "options": [
+   "It is a fully authoritative council whose teachings bind; its fruits are imperfect but a real renewal.",
+   "It is authoritative but pastoral and defined no new dogma; its ambiguities have been exploited, so it must be read in continuity with tradition.",
+   "It contains real ambiguities and breaks with earlier teaching (religious liberty, ecumenism, collegiality) that need formal correction.",
+   "It was an invalid 'robber council' that departed from the faith; its documents don't bind.",
+   "Its 'spirit' of dialogue, openness, and reform matters more than its exact texts; it opened windows that should stay open."
+  ]
+ },
+ "58": {
+  "text": "Should national churches have some independence from Rome, for example over choosing bishops (the old 'Gallican liberties')?",
+  "options": [
+   "Nations may legitimately negotiate rights over appointments and local synods with Rome, as long as they don't coerce the Holy See.",
+   "It made sense when there were stable Catholic monarchies, but it's impractical in modern democracies.",
+   "It's a dangerous affront to the pope's universal authority.",
+   "It risks letting nationalists capture the Church and undermine her mission to all nations."
+  ]
+ },
+ "61": {
+  "text": "What is the right form of church government?",
+  "options": [
+   "A papal monarchy with real collegiality: a supreme universal primacy together with genuine government by local bishops.",
+   "A strongly centralized papal monarchy, as the surest protection of unity and orthodoxy.",
+   "A communion of local churches governed through councils, where primacy serves the bishops rather than constituting them.",
+   "Bishops, synods, and self-governing provinces, sometimes with a constitutional role for the state.",
+   "Elders governing through a ladder of assemblies (presbyterian).",
+   "Bishops, consistories, or synods, all serving the ministry of Word and Sacrament.",
+   "A connected network of conferences, superintendents or bishops, and itinerant ministers.",
+   "Each local congregation governs itself."
+  ]
+ },
+ "62": {
+  "text": "The Western Creed says the Holy Spirit proceeds from the Father 'and the Son' (the filioque). What should we make of this?",
+  "options": [
+   "It's true: the Spirit proceeds eternally from the Father and the Son as from one source.",
+   "The Spirit proceeds from the Father through the Son; this older formula can reconcile the Greek and Latin emphases.",
+   "The Father alone is the source of the Spirit, and adding the phrase to the Creed without a council was illegitimate, even if some Latin theology can be read charitably.",
+   "Keep the original Creed and Cyril's Trinitarian language; modern dialogue can separate disputes over wording from disputes over substance.",
+   "Leave it out of the liturgy and seek a settlement by council, without condemning every orthodox Latin explanation.",
+   "Churches may keep or drop it; views range from traditional Western affirmation to removal for ecumenical reasons."
+  ]
+ },
+ "64": {
+  "text": "If a non-infallible teaching or decision from Rome seems doubtful, unwise, or in tension with tradition, how should a Catholic respond?",
+  "options": [
+   "Give inner assent as normal; public disagreement risks scandal and disobedience.",
+   "Show religious submission, but one may cautiously withhold inner agreement while seeking clarification and staying obedient.",
+   "Respectful, reasoned critique is sometimes needed; the Fathers and tradition can correct modern confusion.",
+   "If it conflicts with tradition, public resistance is justified.",
+   "Conscience comes first; full dissent can be legitimate."
+  ]
+ },
+ "65": {
+  "text": "What is the best way to do moral theology?",
+  "options": [
+   "Start from happiness (beatitude), natural law, and the virtues, especially prudence, and work out what human acts really are",
+   "Use the classic manuals: clear categories of law, obligation, sin, restitution, and confession are indispensable for priests hearing confessions.",
+   "Test principles against real cases; when a moral question is genuinely doubtful, you may follow a well-founded opinion that favours freedom.",
+   "When in serious doubt, take the safer course: the one that favours the law and avoids sin.",
+   "Read objective moral norms in light of the dignity, vocation, relationships, and concrete situation of persons.",
+   "Order ethics around law and Gospel, or covenant; good works are the fruit of justification, not its basis.",
+   "Aim at perfect love of God and neighbour through disciplined use of the means of grace and works of mercy."
+  ]
+ },
+ "66": {
+  "text": "Do universal moral rules ever have exceptions?",
+  "options": [
+   "Intrinsically evil acts have no exceptions; circumstances and intentions affect guilt but can't make such acts good.",
+   "Careful description of what an act really is, plus the principle of double effect, allows hard choices without making 'exceptions'.",
+   "A human law may not bind in an unforeseen case its maker never intended ('epikeia'), but this never overturns divine or natural law.",
+   "A strong enough reason can justify an act traditionally classed as intrinsically evil.",
+   "The Church can relax church rules in particular cases for the sake of salvation ('economy') without calling evil good or changing doctrine.",
+   "Love and concrete responsibility, not universal rules, finally decide what is right."
+  ]
+ },
+ "67": {
+  "text": "A shopkeeper finds a $20 bill on the floor after closing. The customer who probably dropped it has driven off and can't reasonably be traced. What should he do?",
+  "options": [
+   "Make a reasonable effort to find the owner; if that's truly impossible, hold it for a while and then give it to the poor or another good cause.",
+   "Since the amount is small and the owner can't be traced, a well-founded opinion allows him to keep it without sin.",
+   "The safer course is to return it if possible or give it to charity; keeping it is morally risky.",
+   "The owner still owns it even if it's hard to return; keep it available rather than treating 'finders keepers' as a right.",
+   "Context and conscience decide: the shop's policy, local law, and reasonable expectations should guide him."
+  ]
+ },
+ "68": {
+  "text": "Pope Francis's Amoris Laetitia (2016) opened a debate about Communion for divorced Catholics who have remarried civilly. What's your view?",
+  "options": [
+   "Read it in continuity: marriage stays indissoluble; discernment concerns guilt and pastoral care, not permission to continue a sexual relationship outside a valid marriage.",
+   "Its ambiguous implementation has allowed sacrilege and contradicts earlier sacramental discipline.",
+   "In complex cases a person may receive the sacraments after formation and discernment, even without changing their situation.",
+   "The Eastern practice of 'economy' offers a parallel for penitential accommodation after a marriage breaks down, though Catholic doctrine differs.",
+   "The controversy shows something is wrong with the papal authority behind it."
+  ]
+ },
+ "69": {
+  "text": "Where does moral obligation ultimately come from?",
+  "options": [
+   "From God's wisdom: moral truth reflects God's nature and eternal law, not arbitrary command.",
+   "From God's will: obligations bind because God freely commands them, though His will is never irrational or evil.",
+   "From our final end: obligations make sense as the path to the flourishing God made us for.",
+   "From covenant and revealed command: God's law binds His people within the story of creation, redemption, and promise.",
+   "From love: obligation is fulfilled in loving God and neighbour, made possible by grace.",
+   "From autonomous conscience and shared human experience."
+  ]
+ },
+ "70": {
+  "text": "What is the highest form of prayer?",
+  "options": [
+   "Contemplation: every Christian should practise mental prayer, and its summit is mystical union with God.",
+   "The liturgy, especially the Mass; personal prayer is vital but serves the liturgy.",
+   "Finding God in all things, or contemplation in action; the line between contemplative and active is overdrawn.",
+   "Prayer matters but comes after charity and justice; too much focus on contemplation can neglect the poor.",
+   "Unceasing prayer of the heart, like the Jesus Prayer, seeking inner stillness and union with God."
+  ]
+ },
+ "74": {
+  "text": "Which theme of St. Augustine's spirituality speaks to you most?",
+  "options": [
+   "The inward journey: 'Do not go outward; return within yourself. Truth dwells in the inner man.'",
+   "Ordered love: setting our loves in the right order, with God first.",
+   "Grace and predestination: God's initiative comes first in everything.",
+   "Life in community: 'one mind and one heart, intent upon God.'"
+  ]
+ },
+ "75": {
+  "text": "How central should meditation on Christ's Passion be in the spiritual life?",
+  "options": [
+   "Central: meditating on the Passion transforms the soul and fuels preaching that calls people to conversion.",
+   "Important, but it must be balanced by Easter joy; the Cross without the Resurrection is incomplete.",
+   "Remembering His suffering joins us in solidarity with people who suffer today.",
+   "Making reparation for sin by contemplating the Passion is a powerful but demanding path.",
+   "It can become morbid; better to focus on Christ's victory and the joy of the Resurrection."
+  ]
+ },
+ "76": {
+  "text": "What do you make of the fully hidden, enclosed contemplative life (for example, the Carthusians)?",
+  "options": [
+   "It's the highest Christian life: pure contemplation and hidden prayer for the world.",
+   "Valid but exceptional; an active apostolate is the norm for most.",
+   "An important witness, but the Church mostly needs engaged presence in the world.",
+   "The desert fathers' 'flee, be silent, pray' is wisdom for every age."
+  ]
+ },
+ "77": {
+  "text": "What should the relationship between Church and state be? Is a Catholic state still the ideal?",
+  "options": [
+   "Yes: the state should recognize the true religion and order public life to both earthly and heavenly good.",
+   "Church and state are distinct and should cooperate, with prudent tolerance in a pluralist society.",
+   "Constitutional religious freedom, subsidiarity, human rights, and solidarity best realize Catholic principles today.",
+   "A national church can keep a public, constitutional role without forcing religious uniformity.",
+   "God rules church and civil society in two different ways; the Gospel shouldn't be turned into a political code.",
+   "Rulers answer to God and may publicly uphold true religion under the moral law.",
+   "Keep church and state separate to protect the Church's mission, while Christians work for social holiness in public life."
+  ]
+ },
+ "79": {
+  "text": "Which economic vision best reflects Catholic social teaching?",
+  "options": [
+   null,
+   null,
+   null,
+   "Free markets without cronyism: real competition, with strong rules against monopoly, rent-seeking, and corporate welfare.",
+   null,
+   null
+  ]
+ },
+ "83": {
+  "text": "How should Catholics think about nationalism, patriotism, and national identity?",
+  "options": [
+   "Nations are natural communities willed by God; the faith should take root in national cultures, and borders should be defended.",
+   "The Church transcends nations; nationalism easily becomes idolatry and must give way to universal solidarity.",
+   "Moderate patriotism is healthy, but always beneath Catholic identity and the common good.",
+   "The state should serve Christ's kingship within its own culture; that's the right home for national identity.",
+   "National identity is a gift that the Gospel must purify; solidarity with migrants and refugees comes first."
+  ]
+ },
+ "87": {
+  "text": "Some theologians (the 'Radical Orthodoxy' movement) argue there's no neutral, purely secular reason: all reasoning either shares in God's truth or turns from it. What do you think?",
+  "options": [
+   "Right: modern reason's claim to independence from theology must be rejected root and branch.",
+   "A useful critique of secularism, but it sometimes overstates the case against modernity.",
+   "Too academic; practical pastoral needs matter more than philosophical critique.",
+   "Essentially correct: all truth shares in divine truth, so there is no neutral reason.",
+   "Dangerous: it slides toward fideism, and reason has its own integrity under grace."
+  ]
+ },
+ "88": {
+  "text": "In theological debates, how should reasoning normally proceed?",
+  "options": [
+   "From revealed principles downward: reason systematically from the articles of faith and first principles of metaphysics.",
+   "From Scripture and the Fathers to doctrine: recover the sources first, then build a synthesis, with doctrine guiding interpretation.",
+   "From the liturgy: how the Church prays (lex orandi) is a privileged witness to what she believes.",
+   "From close reading of Scripture, summarized in creeds and confessions.",
+   "From experience and practice, producing new formulations in dialogue with inherited symbols."
+  ]
+ },
+ "90": {
+  "text": "What is purgatory, mainly?",
+  "options": [
+   "Purification from the lingering effects of forgiven sin and disordered attachments before we see God.",
+   "A transforming encounter with Christ's judgment and love that burns away falsehood and completes our sanctification.",
+   "A state of temporal punishment that the living can help with prayers, indulgences, and Masses.",
+   "Purification after death and prayer for the dead are real, but the Latin definitions about fire and satisfaction needn't be accepted.",
+   "Prayer for the dead and purification after death can be accepted without every late-medieval Latin detail.",
+   "There's no purgatory; those who die in Christ go straight to blessedness through His finished righteousness.",
+   "Sanctification may be completed at death, but no separate place of punishment is needed."
+  ]
+ },
+ "92": {
+  "text": "Without grace, can fallen human beings do anything truly good?",
+  "options": [
+   "They can do real natural and civic good, but nothing that leads to salvation begins without grace.",
+   "Without healing grace, even their apparently good acts are deeply corrupted by pride and aren't true righteousness before God.",
+   "They can be upright citizens, but can't truly fear, love, or trust God until God alone gives them new birth.",
+   "Every faculty is corrupted, so no spiritual good is possible without effective grace, though unbelievers do relative civic good.",
+   "Without grace that goes before us we can't turn to faith, though common grace allows real goods.",
+   "Grace given to everyone counteracts our inability enough that every person can respond to the Gospel.",
+   "God's image in us is wounded but not destroyed; grace comes first and empowers real cooperation toward healing."
+  ]
+ },
+ "93": {
+  "text": "In God, which comes first: His will or His wisdom (intellect)?",
+  "options": [
+   "His wisdom: God wills what is good because His will is one with His wisdom and nature",
+   "His will has a real priority in what God freely decides about creation, though He never wills anything irrational",
+   "His will: many moral requirements depend on God's free command rather than on fixed natures",
+   "Neither: in God, intellect and will are really one; 'priority' describes only our way of understanding",
+   "We mustn't project our distinction between faculties onto the simple life of God at all."
+  ]
+ },
+ "94": {
+  "text": "How was the early Church organized?",
+  "options": [
+   "As a communion of local churches led by bishops, with Rome holding a real Petrine primacy whose form developed over time.",
+   "As a papal Church in substance from the start, with Rome's universal authority made more explicit over time.",
+   "As a communion of apostolic sees joined by councils and the Eucharist; Rome's primacy wasn't Vatican I-style jurisdiction.",
+   "With bishops and apostolic succession, compatible with Anglican claims to historic succession and self-governing provinces.",
+   "With 'bishop' and 'elder' (presbyter) at first as fluid offices that only later became distinct.",
+   "As a diverse, Spirit-led movement; later hierarchy shouldn't be read back into the apostolic age."
+  ]
+ },
+ "99": {
+  "text": "How should the Catholic Church seek reunion with the Eastern Orthodox?",
+  "options": [
+   "Restore full communion through acceptance of papal primacy as defined, while fully guaranteeing Eastern theology, liturgy, and church law.",
+   "Seek a first-millennium form of primacy both sides can accept, separating dogma from later centralization.",
+   "Rome must first renounce Vatican I's claims and its later one-sided dogmas.",
+   "Hold a council of the apostolic churches, without universal papal jurisdiction.",
+   "Reunion must not trade away Latin dogma, the filioque, or papal claims for the sake of diplomacy.",
+   "Treat the existing sacramental communion as already substantial and allow shared Communion before every doctrinal issue is settled."
+  ]
+ },
+ "100": {
+  "text": "Vatican II's Dignitatis Humanae (1965) taught a right to religious freedom. How do you understand it?",
+  "options": [
+   "In continuity: it is freedom from state coercion grounded in human dignity, not a moral right to believe error, and it develops earlier teaching.",
+   "A genuine development toward constitutional pluralism and human rights.",
+   "It contradicts earlier teaching on Christ's social kingship and the duties of Catholic states.",
+   "The contradiction proves the authority that issued it wasn't a true pope or council.",
+   "The pope who issued it was validly chosen but lacked real authority because of public doctrinal error.",
+   "It's partly a practical question: accept its legal teaching while criticizing its rhetoric and applications."
+  ]
+ },
+ "101": {
+  "text": "Should celibacy remain mandatory for Latin-rite priests?",
+  "options": [
+   "Yes: celibacy is fitting as a sign of the world to come and for pastoral and spiritual reasons.",
+   "Keep it as the norm, but ordain more proven married men where there's grave pastoral need.",
+   "Make it optional for diocesan priests, while keeping celibate religious life and celibate bishops.",
+   "Follow the Eastern model: married men may become parish priests, while bishops come from celibates or monks.",
+   "Married clergy are fully compatible with catholic sacramental ministry.",
+   "Ministers may normally marry; mandatory celibacy has no biblical basis."
+  ]
+ },
+ "103": {
+  "text": "What expanded roles, if any, should women have in the Church?",
+  "options": [
+   "Expand leadership, teaching, governance, and lay ministries, while keeping priestly ordination for men.",
+   "Study or restore a female diaconate, distinct from the priesthood, only if the historical and sacramental evidence supports it.",
+   "No ordination, but revive traditional roles such as deaconesses, consecrated widows, and abbesses without making women clergy.",
+   "Ordain women as deacons and priests; their exclusion is a changeable historical practice.",
+   "It's contested: some Anglo-Catholics accept women's ordination through synods; others think it incompatible with catholic orders.",
+   "Keep current roles and resist measuring dignity by access to ordained office."
+  ]
+ },
+ "104": {
+  "text": "After Vatican II's Nostra Aetate (1965), how should the Church understand her relationship to Judaism?",
+  "options": [
+   "The Old Covenant remains valid; Jews have their own path that doesn't require explicit faith in Christ.",
+   "Nostra Aetate condemned antisemitism but didn't change the necessity of Christ for salvation.",
+   "The Church has overcorrected; the traditional view that the Church replaced Israel (supersessionism) shouldn't be abandoned.",
+   "Honour Jewish roots, condemn antisemitism, and keep the mission to proclaim Christ to all."
+  ]
+ },
+ "105": {
+  "text": "What role should devotion to Mary play?",
+  "options": [
+   "A rich, abundant devotion: the Rosary, consecration, feasts, images, relics, and confident prayer to her, always leading to Christ.",
+   "Honour Mary as Mother of God, New Eve, and our mother in grace, while keeping devotions secondary to liturgy and discipleship.",
+   "Marian devotion is woven into Christology, liturgy, fasting, and icons, centred on the titles 'Mother of God' and 'All-Holy'.",
+   "The Rosary, Marian feasts, and prayer to Mary can be embraced within a catholic but non-Roman framework.",
+   "Honour Mary as Mother of God and model believer, but reject praying to her and treating later Marian dogmas as required beliefs.",
+   "Honour her biblical role but reject invoking or venerating her and doctrines without clear biblical basis.",
+   "Esteem Mary as Scripture and the creeds do, but keep devotion restrained and directed to Christ."
+  ]
+ },
+ "106": {
+  "text": "Some Catholics want Mary formally called 'Mediatrix of all graces' and 'Co-redemptrix'. What do you think?",
+  "options": [
+   "The teaching that Mary mediates grace as a mother, beneath Christ, is true, and 'Mediatrix of all graces' may be taught with care.",
+   "The content may be orthodox, but defining 'Co-redemptrix' would cause needless confusion and ecumenical harm.",
+   "Both titles should be promoted and eventually defined as the completion of Marian doctrine.",
+   "Eastern traditions affirm Mary's powerful intercession and cooperation but don't need these Latin titles.",
+   "Similar language is possible, but the titles should stay optional, not universal dogma.",
+   "The titles obscure Christ's unique mediation and should be rejected."
+  ]
+ },
+ "107": {
+  "text": "How much may Christians hope that everyone will be saved?",
+  "options": [
+   "We may hope and pray that all are saved, without claiming to know hell is empty or denying that damnation is really possible.",
+   "Revelation teaches hell and the urgency of conversion but doesn't tell us how many are lost.",
+   "Scripture and many saints suggest many are lost, so hoping for all risks presumption.",
+   "God's choice of some for salvation, and the final judgment, rule out expecting universal salvation.",
+   "In the end every rational creature will be reconciled to God.",
+   "Stress God's mercy and pray for all, but leave judgment a mystery without teaching universalism as doctrine."
+  ]
+ },
+ "108": {
+  "text": "Paul VI's Humanae Vitae (1968) taught that contraception is wrong. What's your view?",
+  "options": [
+   "It teaches a binding natural-law norm: every marital act must stay open to life.",
+   "It's true, and best defended through personalist ideas of the body as self-gift, covenant, and responsible parenthood.",
+   "The norm is authoritative, but guilt and pastoral response depend on freedom, formation, pressures, and gradual conversion.",
+   "Responsible contraception can be morally justified by the overall goods of the marriage and its circumstances.",
+   "Most Anglican, Old Catholic, Lutheran, Reformed, and Methodist churches allow responsible, non-abortifacient contraception in marriage, and that's right.",
+   "It's better handled pastorally under spiritual guidance, as Orthodox practice often does, than through one universal 'intrinsically evil' analysis."
+  ]
+ },
+ "112": {
+  "text": "How should 'outside the Church there is no salvation' fit with God's will that all be saved?",
+  "options": [
+   "All salvation comes through Christ and His Church, but someone invincibly ignorant can be joined to the Church by an implicit, grace-given desire.",
+   "Explicit Catholic faith and baptism are normally necessary; exceptions should be read narrowly, not as a parallel path.",
+   "God's call is universal, but effective grace and final perseverance are given according to His choice; no one is saved apart from Christ and His Body.",
+   "Salvation comes through faith in Christ's promise, not visible membership in the Roman Church.",
+   "God effectively calls His elect through the Gospel; the true Church of the saved isn't bounded by Rome.",
+   "Christ died for all and grace makes a response possible for everyone; visible Catholic membership isn't required.",
+   "Confess that Christ and the Church are unique, but entrust the exact limits of God's mercy to Him."
+  ]
+ },
+ "115": {
+  "text": "What is original sin?",
+  "options": [
+   "Humanity inherits guilt, corruption, disordered desire, and death through its solidarity with Adam; grace must come first entirely.",
+   "Mainly the loss of 'original justice', the harmony God first gave human nature; disordered desire follows from that loss",
+   "The loss of the justice God willed for humanity, without every Augustinian claim about inherited guilt",
+   "A deep corruption and disordered desire that is itself truly sin, leaving us unable to fear and trust God for salvation.",
+   "Adam's guilt is credited to all his descendants and every faculty is corrupted, so only God can give new birth.",
+   "The fault and corruption of our nature; disordered desire keeps the nature of sin even in the baptized.",
+   "Inherited corruption leaves us unable to turn to God, but grace given to everyone restores a real ability to respond.",
+   "We inherit mortality, corruption, and a wounded world, not Adam's personal guilt ('ancestral sin').",
+   "Keep the Western doctrine but resist overly legal or biological accounts of inherited guilt."
+  ]
+ },
+ "117": {
+  "text": "How should the Pope respond when a national bishops' conference (like Germany's 'Synodal Path') pushes against Church teaching?",
+  "options": [
+   "Swiftly and decisively: discipline or remove bishops who persist in error, and suppress the conference if necessary.",
+   "Firm correction through normal channels: restate the doctrine, require errors to be withdrawn, and use canonical measures against persistent dissent.",
+   "Patient dialogue: listen to the concerns behind the movement, discern what the Spirit may be saying, and keep communion with legitimate diversity.",
+   "Correct the doctrine clearly but respect local autonomy; heavy-handed centralization would backfire."
+  ]
+ },
+ "118": {
+  "text": "Joseph Ratzinger predicted the Church might become smaller, poorer, and more spiritually focused. How do you see that?",
+  "options": [
+   "A plausible prediction of purification, not a goal; missionary growth remains the aim.",
+   "A smaller, more orthodox Church would be better than a large nominal one that no longer believes.",
+   "The 'faithful remnant' is real, but decline shouldn't be treated as proof of faithfulness.",
+   "Too pessimistic: the Church should prioritize broad inclusion, reform, and new forms of belonging.",
+   "The crisis calls for parallel traditional structures that preserve doctrine and liturgy until restoration.",
+   "It has come true because the postconciliar institution is not the true Catholic Church."
+  ]
+ },
+ "121": {
+  "text": "How do you assess the SSPX's July 2026 consecration of bishops without papal mandate, and the Holy See's declaration that it was a schism?",
+  "options": [
+   "Accept Rome's judgment: it was a schismatic act, and the faithful should seek the traditional liturgy in communities in full communion.",
+   "Accept that it was gravely illegal and the penalties stand, while distinguishing individual lay attendees' guilt and still seeking reconciliation.",
+   "It was irregular but morally justified by a 'state of necessity' to preserve tradition and the sacraments.",
+   "The crisis since the Council is real, but consecrating bishops against an explicit papal prohibition went beyond legitimate resistance.",
+   "A true pope couldn't demand submission to modernist error; this confirms the papal see is vacant.",
+   "The Roman claimant holds office only materially, without real authority, so ordinary obedience can't settle this conflict.",
+   "Both sides should pause the conflict pending an impartial review of the consecrations and the postconciliar disputes."
+  ]
+ },
+ "122": {
+  "text": "What should guide the English Bible translation read at Mass?",
+  "options": [
+   "A formal, elevated English (like the RSV-2CE) that keeps stable theological vocabulary and sounds distinct from everyday speech.",
+   "Whatever the local Church has lawfully approved, valuing accuracy and uniformity over private preferences.",
+   "Stay close to the Latin liturgical and biblical tradition, even if the English sounds less natural.",
+   "Clear, contemporary English that the congregation understands immediately.",
+   "Use different translations for public reading and private study, since they serve different purposes."
+  ]
+ },
+ "123": {
+  "text": "What does it mean that the Bible is 'inerrant' (without error)?",
+  "options": [
+   "Everything Scripture truly asserts, as God and the human authors intended, is without error, read according to its literary form and the rule of faith.",
+   "Inerrancy mainly concerns the saving truth God meant to convey; incidental historical or scientific details may reflect human limits.",
+   "Every factual detail is without error; apparent historical or scientific conflicts should normally be harmonized, not conceded.",
+   "Scripture alone is the infallible rule of doctrine, and everything it asserts is trustworthy because God cannot err.",
+   "Scripture's religious witness endures, but it contains real historical, scientific, and even theological mistakes."
+  ]
+ },
+ "124": {
+  "text": "What special role, if any, should the Latin Vulgate (St. Jerome's translation) still have?",
+  "options": [
+   "It's a privileged witness for doctrine and liturgy, though the Hebrew and Greek texts are needed for textual questions.",
+   "It should normally control Catholic translation and theological vocabulary when newer critical texts would unsettle doctrine.",
+   "The original Hebrew and Greek should normally decide textual questions; the Vulgate is a major historical witness, not the base text.",
+   "Read the Septuagint, Vulgate, Hebrew, and Greek together as complementary witnesses received by the Church.",
+   "It has no special status beyond history; better-supported critical editions should simply replace it."
+  ]
+ },
+ "125": {
+  "text": "How do Scripture and Tradition relate in handing on revelation?",
+  "options": [
+   "Scripture contains the revealed content, and Tradition authoritatively hands it on, interprets it, and identifies it.",
+   "Revelation comes through Scripture and genuinely unwritten apostolic traditions; not every revealed truth must be provable from Scripture alone.",
+   "The living Tradition and Magisterium can authoritatively state truths that are only implicit, or hard to find, in Scripture.",
+   "Scripture is the only infallible rule; tradition has authority only insofar as it faithfully witnesses to Scripture.",
+   "Scripture comes first but is read through tradition, reason, and the Church's lived experience in an ongoing process."
+  ]
+ },
+ "126": {
+  "text": "What separates a genuine development of doctrine from a corruption or reversal?",
+  "options": [
+   "Development is organic: later teaching can make explicit what was implicit, but it must keep the same truth and stay continuous with Scripture and earlier dogma.",
+   "A development is genuine only if it clearly keeps the exact meaning of earlier dogma; apparent reversals should be read narrowly.",
+   "The living Magisterium decides, and may reformulate teaching substantially as long as it never formally contradicts revealed dogma.",
+   "Reception by the whole Church (bishops, liturgy, and the faithful's sense of the faith) is an essential test.",
+   "Doctrine can undergo real paradigm shifts in which earlier teaching is corrected or replaced.",
+   "Binding doctrine must be shown from Scripture; later developments count only if they faithfully restate it."
+  ]
+ },
+ "127": {
+  "text": "Are human beings naturally made to see God, and if so, does God owe us that grace?",
+  "options": [
+   "A complete natural order makes sense on its own; seeing God is a wholly free gift beyond any natural goal.",
+   "The mind naturally desires to see the First Cause, but that desire gives no claim on the vision of God, which stays a pure gift.",
+   "'Pure nature' is an unreal abstraction: actual humanity is made for communion with God, without grace being owed.",
+   "Creation is centred on Christ from the start; our final goal is best understood through Him, not a hypothetical purely natural end.",
+   "We're made for deification; our nature is fulfilled by sharing in God's life, which still remains entirely grace.",
+   "Reframe the question in personal terms (freedom, self-transcendence, encounter) rather than scholastic 'nature' and 'grace'."
+  ]
+ },
+ "128": {
+  "text": "How should we understand Adam and Eve in light of human evolution?",
+  "options": [
+   "A historical first couple from whom all humans descend is the safest reading, because original sin needs a real fall passed down to descendants.",
+   "Evolution is compatible with a historical Adam and Eve who stand at the real origin of the human family and whose sin grounds original sin.",
+   "Doctrine requires a real first human fall and the unity of the human race, but not one particular scientific model of a single first couple.",
+   "Adam can stand mainly for humanity as a whole; original sin doesn't depend on one identifiable first couple.",
+   "Genesis should be read as straightforward history unless compelling evidence requires a figurative reading."
+  ]
+ },
+ "129": {
+  "text": "In what sense is the Mass a sacrifice?",
+  "options": [
+   "The one sacrifice of Calvary is made present sacramentally, without bloodshed; Christ is the main priest and victim, and the Church offers Him.",
+   "The Mass is the Church's living remembrance (anamnesis): by the Spirit, Christ's once-for-all sacrifice becomes present and we join the heavenly offering.",
+   "The Church is joined to Christ's eternal self-offering to the Father; this is better expressed as participation than as a 'repeated sacrifice'.",
+   "It should be stated as strongly as Trent did: it is truly offered for the living and the dead, for sins, punishments, and other needs.",
+   "It's mainly a shared memorial meal; sacrificial language is symbolic and implies no separate priestly offering.",
+   "Christ's sacrifice was once for all; the Eucharist is His gift to receive, not a sacrifice offered by a priesthood."
+  ]
+ },
+ "130": {
+  "text": "If someone dies without being baptized, can they still be saved?",
+  "options": [
+   "Baptism is necessary, but explicit or implicit desire joined to grace can supply for it when it can't be received; so can martyrdom.",
+   "'Baptism of desire' and 'of blood' are real, but implicit desire should be read cautiously so exceptions don't hide the ordinary need for faith and baptism.",
+   "God may save people beyond the visible sacrament in ways not reducible to a conscious desire, though always through Christ and the grace of baptism.",
+   "Treat sacramental baptism as the ordinary boundary and avoid confident theories beyond martyrdom and explicit desire.",
+   "Saving faith is what matters; baptism is commanded and important but not an absolute condition.",
+   "Baptism truly gives new birth and is never optional, but God isn't bound by it where it's impossible to receive."
+  ]
+ },
+ "131": {
+  "text": "What may Catholics hope for infants who die without baptism?",
+  "options": [
+   "They enjoy a natural happiness without seeing God (limbo); this traditional hypothesis is still the most coherent.",
+   "We may hope God provides an unknown way of salvation; this is real hope, not revealed certainty.",
+   "God's will to save all and Christ's love for children justify confident hope that they see God, though how is unrevealed.",
+   "Augustine's severe view should be taken seriously; without new birth, original sin excludes the vision of God, so their happiness can't be assumed.",
+   "Avoid speculating about limbo and entrust them to God's mercy."
+  ]
+ },
+ "132": {
+  "text": "Vatican II says the Church of Christ 'subsists in' the Catholic Church. What does that mean?",
+  "options": [
+   "Christ's Church is concretely and fully realized in the Catholic Church, while real elements of holiness and truth exist outside her visible bounds.",
+   "Full identity with degrees of communion: other Christians, especially the separated apostolic churches, really share in the Church, though imperfectly.",
+   "Christ's Church is broader than the Catholic Church, which is its fullest but not its only realization.",
+   "It means the same as the older teaching that the Church of Christ simply is the Catholic Church; broader readings mislead.",
+   "The true Church is the communion of believers known to God; no visible denomination, Rome included, defines its limits."
+  ]
+ },
+ "133": {
+  "text": "How much authority should national bishops' conferences have?",
+  "options": [
+   "Mainly coordination: each bishop governs his own diocese, and a conference shouldn't become a layer of government above him.",
+   "Real teaching authority under set conditions, especially when its bishops teach unanimously and in communion with Rome.",
+   "Substantial authority by subsidiarity, including real room to adapt discipline and pastoral policy locally.",
+   "Historic national or regional churches may claim broad self-government while remaining in Catholic communion.",
+   "Rome should supervise conferences closely, since strong national bodies can fragment doctrine and discipline."
+  ]
+ },
+ "134": {
+  "text": "What should the balance be between Latin and the local language in the Roman Rite?",
+  "options": [
+   "Latin should normally dominate, with the local language used selectively for readings, preaching, and pastoral need.",
+   "Latin should stay the norm and a substantial, living part of parish worship, though significant use of the local language is legitimate.",
+   "The local language should normally dominate, but Latin chant and key texts should be deliberately kept so Catholics share a common heritage.",
+   "The local language is normally enough; Latin is valuable historically and ceremonially but needn't be regular.",
+   "Maximize local language and culture so the liturgy speaks from within each culture rather than preserving a universal Latin norm."
+  ]
+ },
+ "135": {
+  "text": "What music should have pride of place at Mass?",
+  "options": [
+   "Gregorian chant is the proper music of the Roman Rite, with sacred polyphony close behind.",
+   "Chant should keep pride of place, alongside strong traditional hymns and other inherited sacred music.",
+   "Music from a broad historical repertoire can be sacred if it serves the text, the rite, and the people's prayer; no single style should dominate.",
+   "Contemporary and culturally adapted music should get wide latitude when it helps people participate.",
+   "Eastern Catholics should keep their own chant traditions rather than adopt Latin norms."
+  ]
+ },
+ "136": {
+  "text": "The Roman Canon (Eucharistic Prayer I) is the ancient central prayer of the Roman Mass. What place should it have?",
+  "options": [
+   "It should be the only, or nearly the only, Eucharistic Prayer used.",
+   "It should again be the normal default, with a few legitimate alternatives.",
+   "It deserves frequent use but can stay one option among several approved prayers.",
+   "Having several Eucharistic Prayers is a good pastoral enrichment; none needs priority.",
+   "This is a Latin question; Eastern Catholics should keep their own Eucharistic prayers."
+  ]
+ },
+ "137": {
+  "text": "How binding is a mistaken conscience, and how far must we form our conscience?",
+  "options": [
+   "A sincere conscience mistaken through no fault of its own binds us, but conscience judges objective truth and must be formed by reason, revelation, and Church teaching.",
+   "The key question is whether the error was avoidable: careless neglect in forming conscience can itself be sinful, so sincerity alone doesn't excuse.",
+   "Conscience applies objective moral truth to concrete situations; forming it takes law and virtue, but also mature practical judgment.",
+   "A well-formed personal conscience may sometimes reach a conclusion contrary to a general norm or non-infallible Church teaching.",
+   "Conscience is bound by the Word of God; Church authority can instruct it but can't bind it against a clear judgment based on Scripture."
+  ]
+ },
+ "138": {
+  "text": "What is the status of the Orthodox Churches and the Protestant communities separated from Rome?",
+  "options": [
+   "The Orthodox are true particular Churches with valid sacraments; most Protestant bodies are 'ecclesial communities' because they lack the full sacramental structure.",
+   "All baptized communities share in the one Church to differing degrees, the Orthodox very fully; labels should serve reunion, not block it.",
+   "Any Christian body where the Gospel, baptism, worship, and community endure should be called a Church, even without apostolic succession.",
+   "Only the Catholic Church is fully Christ's Church; other bodies may have valid sacraments or Christian elements, but conversion to Catholic unity is still necessary.",
+   "Rome, Orthodoxy, and Anglicanism are branches of the one Catholic Church despite broken communion.",
+   "Rome is one ancient apostolic Church among others; its later claims block full communion."
+  ]
+ },
+ "139": {
+  "text": "Can sorrow for sin out of love for God ('perfect contrition') restore someone to grace before confession?",
+  "options": [
+   "Yes: perfect contrition forgives even mortal sin before absolution, if it includes the firm intention to confess as soon as possible; confession remains necessary.",
+   "Yes: the love that turns a sinner back to God already reconciles by grace, and the desire for confession ties this to the Church's sacraments.",
+   "Affirm the doctrine but don't treat it as a substitute for absolution; sure reconciliation belongs especially to confession.",
+   "Sorrow and faith receive the Gospel's promise of forgiveness; absolution gives objective assurance but doesn't infuse a new state of grace.",
+   "Repentance goes with saving faith but doesn't earn or cause justification; forgiveness rests on Christ's righteousness received by faith.",
+   "Repentance, tears, spiritual direction, and confession are one healing return to communion; pinpointing the exact moment of forgiveness matters less."
+  ]
+ }
+};
+const V11_SCORING_FIXES = [[45, 0, "remove", "PROG"], [45, 4, "remove", "SEDE"], [46, 2, "remove", "SSPX"], [82, 1, "remove", "DISTRIBUT"], [82, 3, "remove", "LIBERTAR"], [83, 0, "remove", "CATHUNIV"], [83, 1, "remove", "TRADNAT"], [83, 3, "remove", "PROG"], [84, 0, "remove", "CATHUNIV"], [85, 0, "remove", "CATHUNIV"], [85, 2, "remove", "INTEG"], [95, 3, "remove", "PROG"], [104, 2, "remove", "PROG"], [111, 2, "remove", "SCOT"], [106, 4, "set", {"ANGLOCATH": 3, "OLDCATH": 2}], [106, 5, "set", {"LUTHERAN": 3, "REFORM": 3, "METHOD": 2, "ANGLICAN": 1}], [108, 4, "set", {"ANGLICAN": 3, "LUTHERAN": 3, "REFORM": 3, "METHOD": 3, "OLDCATH": 2}], [108, 5, "set", {"EORTHO": 3, "OORTHO": 1}], [72, 4, "add", {"OCSO": 2}], [76, 0, "add", {"OCSO": 2}], [76, 3, "add", {"OCSO": 1}]];
+(function applyV11() {
+    // 1. People: every result (and every family headline) gets its own figure + Wikipedia title.
+    Object.keys(V11_FIGURES).forEach(function(code) {
+        SCHOOL_FIGURES[code] = Object.assign({}, SCHOOL_FIGURES[code] || {}, V11_FIGURES[code]);
+    });
+    CATHOLIC_FAMILIES.forEach(function(f) { if (V11_FAMILY_FIGURES[f.code]) f.figure = V11_FAMILY_FIGURES[f.code]; });
+
+    // 2. Retire questions (same mechanism as v9) and rebuild the derived lists in place.
+    V11_RETIRE.forEach(function(qi) { if (RETIRED_QUESTION_INDICES.indexOf(qi) === -1) RETIRED_QUESTION_INDICES.push(qi); });
+    for (var i = ACTIVE_QUESTION_INDICES.length - 1; i >= 0; i--) {
+        if (RETIRED_QUESTION_INDICES.indexOf(ACTIVE_QUESTION_INDICES[i]) !== -1) ACTIVE_QUESTION_INDICES.splice(i, 1);
+    }
+    CATEGORIES.forEach(function(cat) {
+        cat.questions = cat.questions.filter(function(qi) { return RETIRED_QUESTION_INDICES.indexOf(qi) === -1; });
+    });
+
+    // 3. Axis: Q9 is retired, so Q4 (universals) becomes the secondary Metaphysics-of-Being input.
+    DOCTRINE_AXES.META = DOCTRINE_AXES.META.filter(function(r) { return r.q !== 9; });
+    DOCTRINE_AXES.META.push({"q": 4, "w": 2, "p": [0.6, 0.5, -0.7, -0.8, 0.0]});
+
+    // 4. Plain-language rewrites (null option = keep original text).
+    Object.keys(V11_REWRITES).forEach(function(k) {
+        var q = QUESTIONS[+k], r = V11_REWRITES[k];
+        if (r.text) q.text = r.text;
+        if (r.options) r.options.forEach(function(t, j) { if (t !== null) q.options[j][0] = t; });
+    });
+
+    // 5. Scoring fixes: remove mis-keyed codes, fill options that scored nothing.
+    V11_SCORING_FIXES.forEach(function(f) {
+        var w = QUESTIONS[f[0]].options[f[1]][1];
+        if (f[2] === 'remove') delete w[f[3]];
+        else if (f[2] === 'set') { Object.keys(w).forEach(function(c) { delete w[c]; }); Object.assign(w, f[3]); }
+        else if (f[2] === 'add') Object.keys(f[3]).forEach(function(c) { w[c] = (w[c] || 0) + f[3][c]; });
+    });
+})();
+
+// =====================================================================================
+// v11 PORTRAITS: real images on the results screen and the share card.
+// Needs portraits.js (window.V11_PORTRAITS) loaded with <script src="portraits.js" defer>.
+// Anything without a photo falls back to the original SVG portrait, so the page still
+// works if portraits.js is missing.
+// =====================================================================================
+(function applyV11Portraits() {
+    var css = document.createElement('style');
+    css.textContent =
+        '.portrait-frame.v11-photo{padding:0;overflow:hidden;background:var(--bg-raised,#efe9df);animation:none;border:1px solid var(--border);box-shadow:0 8px 24px rgba(42,34,28,.14)}' +
+        '.portrait-frame.v11-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block}' +
+        '.v11-portrait-wrap{display:flex;flex-direction:column;align-items:center;gap:.4rem;margin:1.5rem 0}' +
+        '.v11-portrait-wrap .portrait-container{margin:0}' +
+        '.v11-portrait-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--text);text-align:center;line-height:1.2}' +
+        '.v11-portrait-era{font-size:.78rem;color:var(--text-dim);text-align:center}' +
+        '.v11-credit{font-size:.68rem;color:var(--text-dim);text-align:center;max-width:320px}' +
+        '.v11-credit a{color:inherit}' +
+        '.v11-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:50% 15%;flex:0 0 44px;border:1px solid var(--border);background:var(--bg-raised,#efe9df)}' +
+        '.v11-avatar.sm{width:34px;height:34px;flex-basis:34px}' +
+        '.figure-section.v11-has-avatar{display:flex;gap:.8rem;align-items:flex-start}' +
+        '.figure-section.v11-has-avatar>div.v11-fig-text{min-width:0}' +
+        '.school-rank .v11-avatar{align-self:center;margin-right:.2rem}' +
+        '.family-card-head .v11-avatar{margin-right:.5rem}' +
+        '.family-card-head{align-items:center}' +
+        '.v11-credits{margin-top:1rem;font-size:.75rem;color:var(--text-dim)}' +
+        '.v11-credits summary{cursor:pointer}' +
+        '.v11-credits li{margin:.2rem 0}';
+    document.head.appendChild(css);
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function photo(code) { var P = window.V11_PORTRAITS; return P && code && P[code] ? P[code] : null; }
+    // Face of a family headline: its own figure (FAM_RENEW) or the school it is built around.
+    function familyFaceCode(fam) {
+        var f = (typeof V11_FAMILY_FIGURES !== 'undefined') && V11_FAMILY_FIGURES[fam.code];
+        if (f && !f.fromSchool && photo(fam.code)) return fam.code;
+        return (f && f.fromSchool) || fam.portrait;
+    }
+    function figureFor(code) {
+        if (typeof V11_FAMILY_FIGURES !== 'undefined' && V11_FAMILY_FIGURES[code]) return V11_FAMILY_FIGURES[code];
+        return SCHOOL_FIGURES[code] || {};
+    }
+    function avatar(code, small) {
+        var p = photo(code); if (!p) return '';
+        var f = figureFor(code);
+        return '<img class="v11-avatar' + (small ? ' sm' : '') + '" src="' + p.src + '" alt="' + esc(f.figure) + '" title="' + esc(f.figure) + '" loading="lazy">';
+    }
+    function credit(p) { return (p.source ? '<a href="' + esc(p.source) + '" target="_blank" rel="noopener">' + esc(p.author) + '</a>' : esc(p.author)) + ' · ' + esc(p.license); }
+    var shown = [];
+    function note(code) { if (photo(code) && shown.indexOf(code) === -1) shown.push(code); }
+    var shareImg = null, shareName = '';
+
+    var originalShowResults = showResults;
+    showResults = function() {
+        originalShowResults.apply(this, arguments);
+        shown = []; shareImg = null; shareName = '';
+        var families = getCatholicFamilyResults();
+        var container = document.getElementById('top-match-container');
+        if (!container) return;
+
+        // 1. Headline portrait.
+        var faceCode = families[0] ? familyFaceCode(families[0]) : null;
+        var frame = container.querySelector('.portrait-container');
+        var p = photo(faceCode), fig = figureFor(faceCode);
+        if (frame && p) {
+            note(faceCode);
+            frame.querySelector('.portrait-frame').classList.add('v11-photo');
+            frame.querySelector('.portrait-frame').innerHTML = '<img src="' + p.src + '" alt="' + esc(fig.figure) + '">';
+            var wrap = document.createElement('div');
+            wrap.className = 'v11-portrait-wrap';
+            frame.parentNode.insertBefore(wrap, frame);
+            wrap.appendChild(frame);
+            wrap.insertAdjacentHTML('beforeend',
+                '<div class="v11-portrait-name">' + esc(fig.figure) + '</div>' +
+                (fig.era ? '<div class="v11-portrait-era">' + esc(fig.era) + '</div>' : '') +
+                '<div class="v11-credit">Image: ' + credit(p) + '</div>');
+            shareImg = new Image(); shareImg.src = p.src; shareName = fig.figure || '';
+        }
+
+        // 2. "Closest detailed school" gets its person's face.
+        var figSec = container.querySelector('.figure-section');
+        var anchorCode = null;
+        var ranked = getAllSchoolResults().filter(function(r) { return isPrimaryCatholic(r.code) && r.raw > 0 && r.evidence >= MIN_QUESTIONS_THRESHOLD; })
+            .sort(function(a, b) { return b.normalized - a.normalized; });
+        if (ranked[0]) anchorCode = ranked[0].code;
+        if (figSec && photo(anchorCode)) {
+            note(anchorCode);
+            figSec.innerHTML = avatar(anchorCode) + '<div class="v11-fig-text">' + figSec.innerHTML + '</div>';
+            figSec.classList.add('v11-has-avatar');
+        }
+
+        // 3. Family cards (same order as getCatholicFamilyResults()).
+        document.querySelectorAll('#families-content .family-card').forEach(function(card, i) {
+            var fam = families[i]; if (!fam) return;
+            var c = familyFaceCode(fam), head = card.querySelector('.family-card-head');
+            if (head && photo(c)) { note(c); head.insertAdjacentHTML('afterbegin', avatar(c, true)); }
+        });
+
+        // 4. School ranking rows.
+        document.querySelectorAll('.school-rank').forEach(function(row) {
+            var m = (row.getAttribute('onclick') || '').match(/toggleDrillDown\('([^']+)'/);
+            if (!m || !photo(m[1]) || row.querySelector('.v11-avatar')) return;
+            note(m[1]);
+            var info = row.querySelector('.rank-info');
+            if (info) info.insertAdjacentHTML('beforebegin', avatar(m[1], true));
+        });
+
+        // 5. Credits for every portrait on the page (CC BY / BY-SA images require them).
+        if (shown.length) {
+            container.insertAdjacentHTML('beforeend', '<details class="v11-credits"><summary>Portrait credits (' + shown.length + ')</summary><ul>' +
+                shown.map(function(c) { var p = photo(c), f = figureFor(c);
+                    return '<li>' + esc(f.figure) + ': ' + credit(p) + '</li>'; }).join('') +
+                '</ul><div>Images mostly from Wikimedia Commons.</div></details>');
+        }
+    };
+
+    // 6. Share card: portrait in the top-right corner when it fits beside the title.
+    var originalShareCard = generateShareCard;
+    generateShareCard = function() {
+        var canvas = originalShareCard.apply(this, arguments);
+        if (!shareImg || !shareImg.complete || !shareImg.naturalWidth) return canvas;
+        var ctx = canvas.getContext('2d');
+        var top = getCatholicFamilyResults()[0];
+        ctx.font = '700 62px Cormorant Garamond, Georgia, serif';
+        var titleRight = 76 + (top ? ctx.measureText(top.name).width : 0);
+        var w = 136, h = 176, x = 1004 - w, y = 44;
+        if (titleRight > x - 20) return canvas;
+        var s = Math.max(w / shareImg.naturalWidth, h / shareImg.naturalHeight);
+        var sw = w / s, sh = h / s, sx = (shareImg.naturalWidth - sw) / 2, sy = Math.max(0, (shareImg.naturalHeight - sh) * 0.18);
+        ctx.save();
+        ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+        ctx.drawImage(shareImg, sx, sy, sw, sh, x, y, w, h);
+        ctx.restore();
+        ctx.strokeStyle = '#d8d1c7'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
+        ctx.fillStyle = '#5d5851'; ctx.font = '600 13px Inter, Arial, sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(shareName.length > 24 ? shareName.slice(0, 23) + '…' : shareName, x + w / 2, y + h + 18);
+        ctx.textAlign = 'left';
+        return canvas;
+    };
+})();
+
 // STATE
 let scores = {};
 let axisScores = {};
@@ -13279,7 +15389,7 @@ function generateShareCard() {
         ctx.fillStyle='#b9b0a5'; ctx.fillRect(539,y+31,2,17);
         var mx=76+(pct/100)*928;
         ctx.fillStyle='#762f3b'; ctx.beginPath(); ctx.arc(mx,y+39.5,9,0,Math.PI*2); ctx.fill();
-        y+=59;
+        y+=52;
     });
 
     ctx.fillStyle='#817a71'; ctx.font='500 14px Inter, Arial, sans-serif';
